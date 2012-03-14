@@ -3,7 +3,7 @@ Contributors: cybperic
 Tags: microblogging, post, social, twitter
 Requires at least: 2.8.4
 Tested up to: 3.3
-Stable tag: 1.0
+Stable tag: 1.1
 
 Easily update your microblog with 'post title + shortened backlink' of your new post.
 
@@ -17,6 +17,9 @@ Currently supported microblogging sites:
 - plurk.com
 
 == Changelog ==
+
+= 1.1 =
+- Added microblogging site identi.ca
 
 = 1.0 =
 - First version of Plugin Released.
