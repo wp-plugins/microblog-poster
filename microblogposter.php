@@ -3,7 +3,7 @@
  *
  * Plugin Name: Microblog Poster
  * Description: Easily update your microblog with 'post title + shortened backlink' of your new post.  
- * Version: 1.0
+ * Version: 1.1
  * Author: cybperic
  * Author URI: http://profiles.wordpress.org/users/cybperic/
  *
