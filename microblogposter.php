@@ -55,6 +55,7 @@ class MicroblogPoster_Poster
         
         MicroblogPoster_Poster::update_twitter($update);
         MicroblogPoster_Poster::update_plurk($update);
+	MicroblogPoster_Poster::update_identica($update);
     }
     
     /**
@@ -131,6 +132,37 @@ class MicroblogPoster_Poster
         );
         return;
         
+    }
+    
+    /**
+    * Updates status on identi.ca
+    *
+    * @param   string  $update Text to be posted on microblogging site
+    * @return  void
+    */
+    public static function update_identica($update)
+    {
+	$identica_username_name = "microblogposter_plg_identica_username";
+        $identica_password_name = "microblogposter_plg_identica_password";
+	
+	$identica_username_value = get_option($identica_username_name, "");
+        $identica_password_value = get_option($identica_password_name, "");
+	
+	if(!$identica_username_value or
+           !$identica_password_value)
+        {
+            return;
+        }
+	
+	$curl = new MicroblogPoster_Curl();
+	$curl->set_credentials("micropodaci","prolaznarec1");
+	
+	$url = "http://identi.ca/api/statuses/update.json";
+	$post_args = array(
+	    'status' => $update
+	);
+	
+	$curl->send_post_data($url, $post_args);
     }
     
     /**

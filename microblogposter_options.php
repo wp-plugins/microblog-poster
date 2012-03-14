@@ -26,6 +26,9 @@ function microblogposter_settings_output()
     $plurk_access_token_name = "microblogposter_plg_plurk_access_token";
     $plurk_access_token_secret_name = "microblogposter_plg_plurk_access_token_secret";
     
+    $identica_username_name = "microblogposter_plg_identica_username";
+    $identica_password_name = "microblogposter_plg_identica_password";
+    
     
     $bitly_api_user_value = get_option($bitly_api_user_name, "");
     $bitly_api_key_value = get_option($bitly_api_key_name, "");
@@ -39,6 +42,9 @@ function microblogposter_settings_output()
     $plurk_consumer_secret_value = get_option($plurk_consumer_secret_name, "");
     $plurk_access_token_value = get_option($plurk_access_token_name, "");
     $plurk_access_token_secret_value = get_option($plurk_access_token_secret_name, "");
+    
+    $identica_username_value = get_option($identica_username_name, "");
+    $identica_password_value = get_option($identica_password_name, "");
     
     if(isset($_POST["update_options"]))
     {
@@ -56,6 +62,9 @@ function microblogposter_settings_output()
         $plurk_access_token_value = $_POST[$plurk_access_token_name];
         $plurk_access_token_secret_value = $_POST[$plurk_access_token_secret_name];
         
+        $identica_username_value = $_POST[$identica_username_name];
+        $identica_password_value = $_POST[$identica_password_name];
+        
         update_option($bitly_api_user_name, $bitly_api_user_value);
         update_option($bitly_api_key_name, $bitly_api_key_value);
         
@@ -68,6 +77,9 @@ function microblogposter_settings_output()
         update_option($plurk_consumer_secret_name, $plurk_consumer_secret_value);
         update_option($plurk_access_token_name, $plurk_access_token_value);
         update_option($plurk_access_token_secret_name, $plurk_access_token_secret_value);
+        
+        update_option($identica_username_name, $identica_username_value);
+        update_option($identica_password_name, $identica_password_value);
         
         ?>
         <div class="updated"><p><strong>Options saved.</strong></p></div>
@@ -158,6 +170,21 @@ function microblogposter_settings_output()
                     <input type="text" id="<?php echo $plurk_access_token_secret_name;?>" name="<?php echo $plurk_access_token_secret_name;?>" value="<?php echo $plurk_access_token_secret_value;?>" size="45" />
                     <span class="description">Your Plurk Account Access Token Secret</span>
                 </td>
+            </tr>
+            
+            <tr>
+                <td colspan="2">
+                    <h3>Your Identi.ca Credentials</h3>
+                    
+                </td>
+            </tr>
+            <tr>
+                <td>Identi.ca Username:</td>
+                <td><input type="text" id="<?php echo $identica_username_name;?>" name="<?php echo $identica_username_name;?>" value="<?php echo $identica_username_value;?>" size="30" /></td>
+            </tr>
+            <tr>
+                <td>Identi.ca Password:</td>
+                <td><input type="text" id="<?php echo $identica_password_name;?>" name="<?php echo $identica_password_name;?>" value="<?php echo $identica_password_value;?>" size="30" /></td>
             </tr>
         </table>
         <p class="submit">
