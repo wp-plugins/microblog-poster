@@ -15,6 +15,7 @@ PHP 5 required.
 Currently supported microblogging sites:
 - twitter.com
 - plurk.com
+- identi.ca
 
 == Changelog ==
 
