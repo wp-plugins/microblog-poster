@@ -29,6 +29,9 @@ function microblogposter_settings_output()
     $identica_username_name = "microblogposter_plg_identica_username";
     $identica_password_name = "microblogposter_plg_identica_password";
     
+    $delicious_username_name = "microblogposter_plg_delicious_username";
+    $delicious_password_name = "microblogposter_plg_delicious_password";
+    
     
     $bitly_api_user_value = get_option($bitly_api_user_name, "");
     $bitly_api_key_value = get_option($bitly_api_key_name, "");
@@ -45,6 +48,9 @@ function microblogposter_settings_output()
     
     $identica_username_value = get_option($identica_username_name, "");
     $identica_password_value = get_option($identica_password_name, "");
+    
+    $delicious_username_value = get_option($delicious_username_name, "");
+    $delicious_password_value = get_option($delicious_password_name, "");
     
     if(isset($_POST["update_options"]))
     {
@@ -65,6 +71,9 @@ function microblogposter_settings_output()
         $identica_username_value = $_POST[$identica_username_name];
         $identica_password_value = $_POST[$identica_password_name];
         
+        $delicious_username_value = $_POST[$delicious_username_name];
+        $delicious_password_value = $_POST[$delicious_password_name];
+        
         update_option($bitly_api_user_name, $bitly_api_user_value);
         update_option($bitly_api_key_name, $bitly_api_key_value);
         
@@ -80,6 +89,9 @@ function microblogposter_settings_output()
         
         update_option($identica_username_name, $identica_username_value);
         update_option($identica_password_name, $identica_password_value);
+        
+        update_option($delicious_username_name, $delicious_username_value);
+        update_option($delicious_password_name, $delicious_password_value);
         
         ?>
         <div class="updated"><p><strong>Options saved.</strong></p></div>
@@ -185,6 +197,21 @@ function microblogposter_settings_output()
             <tr>
                 <td>Identi.ca Password:</td>
                 <td><input type="text" id="<?php echo $identica_password_name;?>" name="<?php echo $identica_password_name;?>" value="<?php echo $identica_password_value;?>" size="30" /></td>
+            </tr>
+            
+            <tr>
+                <td colspan="2">
+                    <h3>Your Delicious Credentials</h3>
+                    
+                </td>
+            </tr>
+            <tr>
+                <td>Delicious Username:</td>
+                <td><input type="text" id="<?php echo $delicious_username_name;?>" name="<?php echo $delicious_username_name;?>" value="<?php echo $delicious_username_value;?>" size="30" /></td>
+            </tr>
+            <tr>
+                <td>Delicious Password:</td>
+                <td><input type="text" id="<?php echo $delicious_password_name;?>" name="<?php echo $delicious_password_name;?>" value="<?php echo $delicious_password_value;?>" size="30" /></td>
             </tr>
         </table>
         <p class="submit">

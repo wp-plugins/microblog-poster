@@ -42,6 +42,7 @@ class MicroblogPoster_Poster
             $post_title .= "...";
         }
         $permalink = get_permalink($post_ID);
+	$update = $post_title . " $permalink";
         
         $bitly_api = new MicroblogPoster_Bitly();
         $bitly_api_user_value = get_option("microblogposter_plg_bitly_api_user", "");
@@ -52,10 +53,24 @@ class MicroblogPoster_Poster
             $shortened_permalink = $bitly_api->shorten($permalink);
             $update = $post_title . " $shortened_permalink";
         }
+	else
+	{
+	    $shortened_permalink = $permalink;
+	}
+	
+	$tags = "";
+	$posttags = get_the_tags($post_ID);
+	if ($posttags) {
+	    foreach($posttags as $tag) {
+		    $tags .= $tag->slug . ','; 
+	    }
+	}
+	$tags = rtrim($tags,',');
         
         MicroblogPoster_Poster::update_twitter($update);
         MicroblogPoster_Poster::update_plurk($update);
 	MicroblogPoster_Poster::update_identica($update);
+	MicroblogPoster_Poster::update_delicious($post_title, $shortened_permalink, $tags);
     }
     
     /**
@@ -155,7 +170,7 @@ class MicroblogPoster_Poster
         }
 	
 	$curl = new MicroblogPoster_Curl();
-	$curl->set_credentials("micropodaci","prolaznarec1");
+	$curl->set_credentials($identica_username_value,$identica_password_value);
 	
 	$url = "http://identi.ca/api/statuses/update.json";
 	$post_args = array(
@@ -164,6 +179,42 @@ class MicroblogPoster_Poster
 	
 	$curl->send_post_data($url, $post_args);
     }
+    
+    /**
+    * Updates status on identi.ca
+    *
+    * @param   string  $title Text to be posted on microblogging site
+    * @param   string  $link
+    * @param   string  $tags 
+    * @return  void
+    */
+    public static function update_delicious($title, $link, $tags)
+    {
+	$delicious_username_name = "microblogposter_plg_delicious_username";
+        $delicious_password_name = "microblogposter_plg_delicious_password";
+	
+	$delicious_username_value = get_option($delicious_username_name, "");
+        $delicious_password_value = get_option($delicious_password_name, "");
+	
+	if(!$delicious_username_value or
+           !$delicious_password_value)
+        {
+            return;
+        }
+	
+	$curl = new MicroblogPoster_Curl();
+	$curl->set_credentials($delicious_username_value,$delicious_password_value);
+	$curl->set_user_agent("Mozilla/6.0 (Windows NT 6.2; WOW64; rv:16.0.1) Gecko/20121011 Firefox/16.0.1");
+	
+	$link=urlencode($link);
+	$title = urlencode($title);
+	$tags = urlencode($tags);
+	
+	$url = "https://api.del.icio.us/v1/posts/add?url=$link&description=$title&tags=$tags&shared=yes";
+	
+	$curl->fetch_url($url);
+    }
+    
     
     /**
     * Sends OAuth signed request
