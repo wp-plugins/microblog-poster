@@ -3,7 +3,7 @@ Contributors: cybperic
 Tags: microblogging, post, social, twitter
 Requires at least: 2.8.4
 Tested up to: 3.3
-Stable tag: 1.1
+Stable tag: 1.2
 
 Easily update your microblog with 'post title + shortened backlink' of your new post.
 
@@ -18,6 +18,9 @@ Currently supported microblogging sites:
 - identi.ca
 
 == Changelog ==
+
+= 1.2 =
+- Added bookmarking site delicious.com
 
 = 1.1 =
 - Added microblogging site identi.ca
