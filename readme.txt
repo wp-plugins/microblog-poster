@@ -16,6 +16,7 @@ Currently supported microblogging sites:
 - twitter.com
 - plurk.com
 - identi.ca
+- delicious.com
 
 == Changelog ==
 
