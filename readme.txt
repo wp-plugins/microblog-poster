@@ -5,14 +5,15 @@ Requires at least: 2.8.4
 Tested up to: 3.3
 Stable tag: 1.2
 
-Easily update your microblog with 'post title + shortened backlink' of your new post.
+Increases your web visibilty and Automatically updates your microblog/bookmark profile with 'blogpost title + shortened backlink' of your new blogpost.
 
 == Description ==
-Easily update your microblog with 'post title + shortened backlink' of your new post.
+
+**Automatically updates your microblog/bookmark profile** with 'blogpost title + shortened backlink' of your new blogpost.
 This plugin requires the PHP cURL extension to be loaded, otherwise it won't function.
 PHP 5 required.
 
-Currently supported microblogging sites:
+**Currently supported microblogging sites**
 
 * twitter.com
 * plurk.com
