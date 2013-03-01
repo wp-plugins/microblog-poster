@@ -13,6 +13,7 @@ This plugin requires the PHP cURL extension to be loaded, otherwise it won't fun
 PHP 5 required.
 
 Currently supported microblogging sites:
+
 * twitter.com
 * plurk.com
 * identi.ca
