@@ -100,6 +100,16 @@ function microblogposter_settings_output()
     }
     
     ?>
+    
+    <style>
+        .form-table td
+        {
+            font-size: 10px;
+            line-height: 1em;
+            padding: 0 0 5px 0;
+        }
+    </style>
+    
     <div class="wrap">
     <div id="icon-plugins" class="icon32"><br /></div>
     <h2>MicroblogPoster Settings</h2>
