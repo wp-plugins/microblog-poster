@@ -32,6 +32,9 @@ function microblogposter_settings_output()
     $delicious_username_name = "microblogposter_plg_delicious_username";
     $delicious_password_name = "microblogposter_plg_delicious_password";
     
+    $friendfeed_username_name = "microblogposter_plg_friendfeed_username";
+    $friendfeed_password_name = "microblogposter_plg_friendfeed_password";
+    
     
     $bitly_api_user_value = get_option($bitly_api_user_name, "");
     $bitly_api_key_value = get_option($bitly_api_key_name, "");
@@ -51,6 +54,9 @@ function microblogposter_settings_output()
     
     $delicious_username_value = get_option($delicious_username_name, "");
     $delicious_password_value = get_option($delicious_password_name, "");
+    
+    $friendfeed_username_value = get_option($friendfeed_username_name, "");
+    $friendfeed_password_value = get_option($friendfeed_password_name, "");
     
     if(isset($_POST["update_options"]))
     {
@@ -74,6 +80,9 @@ function microblogposter_settings_output()
         $delicious_username_value = $_POST[$delicious_username_name];
         $delicious_password_value = $_POST[$delicious_password_name];
         
+        $friendfeed_username_value = $_POST[$friendfeed_username_name];
+        $friendfeed_password_value = $_POST[$friendfeed_password_name];
+        
         update_option($bitly_api_user_name, $bitly_api_user_value);
         update_option($bitly_api_key_name, $bitly_api_key_value);
         
@@ -93,6 +102,9 @@ function microblogposter_settings_output()
         update_option($delicious_username_name, $delicious_username_value);
         update_option($delicious_password_name, $delicious_password_value);
         
+        update_option($friendfeed_username_name, $friendfeed_username_value);
+        update_option($friendfeed_password_name, $friendfeed_password_value);
+        
         ?>
         <div class="updated"><p><strong>Options saved.</strong></p></div>
         <?php
@@ -109,6 +121,8 @@ function microblogposter_settings_output()
             padding: 0 0 5px 0;
         }
     </style>
+    
+   
     
     <div class="wrap">
     <div id="icon-plugins" class="icon32"><br /></div>
@@ -222,6 +236,24 @@ function microblogposter_settings_output()
             <tr>
                 <td>Delicious Password:</td>
                 <td><input type="text" id="<?php echo $delicious_password_name;?>" name="<?php echo $delicious_password_name;?>" value="<?php echo $delicious_password_value;?>" size="30" /></td>
+            </tr>
+            
+            <tr>
+                <td colspan="2">
+                    <h3>Your FriendFeed Credentials</h3>
+                    
+                </td>
+            </tr>
+            <tr>
+                <td>FriendFeed Username:</td>
+                <td><input type="text" id="<?php echo $friendfeed_username_name;?>" name="<?php echo $friendfeed_username_name;?>" value="<?php echo $friendfeed_username_value;?>" size="30" /></td>
+            </tr>
+            <tr>
+                <td>FriendFeed Remote Key:</td>
+                <td>
+                    <input type="text" id="<?php echo $friendfeed_password_name;?>" name="<?php echo $friendfeed_password_name;?>" value="<?php echo $friendfeed_password_value;?>" size="30" />
+                    <span class="description">It's your FriendFeed Remote Key not password.</span>
+                </td>
             </tr>
         </table>
         <p class="submit">

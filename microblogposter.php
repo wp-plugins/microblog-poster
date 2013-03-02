@@ -51,12 +51,13 @@ class MicroblogPoster_Poster
         {
             $bitly_api->setCredentials($bitly_api_user_value, $bitly_api_key_value);
             $shortened_permalink = $bitly_api->shorten($permalink);
-            $update = $post_title . " $shortened_permalink";
+            if($shortened_permalink)
+            {
+                $update = $post_title . " $shortened_permalink";
+                $permalink = $shortened_permalink;
+            }
         }
-	else
-	{
-	    $shortened_permalink = $permalink;
-	}
+	
 	
 	$tags = "";
 	$posttags = get_the_tags($post_ID);
@@ -70,7 +71,8 @@ class MicroblogPoster_Poster
         MicroblogPoster_Poster::update_twitter($update);
         MicroblogPoster_Poster::update_plurk($update);
 	MicroblogPoster_Poster::update_identica($update);
-	MicroblogPoster_Poster::update_delicious($post_title, $shortened_permalink, $tags);
+	MicroblogPoster_Poster::update_delicious($post_title, $permalink, $tags);
+        MicroblogPoster_Poster::update_friendfeed($post_title, $permalink);
     }
     
     /**
@@ -181,7 +183,7 @@ class MicroblogPoster_Poster
     }
     
     /**
-    * Updates status on identi.ca
+    * Updates status on delicious.com
     *
     * @param   string  $title Text to be posted on microblogging site
     * @param   string  $link
@@ -215,6 +217,38 @@ class MicroblogPoster_Poster
 	$curl->fetch_url($url);
     }
     
+    /**
+    * Updates status on http://friendfeed.com/
+    *
+    * @param   string  $title Text to be posted on microblogging site
+    * @param   string  $link
+    * @return  void
+    */
+    public static function update_friendfeed($title, $link)
+    {
+	$friendfeed_username_name = "microblogposter_plg_friendfeed_username";
+        $friendfeed_password_name = "microblogposter_plg_friendfeed_password";
+	
+	$friendfeed_username_value = get_option($friendfeed_username_name, "");
+        $friendfeed_password_value = get_option($friendfeed_password_name, "");
+	
+	if(!$friendfeed_username_value or
+           !$friendfeed_password_value)
+        {
+            return;
+        }
+	
+	$curl = new MicroblogPoster_Curl();
+	$curl->set_credentials($friendfeed_username_value,$friendfeed_password_value);
+	
+	$url = "http://friendfeed-api.com/v2/entry";
+	$post_args = array(
+	    'body' => $title,
+            'link' => $link
+	);
+	
+	$curl->send_post_data($url, $post_args);
+    }
     
     /**
     * Sends OAuth signed request
