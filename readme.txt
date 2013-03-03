@@ -1,7 +1,7 @@
 === Microblog Poster ===
 Contributors: cybperic
 Tags: microblogging, bookmarking, bookmark, auto post, auto submit, social, social networks, twitter, delicious.com, plurk, friendfeed, identi.ca, automatic, links, backlinks
-Requires at least: 3.0 or higher
+Requires at least: 3.0
 Tested up to: 3.5.1
 Stable tag: 1.2.1
 
