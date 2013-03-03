@@ -1,8 +1,8 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, auto post, social, social networks, twitter, delicious.com, Plurk, FriendFeed, Identi.ca, automatic, links, backlinks
-Requires at least: 2.8.4
-Tested up to: 3.3
+Tags: microblogging, bookmarking, bookmark, auto post, auto submit, social, social networks, twitter, delicious.com, plurk, friendfeed, identi.ca, automatic, links, backlinks
+Requires at least: 3.0 or higher
+Tested up to: 3.5.1
 Stable tag: 1.2.1
 
 Increases your web visibility and Automatically updates your microblogs and bookmarking profiles with 'blogpost title + shortened backlink'.
@@ -14,11 +14,11 @@ PHP 5 required.
 
 **Currently supported microblogging/bookmarking sites**
 
-* twitter.com
-* plurk.com
-* identi.ca
-* delicious.com
-* friendfeed.com
+* twitter.com - Auto updates your account.
+* plurk.com - Auto updates your account.
+* identi.ca - Auto updates your account.
+* delicious.com - Auto submits bookmark to your account.
+* friendfeed.com - Auto updates your account.
 
 == Changelog ==
 
