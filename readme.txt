@@ -14,11 +14,11 @@ PHP 5 required.
 
 **Currently supported microblogging/bookmarking sites**
 
-* twitter.com - Auto updates your account.
-* plurk.com - Auto updates your account.
-* identi.ca - Auto updates your account.
-* delicious.com - Auto submits bookmark to your account.
-* friendfeed.com - Auto updates your account.
+* twitter.com
+* plurk.com
+* identi.ca
+* delicious.com - Auto submits bookmark of your blogpost to your account.
+* friendfeed.com
 
 == Changelog ==
 
