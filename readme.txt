@@ -5,7 +5,7 @@ Requires at least: 3.0
 Tested up to: 3.5.1
 Stable tag: 1.2.1
 
-Increases your web visibility and Automatically updates your microblogs and bookmarking profiles with 'blogpost title + shortened backlink'.
+Automatically updates your microblogs and bookmarking profiles with 'blogpost title + shortened backlink' of your new post.
 
 == Description ==
 
