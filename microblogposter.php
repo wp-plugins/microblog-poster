@@ -155,7 +155,7 @@ class MicroblogPoster_Poster
         }
 	
 	$curl = new MicroblogPoster_Curl();
-	$curl->set_credentials("micropodaci","prolaznarec1");
+	$curl->set_credentials($identica_username_value,$identica_password_value);
 	
 	$url = "http://identi.ca/api/statuses/update.json";
 	$post_args = array(
