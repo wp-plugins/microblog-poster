@@ -944,6 +944,10 @@ function microblogposter_settings_output()
             
             $(".save-account").live("click", function(){
                 
+                $('div#fancybox-content #new_account_form').submit();
+                $.fancybox.close();
+                
+                /*
                 var valid = 1;
                 
                 if(!$('div#fancybox-content #username').val())
@@ -960,6 +964,7 @@ function microblogposter_settings_output()
                 {
                     alert('Please enter all required fields.');
                 }
+                */
                 
             });
             
@@ -987,7 +992,10 @@ function microblogposter_settings_output()
                 });
                 $(".save-account<?php echo $account_id;?>").live("click", function(){
 
+                    $('div#fancybox-content #update_account_form<?php echo $account_id;?>').submit();
+                    $.fancybox.close();
                     
+                    /*
                     var valid = 1;
 
                     if(!$('div#fancybox-content #username').val())
@@ -1004,6 +1012,7 @@ function microblogposter_settings_output()
                     {
                         alert('Please enter all required fields.');
                     }
+                    */
                 });
                 
                 $(".del<?php echo $account_id;?>").live("click", function(){
