@@ -3,9 +3,9 @@ Contributors: cybperic
 Tags: microblogging, bookmarking, bookmark, auto post, auto submit, social, social networks, twitter, delicious.com, plurk, friendfeed, identi.ca, automatic, links, backlinks
 Requires at least: 3.0
 Tested up to: 3.5.1
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 
-Increases your web visibility and Automatically updates your microblogs and bookmarking profiles with 'blogpost title + shortened backlink'.
+Automatically updates your microblogs and bookmarking profiles with 'blogpost title + shortened backlink' of your new blogpost.
 
 == Description ==
 
@@ -21,6 +21,10 @@ PHP 5 required.
 * friendfeed.com
 
 == Changelog ==
+
+= 1.2.2 =
+- Multiple Accounts per site supported.
+- More user friendly plugin settings interface.
 
 = 1.2.1 =
 - Added microblogging site friendfeed.com
@@ -40,6 +44,9 @@ PHP 5 required.
 * Activate the plugin through the 'Plugins' menu in WordPress
 * Settings->MicroblogPoster, Fill in your credentials.
 
+== Upgrade Notice ==
+
+Deactivate/Activate MicroblogPoster plugin.
 
 == Frequently Asked Questions ==
 
