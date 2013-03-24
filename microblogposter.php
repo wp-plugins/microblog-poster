@@ -2,8 +2,8 @@
 /**
  *
  * Plugin Name: Microblog Poster
- * Description: Increases your web visibility and Automatically updates your microblogs and bookmarking profiles with 'blogpost title + shortened backlink'.
- * Version: 1.2.1
+ * Description: Automatically updates your microblogs and bookmarking profiles with 'blogpost title + shortened backlink' of your new blogpost.
+ * Version: 1.2.2
  * Author: cybperic
  * Author URI: http://profiles.wordpress.org/users/cybperic/
  *
@@ -18,6 +18,160 @@ require_once "microblogposter_bitly.php";
 
 class MicroblogPoster_Poster
 {
+    
+    /**
+    * Activate function of this plugin called on activate action hook
+    * 
+    * 
+    * @return  void
+    */
+    public static function activate()
+    {
+        global  $wpdb;
+        
+        $table_accounts = $wpdb->prefix . 'microblogposter_accounts';
+        
+        $sql = "CREATE TABLE IF NOT EXISTS {$table_accounts} (
+            account_id int(11) NOT NULL AUTO_INCREMENT,
+            username varchar(200) NOT NULL DEFAULT '',
+            password varchar(200) DEFAULT NULL,
+            consumer_key varchar(200) DEFAULT NULL,
+            consumer_secret varchar(200) DEFAULT NULL,
+            access_token varchar(200) DEFAULT NULL,
+            access_token_secret varchar(200) DEFAULT NULL,
+            type varchar(100) NOT NULL DEFAULT '',
+            message_format text,
+            extra text,
+            PRIMARY KEY (account_id),
+            UNIQUE username_type (username,type)
+	)";
+	
+        $wpdb->query($sql);
+        
+        //twitter
+        $twitter_consumer_key_name = "microblogposter_plg_twitter_consumer_key";
+        $twitter_consumer_secret_name = "microblogposter_plg_twitter_consumer_secret";
+        $twitter_access_token_name = "microblogposter_plg_twitter_access_token";
+        $twitter_access_token_secret_name = "microblogposter_plg_twitter_access_token_secret";
+        
+        $twitter_consumer_key_value = get_option($twitter_consumer_key_name, "");
+        $twitter_consumer_secret_value = get_option($twitter_consumer_secret_name, "");
+        $twitter_access_token_value = get_option($twitter_access_token_name, "");
+        $twitter_access_token_secret_value = get_option($twitter_access_token_secret_name, "");
+        
+        if($twitter_consumer_key_value and
+           $twitter_consumer_secret_value and
+           $twitter_access_token_value and
+           $twitter_access_token_secret_value)
+        {
+            $sql = "INSERT IGNORE INTO {$table_accounts} 
+            (username,password,consumer_key,consumer_secret,access_token,access_token_secret,type,message_format,extra)
+            VALUES
+            ('twitter1','','$twitter_consumer_key_value','$twitter_consumer_secret_value','$twitter_access_token_value','$twitter_access_token_secret_value','twitter','','')";
+        
+            $wpdb->query($sql);
+            
+            update_option($twitter_consumer_key_name, '');
+            update_option($twitter_consumer_secret_name, '');
+            update_option($twitter_access_token_name, '');
+            update_option($twitter_access_token_secret_name, '');
+        }
+        
+        //plurk
+        $plurk_consumer_key_name = "microblogposter_plg_plurk_consumer_key";
+        $plurk_consumer_secret_name = "microblogposter_plg_plurk_consumer_secret";
+        $plurk_access_token_name = "microblogposter_plg_plurk_access_token";
+        $plurk_access_token_secret_name = "microblogposter_plg_plurk_access_token_secret";
+        
+        $plurk_consumer_key_value = get_option($plurk_consumer_key_name, "");
+        $plurk_consumer_secret_value = get_option($plurk_consumer_secret_name, "");
+        $plurk_access_token_value = get_option($plurk_access_token_name, "");
+        $plurk_access_token_secret_value = get_option($plurk_access_token_secret_name, "");
+        
+        if($plurk_consumer_key_value and
+           $plurk_consumer_secret_value and
+           $plurk_access_token_value and
+           $plurk_access_token_secret_value)
+        {
+            $sql = "INSERT IGNORE INTO {$table_accounts} 
+            (username,password,consumer_key,consumer_secret,access_token,access_token_secret,type,message_format,extra)
+            VALUES
+            ('plurk1','','$plurk_consumer_key_value','$plurk_consumer_secret_value','$plurk_access_token_value','$plurk_access_token_secret_value','plurk','','')";
+        
+            $wpdb->query($sql);
+            
+            update_option($plurk_consumer_key_name, '');
+            update_option($plurk_consumer_secret_name, '');
+            update_option($plurk_access_token_name, '');
+            update_option($plurk_access_token_secret_name, '');
+        }
+        
+        //identica
+        $identica_username_name = "microblogposter_plg_identica_username";
+        $identica_password_name = "microblogposter_plg_identica_password";
+        
+        $identica_username_value = get_option($identica_username_name, "");
+        $identica_password_value = get_option($identica_password_name, "");
+        
+        if($identica_username_value and
+           $identica_password_value)
+        {
+            $sql = "INSERT IGNORE INTO {$table_accounts} 
+            (username,password,consumer_key,consumer_secret,access_token,access_token_secret,type,message_format,extra)
+            VALUES
+            ('$identica_username_value','$identica_password_value','','','','','identica','','')";
+        
+            $wpdb->query($sql);
+            
+            update_option($identica_username_name, '');
+            update_option($identica_password_name, '');
+        }
+        
+        //delicious
+        
+        $delicious_username_name = "microblogposter_plg_delicious_username";
+        $delicious_password_name = "microblogposter_plg_delicious_password";
+        
+        $delicious_username_value = get_option($delicious_username_name, "");
+        $delicious_password_value = get_option($delicious_password_name, "");
+        
+        if($delicious_username_value and
+           $delicious_password_value)
+        {
+            $sql = "INSERT IGNORE INTO {$table_accounts} 
+            (username,password,consumer_key,consumer_secret,access_token,access_token_secret,type,message_format,extra)
+            VALUES
+            ('$delicious_username_value','$delicious_password_value','','','','','delicious','','')";
+        
+            $wpdb->query($sql);
+            
+            update_option($delicious_username_name, '');
+            update_option($delicious_password_name, '');
+        }
+        
+        //friendfeed
+        
+        $friendfeed_username_name = "microblogposter_plg_friendfeed_username";
+        $friendfeed_password_name = "microblogposter_plg_friendfeed_password";
+        
+        $friendfeed_username_value = get_option($friendfeed_username_name, "");
+        $friendfeed_password_value = get_option($friendfeed_password_name, "");
+        
+        if($friendfeed_username_value and
+           $friendfeed_password_value)
+        {
+            $sql = "INSERT IGNORE INTO {$table_accounts} 
+            (username,password,consumer_key,consumer_secret,access_token,access_token_secret,type,message_format,extra)
+            VALUES
+            ('$friendfeed_username_value','$friendfeed_password_value','','','','','friendfeed','','')";
+        
+            $wpdb->query($sql);
+            
+            update_option($friendfeed_username_name, '');
+            update_option($friendfeed_password_name, '');
+        }
+    }
+    
     /**
     * Main function of this plugin called on publish_post action hook
     * 
@@ -83,33 +237,23 @@ class MicroblogPoster_Poster
     */
     public static function update_twitter($update)
     {   
-        $twitter_consumer_key_name = "microblogposter_plg_twitter_consumer_key";
-        $twitter_consumer_secret_name = "microblogposter_plg_twitter_consumer_secret";
-        $twitter_access_token_name = "microblogposter_plg_twitter_access_token";
-        $twitter_access_token_secret_name = "microblogposter_plg_twitter_access_token_secret";
         
-        $twitter_consumer_key_value = get_option($twitter_consumer_key_name, "");
-        $twitter_consumer_secret_value = get_option($twitter_consumer_secret_name, "");
-        $twitter_access_token_value = get_option($twitter_access_token_name, "");
-        $twitter_access_token_secret_value = get_option($twitter_access_token_secret_name, "");
+        $twitter_accounts = MicroblogPoster_Poster::get_accounts('twitter');
         
-        if(!$twitter_consumer_key_value or
-           !$twitter_consumer_secret_value or
-           !$twitter_access_token_value or
-           !$twitter_access_token_secret_value)
+        if(!empty($twitter_accounts))
         {
-            return;
+            foreach($twitter_accounts as $twitter_account)
+            {
+               MicroblogPoster_Poster::send_signed_request(
+                    $twitter_account['consumer_key'],
+                    $twitter_account['consumer_secret'],
+                    $twitter_account['access_token'],
+                    $twitter_account['access_token_secret'],
+                    "https://api.twitter.com/1/statuses/update.json",
+                    array("status"=>$update)
+               ); 
+            }
         }
-        
-        MicroblogPoster_Poster::send_signed_request(
-            $twitter_consumer_key_value,
-            $twitter_consumer_secret_value,
-            $twitter_access_token_value,
-            $twitter_access_token_secret_value,
-            "https://api.twitter.com/1/statuses/update.json",
-            array("status"=>$update)
-        );
-        return;
         
     }
     
@@ -121,33 +265,23 @@ class MicroblogPoster_Poster
     */
     public static function update_plurk($update)
     {   
-        $plurk_consumer_key_name = "microblogposter_plg_plurk_consumer_key";
-        $plurk_consumer_secret_name = "microblogposter_plg_plurk_consumer_secret";
-        $plurk_access_token_name = "microblogposter_plg_plurk_access_token";
-        $plurk_access_token_secret_name = "microblogposter_plg_plurk_access_token_secret";
         
-        $plurk_consumer_key_value = get_option($plurk_consumer_key_name, "");
-        $plurk_consumer_secret_value = get_option($plurk_consumer_secret_name, "");
-        $plurk_access_token_value = get_option($plurk_access_token_name, "");
-        $plurk_access_token_secret_value = get_option($plurk_access_token_secret_name, "");
+        $plurk_accounts = MicroblogPoster_Poster::get_accounts('plurk');
         
-        if(!$plurk_consumer_key_value or
-           !$plurk_consumer_secret_value or
-           !$plurk_access_token_value or
-           !$plurk_access_token_secret_value)
+        if(!empty($plurk_accounts))
         {
-            return;
+            foreach($plurk_accounts as $plurk_account)
+            {
+                MicroblogPoster_Poster::send_signed_request(
+                    $plurk_account['consumer_key'],
+                    $plurk_account['consumer_secret'],
+                    $plurk_account['access_token'],
+                    $plurk_account['access_token_secret'],
+                    "http://www.plurk.com/APP/Timeline/plurkAdd",
+                    array("content"=>$update, "qualifier"=>"says")
+                );
+            }
         }
-        
-        MicroblogPoster_Poster::send_signed_request(
-            $plurk_consumer_key_value,
-            $plurk_consumer_secret_value,
-            $plurk_access_token_value,
-            $plurk_access_token_secret_value,
-            "http://www.plurk.com/APP/Timeline/plurkAdd",
-            array("content"=>$update, "qualifier"=>"says")
-        );
-        return;
         
     }
     
@@ -159,27 +293,27 @@ class MicroblogPoster_Poster
     */
     public static function update_identica($update)
     {
-	$identica_username_name = "microblogposter_plg_identica_username";
-        $identica_password_name = "microblogposter_plg_identica_password";
 	
-	$identica_username_value = get_option($identica_username_name, "");
-        $identica_password_value = get_option($identica_password_name, "");
-	
-	if(!$identica_username_value or
-           !$identica_password_value)
+        $curl = new MicroblogPoster_Curl();
+        $identica_accounts = MicroblogPoster_Poster::get_accounts('identica');
+        
+        if(!empty($identica_accounts))
         {
-            return;
+            foreach($identica_accounts as $identica_account)
+            {
+                
+                $curl->set_credentials($identica_account['username'],$identica_account['password']);
+
+                $url = "http://identi.ca/api/statuses/update.json";
+                $post_args = array(
+                    'status' => $update
+                );
+
+                $curl->send_post_data($url, $post_args);
+            }
         }
+        
 	
-	$curl = new MicroblogPoster_Curl();
-	$curl->set_credentials($identica_username_value,$identica_password_value);
-	
-	$url = "http://identi.ca/api/statuses/update.json";
-	$post_args = array(
-	    'status' => $update
-	);
-	
-	$curl->send_post_data($url, $post_args);
     }
     
     /**
@@ -192,29 +326,27 @@ class MicroblogPoster_Poster
     */
     public static function update_delicious($title, $link, $tags)
     {
-	$delicious_username_name = "microblogposter_plg_delicious_username";
-        $delicious_password_name = "microblogposter_plg_delicious_password";
 	
-	$delicious_username_value = get_option($delicious_username_name, "");
-        $delicious_password_value = get_option($delicious_password_name, "");
-	
-	if(!$delicious_username_value or
-           !$delicious_password_value)
+        $curl = new MicroblogPoster_Curl();
+        $delicious_accounts = MicroblogPoster_Poster::get_accounts('delicious');
+        
+        if(!empty($delicious_accounts))
         {
-            return;
+            foreach($delicious_accounts as $delicious_account)
+            {
+                $curl->set_credentials($delicious_account['username'],$delicious_account['password']);
+                $curl->set_user_agent("Mozilla/6.0 (Windows NT 6.2; WOW64; rv:16.0.1) Gecko/20121011 Firefox/16.0.1");
+
+                $link=urlencode($link);
+                $title = urlencode($title);
+                $tags = urlencode($tags);
+
+                $url = "https://api.del.icio.us/v1/posts/add?url=$link&description=$title&tags=$tags&shared=yes";
+
+                $curl->fetch_url($url);
+            }
         }
-	
-	$curl = new MicroblogPoster_Curl();
-	$curl->set_credentials($delicious_username_value,$delicious_password_value);
-	$curl->set_user_agent("Mozilla/6.0 (Windows NT 6.2; WOW64; rv:16.0.1) Gecko/20121011 Firefox/16.0.1");
-	
-	$link=urlencode($link);
-	$title = urlencode($title);
-	$tags = urlencode($tags);
-	
-	$url = "https://api.del.icio.us/v1/posts/add?url=$link&description=$title&tags=$tags&shared=yes";
-	
-	$curl->fetch_url($url);
+        
     }
     
     /**
@@ -226,28 +358,27 @@ class MicroblogPoster_Poster
     */
     public static function update_friendfeed($title, $link)
     {
-	$friendfeed_username_name = "microblogposter_plg_friendfeed_username";
-        $friendfeed_password_name = "microblogposter_plg_friendfeed_password";
-	
-	$friendfeed_username_value = get_option($friendfeed_username_name, "");
-        $friendfeed_password_value = get_option($friendfeed_password_name, "");
-	
-	if(!$friendfeed_username_value or
-           !$friendfeed_password_value)
-        {
-            return;
-        }
 	
 	$curl = new MicroblogPoster_Curl();
-	$curl->set_credentials($friendfeed_username_value,$friendfeed_password_value);
+        $friendfeed_accounts = MicroblogPoster_Poster::get_accounts('friendfeed');
+        
+        if(!empty($friendfeed_accounts))
+        {
+            foreach($friendfeed_accounts as $friendfeed_account)
+            {
+                $curl->set_credentials($friendfeed_account['username'],$friendfeed_account['password']);
 	
-	$url = "http://friendfeed-api.com/v2/entry";
-	$post_args = array(
-	    'body' => $title,
-            'link' => $link
-	);
+                $url = "http://friendfeed-api.com/v2/entry";
+                $post_args = array(
+                    'body' => $title,
+                    'link' => $link
+                );
+
+                $curl->send_post_data($url, $post_args);
+            }
+            
+        }
 	
-	$curl->send_post_data($url, $post_args);
     }
     
     /**
@@ -288,8 +419,27 @@ class MicroblogPoster_Poster
     
     }
     
+    /**
+    * Get accounts from db
+    *
+    * @param   string  $type Type of account (=site)
+    * @return  array
+    */
+    private static function get_accounts($type)
+    {
+        global  $wpdb;
+
+        $table_accounts = $wpdb->prefix . 'microblogposter_accounts';
+        
+        $sql="SELECT * FROM $table_accounts WHERE type='{$type}'";
+        $rows = $wpdb->get_results($sql, ARRAY_A);
+        
+        return $rows;
+    }
+    
 }
 
+register_activation_hook(__FILE__, array('MicroblogPoster_Poster', 'activate'));
 
 add_action('publish_post', array('MicroblogPoster_Poster', 'update'));
 
@@ -305,7 +455,7 @@ function microblogposter_meta()
 //Add the checkbox defined above to post edit screen.
 function microblogposter_meta_box()
 {
-    add_meta_box('microblogposter_domain','Microblog Poster','microblogposter_meta','post','side','high');
+    add_meta_box('microblogposter_domain','MicroblogPoster','microblogposter_meta','post','side','high');
 }
 add_action('admin_menu', 'microblogposter_meta_box');
 
