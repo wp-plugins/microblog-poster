@@ -829,7 +829,7 @@ function microblogposter_settings_output()
                         Username:
                     </div>
                     <div class="input-div-large">
-                        <input type="text" id="" name="username" value="" />
+                        <input type="text" id="username" name="username" value="" />
                     </div>
                     <div class="input-div">
                         Consumer Key:
@@ -865,7 +865,7 @@ function microblogposter_settings_output()
                         Identi.ca Username:
                     </div>
                     <div class="input-div-large">
-                        <input type="text" id="" name="username" value="" />
+                        <input type="text" id="username" name="username" value="" />
                     </div>
                     <div class="input-div">
                         Identi.ca Password:
@@ -879,7 +879,7 @@ function microblogposter_settings_output()
                         FriendFeed Username:
                     </div>
                     <div class="input-div-large">
-                        <input type="text" id="" name="username" value="" />
+                        <input type="text" id="username" name="username" value="" />
                     </div>
                     <div class="input-div">
                         FriendFeed Remote Key:
@@ -894,7 +894,7 @@ function microblogposter_settings_output()
                         Delicious Username:
                     </div>
                     <div class="input-div-large">
-                        <input type="text" id="" name="username" value="" />
+                        <input type="text" id="username" name="username" value="" />
                     </div>
                     <div class="input-div">
                         Delicious Password:
