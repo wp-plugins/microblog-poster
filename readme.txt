@@ -12,9 +12,9 @@ Automatically updates your microblogs and bookmarking profiles with 'blogpost ti
 **Automatically updates your microblogs and bookmarking profiles** with 'blogpost title + shortened backlink' of your new blogpost.
 PHP 5 required.
 
-**Currently supported microblogging/bookmarking sites**
+You only have to configure your social network accounts. **Multiple Accounts per site supported.**
 
-**Multiple Accounts per site**
+**Currently supported microblogging/bookmarking sites**
 
 * twitter.com
 * plurk.com
