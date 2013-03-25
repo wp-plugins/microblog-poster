@@ -2,7 +2,7 @@
 /**
  *
  * Plugin Name: Microblog Poster
- * Description: Automatically updates your microblogs and bookmarking profiles with 'blogpost title + shortened backlink' of your new blogpost.
+ * Description: Automatically publishing your new blog content to Social Networks. Updates your microblogs and bookmarking profiles.
  * Version: 1.2.2
  * Author: cybperic
  * Author URI: http://profiles.wordpress.org/users/cybperic/

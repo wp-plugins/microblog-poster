@@ -5,7 +5,7 @@ Requires at least: 3.0
 Tested up to: 3.5.1
 Stable tag: 1.2.2
 
-Automatically updates your microblogs and bookmarking profiles with 'blogpost title + shortened backlink' of your new blogpost.
+Automatically publishing your new blog content to Social Networks. Updates your microblogs and bookmarking profiles.
 
 == Description ==
 
