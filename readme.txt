@@ -46,6 +46,11 @@ You only have to configure your social network accounts. **Multiple Accounts per
 * Activate the plugin through the 'Plugins' menu in WordPress
 * Settings->MicroblogPoster, Fill in your credentials.
 
+== Screenshots ==
+
+1. MicroblogPoster Options page. Settings -> MicroblogPoster
+
+
 == Upgrade Notice ==
 
 Deactivate/Activate MicroblogPoster plugin.

@@ -228,7 +228,7 @@ function microblogposter_settings_output()
         }
         ?>
         
-        <span class="new-account button" >Add New Account</span>
+        <span class="new-account" >Add New Account</span>
             
         <?php 
         
@@ -318,8 +318,8 @@ function microblogposter_settings_output()
             </div>
             <div class="account-wrapper">
                 <span><?php echo $row->username;?></span>
-                <span class="edit-account button edit<?php echo $row->account_id;?>">Edit</span>
-                <span class="del-account button del<?php echo $row->account_id;?>">Del</span>
+                <span class="edit-account edit<?php echo $row->account_id;?>">Edit</span>
+                <span class="del-account del<?php echo $row->account_id;?>">Del</span>
             </div>
             
         <?php endforeach;?>
@@ -405,8 +405,8 @@ function microblogposter_settings_output()
             </div>
             <div class="account-wrapper">
                 <span><?php echo $row->username;?></span>
-                <span class="edit-account button edit<?php echo $row->account_id;?>">Edit</span>
-                <span class="del-account button del<?php echo $row->account_id;?>">Del</span>
+                <span class="edit-account edit<?php echo $row->account_id;?>">Edit</span>
+                <span class="del-account del<?php echo $row->account_id;?>">Del</span>
             </div>
             
         <?php endforeach;?>
@@ -470,8 +470,8 @@ function microblogposter_settings_output()
             </div>
             <div class="account-wrapper">
                 <span><?php echo $row->username;?></span>
-                <span class="edit-account button edit<?php echo $row->account_id;?>">Edit</span>
-                <span class="del-account button del<?php echo $row->account_id;?>">Del</span>
+                <span class="edit-account edit<?php echo $row->account_id;?>">Edit</span>
+                <span class="del-account del<?php echo $row->account_id;?>">Del</span>
             </div>
         <?php endforeach;?>
         
@@ -534,8 +534,8 @@ function microblogposter_settings_output()
             </div>
             <div class="account-wrapper">
                 <span><?php echo $row->username;?></span>
-                <span class="edit-account button edit<?php echo $row->account_id;?>">Edit</span>
-                <span class="del-account button del<?php echo $row->account_id;?>">Del</span>
+                <span class="edit-account edit<?php echo $row->account_id;?>">Edit</span>
+                <span class="del-account del<?php echo $row->account_id;?>">Del</span>
             </div>
         <?php endforeach;?>
         
@@ -598,8 +598,8 @@ function microblogposter_settings_output()
             </div>
             <div class="account-wrapper">
                 <span><?php echo $row->username;?></span>
-                <span class="edit-account button edit<?php echo $row->account_id;?>">Edit</span>
-                <span class="del-account button del<?php echo $row->account_id;?>">Del</span>
+                <span class="edit-account edit<?php echo $row->account_id;?>">Edit</span>
+                <span class="del-account del<?php echo $row->account_id;?>">Del</span>
             </div>
         <?php endforeach;?>
         </div>
@@ -692,6 +692,9 @@ function microblogposter_settings_output()
             padding: 1px 8px;
             background: #0066FF;
             color: #FFFFFF;
+            border: 1px solid #0066FF;
+            border-radius: 3px;
+            cursor: pointer;
         }
         .edit-account:hover
         {
@@ -703,6 +706,9 @@ function microblogposter_settings_output()
             background: #00B800;
             color: #FFFFFF;
             margin-bottom: 20px;
+            border-radius: 3px;
+            cursor: pointer;
+            padding: 3px 10px;
         }
         .new-account:hover
         {
@@ -715,6 +721,8 @@ function microblogposter_settings_output()
             background: #FFFFFF;
             color: #FF0000;
             border-color: #FF0000;
+            border: 1px solid #FF0000;
+            cursor: pointer;
         }
         .del-account:hover
         {
