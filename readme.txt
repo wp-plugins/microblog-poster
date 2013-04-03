@@ -22,6 +22,10 @@ You only have to configure your social network accounts. **Multiple Accounts per
 * delicious.com - Auto submits bookmark of your blogpost to your account.
 * friendfeed.com
 
+== Screenshots ==
+
+1. MicroblogPoster Options page. Settings -> MicroblogPoster
+
 == Changelog ==
 
 = 1.2.2 =
@@ -46,10 +50,6 @@ You only have to configure your social network accounts. **Multiple Accounts per
 * Activate the plugin through the 'Plugins' menu in WordPress
 * Settings->MicroblogPoster, Fill in your credentials.
 
-== Screenshots ==
-
-1. MicroblogPoster Options page. Settings -> MicroblogPoster
-
 
 == Upgrade Notice ==
 
@@ -61,6 +61,5 @@ Deactivate/Activate MicroblogPoster plugin.
 
 Yes, otherwise the plugin simply won't function at all.
 
-== Screenshots ==
 
 
