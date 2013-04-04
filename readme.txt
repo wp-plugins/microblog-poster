@@ -1,6 +1,6 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmark, auto post, auto submit, social, social networks, twitter, delicious.com, plurk, friendfeed, identi.ca, automatic, links, backlinks
+Tags: microblogging, bookmarking, bookmark, auto post, cross-post, cross post, auto submit, social, social networks, twitter, delicious.com, plurk, friendfeed, identi.ca, automatic, links, backlinks
 Requires at least: 3.0
 Tested up to: 3.5.1
 Stable tag: 1.2.2
@@ -48,7 +48,8 @@ You only have to configure your social network accounts. **Multiple Accounts per
 
 * Upload the contents of the microblogposter folder to your /wp-content/plugins/ folder.
 * Activate the plugin through the 'Plugins' menu in WordPress
-* Settings->MicroblogPoster, Fill in your credentials.
+* Settings->MicroblogPoster, Configure your social network accounts.
+* The plugin automatically cross-posts.
 
 
 == Upgrade Notice ==
