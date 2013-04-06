@@ -49,7 +49,25 @@ You only have to configure your social network accounts. **Multiple Accounts per
 * Upload the contents of the microblogposter folder to your /wp-content/plugins/ folder.
 * Activate the plugin through the 'Plugins' menu in WordPress
 * Settings->MicroblogPoster, Configure your social network accounts.
-* The plugin automatically cross-posts.
+* The plugin is ready, it'll automatically cross-posts whenever you publish a new blog post.
+
+
+**twitter.com accounts**
+
+Basically your twitter username/password won't suffice in order to post automatic updates, twitter api requires some more steps described below.
+No worries, it's rather a simple procedure.
+
+
+    1. In order to post updates through the twitter API you'll need first to create your own twitter App here: https://dev.twitter.com/apps
+    
+    2. Once you've created your app you have to change its access level to be Read and Write. Browse to Settings tab and check the Access level to be Read and Write, save your new settings.
+
+    3. Once this is done go back to the details tab, at the bottom you'd have a button 'Create my access token', please do it.
+
+    4. This is it, on the details tab you have all you need, i.e. consumer key/secret, access token and access token secret.
+
+    5. If you don't see immediately the access token at the bottom browse away and come back to the details tab, it should be there.
+
 
 
 == Upgrade Notice ==

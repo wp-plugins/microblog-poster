@@ -795,7 +795,7 @@ function microblogposter_settings_output()
                 
                 
                 <div id="twitter-div" class="one-account">
-                    <div class="help-div"><span class="description">Help: Search for 'create an application twitter api'</span></div>
+                    <div class="help-div"><span class="description">Help: <a href="http://wordpress.org/extend/plugins/microblog-poster/installation/">MicroblogPoster installation page</a></span></div>
                     <div class="input-div">
                         Username:
                     </div>
