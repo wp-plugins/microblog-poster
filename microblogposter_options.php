@@ -720,6 +720,7 @@ function microblogposter_settings_output()
             padding: 1px 8px;
             background: #FFFFFF;
             color: #FF0000;
+            border-radius: 3px;
             border-color: #FF0000;
             border: 1px solid #FF0000;
             cursor: pointer;
@@ -832,7 +833,7 @@ function microblogposter_settings_output()
                     </div>
                 </div>
                 <div id="plurk-div" class="one-account">
-                    <div class="help-div"><span class="description">Help: Search for 'create an application plurk api'</span></div>
+                    <div class="help-div"><span class="description">Help: <a href="http://wordpress.org/extend/plugins/microblog-poster/installation/" target="_blank">MicroblogPoster installation page</a></span></div>
                     <div class="input-div">
                         Username:
                     </div>
