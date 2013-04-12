@@ -22,6 +22,9 @@ You only have to configure your social network accounts. **Multiple Accounts per
 * delicious.com - Auto submits bookmark of your blogpost to your account.
 * friendfeed.com
 
+The idea behind MicroblogPoster is to promote your wordpress blog and reach more people through social network accounts.
+MicroblogPoster is simply an intermediary between your blog and your own social network accounts.
+
 == Screenshots ==
 
 1. MicroblogPoster Options page. Settings -> MicroblogPoster
