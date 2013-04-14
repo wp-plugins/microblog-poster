@@ -22,7 +22,7 @@ You only have to configure your social network accounts. **Multiple Accounts per
 * delicious.com - Auto submits bookmark of your blogpost to your account.
 * friendfeed.com
 
-The idea behind **MicroblogPoster** is to promote your wordpress blog and reach more people through social network accounts.
+The idea behind **MicroblogPoster** is to promote your wordpress blog and reach more people through social networks.
 **MicroblogPoster** is simply an intermediary between your blog and your own social network accounts.
 
 == Screenshots ==
@@ -73,8 +73,7 @@ No worries, it's rather a simple procedure.
     4. This is it, on the details tab you have all you need, i.e. consumer key/secret, access token 
     and access token secret.
 
-    5. If you don't see immediately the access token at the bottom browse away and come back to the details tab, 
-    it should be there.
+    5. If you don't see immediately the access token at the bottom, please refresh the details tab page.
 
 
 **plurk.com accounts**
