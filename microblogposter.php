@@ -2,8 +2,8 @@
 /**
  *
  * Plugin Name: Microblog Poster
- * Description: Automatically updates your microblogs and bookmarking profiles with 'blogpost title + shortened backlink' of your new blogpost.
- * Version: 1.2.2
+ * Description: Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Plurk, Identica, Delicious..
+ * Version: 1.2.3
  * Author: cybperic
  * Author URI: http://profiles.wordpress.org/users/cybperic/
  *
@@ -222,11 +222,14 @@ class MicroblogPoster_Poster
 	}
 	$tags = rtrim($tags,',');
         
+        @ini_set('max_execution_time', '0');
+        
         MicroblogPoster_Poster::update_twitter($update);
         MicroblogPoster_Poster::update_plurk($update);
 	MicroblogPoster_Poster::update_identica($update);
 	MicroblogPoster_Poster::update_delicious($post_title, $permalink, $tags);
         MicroblogPoster_Poster::update_friendfeed($post_title, $permalink);
+        MicroblogPoster_Poster::update_facebook($update);
     }
     
     /**
@@ -382,6 +385,58 @@ class MicroblogPoster_Poster
     }
     
     /**
+    * Updates status on facebook
+    *
+    * @param   string  $update Text to be posted on microblogging site
+    * @return  void
+    */
+    public static function update_facebook($update)
+    {
+        
+        $curl = new MicroblogPoster_Curl();
+        $facebook_accounts = MicroblogPoster_Poster::get_accounts('facebook');
+        
+        if(!empty($facebook_accounts))
+        {
+            foreach($facebook_accounts as $facebook_account)
+            {
+                if(!$facebook_account['extra'])
+                {
+                    continue;
+                }
+                
+                $extra = json_decode($facebook_account['extra'], true);
+                
+                if(isset($extra['user_id']) && isset($extra['access_token']))
+                {
+                    
+                    $url = "https://graph.facebook.com/{$extra['user_id']}/feed";
+                    $post_args = array(
+                        'access_token' => $extra['access_token'],
+                        'message' => $update
+                    );
+
+                    $result = $curl->send_post_data($url, $post_args);
+                    $result = json_decode($result, true);
+                    if(!isset($result['id']))
+                    {
+                        global  $wpdb;
+                        $table_accounts = $wpdb->prefix . 'microblogposter_accounts';
+                        
+                        $sql = "UPDATE {$table_accounts}
+                            SET extra=''
+                            WHERE account_id={$facebook_account['account_id']}";
+
+                        $wpdb->query($sql);
+                    }
+                }
+                
+            }
+            
+        }
+    }
+    
+    /**
     * Sends OAuth signed request
     *
     * @param   string  $c_key Application consumer key
@@ -446,8 +501,10 @@ add_action('publish_post', array('MicroblogPoster_Poster', 'update'));
 //Displays a checkbox that allows users to disable Microblog Poster on a per post basis.
 function microblogposter_meta()
 {
+    $default_behavior_name = "microblogposter_default_behavior";
+    $default_behavior_value = get_option($default_behavior_name, "");
     ?>
-    <input type="checkbox" id="microblogposteroff" name="microblogposteroff"/> 
+    <input type="checkbox" id="microblogposteroff" name="microblogposteroff" <?php if($default_behavior_value) echo 'checked="checked"';?> /> 
     <label for="microblogposteroff">Disable Microblog Poster this time?</label>
     <?php
 }
