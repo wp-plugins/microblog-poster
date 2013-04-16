@@ -114,8 +114,9 @@ It's most likely the same as for twitter, you'll need some more effort in order 
 
     3. Enter the required captcha challenge.
 
-    4. Once on the basic settings of your new app, for the field 'App Domains', just enter 'localhost'.
-    In the field 'Website with facebook login' enter 'http://localhost'.
+    4. Once on the basic settings of your new app, 
+    for the field 'App Domains' enter your blog domain name (example: mydomain.com)
+    In the field 'Website with facebook login' enter your blog url. (example: http://mydomain.com)
     Sandbox mode should be disabled.
     Save changes.
 
