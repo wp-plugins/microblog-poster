@@ -67,19 +67,21 @@ Basically your twitter username/password won't suffice in order to post automati
 No worries, it's rather a simple procedure.
 
 
-    1. In order to post updates through the twitter API you'll need first to create your own twitter App
-    here: https://dev.twitter.com/apps
+    1. In order to post updates through the twitter API you'll need first to create your
+    own twitter App here: https://dev.twitter.com/apps
     
     2. Once you've created your app you have to change its access level to be Read and Write. 
-    Browse to Settings tab and check the Access level to be Read and Write, save your new settings.
+    Browse to Settings tab and check the Access level to be Read and Write, 
+    save your new settings.
 
-    3. Once this is done go back to the details tab, at the bottom you'd have a button 'Create my access token',
-    please do it.
+    3. Once this is done go back to the details tab, at the bottom you'd have 
+    a button 'Create my access token', please do it.
 
-    4. This is it, on the details tab you have all you need, i.e. consumer key/secret, access token 
-    and access token secret.
+    4. This is it, on the details tab you have all you need, i.e. consumer key/secret, 
+    access token and access token secret.
 
-    5. If you don't see immediately the access token at the bottom, please refresh the details tab page.
+    5. If you don't see immediately the access token at the bottom, please refresh 
+    the details tab page.
 
 
 **plurk.com accounts**
