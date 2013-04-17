@@ -21,7 +21,7 @@ You only have to configure your social network accounts. **Multiple Accounts per
 * plurk.com
 * identi.ca
 * delicious.com - Auto submits bookmark of your blogpost to your account.
-* friendfeed.com
+* friendfeed.com - Auto updates your status.
 
 The idea behind **MicroblogPoster** is to promote your wordpress blog and reach more people through social networks.
 **MicroblogPoster** is simply an intermediary between your blog and your own social network accounts.
