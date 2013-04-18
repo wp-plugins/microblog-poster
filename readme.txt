@@ -111,6 +111,8 @@ It's most likely the same as for twitter, you'll need some more effort in order 
 
 
     1. Please go at this url https://developers.facebook.com/apps and click on 'Create New App'.
+    Note: If you can't click on 'Create New App', you need first to 'Register as a Developer'.
+    Then the creation of new app will be available.
 
     2. Fill in the 'App name' and click continue.
 
