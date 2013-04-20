@@ -18,8 +18,8 @@ You only have to configure your social network accounts. **Multiple Accounts per
 
 * twitter.com - Auto tweets backlink of new blogpost.
 * facebook.com - Auto updates your status.
-* plurk.com
-* identi.ca
+* plurk.com - Auto posts new plurk.
+* identi.ca - Auto submits new message.
 * delicious.com - Auto submits bookmark of your blogpost to your account.
 * friendfeed.com - Auto updates your status.
 
