@@ -28,7 +28,9 @@ The idea behind **MicroblogPoster** is to promote your wordpress blog and reach 
 
 == Screenshots ==
 
-1. MicroblogPoster Options page. Settings -> MicroblogPoster
+1. MicroblogPoster Options page, General section.
+
+2. MicroblogPoster Options page, Social Network Accounts.
 
 == Changelog ==
 
