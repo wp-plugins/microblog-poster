@@ -128,6 +128,17 @@ It's most likely the same as for twitter, you'll need some more effort in order 
 
     5. Copy your 'App ID' and 'App Secret' and configure a facebook account on MicroblogPoster plugin.
 
+    6. Follow the link provided by MicroblogPoster to authorize your App to post on your behalf.
+
+
+**friendfeed.com accounts**
+
+
+Instead of the password the friendfeed API requires the remote key to let you post with it.
+
+    1. You can find your remote key associated with your account at this url:
+    https://friendfeed.com/account/api (need to be logged in).
+
 
 == Upgrade Notice ==
 

@@ -594,7 +594,7 @@ function microblogposter_settings_output()
                                 <input type="text" id="" name="username" value="<?php echo $row->username;?>" />
                             </div>
                             <div class="input-div">
-                                FriendFeed Password:
+                                FriendFeed Remote Key:
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="password" value="<?php echo $row->password;?>" />
@@ -1108,6 +1108,7 @@ function microblogposter_settings_output()
                     </div>
                 </div>
                 <div id="friendfeed-div" class="one-account">
+                    <div class="help-div"><span class="description">Help: <a href="http://wordpress.org/extend/plugins/microblog-poster/installation/" target="_blank">MicroblogPoster installation page</a></span></div>
                     <div class="input-div">
                         FriendFeed Username:
                     </div>
