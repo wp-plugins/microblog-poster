@@ -24,7 +24,8 @@ You only have to configure your social network accounts. **Multiple Accounts per
 * friendfeed.com - Auto updates your status.
 
 The idea behind **MicroblogPoster** is to promote your wordpress blog and reach more people through social networks.
-**MicroblogPoster** is simply an intermediary between your blog and your own social network accounts.
+**MicroblogPoster** is simply an intermediary between your blog and your own social network accounts. You'll never
+see "posted by MicroblogPoster" in your updates, you'll see "posted by your own App name" or simply "by API".
 
 == Screenshots ==
 
