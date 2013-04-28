@@ -9,8 +9,8 @@ Automatically publishes your new blog content to Social Networks. Auto-updates T
 
 == Description ==
 
-**Automatically updates your microblogs and bookmarking profiles** with 'blogpost title + shortened backlink' of your new blogpost.
-PHP 5 required.
+**Automatically updates your microblogs and bookmarking profiles** for each new blog post. Possibility to nicely format the
+update message per account, **shortcodes supported**.
 
 You only have to configure your social network accounts. **Multiple Accounts per site supported.**
 
