@@ -92,23 +92,29 @@ No worries, it's rather a simple procedure.
 
 It's most likely the same as for twitter, you'll need some more effort in order to post updates through their api.
 
-    1. Please go at this url http://www.plurk.com/PlurkApp/ and click on 'Create a new Plurk app'.
-    For App Type, choose 'Third-party web site integration'. For App website you can put http://localhost
+    1. Please go at this url http://www.plurk.com/PlurkApp/ 
+    and click on 'Create a new Plurk app'.
+    For App Type, choose 'Third-party web site integration'. 
+    For App website you can put http://localhost
 
-    2. Once you're back on 'My Plurk Apps' page, click on edit button and get your *App Key and App Secret*.
+    2. Once you're back on 'My Plurk Apps' page, click on edit button 
+    and get your *App Key and App Secret*.
 
-    3. Not finished yet, you need the second pair of credentials. On 'My Plurk Apps' page this time click on
-    'test console' button.
+    3. Not finished yet, you need the second pair of credentials. 
+    On 'My Plurk Apps' page this time click on 'test console' button.
 
-    4. First click on 'Get Request Token', some processing is done. After that click on 'Open Authorization URL',
-    you'll be redirected to a new page and you'll have to grant the permission in order to get
+    4. First click on 'Get Request Token', some processing is done. 
+    After that click on 'Open Authorization URL', you'll be redirected 
+    to a new page and you'll have to grant the permission in order to get
     your verification code.
 
-    5. Finally go back to the previous page and generate your *token key and token secret* by clicking on
+    5. Finally go back to the previous page and generate your 
+    *token key and token secret* by clicking on
     'Get Access Token' and by providing the verification code.
 
-    6. Now you can copy your token key and token secret. Coupled with the App key and App secret you got
-    previously you can configure your plurk.com account on MicroblogPoster plugin.
+    6. Now you can copy your token key and token secret. 
+    Coupled with the App key and App secret you got previously 
+    you can configure your plurk.com account on MicroblogPoster plugin.
 
 
 **facebook.com accounts**
