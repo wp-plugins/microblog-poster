@@ -92,6 +92,7 @@ No worries, it's rather a simple procedure.
 
 It's most likely the same as for twitter, you'll need some more effort in order to post updates through their api.
 
+
     1. Please go at this url http://www.plurk.com/PlurkApp/ 
     and click on 'Create a new Plurk app'.
     For App Type, choose 'Third-party web site integration'. 
