@@ -1,9 +1,9 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmark, auto post, cross-post, cross post, auto submit, auto update, social, social networks, twitter, facebook, delicious, plurk, friendfeed, identica, automatic, links, backlinks
+Tags: microblogging, bookmarking, bookmark, auto post, cross-post, cross post, auto submit, auto update, social, social networks, twitter, facebook, delicious, plurk, friendfeed, identica, automatic, links, backlinks, shortcodes
 Requires at least: 3.0
 Tested up to: 3.5.1
-Stable tag: 1.2.3
+Stable tag: 1.2.4
 
 Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Plurk, Identica, Delicious..
 
@@ -18,21 +18,30 @@ You only have to configure your social network accounts. **Multiple Accounts per
 
 * twitter.com - Auto tweets backlink of new blogpost.
 * facebook.com - Auto updates your status.
-* plurk.com
-* identi.ca
+* plurk.com - Auto posts new plurk.
+* identi.ca - Auto submits new message.
 * delicious.com - Auto submits bookmark of your blogpost to your account.
-* friendfeed.com
+* friendfeed.com - Auto updates your status.
 
 The idea behind **MicroblogPoster** is to promote your wordpress blog and reach more people through social networks.
-**MicroblogPoster** is simply an intermediary between your blog and your own social network accounts.
+**MicroblogPoster** is simply an intermediary between your blog and your own social network accounts. You'll never
+see "posted by MicroblogPoster" in your updates, you'll see "posted by your own App name" or simply "by API".
 
 == Screenshots ==
 
-1. MicroblogPoster Options page. Settings -> MicroblogPoster
+1. MicroblogPoster Options page, Social Network Accounts.
+
+2. MicroblogPoster Options page, General section.
 
 == Changelog ==
 
-= 1.2.3 (2013-04-16) =
+= 1.2.4 (28-04-2013) =
+- Possibility to format the message that's posted, shortcodes support.
+- For HTTP Auth sites, passwords are stored encrypted in db.
+- New option for delicious site, choose if tags included.
+- Bug fix, double escaping.
+
+= 1.2.3 (16-04-2013) =
 - facebook.com is now supported.
 - 'default per post behavior' option added.
 - added images for each supported site.
@@ -67,48 +76,60 @@ Basically your twitter username/password won't suffice in order to post automati
 No worries, it's rather a simple procedure.
 
 
-    1. In order to post updates through the twitter API you'll need first to create your own twitter App
-    here: https://dev.twitter.com/apps
+    1. In order to post updates through the twitter API you'll need first
+    to create your own twitter App here: https://dev.twitter.com/apps
     
-    2. Once you've created your app you have to change its access level to be Read and Write. 
-    Browse to Settings tab and check the Access level to be Read and Write, save your new settings.
+    2. Once you've created your app you have to change its access level
+    to be Read and Write. 
+    Browse to Settings tab and check the Access level to be Read and Write,
+    save your new settings.
 
-    3. Once this is done go back to the details tab, at the bottom you'd have a button 'Create my access token',
-    please do it.
+    3. Once this is done go back to the details tab, at the bottom you 
+    should have a button 'Create my access token', please do it.
 
-    4. This is it, on the details tab you have all you need, i.e. consumer key/secret, access token 
-    and access token secret.
+    4. This is it, on the details tab you have all you need, 
+    i.e. consumer key/secret, access token and access token secret.
 
-    5. If you don't see immediately the access token at the bottom, please refresh the details tab page.
+    5. If you don't see immediately the access token at the bottom, 
+    please refresh the details tab page.
 
 
 **plurk.com accounts**
 
 It's most likely the same as for twitter, you'll need some more effort in order to post updates through their api.
 
-    1. Please go at this url http://www.plurk.com/PlurkApp/ and click on 'Create a new Plurk app'.
-    For App Type, choose 'Third-party web site integration'. For App website you can put http://localhost
 
-    2. Once you're back on 'My Plurk Apps' page, click on edit button and get your *App Key and App Secret*.
+    1. Please go at this url http://www.plurk.com/PlurkApp/ 
+    and click on 'Create a new Plurk app'.
+    For App Type, choose 'Third-party web site integration'. 
+    For App website you can put http://localhost
 
-    3. Not finished yet, you need the second pair of credentials. On 'My Plurk Apps' page this time click on
-    'test console' button.
+    2. Once you're back on 'My Plurk Apps' page, click on edit button 
+    and get your *App Key and App Secret*.
 
-    4. First click on 'Get Request Token', some processing is done. After that click on 'Open Authorization URL',
-    you'll be redirected to a new page and you'll have to grant the permission in order to get
+    3. Not finished yet, you need the second pair of credentials. 
+    On 'My Plurk Apps' page this time click on 'test console' button.
+
+    4. First click on 'Get Request Token', some processing is done. 
+    After that click on 'Open Authorization URL', you'll be redirected 
+    to a new page and you'll have to grant the permission in order to get
     your verification code.
 
-    5. Finally go back to the previous page and generate your *token key and token secret* by clicking on
+    5. Finally go back to the previous page and generate your 
+    *token key and token secret* by clicking on
     'Get Access Token' and by providing the verification code.
 
-    6. Now you can copy your token key and token secret. Coupled with the App key and App secret you got
-    previously you can configure your plurk.com account on MicroblogPoster plugin.
+    6. Now you can copy your token key and token secret. 
+    Coupled with the App key and App secret you got previously 
+    you can configure your plurk.com account on MicroblogPoster plugin.
 
 
 **facebook.com accounts**
 
 
     1. Please go at this url https://developers.facebook.com/apps and click on 'Create New App'.
+    Note: If you can't click on 'Create New App', you need first to 'Register as a Developer'.
+    Then the creation of new app will be available.
 
     2. Fill in the 'App name' and click continue.
 
@@ -122,6 +143,17 @@ It's most likely the same as for twitter, you'll need some more effort in order 
 
     5. Copy your 'App ID' and 'App Secret' and configure a facebook account on MicroblogPoster plugin.
 
+    6. Follow the link provided by MicroblogPoster to authorize your App to post on your behalf.
+
+
+**friendfeed.com accounts**
+
+
+Instead of the password the friendfeed API requires the remote key to let you post with it.
+
+    1. You can find your remote key associated with your account at this url:
+    https://friendfeed.com/account/api (need to be logged in).
+
 
 == Upgrade Notice ==
 
@@ -131,7 +163,7 @@ Deactivate/Activate MicroblogPoster plugin.
 
 = My blog is hosted on shared hosting, can I use MicroblogPoster? =
 
-Warning about inherent php script execution time limitation (max_execution_time PHP setting). 
+Warning about inherent php script execution time limitation that some Hosting Providers apply on shared accounts (max_execution_time PHP setting). 
 Since *MicroblogPoster* needs time to update all your social accounts when publishing a new blog post this limit might be reached and script execution stopped.
 In order to avoid it, please limit the number of social accounts based on your environment script execution time limit.
 

@@ -50,6 +50,8 @@ function microblogposter_settings_output()
         
     }
     
+    $http_auth_sites = array('identica','friendfeed','delicious');
+    
     if(isset($_POST["new_account_hidden"]))
     {
         
@@ -57,42 +59,55 @@ function microblogposter_settings_output()
         if(isset($_POST['account_type']))
         {
             $account_type = trim($_POST['account_type']);
-            $wpdb->escape_by_ref($account_type);
+        }
+        if($account_type=='delicious')
+        {
+            $extra['include_tags'] = 0;
+            if(isset($_POST['include_tags']) && trim($_POST['include_tags']) == '1')
+            {
+                $extra['include_tags'] = 1;
+            }
         }
         if(isset($_POST['consumer_key']))
         {
             $consumer_key = trim($_POST['consumer_key']);
-            $wpdb->escape_by_ref($consumer_key);
         }
         if(isset($_POST['consumer_secret']))
         {
             $consumer_secret = trim($_POST['consumer_secret']);
-            $wpdb->escape_by_ref($consumer_secret);
         }
         if(isset($_POST['access_token']))
         {
             $access_token = trim($_POST['access_token']);
-            $wpdb->escape_by_ref($access_token);
         }
         if(isset($_POST['access_token_secret']))
         {
             $access_token_secret = trim($_POST['access_token_secret']);
-            $wpdb->escape_by_ref($access_token_secret);
         }
         if(isset($_POST['username']))
         {
             $username = trim($_POST['username']);
-            $wpdb->escape_by_ref($username);
         }
         if(isset($_POST['password']))
         {
             $password = trim($_POST['password']);
-            $wpdb->escape_by_ref($password);
+            if(in_array($account_type, $http_auth_sites))
+            {
+                $password = stripslashes($password);
+                $password = MicroblogPoster_SupportEnc::enc($password);
+                $extra['penc'] = 1;
+                $extra = json_encode($extra);
+                $wpdb->escape_by_ref($extra);
+            }
+            
         }
         if(isset($_POST['facebook_profile_url']))
         {
             $password = trim($_POST['facebook_profile_url']);
-            $wpdb->escape_by_ref($password);
+        }
+        if(isset($_POST['message_format']))
+        {
+            $message_format = trim($_POST['message_format']);
         }
         
         if($username)
@@ -114,47 +129,73 @@ function microblogposter_settings_output()
     if(isset($_POST["update_account_hidden"]))
     {
         
-        
         if(isset($_POST['account_id']))
         {
             $account_id = trim($_POST['account_id']);
-            $wpdb->escape_by_ref($account_id);
         }
+        $sql="SELECT * FROM $table_accounts WHERE account_id={$account_id} LIMIT 1";
+        $rows = $wpdb->get_results($sql);
+        $current_account = $rows[0];
+        
+        $extra = array();
+        if(isset($current_account->extra) && $current_account->extra)
+        {
+            $extra = json_decode($current_account->extra, true);
+        }
+        
         if(isset($_POST['account_type']))
         {
             $account_type = trim($_POST['account_type']);
-            $wpdb->escape_by_ref($account_type);
+        }
+        if($account_type=='delicious')
+        {
+            $extra['include_tags'] = 0;
+            if(isset($_POST['include_tags']) && trim($_POST['include_tags']) == '1')
+            {
+                $extra['include_tags'] = 1;
+            }
         }
         if(isset($_POST['consumer_key']))
         {
             $consumer_key = trim($_POST['consumer_key']);
-            $wpdb->escape_by_ref($consumer_key);
         }
         if(isset($_POST['consumer_secret']))
         {
             $consumer_secret = trim($_POST['consumer_secret']);
-            $wpdb->escape_by_ref($consumer_secret);
         }
         if(isset($_POST['access_token']))
         {
             $access_token = trim($_POST['access_token']);
-            $wpdb->escape_by_ref($access_token);
         }
         if(isset($_POST['access_token_secret']))
         {
             $access_token_secret = trim($_POST['access_token_secret']);
-            $wpdb->escape_by_ref($access_token_secret);
         }
         if(isset($_POST['username']))
         {
             $username = trim($_POST['username']);
-            $wpdb->escape_by_ref($username);
         }
         if(isset($_POST['password']))
         {
             $password = trim($_POST['password']);
-            $wpdb->escape_by_ref($password);
+            if(in_array($account_type, $http_auth_sites))
+            {
+                $password = stripslashes($password);
+                $password = MicroblogPoster_SupportEnc::enc($password);
+                $extra['penc'] = 1;
+                $extra = json_encode($extra);
+                $wpdb->escape_by_ref($extra);
+            }
         }
+        if(isset($_POST['facebook_profile_url']))
+        {
+            $password = trim($_POST['facebook_profile_url']);
+        }
+        if(isset($_POST['message_format']))
+        {
+            $message_format = trim($_POST['message_format']);
+        }
+        
         
         if($username)
         {
@@ -164,9 +205,13 @@ function microblogposter_settings_output()
                 consumer_key='{$consumer_key}',
                 consumer_secret='{$consumer_secret}',
                 access_token='{$access_token}',
-                access_token_secret='{$access_token_secret}'
-
-                WHERE account_id={$account_id}";
+                access_token_secret='{$access_token_secret}',
+                message_format='{$message_format}'";
+            if(in_array($account_type, $http_auth_sites))
+            {
+                $sql .= ", extra='{$extra}'";
+            }
+            $sql .= " WHERE account_id={$account_id}";
 
             $wpdb->query($sql);
         }
@@ -225,7 +270,6 @@ function microblogposter_settings_output()
                     parse_str($response, $params);
                     $account_details['access_token'] = $params['access_token'];
                     $account_details['expires'] = time()+$params['expires'];
-                    $account_details['expires_date'] = date('Y-m-d', $account_details['expires']);
 
 
                     $user_url = "https://graph.facebook.com/me?fields=id,first_name,last_name&access_token={$params['access_token']}";
@@ -237,6 +281,7 @@ function microblogposter_settings_output()
                     }
 
                     $account_details = json_encode($account_details);
+                    $wpdb->escape_by_ref($account_details);
                 }
 
                 $sql = "UPDATE {$table_accounts}
@@ -347,6 +392,19 @@ function microblogposter_settings_output()
                                 <input type="text" id="username" name="username" value="<?php echo $row->username;?>"/>
                             </div>
                             <div class="input-div">
+                                Message Format:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="message_format" name="message_format" value="<?php echo $row->message_format;?>"/>
+                                <span class="description">Message that's actually posted.</span>
+                            </div>
+                            <div class="input-div">
+
+                            </div>
+                            <div class="input-div-large">
+                                <span class="description-small">You can use shortcodes: {TITLE} = Title of the new blog post. {URL} = The blog post url. {SHORT_URL} = The blog post shortened url.</span>
+                            </div>
+                            <div class="input-div">
                                 Consumer Key:
                             </div>
                             <div class="input-div-large">
@@ -437,6 +495,19 @@ function microblogposter_settings_output()
                                 <input type="text" id="username" name="username" value="<?php echo $row->username;?>"/>
                             </div>
                             <div class="input-div">
+                                Message Format:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="message_format" name="message_format" value="<?php echo $row->message_format;?>"/>
+                                <span class="description">Message that's actually posted.</span>
+                            </div>
+                            <div class="input-div">
+
+                            </div>
+                            <div class="input-div-large">
+                                <span class="description-small">You can use shortcodes: {TITLE} = Title of the new blog post. {URL} = The blog post url. {SHORT_URL} = The blog post shortened url.</span>
+                            </div>
+                            <div class="input-div">
                                 Consumer Key:
                             </div>
                             <div class="input-div-large">
@@ -511,6 +582,7 @@ function microblogposter_settings_output()
         $rows = $wpdb->get_results($sql);
         foreach($rows as $row):
             $update_accounts[] = $row->account_id;
+            $is_raw = MicroblogPoster_SupportEnc::is_enc($row->extra);
         ?>
             <div style="display:none">
                 <div id="update_account<?php echo $row->account_id;?>">
@@ -530,7 +602,20 @@ function microblogposter_settings_output()
                                 Identi.ca Password:
                             </div>
                             <div class="input-div-large">
-                                <input type="text" id="" name="password" value="<?php echo $row->password;?>" />
+                                <input type="text" id="" name="password" value="<?php echo ($is_raw)? $row->password : MicroblogPoster_SupportEnc::dec($row->password);?>" />
+                            </div>
+                            <div class="input-div">
+                                Message Format:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="message_format" name="message_format" value="<?php echo $row->message_format;?>"/>
+                                <span class="description">Message that's actually posted.</span>
+                            </div>
+                            <div class="input-div">
+
+                            </div>
+                            <div class="input-div-large">
+                                <span class="description-small">You can use shortcodes: {TITLE} = Title of the new blog post. {URL} = The blog post url. {SHORT_URL} = The blog post shortened url.</span>
                             </div>
                         </div>
 
@@ -578,6 +663,7 @@ function microblogposter_settings_output()
         $rows = $wpdb->get_results($sql);
         foreach($rows as $row):
             $update_accounts[] = $row->account_id;
+            $is_raw = MicroblogPoster_SupportEnc::is_enc($row->extra);
         ?>
             <div style="display:none">
                 <div id="update_account<?php echo $row->account_id;?>">
@@ -594,10 +680,23 @@ function microblogposter_settings_output()
                                 <input type="text" id="" name="username" value="<?php echo $row->username;?>" />
                             </div>
                             <div class="input-div">
-                                FriendFeed Password:
+                                FriendFeed Remote Key:
                             </div>
                             <div class="input-div-large">
-                                <input type="text" id="" name="password" value="<?php echo $row->password;?>" />
+                                <input type="text" id="" name="password" value="<?php echo ($is_raw)? $row->password : MicroblogPoster_SupportEnc::dec($row->password);?>" />
+                            </div>
+                            <div class="input-div">
+                                Message Format:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="message_format" name="message_format" value="<?php echo $row->message_format;?>"/>
+                                <span class="description">Message that's actually posted.</span>
+                            </div>
+                            <div class="input-div">
+
+                            </div>
+                            <div class="input-div-large">
+                                <span class="description-small">You can use shortcodes: {TITLE} = Title of the new blog post.</span>
                             </div>
                         </div>
 
@@ -645,6 +744,12 @@ function microblogposter_settings_output()
         $rows = $wpdb->get_results($sql);
         foreach($rows as $row):
             $update_accounts[] = $row->account_id;
+            $is_raw = MicroblogPoster_SupportEnc::is_enc($row->extra);
+            $extra = json_decode($row->extra, true);
+            if(is_array($extra))
+            {
+                $include_tags = (isset($extra['include_tags']) && $extra['include_tags'] == 1)?true:false;
+            }
         ?>
             <div style="display:none">
                 <div id="update_account<?php echo $row->account_id;?>">
@@ -664,7 +769,27 @@ function microblogposter_settings_output()
                                 Delicious Password:
                             </div>
                             <div class="input-div-large">
-                                <input type="text" id="" name="password" value="<?php echo $row->password;?>" />
+                                <input type="text" id="" name="password" value="<?php echo ($is_raw)? $row->password : MicroblogPoster_SupportEnc::dec($row->password);?>" />
+                            </div>
+                            <div class="input-div">
+                                Message Format:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="message_format" name="message_format" value="<?php echo $row->message_format;?>"/>
+                                <span class="description">Message that's actually posted.</span>
+                            </div>
+                            <div class="input-div">
+
+                            </div>
+                            <div class="input-div-large">
+                                <span class="description-small">You can use shortcodes: {TITLE} = Title of the new blog post.</span>
+                            </div>
+                            <div class="input-div">
+                                Include tags:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="checkbox" id="include_tags" name="include_tags" value="1" <?php if ($include_tags) echo "checked";?>/>
+                                <span class="description">Do you want to include tags in the bookmarks?</span>
                             </div>
                         </div>
 
@@ -745,6 +870,19 @@ function microblogposter_settings_output()
                                 <span class="description">Your Facebook profile URL.</span>
                             </div>
                             <div class="input-div">
+                                Message Format:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="message_format" name="message_format" value="<?php echo $row->message_format;?>"/>
+                                <span class="description">Message that's actually posted.</span>
+                            </div>
+                            <div class="input-div">
+
+                            </div>
+                            <div class="input-div-large">
+                                <span class="description-small">You can use shortcodes: {TITLE} = Title of the new blog post. {URL} = The blog post url. {SHORT_URL} = The blog post shortened url.</span>
+                            </div>
+                            <div class="input-div">
                                 Application ID/API Key:
                             </div>
                             <div class="input-div-large">
@@ -793,7 +931,7 @@ function microblogposter_settings_output()
                 <span class="edit-account edit<?php echo $row->account_id;?>">Edit</span>
                 <span class="del-account del<?php echo $row->account_id;?>">Del</span>
                 <?php if(isset($fb_acc_extra['access_token']) && $fb_acc_extra['access_token']):?>
-                <div>Authorization is valid until <?php echo $fb_acc_extra['expires_date']; ?></div>
+                <div>Authorization is valid until <?php echo date('d-m-Y', $fb_acc_extra['expires']); ?></div>
                 <div><a href="<?php echo $authorize_url; ?>" >Refresh authorization now</a></div>
                 <?php else:?>
                 <div><a href="<?php echo $authorize_url; ?>" >Authorize this facebook account</a></div>
@@ -1000,6 +1138,13 @@ function microblogposter_settings_output()
             color: #2C2C2C;
             font-weight: bold;
         }
+        .description-small
+        {
+            font-family: sans-serif;
+            font-size: 10px;
+            font-style: italic;
+            color: #666666;
+        }
     </style>
     <div style="display:none">
         <div id="new_account">
@@ -1026,6 +1171,19 @@ function microblogposter_settings_output()
                     </div>
                     <div class="input-div-large">
                         <input type="text" id="username" name="username" />
+                    </div>
+                    <div class="input-div">
+                        Message Format:
+                    </div>
+                    <div class="input-div-large">
+                        <input type="text" id="message_format" name="message_format" />
+                        <span class="description">Message that's actually posted.</span>
+                    </div>
+                    <div class="input-div">
+                        
+                    </div>
+                    <div class="input-div-large">
+                        <span class="description-small">You can use shortcodes: {TITLE} = Title of the new blog post. {URL} = The blog post url. {SHORT_URL} = The blog post shortened url.</span>
                     </div>
                     <div class="input-div">
                         Consumer Key:
@@ -1063,6 +1221,19 @@ function microblogposter_settings_output()
                     </div>
                     <div class="input-div-large">
                         <input type="text" id="username" name="username" value="" />
+                    </div>
+                    <div class="input-div">
+                        Message Format:
+                    </div>
+                    <div class="input-div-large">
+                        <input type="text" id="message_format" name="message_format" />
+                        <span class="description">Message that's actually posted.</span>
+                    </div>
+                    <div class="input-div">
+                        
+                    </div>
+                    <div class="input-div-large">
+                        <span class="description-small">You can use shortcodes: {TITLE} = Title of the new blog post. {URL} = The blog post url. {SHORT_URL} = The blog post shortened url.</span>
                     </div>
                     <div class="input-div">
                         Consumer Key:
@@ -1106,8 +1277,22 @@ function microblogposter_settings_output()
                     <div class="input-div-large">
                         <input type="text" id="" name="password" value="" />
                     </div>
+                    <div class="input-div">
+                        Message Format:
+                    </div>
+                    <div class="input-div-large">
+                        <input type="text" id="message_format" name="message_format" />
+                        <span class="description">Message that's actually posted.</span>
+                    </div>
+                    <div class="input-div">
+                        
+                    </div>
+                    <div class="input-div-large">
+                        <span class="description-small">You can use shortcodes: {TITLE} = Title of the new blog post. {URL} = The blog post url. {SHORT_URL} = The blog post shortened url.</span>
+                    </div>
                 </div>
                 <div id="friendfeed-div" class="one-account">
+                    <div class="help-div"><span class="description">Help: <a href="http://wordpress.org/extend/plugins/microblog-poster/installation/" target="_blank">MicroblogPoster installation page</a></span></div>
                     <div class="input-div">
                         FriendFeed Username:
                     </div>
@@ -1120,6 +1305,19 @@ function microblogposter_settings_output()
                     <div class="input-div-large">
                         <input type="text" id="" name="password" value="" />
                         <span class="description">Your FriendFeed Remote Key not password.</span>
+                    </div>
+                    <div class="input-div">
+                        Message Format:
+                    </div>
+                    <div class="input-div-large">
+                        <input type="text" id="message_format" name="message_format" />
+                        <span class="description">Message that's actually posted.</span>
+                    </div>
+                    <div class="input-div">
+                        
+                    </div>
+                    <div class="input-div-large">
+                        <span class="description-small">You can use shortcodes: {TITLE} = Title of the new blog post.</span>
                     </div>
                 </div>
                 <div id="delicious-div" class="one-account">
@@ -1134,6 +1332,26 @@ function microblogposter_settings_output()
                     </div>
                     <div class="input-div-large">
                         <input type="text" id="" name="password" value="" />
+                    </div>
+                    <div class="input-div">
+                        Message Format:
+                    </div>
+                    <div class="input-div-large">
+                        <input type="text" id="message_format" name="message_format" />
+                        <span class="description">Message that's actually posted.</span>
+                    </div>
+                    <div class="input-div">
+                        
+                    </div>
+                    <div class="input-div-large">
+                        <span class="description-small">You can use shortcodes: {TITLE} = Title of the new blog post.</span>
+                    </div>
+                    <div class="input-div">
+                        Include tags:
+                    </div>
+                    <div class="input-div-large">
+                        <input type="checkbox" id="include_tags" name="include_tags" value="1"/>
+                        <span class="description">Do you want to include tags in the bookmarks?</span>
                     </div>
                 </div>
                 <div id="facebook-div" class="one-account">
@@ -1151,6 +1369,19 @@ function microblogposter_settings_output()
                     <div class="input-div-large">
                         <input type="text" id="" name="facebook_profile_url" value="" />
                         <span class="description">Your Facebook profile URL.</span>
+                    </div>
+                    <div class="input-div">
+                        Message Format:
+                    </div>
+                    <div class="input-div-large">
+                        <input type="text" id="message_format" name="message_format" />
+                        <span class="description">Message that's actually posted.</span>
+                    </div>
+                    <div class="input-div">
+                        
+                    </div>
+                    <div class="input-div-large">
+                        <span class="description-small">You can use shortcodes: {TITLE} = Title of the new blog post. {URL} = The blog post url. {SHORT_URL} = The blog post shortened url.</span>
                     </div>
                     <div class="input-div">
                         Application ID/API Key:
@@ -1193,7 +1424,7 @@ function microblogposter_settings_output()
                     'autoDimensions': false,
                     'width'		: 700,
                     'height'	: 400,
-                    'scrolling'	: 'no',
+                    'scrolling'	: 'auto',
                     'titleShow'	: false,
                     'onComplete'	: function() {
                         $('div#fancybox-content #plurk-div,div#fancybox-content #identica-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div').hide().find('input').attr('disabled','disabled');
@@ -1250,7 +1481,7 @@ function microblogposter_settings_output()
                         'autoDimensions': false,
                         'width'		: 700,
                         'height'	: 400,
-                        'scrolling'	: 'no',
+                        'scrolling'	: 'auto',
                         'titleShow'	: false
                     });
                 });

@@ -3,7 +3,7 @@
  *
  * Plugin Name: Microblog Poster
  * Description: Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Plurk, Identica, Delicious..
- * Version: 1.2.3
+ * Version: 1.2.4
  * Author: cybperic
  * Author URI: http://profiles.wordpress.org/users/cybperic/
  *
@@ -198,6 +198,10 @@ class MicroblogPoster_Poster
         $permalink = get_permalink($post_ID);
 	$update = $post_title . " $permalink";
         
+        $post_content = array();
+        $post_content[] = $post_title;
+        $post_content[] = $permalink;
+        
         $bitly_api = new MicroblogPoster_Bitly();
         $bitly_api_user_value = get_option("microblogposter_plg_bitly_api_user", "");
         $bitly_api_key_value = get_option("microblogposter_plg_bitly_api_key", "");
@@ -209,6 +213,7 @@ class MicroblogPoster_Poster
             {
                 $update = $post_title . " $shortened_permalink";
                 $permalink = $shortened_permalink;
+                $post_content[] = $shortened_permalink;
             }
         }
 	
@@ -224,21 +229,22 @@ class MicroblogPoster_Poster
         
         @ini_set('max_execution_time', '0');
         
-        MicroblogPoster_Poster::update_twitter($update);
-        MicroblogPoster_Poster::update_plurk($update);
-	MicroblogPoster_Poster::update_identica($update);
-	MicroblogPoster_Poster::update_delicious($post_title, $permalink, $tags);
-        MicroblogPoster_Poster::update_friendfeed($post_title, $permalink);
-        MicroblogPoster_Poster::update_facebook($update);
+        MicroblogPoster_Poster::update_twitter($update, $post_content);
+        MicroblogPoster_Poster::update_plurk($update, $post_content);
+	MicroblogPoster_Poster::update_identica($update, $post_content);
+	MicroblogPoster_Poster::update_delicious($post_title, $permalink, $tags, $post_content);
+        MicroblogPoster_Poster::update_friendfeed($post_title, $permalink, $post_content);
+        MicroblogPoster_Poster::update_facebook($update, $post_content);
     }
     
     /**
     * Updates status on twitter
     *
-    * @param   string  $update Text to be posted on microblogging site
-    * @return  void
+    * @param string  $update Text to be posted on microblogging site
+    * @param array $post_content
+    * @return void
     */
-    public static function update_twitter($update)
+    public static function update_twitter($update, $post_content)
     {   
         
         $twitter_accounts = MicroblogPoster_Poster::get_accounts('twitter');
@@ -247,14 +253,18 @@ class MicroblogPoster_Poster
         {
             foreach($twitter_accounts as $twitter_account)
             {
-               MicroblogPoster_Poster::send_signed_request(
+                if($twitter_account['message_format'])
+                {
+                    $update = str_ireplace(MicroblogPoster_Poster::get_shortcodes(), $post_content, $twitter_account['message_format']);
+                }
+                MicroblogPoster_Poster::send_signed_request(
                     $twitter_account['consumer_key'],
                     $twitter_account['consumer_secret'],
                     $twitter_account['access_token'],
                     $twitter_account['access_token_secret'],
                     "https://api.twitter.com/1/statuses/update.json",
                     array("status"=>$update)
-               ); 
+                ); 
             }
         }
         
@@ -263,10 +273,11 @@ class MicroblogPoster_Poster
     /**
     * Updates status on plurk
     *
-    * @param   string  $update Text to be posted on microblogging site
-    * @return  void
+    * @param string  $update Text to be posted on microblogging site
+    * @param array $post_content
+    * @return void
     */
-    public static function update_plurk($update)
+    public static function update_plurk($update, $post_content)
     {   
         
         $plurk_accounts = MicroblogPoster_Poster::get_accounts('plurk');
@@ -275,6 +286,10 @@ class MicroblogPoster_Poster
         {
             foreach($plurk_accounts as $plurk_account)
             {
+                if($plurk_account['message_format'])
+                {
+                    $update = str_ireplace(MicroblogPoster_Poster::get_shortcodes(), $post_content, $plurk_account['message_format']);
+                }
                 MicroblogPoster_Poster::send_signed_request(
                     $plurk_account['consumer_key'],
                     $plurk_account['consumer_secret'],
@@ -291,10 +306,11 @@ class MicroblogPoster_Poster
     /**
     * Updates status on identi.ca
     *
-    * @param   string  $update Text to be posted on microblogging site
-    * @return  void
+    * @param string  $update Text to be posted on microblogging site
+    * @param array $post_content
+    * @return void
     */
-    public static function update_identica($update)
+    public static function update_identica($update, $post_content)
     {
 	
         $curl = new MicroblogPoster_Curl();
@@ -305,6 +321,15 @@ class MicroblogPoster_Poster
             foreach($identica_accounts as $identica_account)
             {
                 
+                if($identica_account['message_format'])
+                {
+                    $update = str_ireplace(MicroblogPoster_Poster::get_shortcodes(), $post_content, $identica_account['message_format']);
+                }
+                $is_raw = MicroblogPoster_SupportEnc::is_enc($identica_account['extra']);
+                if(!$is_raw)
+                {
+                    $identica_account['password'] = MicroblogPoster_SupportEnc::dec($identica_account['password']);
+                }
                 $curl->set_credentials($identica_account['username'],$identica_account['password']);
 
                 $url = "http://identi.ca/api/statuses/update.json";
@@ -324,10 +349,11 @@ class MicroblogPoster_Poster
     *
     * @param   string  $title Text to be posted on microblogging site
     * @param   string  $link
-    * @param   string  $tags 
+    * @param   string  $tags
+    * @param array $post_content 
     * @return  void
     */
-    public static function update_delicious($title, $link, $tags)
+    public static function update_delicious($title, $link, $tags, $post_content)
     {
 	
         $curl = new MicroblogPoster_Curl();
@@ -337,6 +363,20 @@ class MicroblogPoster_Poster
         {
             foreach($delicious_accounts as $delicious_account)
             {
+                if($delicious_account['message_format'])
+                {
+                    $title = str_ireplace(array('{title}'), array($post_content[0]), $delicious_account['message_format']);
+                }
+                $is_raw = MicroblogPoster_SupportEnc::is_enc($delicious_account['extra']);
+                if(!$is_raw)
+                {
+                    $delicious_account['password'] = MicroblogPoster_SupportEnc::dec($delicious_account['password']);
+                }
+                $extra = json_decode($delicious_account['extra'], true);
+                if(is_array($extra))
+                {
+                    $include_tags = (isset($extra['include_tags']) && $extra['include_tags'] == 1)?true:false;
+                }
                 $curl->set_credentials($delicious_account['username'],$delicious_account['password']);
                 $curl->set_user_agent("Mozilla/6.0 (Windows NT 6.2; WOW64; rv:16.0.1) Gecko/20121011 Firefox/16.0.1");
 
@@ -344,8 +384,11 @@ class MicroblogPoster_Poster
                 $title = urlencode($title);
                 $tags = urlencode($tags);
 
-                $url = "https://api.del.icio.us/v1/posts/add?url=$link&description=$title&tags=$tags&shared=yes";
-
+                $url = "https://api.del.icio.us/v1/posts/add?url=$link&description=$title&shared=yes";
+                if($include_tags)
+                {
+                    $url .= "&tags=$tags";
+                }
                 $curl->fetch_url($url);
             }
         }
@@ -357,9 +400,10 @@ class MicroblogPoster_Poster
     *
     * @param   string  $title Text to be posted on microblogging site
     * @param   string  $link
+    * @param   array $post_content
     * @return  void
     */
-    public static function update_friendfeed($title, $link)
+    public static function update_friendfeed($title, $link, $post_content)
     {
 	
 	$curl = new MicroblogPoster_Curl();
@@ -369,6 +413,15 @@ class MicroblogPoster_Poster
         {
             foreach($friendfeed_accounts as $friendfeed_account)
             {
+                if($friendfeed_account['message_format'])
+                {
+                    $title = str_ireplace(array('{title}'), array($post_content[0]), $friendfeed_account['message_format']);
+                }
+                $is_raw = MicroblogPoster_SupportEnc::is_enc($friendfeed_account['extra']);
+                if(!$is_raw)
+                {
+                    $friendfeed_account['password'] = MicroblogPoster_SupportEnc::dec($friendfeed_account['password']);
+                }
                 $curl->set_credentials($friendfeed_account['username'],$friendfeed_account['password']);
 	
                 $url = "http://friendfeed-api.com/v2/entry";
@@ -387,10 +440,11 @@ class MicroblogPoster_Poster
     /**
     * Updates status on facebook
     *
-    * @param   string  $update Text to be posted on microblogging site
-    * @return  void
+    * @param string  $update Text to be posted on microblogging site
+    * @param array $post_content 
+    * @return void
     */
-    public static function update_facebook($update)
+    public static function update_facebook($update, $post_content)
     {
         
         $curl = new MicroblogPoster_Curl();
@@ -405,6 +459,10 @@ class MicroblogPoster_Poster
                     continue;
                 }
                 
+                if($facebook_account['message_format'])
+                {
+                    $update = str_ireplace(MicroblogPoster_Poster::get_shortcodes(), $post_content, $facebook_account['message_format']);
+                }
                 $extra = json_decode($facebook_account['extra'], true);
                 
                 if(isset($extra['user_id']) && isset($extra['access_token']))
@@ -492,6 +550,63 @@ class MicroblogPoster_Poster
         return $rows;
     }
     
+    /**
+    * 
+    * get_shortcodes
+    * 
+    * @return  array
+    */
+    private static function get_shortcodes()
+    {
+        return array('{title}', '{url}', '{short_url}');
+    }
+    
+}
+
+class MicroblogPoster_SupportEnc
+{
+    /**
+    * Encodes the given string
+    * 
+    * @param string $str
+    * @return  string
+    */
+    public static function enc($str)
+    {
+        $str = 'microblogposter_'.$str;
+        $str = base64_encode($str);
+        return $str;
+    }
+    
+    /**
+    * Decodes the given string
+    * 
+    * @param string $str
+    * @return  string
+    */
+    public static function dec($str)
+    {
+        $str = base64_decode($str);
+        $str = str_replace('microblogposter_', '', $str);
+        return $str;
+    }
+    
+    /**
+    * Checks if enc
+    * 
+    * @param string $e
+    * @return  bool
+    */
+    public static function is_enc($e)
+    {
+        $is_raw = true;
+        $extra = json_decode($e, true);
+        if(is_array($extra))
+        {
+            $is_raw = (isset($extra['penc']) && $extra['penc'] == 1)?false:true;
+        }
+        return $is_raw;
+    }
 }
 
 register_activation_hook(__FILE__, array('MicroblogPoster_Poster', 'activate'));
