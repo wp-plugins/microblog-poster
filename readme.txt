@@ -9,10 +9,9 @@ Automatically publishes your new blog content to Social Networks. Auto-updates T
 
 == Description ==
 
-**Automatically updates your microblogs and bookmarking profiles** for each new blog post. Possibility to nicely format the
-update message per account, **shortcodes supported**.
-
+**Automatically updates your microblogs and bookmarking profiles** for each new blog post.
 You only have to configure your social network accounts. **Multiple Accounts per site supported.**
+Possibility to nicely format the update message per account, **shortcodes supported**.
 
 **Currently supported microblogging/bookmarking sites**
 
@@ -127,8 +126,10 @@ It's most likely the same as for twitter, you'll need some more effort in order 
 **facebook.com accounts**
 
 
-    1. Please go at this url https://developers.facebook.com/apps and click on 'Create New App'.
-    Note: If you can't click on 'Create New App', you need first to 'Register as a Developer'.
+    1. Please go at this url https://developers.facebook.com/apps 
+    and click on 'Create New App'.
+    Note: If you can't click on 'Create New App', you need first 
+    to 'Register as a Developer'.
     Then the creation of new app will be available.
 
     2. Fill in the 'App name' and click continue.
@@ -136,14 +137,18 @@ It's most likely the same as for twitter, you'll need some more effort in order 
     3. Enter the required captcha challenge.
 
     4. Once on the basic settings of your new app, 
-    for the field 'App Domains' enter your blog domain name (example: mydomain.com)
-    In the field 'Website with facebook login' enter your blog url. (example: http://mydomain.com)
+    for the field 'App Domains' enter your blog domain name 
+    (example: mydomain.com)
+    In the field 'Website with facebook login' enter your blog url.
+    (example: http://mydomain.com)
     Sandbox mode should be disabled.
     Save changes.
 
-    5. Copy your 'App ID' and 'App Secret' and configure a facebook account on MicroblogPoster plugin.
+    5. Copy your 'App ID' and 'App Secret' and configure a facebook account
+    on MicroblogPoster plugin.
 
-    6. Follow the link provided by MicroblogPoster to authorize your App to post on your behalf.
+    6. Follow the link provided by MicroblogPoster to authorize your App 
+    to post on your behalf.
 
 
 **friendfeed.com accounts**
