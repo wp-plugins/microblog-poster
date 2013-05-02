@@ -103,7 +103,7 @@ It's most likely the same as for twitter, you'll need some more effort in order 
     For App Type, choose 'Third-party web site integration'. 
     For App website you can put http://localhost
 
-    2. Once you're back on 'My Plurk Apps' page, click on edit button 
+    2. Once you're back on 'My Plurk Apps' page, click the edit button 
     and get your *App Key and App Secret*.
 
     3. Not finished yet, you need the second pair of credentials. 
