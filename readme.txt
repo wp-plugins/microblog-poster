@@ -160,7 +160,6 @@ Instead of the password the friendfeed API requires the remote key to let you po
     https://friendfeed.com/account/api (you need to be logged in).
 
 
-
 == Upgrade Notice ==
 
 Deactivate/Activate MicroblogPoster plugin.
