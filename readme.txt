@@ -16,7 +16,7 @@ Possibility to nicely format the update message per account, **shortcodes suppor
 **Currently supported microblogging/bookmarking sites**
 
 * twitter.com - Auto tweets backlink of new blogpost.
-* facebook.com - Auto updates your status.
+* facebook.com - Auto updates your status with backlink.
 * plurk.com - Auto posts new plurk.
 * identi.ca - Auto submits new message.
 * delicious.com - Auto submits bookmark of your blogpost to your account.
