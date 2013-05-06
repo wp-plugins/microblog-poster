@@ -148,7 +148,7 @@ It's most likely the same as for twitter, you'll need some more effort in order 
     on MicroblogPoster plugin.
 
     6. Follow the link provided by MicroblogPoster to authorize your App 
-    to post on your behalf.
+    posting on your behalf.
 
 
 **friendfeed.com accounts**
