@@ -125,6 +125,8 @@ It's most likely the same as for twitter, you'll need some more effort in order 
 
 **facebook.com accounts**
 
+Please note that only real personal facebook accounts have permissions to create an App.
+Business accounts can't manage facebook Apps.
 
     1. Please go at this url https://developers.facebook.com/apps 
     and click on 'Create New App'.
