@@ -21,6 +21,7 @@ function microblogposter_settings_output()
 {
     global  $wpdb;
 
+    
     $table_accounts = $wpdb->prefix . 'microblogposter_accounts';
     
     //Options names
