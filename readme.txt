@@ -18,7 +18,7 @@ Possibility to nicely format the update message per account, **shortcodes suppor
 * twitter.com - Auto tweets backlink of new blogpost.
 * facebook.com - Auto updates your status with backlink.
 * plurk.com - Auto posts new plurk.
-* identi.ca - Auto submits new message.
+* identi.ca - Auto publishes new message.
 * delicious.com - Auto submits bookmark of your blogpost to your account.
 * friendfeed.com - Auto updates your status.
 
@@ -146,7 +146,7 @@ Business accounts can't manage facebook Apps.
     Sandbox mode should be disabled.
     Save changes.
 
-    5. Copy your 'App ID' and 'App Secret' and configure a facebook account
+    5. Copy your 'App ID' and 'App Secret' and configure your facebook account
     on MicroblogPoster plugin.
 
     6. Follow the link provided by MicroblogPoster to authorize your App 
