@@ -66,7 +66,7 @@ see "posted by MicroblogPoster" in your updates, you'll see "posted by your own 
 * Upload the contents of the microblogposter folder to your /wp-content/plugins/ folder.
 * Activate the plugin through the 'Plugins' menu in WordPress
 * Settings->MicroblogPoster, Configure your social network accounts.
-* The plugin is ready, it'll automatically cross-posts whenever you publish a new blog post.
+* The plugin is ready, it will automatically cross-posts whenever you publish a new blog post.
 
 
 **twitter.com accounts**
