@@ -119,7 +119,7 @@ It's most likely the same as for twitter, you'll need some more effort in order 
     'Get Access Token' and by providing the verification code.
 
     6. Now you can copy your token key and token secret. 
-    Coupled with the App key and App secret you got previously 
+    Coupled with the App key and App secret you've got previously 
     you can configure your plurk.com account on MicroblogPoster plugin.
 
 
