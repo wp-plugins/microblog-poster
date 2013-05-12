@@ -31,9 +31,11 @@ see "posted by MicroblogPoster" in your updates, you'll see "posted by your own 
 
 == Screenshots ==
 
-1. MicroblogPoster Options page, Social Network Accounts.
+1. MicroblogPoster Options page, General section.
 
-2. MicroblogPoster Options page, General section.
+2. MicroblogPoster Options page, Social Network Accounts.
+
+3. MicroblogPoster Options page, Logs section.
 
 == Changelog ==
 
