@@ -3,7 +3,7 @@
  *
  * Plugin Name: Microblog Poster
  * Description: Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Plurk, Identica, Delicious..
- * Version: 1.2.4
+ * Version: 1.2.5
  * Author: cybperic
  * Author URI: http://profiles.wordpress.org/users/cybperic/
  *
@@ -30,6 +30,7 @@ class MicroblogPoster_Poster
         global  $wpdb;
         
         $table_accounts = $wpdb->prefix . 'microblogposter_accounts';
+        $table_logs = $wpdb->prefix . 'microblogposter_logs';
         
         $sql = "CREATE TABLE IF NOT EXISTS {$table_accounts} (
             account_id int(11) NOT NULL AUTO_INCREMENT,
@@ -46,6 +47,22 @@ class MicroblogPoster_Poster
             UNIQUE username_type (username,type)
 	)";
 	
+        $wpdb->query($sql);
+        
+        $sql = "CREATE TABLE IF NOT EXISTS {$table_logs} (
+            log_id int(11) NOT NULL AUTO_INCREMENT,
+            account_id int(11) NOT NULL,
+            account_type varchar(100) NOT NULL DEFAULT '',
+            username varchar(200) NOT NULL DEFAULT '',
+            post_id bigint UNSIGNED NOT NULL,
+            action_result tinyint NOT NULL,
+            update_message text,
+            log_type varchar(50) NOT NULL DEFAULT 'regular',
+            log_message text,
+            log_datetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY (log_id)
+        )";
+        
         $wpdb->query($sql);
         
         //twitter
@@ -229,12 +246,14 @@ class MicroblogPoster_Poster
         
         @ini_set('max_execution_time', '0');
         
-        MicroblogPoster_Poster::update_twitter($update, $post_content);
-        MicroblogPoster_Poster::update_plurk($update, $post_content);
-	MicroblogPoster_Poster::update_identica($update, $post_content);
-	MicroblogPoster_Poster::update_delicious($post_title, $permalink, $tags, $post_content);
-        MicroblogPoster_Poster::update_friendfeed($post_title, $permalink, $post_content);
-        MicroblogPoster_Poster::update_facebook($update, $post_content);
+        MicroblogPoster_Poster::update_twitter($update, $post_content, $post_ID);
+        MicroblogPoster_Poster::update_plurk($update, $post_content, $post_ID);
+	MicroblogPoster_Poster::update_identica($update, $post_content, $post_ID);
+	MicroblogPoster_Poster::update_delicious($post_title, $permalink, $tags, $post_content, $post_ID);
+        MicroblogPoster_Poster::update_friendfeed($post_title, $permalink, $post_content, $post_ID);
+        MicroblogPoster_Poster::update_facebook($update, $post_content, $post_ID);
+        
+        MicroblogPoster_Poster::maintain_logs();
     }
     
     /**
@@ -244,7 +263,7 @@ class MicroblogPoster_Poster
     * @param array $post_content
     * @return void
     */
-    public static function update_twitter($update, $post_content)
+    public static function update_twitter($update, $post_content, $post_ID)
     {   
         
         $twitter_accounts = MicroblogPoster_Poster::get_accounts('twitter');
@@ -257,14 +276,32 @@ class MicroblogPoster_Poster
                 {
                     $update = str_ireplace(MicroblogPoster_Poster::get_shortcodes(), $post_content, $twitter_account['message_format']);
                 }
-                MicroblogPoster_Poster::send_signed_request(
+                $result = MicroblogPoster_Poster::send_signed_request(
                     $twitter_account['consumer_key'],
                     $twitter_account['consumer_secret'],
                     $twitter_account['access_token'],
                     $twitter_account['access_token_secret'],
                     "https://api.twitter.com/1/statuses/update.json",
                     array("status"=>$update)
-                ); 
+                );
+                
+                $action_result = 2;
+                $result_dec = json_decode($result, true);
+                if($result_dec && isset($result_dec['id']))
+                {
+                    $action_result = 1;
+                    $result = "Success";
+                }
+                
+                $log_data = array();
+                $log_data['account_id'] = $twitter_account['account_id'];
+                $log_data['account_type'] = "twitter";
+                $log_data['username'] = $twitter_account['username'];
+                $log_data['post_id'] = $post_ID;
+                $log_data['action_result'] = $action_result;
+                $log_data['update_message'] = $update;
+                $log_data['log_message'] = $result;
+                MicroblogPoster_Poster::insert_log($log_data);
             }
         }
         
@@ -277,7 +314,7 @@ class MicroblogPoster_Poster
     * @param array $post_content
     * @return void
     */
-    public static function update_plurk($update, $post_content)
+    public static function update_plurk($update, $post_content, $post_ID)
     {   
         
         $plurk_accounts = MicroblogPoster_Poster::get_accounts('plurk');
@@ -290,7 +327,7 @@ class MicroblogPoster_Poster
                 {
                     $update = str_ireplace(MicroblogPoster_Poster::get_shortcodes(), $post_content, $plurk_account['message_format']);
                 }
-                MicroblogPoster_Poster::send_signed_request(
+                $result = MicroblogPoster_Poster::send_signed_request(
                     $plurk_account['consumer_key'],
                     $plurk_account['consumer_secret'],
                     $plurk_account['access_token'],
@@ -298,6 +335,24 @@ class MicroblogPoster_Poster
                     "http://www.plurk.com/APP/Timeline/plurkAdd",
                     array("content"=>$update, "qualifier"=>"says")
                 );
+                
+                $action_result = 2;
+                $result_dec = json_decode($result, true);
+                if($result_dec && isset($result_dec['plurk_id']))
+                {
+                    $action_result = 1;
+                    $result = "Success";
+                }
+                
+                $log_data = array();
+                $log_data['account_id'] = $plurk_account['account_id'];
+                $log_data['account_type'] = "plurk";
+                $log_data['username'] = $plurk_account['username'];
+                $log_data['post_id'] = $post_ID;
+                $log_data['action_result'] = $action_result;
+                $log_data['update_message'] = $update;
+                $log_data['log_message'] = $result;
+                MicroblogPoster_Poster::insert_log($log_data);
             }
         }
         
@@ -310,7 +365,7 @@ class MicroblogPoster_Poster
     * @param array $post_content
     * @return void
     */
-    public static function update_identica($update, $post_content)
+    public static function update_identica($update, $post_content, $post_ID)
     {
 	
         $curl = new MicroblogPoster_Curl();
@@ -337,7 +392,19 @@ class MicroblogPoster_Poster
                     'status' => $update
                 );
 
-                $curl->send_post_data($url, $post_args);
+                $result = $curl->send_post_data($url, $post_args);
+                
+                $action_result = 0;
+                
+                $log_data = array();
+                $log_data['account_id'] = $identica_account['account_id'];
+                $log_data['account_type'] = "identica";
+                $log_data['username'] = $identica_account['username'];
+                $log_data['post_id'] = $post_ID;
+                $log_data['action_result'] = $action_result;
+                $log_data['update_message'] = $update;
+                $log_data['log_message'] = $result;
+                MicroblogPoster_Poster::insert_log($log_data);
             }
         }
         
@@ -353,7 +420,7 @@ class MicroblogPoster_Poster
     * @param array $post_content 
     * @return  void
     */
-    public static function update_delicious($title, $link, $tags, $post_content)
+    public static function update_delicious($title, $link, $tags, $post_content, $post_ID)
     {
 	
         $curl = new MicroblogPoster_Curl();
@@ -380,16 +447,35 @@ class MicroblogPoster_Poster
                 $curl->set_credentials($delicious_account['username'],$delicious_account['password']);
                 $curl->set_user_agent("Mozilla/6.0 (Windows NT 6.2; WOW64; rv:16.0.1) Gecko/20121011 Firefox/16.0.1");
 
-                $link=urlencode($link);
-                $title = urlencode($title);
-                $tags = urlencode($tags);
+                $link_enc=urlencode($link);
+                $title_enc = urlencode($title);
+                $tags_enc = urlencode($tags);
+                $update_message = $title." - ".$link;
 
-                $url = "https://api.del.icio.us/v1/posts/add?url=$link&description=$title&shared=yes";
+                $url = "https://api.del.icio.us/v1/posts/add?url=$link_enc&description=$title_enc&shared=yes";
                 if($include_tags)
                 {
-                    $url .= "&tags=$tags";
+                    $url .= "&tags=$tags_enc";
+                    $update_message .= " ($tags)";
                 }
-                $curl->fetch_url($url);
+                $result = $curl->fetch_url($url);
+                
+                $action_result = 2;
+                if($result && stripos($result, 'code="done"')!==false)
+                {
+                    $action_result = 1;
+                    $result = "Success";
+                }
+                
+                $log_data = array();
+                $log_data['account_id'] = $delicious_account['account_id'];
+                $log_data['account_type'] = "delicious";
+                $log_data['username'] = $delicious_account['username'];
+                $log_data['post_id'] = $post_ID;
+                $log_data['action_result'] = $action_result;
+                $log_data['update_message'] = $update_message;
+                $log_data['log_message'] = $result;
+                MicroblogPoster_Poster::insert_log($log_data);
             }
         }
         
@@ -403,7 +489,7 @@ class MicroblogPoster_Poster
     * @param   array $post_content
     * @return  void
     */
-    public static function update_friendfeed($title, $link, $post_content)
+    public static function update_friendfeed($title, $link, $post_content, $post_ID)
     {
 	
 	$curl = new MicroblogPoster_Curl();
@@ -430,7 +516,27 @@ class MicroblogPoster_Poster
                     'link' => $link
                 );
 
-                $curl->send_post_data($url, $post_args);
+                $result = $curl->send_post_data($url, $post_args);
+                
+                $update_message = $title." - ".$link;
+                
+                $action_result = 2;
+                $result_dec = json_decode($result, true);
+                if($result_dec && isset($result_dec['id']))
+                {
+                    $action_result = 1;
+                    $result = "Success";
+                }
+                
+                $log_data = array();
+                $log_data['account_id'] = $friendfeed_account['account_id'];
+                $log_data['account_type'] = "friendfeed";
+                $log_data['username'] = $friendfeed_account['username'];
+                $log_data['post_id'] = $post_ID;
+                $log_data['action_result'] = $action_result;
+                $log_data['update_message'] = $update_message;
+                $log_data['log_message'] = $result;
+                MicroblogPoster_Poster::insert_log($log_data);
             }
             
         }
@@ -444,7 +550,7 @@ class MicroblogPoster_Poster
     * @param array $post_content 
     * @return void
     */
-    public static function update_facebook($update, $post_content)
+    public static function update_facebook($update, $post_content, $post_ID)
     {
         
         $curl = new MicroblogPoster_Curl();
@@ -475,18 +581,24 @@ class MicroblogPoster_Poster
                     );
 
                     $result = $curl->send_post_data($url, $post_args);
-                    $result = json_decode($result, true);
-                    if(!isset($result['id']))
+                    $result_dec = json_decode($result, true);
+                    
+                    $action_result = 2;
+                    if($result_dec && isset($result_dec['id']))
                     {
-                        global  $wpdb;
-                        $table_accounts = $wpdb->prefix . 'microblogposter_accounts';
-                        
-                        $sql = "UPDATE {$table_accounts}
-                            SET extra=''
-                            WHERE account_id={$facebook_account['account_id']}";
-
-                        $wpdb->query($sql);
+                        $action_result = 1;
+                        $result = "Success";
                     }
+
+                    $log_data = array();
+                    $log_data['account_id'] = $facebook_account['account_id'];
+                    $log_data['account_type'] = "facebook";
+                    $log_data['username'] = $facebook_account['username'];
+                    $log_data['post_id'] = $post_ID;
+                    $log_data['action_result'] = $action_result;
+                    $log_data['update_message'] = $update;
+                    $log_data['log_message'] = $result;
+                    MicroblogPoster_Poster::insert_log($log_data);
                 }
                 
             }
@@ -527,8 +639,8 @@ class MicroblogPoster_Poster
         }
         
         $curl = new MicroblogPoster_Curl();
-        $curl->send_post_data($url, $parameters);
-        return;
+        $result = $curl->send_post_data($url, $parameters);
+        return $result;
     
     }
     
@@ -548,6 +660,59 @@ class MicroblogPoster_Poster
         $rows = $wpdb->get_results($sql, ARRAY_A);
         
         return $rows;
+    }
+    
+    /**
+    * Insert new log into db
+    *
+    * @param   array  $log_data Log message
+    * @return  bool
+    */
+    private static function insert_log($log_data)
+    {
+        global  $wpdb;
+
+        $table_logs = $wpdb->prefix . 'microblogposter_logs';
+        
+        $wpdb->escape_by_ref($log_data['log_message']);
+        $wpdb->escape_by_ref($log_data['update_message']);
+        $wpdb->escape_by_ref($log_data['username']);
+        
+        $sql="INSERT INTO $table_logs (account_id, account_type, username, post_id, action_result, update_message, log_message) 
+            VALUES ('{$log_data['account_id']}','{$log_data['account_type']}','{$log_data['username']}','{$log_data['post_id']}','{$log_data['action_result']}','{$log_data['update_message']}','{$log_data['log_message']}')";
+        $wpdb->query($sql);
+        
+        return true;
+    }
+    
+    /**
+    * Keeps logs table under 2000 rows
+    *
+    * @return  void
+    */
+    private static function maintain_logs()
+    {
+        global  $wpdb;
+
+        $table_logs = $wpdb->prefix . 'microblogposter_logs';
+        
+        $sql="SELECT log_id FROM $table_logs ORDER BY log_id DESC LIMIT 2000";
+        $rows = $wpdb->get_results($sql);
+        if(is_array($rows) && count($rows)==2000)
+        {
+            $log_ids = "(";
+            foreach($rows as $row)
+            {
+                $log_ids .= $row->log_id.",";
+            }
+            $log_ids = rtrim($log_ids, ",");
+            $log_ids .= ")";
+            
+            $sql="DELETE FROM {$table_logs} WHERE log_id NOT IN {$log_ids}";
+            $wpdb->query($sql);
+        }
+        
+        return true;
     }
     
     /**
@@ -618,6 +783,14 @@ function microblogposter_meta()
 {
     $default_behavior_name = "microblogposter_default_behavior";
     $default_behavior_value = get_option($default_behavior_name, "");
+    $default_behavior_update_name = "microblogposter_default_behavior_update";
+    $default_behavior_update_value = get_option($default_behavior_update_name, "");
+    
+    $screen = get_current_screen();
+    if($screen->action != 'add')
+    {
+        $default_behavior_value = $default_behavior_update_value;
+    }
     ?>
     <input type="checkbox" id="microblogposteroff" name="microblogposteroff" <?php if($default_behavior_value) echo 'checked="checked"';?> /> 
     <label for="microblogposteroff">Disable Microblog Poster this time?</label>
