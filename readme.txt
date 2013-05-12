@@ -1,25 +1,27 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmark, auto post, cross-post, cross post, auto submit, auto update, social, social networks, twitter, facebook, delicious, plurk, friendfeed, identica, automatic, links, backlinks, shortcodes
+Tags: microblogging, bookmarking, bookmark, auto post, auto publish, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, delicious, plurk, friendfeed, identica, automatic, links, backlinks, shortcodes, auto update status, update status
 Requires at least: 3.0
 Tested up to: 3.5.1
-Stable tag: 1.2.4
+Stable tag: 1.2.5
 
 Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Plurk, Identica, Delicious..
 
 == Description ==
 
-**Automatically updates your microblogs and bookmarking profiles** with 'blogpost title + shortened backlink' of your new blogpost.
-PHP 5 required.
+**Automatically updates your microblogs and bookmarking profiles** for each new blog post.
+You only have to configure your social network accounts. **Multiple Accounts per social site supported.**
+Possibility to nicely format the update message per account, **shortcodes supported**.
 
-You only have to configure your social network accounts. **Multiple Accounts per site supported.**
+**Logs are now available** for each new blog post, per configured social network account.
+Easily follow the automated posting process from **MicroblogPoster**'s logs section and debug your configuration if necessary.
 
 **Currently supported microblogging/bookmarking sites**
 
 * twitter.com - Auto tweets backlink of new blogpost.
-* facebook.com - Auto updates your status.
+* facebook.com - Auto updates your status with backlink.
 * plurk.com - Auto posts new plurk.
-* identi.ca - Auto submits new message.
+* identi.ca - Auto publishes new message.
 * delicious.com - Auto submits bookmark of your blogpost to your account.
 * friendfeed.com - Auto updates your status.
 
@@ -34,6 +36,13 @@ see "posted by MicroblogPoster" in your updates, you'll see "posted by your own 
 2. MicroblogPoster Options page, General section.
 
 == Changelog ==
+
+= 1.2.5 (12-05-2013) =
+- Logs are now generated for each new blog post per social account.
+- Tabified the plugin settings page, added logs section.
+- Added option for default post update behavior.
+- Facebook account authorization process improved.
+- Fixed several small bugs.
 
 = 1.2.4 (28-04-2013) =
 - Possibility to format the message that's posted, shortcodes support.
@@ -67,12 +76,12 @@ see "posted by MicroblogPoster" in your updates, you'll see "posted by your own 
 * Upload the contents of the microblogposter folder to your /wp-content/plugins/ folder.
 * Activate the plugin through the 'Plugins' menu in WordPress
 * Settings->MicroblogPoster, Configure your social network accounts.
-* The plugin is ready, it'll automatically cross-posts whenever you publish a new blog post.
+* The plugin is ready, it will automatically cross posts whenever you publish a new blog post.
 
 
 **twitter.com accounts**
 
-Basically your twitter username/password won't suffice in order to post automatic updates, twitter api requires some more steps described below.
+Basically your twitter username and password won't suffice in order to post automatic updates, twitter api requires some more steps described below.
 No worries, it's rather a simple procedure.
 
 
@@ -104,7 +113,7 @@ It's most likely the same as for twitter, you'll need some more effort in order 
     For App Type, choose 'Third-party web site integration'. 
     For App website you can put http://localhost
 
-    2. Once you're back on 'My Plurk Apps' page, click on edit button 
+    2. Once you're back on 'My Plurk Apps' page, click the edit button 
     and get your *App Key and App Secret*.
 
     3. Not finished yet, you need the second pair of credentials. 
@@ -120,15 +129,19 @@ It's most likely the same as for twitter, you'll need some more effort in order 
     'Get Access Token' and by providing the verification code.
 
     6. Now you can copy your token key and token secret. 
-    Coupled with the App key and App secret you got previously 
+    Coupled with the App key and App secret you've got previously 
     you can configure your plurk.com account on MicroblogPoster plugin.
 
 
 **facebook.com accounts**
 
+Please note that only real personal facebook accounts have permissions to create an App.
+Business accounts can't manage facebook Apps.
 
-    1. Please go at this url https://developers.facebook.com/apps and click on 'Create New App'.
-    Note: If you can't click on 'Create New App', you need first to 'Register as a Developer'.
+    1. Please go at this url https://developers.facebook.com/apps 
+    and click on 'Create New App'.
+    Note: If you can't click on 'Create New App', you need first 
+    to 'Register as a Developer'.
     Then the creation of new app will be available.
 
     2. Fill in the 'App name' and click continue.
@@ -136,14 +149,18 @@ It's most likely the same as for twitter, you'll need some more effort in order 
     3. Enter the required captcha challenge.
 
     4. Once on the basic settings of your new app, 
-    for the field 'App Domains' enter your blog domain name (example: mydomain.com)
-    In the field 'Website with facebook login' enter your blog url. (example: http://mydomain.com)
+    for the field 'App Domains' enter your blog domain name 
+    (example: mydomain.com)
+    In the field 'Website with facebook login' enter your blog url.
+    (example: http://mydomain.com)
     Sandbox mode should be disabled.
     Save changes.
 
-    5. Copy your 'App ID' and 'App Secret' and configure a facebook account on MicroblogPoster plugin.
+    5. Copy your 'App ID' and 'App Secret' and configure your facebook account
+    on MicroblogPoster plugin.
 
-    6. Follow the link provided by MicroblogPoster to authorize your App to post on your behalf.
+    6. Follow the link provided by MicroblogPoster to authorize your App 
+    posting on your behalf.
 
 
 **friendfeed.com accounts**
@@ -152,7 +169,7 @@ It's most likely the same as for twitter, you'll need some more effort in order 
 Instead of the password the friendfeed API requires the remote key to let you post with it.
 
     1. You can find your remote key associated with your account at this url:
-    https://friendfeed.com/account/api (need to be logged in).
+    https://friendfeed.com/account/api (you need to be logged in).
 
 
 == Upgrade Notice ==
