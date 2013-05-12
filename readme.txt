@@ -13,7 +13,7 @@ Automatically publishes your new blog content to Social Networks. Auto-updates T
 You only have to configure your social network accounts. **Multiple Accounts per social site supported.**
 Possibility to nicely format the update message per account, **shortcodes supported**.
 
-**Logs are now available** for each new blog post, per configured social network account.
+**Logs are now generated** on new blog post for each configured social network account.
 Easily follow the automated posting process from **MicroblogPoster**'s logs section and debug your configuration if necessary.
 
 **Currently supported microblogging/bookmarking sites**
