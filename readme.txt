@@ -146,7 +146,7 @@ Business accounts can't manage facebook Apps.
     to 'Register as a Developer'.
     Then the creation of new app will be available.
 
-    2. Fill in the 'App name' and click continue.
+    2. Fill in your 'App name' and click continue.
 
     3. Enter the required captcha challenge.
 
