@@ -90,7 +90,7 @@ No worries, it's rather a simple procedure.
     1. In order to post updates through the twitter API you'll need first
     to create your own twitter App here: https://dev.twitter.com/apps
     
-    2. Once you've created the twitter app you have to change its access level
+    2. Once you've created your twitter app you have to change its access level
     to be Read and Write. 
     Browse to Settings tab and check the Access level to be Read and Write,
     save your new settings.
