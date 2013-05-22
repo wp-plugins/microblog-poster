@@ -83,7 +83,7 @@ see "posted by MicroblogPoster" in your updates, you'll see "posted by your own 
 
 **twitter.com accounts**
 
-Basically your twitter username/password won't suffice in order to post automatic updates, twitter api requires some more steps described below.
+Basically your twitter username and password won't suffice in order to post automatic updates, twitter api requires some more steps described below.
 No worries, it's rather a simple procedure.
 
 
