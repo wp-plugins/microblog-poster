@@ -132,7 +132,7 @@ It's most likely the same as for twitter, you'll need some more effort in order 
 
     6. Now you can copy your token key and token secret. 
     Coupled with the App key and App secret you've got previously 
-    you can configure your plurk.com account on MicroblogPoster plugin.
+    you can configure your plurk account on MicroblogPoster plugin.
 
 
 **facebook.com accounts**
