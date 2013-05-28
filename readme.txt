@@ -83,7 +83,7 @@ see "posted by MicroblogPoster" in your updates, you'll see "posted by your own 
 * The plugin is ready, it will automatically cross posts whenever you publish a new blog post.
 
 
-**twitter.com accounts**
+**twitter.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/twitterhelp "Twitter help with screenshots.")
 
 Basically your twitter username and password won't suffice in order to post automatic updates, twitter api requires some more steps described below.
 No worries, it's rather a simple procedure.
@@ -107,7 +107,7 @@ No worries, it's rather a simple procedure.
     please refresh the details tab page.
 
 
-**plurk.com accounts**
+**plurk.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/plurkhelp "Plurk help with screenshots.")
 
 It's most likely the same as for twitter, you'll need some more effort in order to post updates through their api.
 
@@ -137,7 +137,7 @@ It's most likely the same as for twitter, you'll need some more effort in order 
     you can configure your plurk account on MicroblogPoster plugin.
 
 
-**facebook.com accounts**
+**facebook.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/facebookhelp "Facebook help with screenshots.")
 
 Please note that only real personal facebook accounts have permissions to create an App.
 Business accounts can't manage facebook Apps.
@@ -167,7 +167,7 @@ Business accounts can't manage facebook Apps.
     posting on your behalf.
 
 
-**friendfeed.com accounts**
+**friendfeed.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/friendfeedhelp "FriendFeed help with screenshots.")
 
 
 Instead of the password the friendfeed API requires the remote key to let you post with it.
