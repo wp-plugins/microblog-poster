@@ -1411,6 +1411,7 @@ function microblogposter_settings_output()
                         </div>
                     </div>
                     <div id="diigo-div" class="one-account">
+                        <div class="help-div"><span class="description">Help: <a href="http://wordpress.org/extend/plugins/microblog-poster/installation/" target="_blank">MicroblogPoster installation page</a></span></div>
                         <div class="input-div">
                             Diigo Username:
                         </div>
