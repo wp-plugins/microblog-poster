@@ -1,11 +1,11 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmark, auto post, auto publish, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, delicious, plurk, friendfeed, identica, automatic, links, backlinks, shortcodes, auto update status, update status
+Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, delicious, plurk, friendfeed, identica, automatic, automation, links, backlinks, shortcodes, auto update status, update status, social media auto publish, social network auto publish, social media publishing, post to twitter, publish to facebook, publish to plurk, social signals
 Requires at least: 3.0
 Tested up to: 3.5.1
-Stable tag: 1.2.5
+Stable tag: 1.2.6
 
-Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Plurk, Identica, Delicious..
+Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Plurk, Diigo, Delicious..
 
 == Description ==
 
@@ -13,8 +13,8 @@ Automatically publishes your new blog content to Social Networks. Auto-updates T
 You only have to configure your social network accounts. **Multiple Accounts per social site supported.**
 Possibility to nicely format the update message per account, **shortcodes supported**.
 
-**Logs are now available** for each new blog post, per configured social network account.
-Easily follow the automated posting process from **MicroblogPoster**'s logs section and debug your configuration if necessary.
+**Logs are generated** on new blog post for each configured social network account.
+Easily follow the automated posting process from **MicroblogPoster**'s logs section and debug your configuration if needed.
 
 **Currently supported microblogging/bookmarking sites**
 
@@ -24,6 +24,9 @@ Easily follow the automated posting process from **MicroblogPoster**'s logs sect
 * identi.ca - Auto publishes new message.
 * delicious.com - Auto submits bookmark of your blogpost to your account.
 * friendfeed.com - Auto updates your status.
+* diigo.com - Auto submits bookmark of your new blogpost.
+
+Please visit **MicroblogPoster**'s [website](http://efficientscripts.com/microblogposter "MicroblogPoster's website").
 
 The idea behind **MicroblogPoster** is to promote your wordpress blog and reach more people through social networks.
 **MicroblogPoster** is simply an intermediary between your blog and your own social network accounts. You'll never
@@ -31,11 +34,18 @@ see "posted by MicroblogPoster" in your updates, you'll see "posted by your own 
 
 == Screenshots ==
 
-1. MicroblogPoster Options page, Social Network Accounts.
+1. MicroblogPoster Options page, General section.
 
-2. MicroblogPoster Options page, General section.
+2. MicroblogPoster Options page, Social Network Accounts.
+
+3. MicroblogPoster Options page, Logs section.
 
 == Changelog ==
+
+= 1.2.6 (02-06-2013) =
+- diigo.com is now supported
+- Added possibility to cross-post on new page creation.
+- General options layout improvements + added options for page cross posting.
 
 = 1.2.5 (12-05-2013) =
 - Logs are now generated for each new blog post per social account.
@@ -79,7 +89,7 @@ see "posted by MicroblogPoster" in your updates, you'll see "posted by your own 
 * The plugin is ready, it will automatically cross posts whenever you publish a new blog post.
 
 
-**twitter.com accounts**
+**twitter.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/twitterhelp "Twitter help with screenshots.")
 
 Basically your twitter username and password won't suffice in order to post automatic updates, twitter api requires some more steps described below.
 No worries, it's rather a simple procedure.
@@ -88,7 +98,7 @@ No worries, it's rather a simple procedure.
     1. In order to post updates through the twitter API you'll need first
     to create your own twitter App here: https://dev.twitter.com/apps
     
-    2. Once you've created your app you have to change its access level
+    2. Once you've created your twitter app you have to change its access level
     to be Read and Write. 
     Browse to Settings tab and check the Access level to be Read and Write,
     save your new settings.
@@ -96,14 +106,14 @@ No worries, it's rather a simple procedure.
     3. Once this is done go back to the details tab, at the bottom you 
     should have a button 'Create my access token', please do it.
 
-    4. This is it, on the details tab you have all you need, 
+    4. This is it, on the details tab you have all what you need, 
     i.e. consumer key/secret, access token and access token secret.
 
     5. If you don't see immediately the access token at the bottom, 
     please refresh the details tab page.
 
 
-**plurk.com accounts**
+**plurk.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/plurkhelp "Plurk help with screenshots.")
 
 It's most likely the same as for twitter, you'll need some more effort in order to post updates through their api.
 
@@ -124,16 +134,16 @@ It's most likely the same as for twitter, you'll need some more effort in order 
     to a new page and you'll have to grant the permission in order to get
     your verification code.
 
-    5. Finally go back to the previous page and generate your 
+    5. Finally return to the previous page and generate your 
     *token key and token secret* by clicking on
     'Get Access Token' and by providing the verification code.
 
     6. Now you can copy your token key and token secret. 
     Coupled with the App key and App secret you've got previously 
-    you can configure your plurk.com account on MicroblogPoster plugin.
+    you can configure your plurk account on MicroblogPoster plugin.
 
 
-**facebook.com accounts**
+**facebook.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/facebookhelp "Facebook help with screenshots.")
 
 Please note that only real personal facebook accounts have permissions to create an App.
 Business accounts can't manage facebook Apps.
@@ -144,7 +154,7 @@ Business accounts can't manage facebook Apps.
     to 'Register as a Developer'.
     Then the creation of new app will be available.
 
-    2. Fill in the 'App name' and click continue.
+    2. Fill in your 'App name' and click continue.
 
     3. Enter the required captcha challenge.
 
@@ -163,13 +173,21 @@ Business accounts can't manage facebook Apps.
     posting on your behalf.
 
 
-**friendfeed.com accounts**
+**friendfeed.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/friendfeedhelp "FriendFeed help with screenshots.")
 
 
 Instead of the password the friendfeed API requires the remote key to let you post with it.
 
     1. You can find your remote key associated with your account at this url:
     https://friendfeed.com/account/api (you need to be logged in).
+
+
+**diigo.com accounts**
+
+In addition to your username/password you'll need to create your own diigo app and generate an Api key.
+
+    1. Please go at this url: https://www.diigo.com/api_keys/new/
+    and generate your diigo Api Key (you need to be logged in).
 
 
 == Upgrade Notice ==

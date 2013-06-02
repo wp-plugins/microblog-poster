@@ -2,8 +2,8 @@
 /**
  *
  * Plugin Name: Microblog Poster
- * Description: Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Plurk, Identica, Delicious..
- * Version: 1.2.5
+ * Description: Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Plurk, Diigo, Delicious..
+ * Version: 1.2.6
  * Author: cybperic
  * Author URI: http://profiles.wordpress.org/users/cybperic/
  *
@@ -252,6 +252,7 @@ class MicroblogPoster_Poster
 	MicroblogPoster_Poster::update_delicious($post_title, $permalink, $tags, $post_content, $post_ID);
         MicroblogPoster_Poster::update_friendfeed($post_title, $permalink, $post_content, $post_ID);
         MicroblogPoster_Poster::update_facebook($update, $post_content, $post_ID);
+        MicroblogPoster_Poster::update_diigo($post_title, $permalink, $tags, $post_content, $post_ID);
         
         MicroblogPoster_Poster::maintain_logs();
     }
@@ -607,6 +608,88 @@ class MicroblogPoster_Poster
     }
     
     /**
+    * Updates status on diigo.com
+    *
+    * @param   string  $title Text to be posted on microblogging site
+    * @param   string  $link
+    * @param   string  $tags
+    * @param array $post_content 
+    * @return  void
+    */
+    public static function update_diigo($title, $link, $tags, $post_content, $post_ID)
+    {
+	
+        $curl = new MicroblogPoster_Curl();
+        $diigo_accounts = MicroblogPoster_Poster::get_accounts('diigo');
+        
+        if(!empty($diigo_accounts))
+        {
+            foreach($diigo_accounts as $diigo_account)
+            {
+                if($diigo_account['message_format'])
+                {
+                    $title = str_ireplace(array('{title}'), array($post_content[0]), $diigo_account['message_format']);
+                }
+                $is_raw = MicroblogPoster_SupportEnc::is_enc($diigo_account['extra']);
+                if(!$is_raw)
+                {
+                    $diigo_account['password'] = MicroblogPoster_SupportEnc::dec($diigo_account['password']);
+                }
+                $extra = json_decode($diigo_account['extra'], true);
+                if(is_array($extra))
+                {
+                    $include_tags = (isset($extra['include_tags']) && $extra['include_tags'] == 1)?true:false;
+                    $api_key = $extra['api_key'];
+                }
+                $curl->set_credentials($diigo_account['username'], $diigo_account['password']);
+                $curl->set_user_agent("Mozilla/6.0 (Windows NT 6.2; WOW64; rv:16.0.1) Gecko/20121011 Firefox/16.0.1");
+
+                $link_enc=urlencode($link);
+                $title_enc = urlencode($title);
+                $tags_enc = urlencode($tags);
+                $update_message = $title." - ".$link;
+
+                $url = "https://secure.diigo.com/api/v2/bookmarks";
+                $post_args = array(
+                    'key' => $api_key,
+                    'title' => $title,
+                    'url' => $link,
+                    'shared' => 'yes'
+                );
+                if($include_tags)
+                {
+                    $post_args['tags'] = $tags;
+                    $update_message .= " ($tags)";
+                }
+                $result = $curl->send_post_data($url, $post_args);
+                $result_dec = json_decode($result, true);
+                
+                $action_result = 2;
+                if($result_dec && isset($result_dec['code']) && $result_dec['code'] == 1)
+                {
+                    $action_result = 1;
+                    $result = "Success";
+                }
+                else
+                {
+                    $result = "Please recheck your username/password and API Key.";
+                }
+                
+                $log_data = array();
+                $log_data['account_id'] = $diigo_account['account_id'];
+                $log_data['account_type'] = "diigo";
+                $log_data['username'] = $diigo_account['username'];
+                $log_data['post_id'] = $post_ID;
+                $log_data['action_result'] = $action_result;
+                $log_data['update_message'] = $update_message;
+                $log_data['log_message'] = $result;
+                MicroblogPoster_Poster::insert_log($log_data);
+            }
+        }
+        
+    }
+    
+    /**
     * Sends OAuth signed request
     *
     * @param   string  $c_key Application consumer key
@@ -778,6 +861,14 @@ register_activation_hook(__FILE__, array('MicroblogPoster_Poster', 'activate'));
 
 add_action('publish_post', array('MicroblogPoster_Poster', 'update'));
 
+$page_mode_name = "microblogposter_page_mode";
+$page_mode_value = get_option($page_mode_name, "");
+if($page_mode_value)
+{
+    add_action('publish_page', array('MicroblogPoster_Poster', 'update'));
+}
+
+
 //Displays a checkbox that allows users to disable Microblog Poster on a per post basis.
 function microblogposter_meta()
 {
@@ -797,10 +888,35 @@ function microblogposter_meta()
     <?php
 }
 
+//Displays a checkbox that allows users to disable Microblog Poster on a per page basis.
+function microblogposter_pmeta()
+{
+    $default_pbehavior_name = "microblogposter_default_pbehavior";
+    $default_pbehavior_value = get_option($default_pbehavior_name, "");
+    $default_pbehavior_update_name = "microblogposter_default_pbehavior_update";
+    $default_pbehavior_update_value = get_option($default_pbehavior_update_name, "");
+    
+    $screen = get_current_screen();
+    if($screen->action != 'add')
+    {
+        $default_pbehavior_value = $default_pbehavior_update_value;
+    }
+    ?>
+    <input type="checkbox" id="microblogposteroff" name="microblogposteroff" <?php if($default_pbehavior_value) echo 'checked="checked"';?> /> 
+    <label for="microblogposteroff">Disable Microblog Poster this time?</label>
+    <?php
+}
+
 //Add the checkbox defined above to post edit screen.
 function microblogposter_meta_box()
 {
     add_meta_box('microblogposter_domain','MicroblogPoster','microblogposter_meta','post','side','high');
+    $page_mode_name = "microblogposter_page_mode";
+    $page_mode_value = get_option($page_mode_name, "");
+    if($page_mode_value)
+    {
+        add_meta_box('microblogposter_domain','MicroblogPoster','microblogposter_pmeta','page','side','high');
+    }
 }
 add_action('admin_menu', 'microblogposter_meta_box');
 

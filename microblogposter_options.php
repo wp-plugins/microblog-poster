@@ -29,12 +29,18 @@ function microblogposter_settings_output()
     $bitly_api_key_name = "microblogposter_plg_bitly_api_key";
     $default_behavior_name = "microblogposter_default_behavior";
     $default_behavior_update_name = "microblogposter_default_behavior_update";
+    $default_pbehavior_name = "microblogposter_default_pbehavior";
+    $default_pbehavior_update_name = "microblogposter_default_pbehavior_update";
+    $page_mode_name = "microblogposter_page_mode";
     
     
     $bitly_api_user_value = get_option($bitly_api_user_name, "");
     $bitly_api_key_value = get_option($bitly_api_key_name, "");
     $default_behavior_value = get_option($default_behavior_name, "");
     $default_behavior_update_value = get_option($default_behavior_update_name, "");
+    $default_pbehavior_value = get_option($default_pbehavior_name, "");
+    $default_pbehavior_update_value = get_option($default_pbehavior_update_name, "");
+    $page_mode_value = get_option($page_mode_name, "");
     
     
     if(isset($_POST["update_options"]))
@@ -43,11 +49,26 @@ function microblogposter_settings_output()
         $bitly_api_key_value = $_POST[$bitly_api_key_name];
         $default_behavior_value = $_POST[$default_behavior_name];
         $default_behavior_update_value = $_POST[$default_behavior_update_name];
+        $default_pbehavior_value = $_POST[$default_pbehavior_name];
+        $default_pbehavior_update_value = $_POST[$default_pbehavior_update_name];
+        $page_mode_value = $_POST[$page_mode_name];
         
         update_option($bitly_api_user_name, $bitly_api_user_value);
         update_option($bitly_api_key_name, $bitly_api_key_value);
         update_option($default_behavior_name, $default_behavior_value);
         update_option($default_behavior_update_name, $default_behavior_update_value);
+        
+        update_option($page_mode_name, $page_mode_value);
+        if($page_mode_value == '1')
+        {
+            update_option($default_pbehavior_name, $default_pbehavior_value);
+            update_option($default_pbehavior_update_name, $default_pbehavior_update_value);
+        }
+        else
+        {
+            $default_pbehavior_value = get_option($default_pbehavior_name, "");
+            $default_pbehavior_update_value = get_option($default_pbehavior_update_name, "");
+        }
         
         ?>
         <div class="updated"><p><strong>Options saved.</strong></p></div>
@@ -55,7 +76,8 @@ function microblogposter_settings_output()
         
     }
     
-    $http_auth_sites = array('identica','friendfeed','delicious');
+    $http_auth_sites = array('identica','friendfeed','delicious','diigo');
+    $tags_sites = array('delicious','diigo');
     
     $mbp_accounts_tab_selected = false;
     
@@ -67,12 +89,19 @@ function microblogposter_settings_output()
         {
             $account_type = trim($_POST['account_type']);
         }
-        if($account_type=='delicious')
+        if(in_array($account_type, $tags_sites))
         {
             $extra['include_tags'] = 0;
             if(isset($_POST['include_tags']) && trim($_POST['include_tags']) == '1')
             {
                 $extra['include_tags'] = 1;
+            }
+        }
+        if($account_type=='diigo')
+        {
+            if(isset($_POST['api_key']))
+            {
+                $extra['api_key'] = trim($_POST['api_key']);
             }
         }
         if(isset($_POST['consumer_key']))
@@ -155,12 +184,19 @@ function microblogposter_settings_output()
         {
             $account_type = trim($_POST['account_type']);
         }
-        if($account_type=='delicious')
+        if(in_array($account_type, $tags_sites))
         {
             $extra['include_tags'] = 0;
             if(isset($_POST['include_tags']) && trim($_POST['include_tags']) == '1')
             {
                 $extra['include_tags'] = 1;
+            }
+        }
+        if($account_type=='diigo')
+        {
+            if(isset($_POST['api_key']))
+            {
+                $extra['api_key'] = trim($_POST['api_key']);
             }
         }
         if(isset($_POST['consumer_key']))
@@ -191,8 +227,6 @@ function microblogposter_settings_output()
                 $password = stripslashes($password);
                 $password = MicroblogPoster_SupportEnc::enc($password);
                 $extra['penc'] = 1;
-                $extra = json_encode($extra);
-                $wpdb->escape_by_ref($extra);
             }
         }
         if(isset($_POST['facebook_profile_url']))
@@ -204,6 +238,8 @@ function microblogposter_settings_output()
             $message_format = trim($_POST['message_format']);
         }
         
+        $extra = json_encode($extra);
+        $wpdb->escape_by_ref($extra);
         
         if($username)
         {
@@ -214,11 +250,9 @@ function microblogposter_settings_output()
                 consumer_secret='{$consumer_secret}',
                 access_token='{$access_token}',
                 access_token_secret='{$access_token_secret}',
-                message_format='{$message_format}'";
-            if(in_array($account_type, $http_auth_sites))
-            {
-                $sql .= ", extra='{$extra}'";
-            }
+                message_format='{$message_format}',
+                extra='{$extra}'";
+            
             $sql .= " WHERE account_id={$account_id}";
 
             $wpdb->query($sql);
@@ -344,30 +378,71 @@ function microblogposter_settings_output()
                         </td>
                     </tr>
                     <tr>
-                        <td class="label-input">Bitly API User:</td>
+                        <td class="label-input padding-left">Bitly API User:</td>
                         <td><input type="text" id="<?php echo $bitly_api_user_name;?>" name="<?php echo $bitly_api_user_name;?>" value="<?php echo $bitly_api_user_value;?>" size="35" /></td>
                     </tr>
                     <tr>
-                        <td class="label-input">Bitly API Key:</td>
+                        <td class="label-input padding-left">Bitly API Key:</td>
                         <td><input type="text" id="<?php echo $bitly_api_key_name;?>" name="<?php echo $bitly_api_key_name;?>" value="<?php echo $bitly_api_key_value;?>" size="35" /></td>
                     </tr>
                     <tr>
+                        <td colspan="2" class="row-sep"></td>
+                    </tr>
+                    <tr>
                         <td colspan="2">
+                            <h3><span class="wp-blue-title">Posts :</span></h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="padding-left">
                             <h3>Default per NEW POST behavior (changeable on a per post basis):</h3>
                         </td>
                     </tr>
                     <tr>
-                        <td class="label-input">Don't cross-post automatically:</td>
+                        <td class="label-input padding-left1">Don't cross-post automatically:</td>
                         <td><input type="checkbox" id="microblogposter_default_behavior" name="microblogposter_default_behavior" value="1" <?php if($default_behavior_value) echo 'checked="checked"';?> /></td>
                     </tr>
                     <tr>
-                        <td colspan="2">
+                        <td colspan="2" class="padding-left">
                             <h3>Default per POST UPDATE behavior (changeable on a per post basis):</h3>
                         </td>
                     </tr>
                     <tr>
-                        <td class="label-input">Don't cross-post automatically:</td>
+                        <td class="label-input padding-left1">Don't cross-post automatically:</td>
                         <td><input type="checkbox" id="microblogposter_default_behavior_update" name="microblogposter_default_behavior_update" value="1" <?php if($default_behavior_update_value) echo 'checked="checked"';?> />&nbsp;&nbsp;(This is most likely to be checked.)</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="row-sep"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <h3><span class="wp-blue-title">Pages :</span></h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-input">Enable <span class="microblogposter-name">MicroblogPoster</span> for pages:</td>
+                        <td><input type="checkbox" id="microblogposter_page_mode" name="microblogposter_page_mode" value="1" <?php if($page_mode_value) echo 'checked="checked"';?> /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="padding-left">
+                            <h3>Default per NEW PAGE behavior (changeable on a per page basis):</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-input padding-left1">Don't cross-post automatically:</td>
+                        <td><input type="checkbox" id="microblogposter_default_pbehavior" name="microblogposter_default_pbehavior" value="1" <?php if($default_pbehavior_value) echo 'checked="checked"';?> /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="padding-left">
+                            <h3>Default per PAGE UPDATE behavior (changeable on a per page basis):</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-input padding-left1">Don't cross-post automatically:</td>
+                        <td><input type="checkbox" id="microblogposter_default_pbehavior_update" name="microblogposter_default_pbehavior_update" value="1" <?php if($default_pbehavior_update_value) echo 'checked="checked"';?> />&nbsp;&nbsp;(This is most likely to be checked.)</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="row-sep"></td>
                     </tr>
                 </table>
                 <p class="submit">
@@ -978,7 +1053,110 @@ function microblogposter_settings_output()
             </div>
             
         <?php endforeach;?>
+            
+        <div class="social-network-accounts-site">
+            <img src="../wp-content/plugins/microblog-poster/images/diigo_icon.png" />
+            <h4>Diigo Accounts</h4>
+        </div>  
+        <?php
+        $sql="SELECT * FROM $table_accounts WHERE type='diigo'";
+        $rows = $wpdb->get_results($sql);
+        foreach($rows as $row):
+            $update_accounts[] = $row->account_id;
+            $is_raw = MicroblogPoster_SupportEnc::is_enc($row->extra);
+            $extra = json_decode($row->extra, true);
+            if(is_array($extra))
+            {
+                $include_tags = (isset($extra['include_tags']) && $extra['include_tags'] == 1)?true:false;
+                $api_key = $extra['api_key'];
+            }
+        ?>
+            <div style="display:none">
+                <div id="update_account<?php echo $row->account_id;?>">
+                    <form id="update_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
+                        <h3 class="new-account-header"><span class="microblogposter-name">MicroblogPoster</span> Plugin</h3>
+                        <div class="delete-wrapper">
+                            Diigo Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span>
+                        </div>
+                        <div id="diigo-div" class="one-account">
+                            <div class="input-div">
+                                Diigo Username:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="" name="username" value="<?php echo $row->username;?>" />
+                            </div>
+                            <div class="input-div">
+                                Diigo Password:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="" name="password" value="<?php echo ($is_raw)? $row->password : MicroblogPoster_SupportEnc::dec($row->password);?>" />
+                            </div>
+                            <div class="input-div">
+                                Diigo API Key:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="" name="api_key" value="<?php echo $api_key;?>" />
+                            </div>
+                            <div class="input-div">
+                                Message Format:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="message_format" name="message_format" value="<?php echo $row->message_format;?>"/>
+                                <span class="description">Message that's actually posted.</span>
+                            </div>
+                            <div class="input-div">
+
+                            </div>
+                            <div class="input-div-large">
+                                <span class="description-small">You can use shortcodes: {TITLE} = Title of the new blog post.</span>
+                            </div>
+                            <div class="input-div">
+                                Include tags:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="checkbox" id="include_tags" name="include_tags" value="1" <?php if ($include_tags) echo "checked";?>/>
+                                <span class="description">Do you want to include tags in the bookmarks?</span>
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="account_id" value="<?php echo $row->account_id;?>" />
+                        <input type="hidden" name="account_type" value="diigo" />
+                        <input type="hidden" name="update_account_hidden" value="1" />
+                        <div class="button-holder">
+                            <button type="button" class="button cancel-account" >Cancel</button>
+                            <button type="button" class="button-primary save-account<?php echo $row->account_id;?>" >Save</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <div style="display:none">
+                <div id="delete_account<?php echo $row->account_id;?>">
+                    <form id="delete_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
+                        <div class="delete-wrapper">
+                        Delicious Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span><br />
+                        <span class="delete-wrapper-del">Delete?</span>
+                        </div>
+                        <input type="hidden" name="account_id" value="<?php echo $row->account_id;?>" />
+                        <input type="hidden" name="account_type" value="diigo" />
+                        <input type="hidden" name="delete_account_hidden" value="1" />
+                        <div class="button-holder-del">
+                            <button type="button" class="button cancel-account" >Cancel</button>
+                            <button type="button" class="del-account-fb button del-account<?php echo $row->account_id;?>" >Delete</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="account-wrapper">
+                <span class="account-username"><?php echo $row->username;?></span>
+                <span class="edit-account edit<?php echo $row->account_id;?>">Edit</span>
+                <span class="del-account del<?php echo $row->account_id;?>">Del</span>
+            </div>
+        <?php endforeach;?>
         </div>
+        
+        
+        
         <div style="display:none">
             <div id="new_account">
                 <form id="new_account_form" method="post" action="" enctype="multipart/form-data" >
@@ -993,6 +1171,7 @@ function microblogposter_settings_output()
                         <option value="friendfeed">FriendFeed</option>
                         <option value="delicious">Delicious</option>
                         <option value="facebook">Facebook</option>
+                        <option value="diigo">Diigo</option>
                     </select> 
                     </div>
 
@@ -1231,6 +1410,46 @@ function microblogposter_settings_output()
                             <span class="description">Your Facebook Application Secret.</span>
                         </div>
                     </div>
+                    <div id="diigo-div" class="one-account">
+                        <div class="input-div">
+                            Diigo Username:
+                        </div>
+                        <div class="input-div-large">
+                            <input type="text" id="username" name="username" value="" />
+                        </div>
+                        <div class="input-div">
+                            Diigo Password:
+                        </div>
+                        <div class="input-div-large">
+                            <input type="text" id="" name="password" value="" />
+                        </div>
+                        <div class="input-div">
+                            Diigo API Key:
+                        </div>
+                        <div class="input-div-large">
+                            <input type="text" id="" name="api_key" value="" />
+                        </div>
+                        <div class="input-div">
+                            Message Format:
+                        </div>
+                        <div class="input-div-large">
+                            <input type="text" id="message_format" name="message_format" />
+                            <span class="description">Message that's actually posted.</span>
+                        </div>
+                        <div class="input-div">
+
+                        </div>
+                        <div class="input-div-large">
+                            <span class="description-small">You can use shortcodes: {TITLE} = Title of the new blog post.</span>
+                        </div>
+                        <div class="input-div">
+                            Include tags:
+                        </div>
+                        <div class="input-div-large">
+                            <input type="checkbox" id="include_tags" name="include_tags" value="1"/>
+                            <span class="description">Do you want to include tags in the bookmarks?</span>
+                        </div>
+                    </div>
 
                     <input type="hidden" name="new_account_hidden" value="1" />
                     <div class="button-holder">
@@ -1259,6 +1478,18 @@ function microblogposter_settings_output()
         .form-table td.label-input
         {
             width: 200px;
+        }
+        .form-table td.padding-left
+        {
+            padding-left: 15px;
+        }
+        .form-table td.padding-left1
+        {
+            padding-left: 25px;
+        }
+        .form-table td.row-sep
+        {
+            padding-bottom: 25px;
         }
         .button-holder
         {
@@ -1413,6 +1644,7 @@ function microblogposter_settings_output()
         #social-network-accounts
         {
             margin-top: 35px;
+            margin-left: 15px;
         }
         #social-network-accounts .social-network-accounts-site
         {
@@ -1552,6 +1784,11 @@ function microblogposter_settings_output()
         {
             margin-left: 10px;
         }
+        .wp-blue-title
+        {
+            color: #21759B;
+            font-weight: bold;
+        }
     </style>
 
     
@@ -1611,7 +1848,7 @@ function microblogposter_settings_output()
                     'scrolling'	: 'auto',
                     'titleShow'	: false,
                     'onComplete'	: function() {
-                        $('div#fancybox-content #plurk-div,div#fancybox-content #identica-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div').hide().find('input').attr('disabled','disabled');
+                        $('div#fancybox-content #plurk-div,div#fancybox-content #identica-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div,div#fancybox-content #diigo-div').hide().find('input').attr('disabled','disabled');
                     }
                 });
                 
@@ -1652,7 +1889,7 @@ function microblogposter_settings_output()
             $("#account_type").live("change", function(){
                 var type = $(this).val();
                 //console.log(type);
-                $('div#fancybox-content #twitter-div,div#fancybox-content #plurk-div,div#fancybox-content #identica-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div').hide().find('input').attr('disabled','disabled');
+                $('div#fancybox-content #twitter-div,div#fancybox-content #plurk-div,div#fancybox-content #identica-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div,div#fancybox-content #diigo-div').hide().find('input').attr('disabled','disabled');
                 $('div#fancybox-content #'+type+'-div').show().find('input').removeAttr('disabled');
             });
             
@@ -1751,6 +1988,25 @@ function microblogposter_settings_output()
                 $("#mbp-general-tab").removeClass('mbp-selected-tab').addClass('mbp-tab-background');
                 $("#mbp-logs-tab").addClass('mbp-selected-tab').removeClass('mbp-tab-background');
             });
+            
+            <?php if(!$page_mode_value):?>
+                $('#microblogposter_default_pbehavior').attr('disabled','disabled');
+                $('#microblogposter_default_pbehavior_update').attr('disabled','disabled');
+            <?php endif;?>
+                
+            $("#microblogposter_page_mode").live("click", function(){
+                if($(this).is(':checked'))
+                {
+                    $('#microblogposter_default_pbehavior').removeAttr('disabled');
+                    $('#microblogposter_default_pbehavior_update').removeAttr('disabled');
+                }
+                else
+                {
+                    $('#microblogposter_default_pbehavior').attr('disabled','disabled');
+                    $('#microblogposter_default_pbehavior_update').attr('disabled','disabled');
+                }
+            });
+                
         });
         
         
