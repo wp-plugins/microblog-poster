@@ -9,14 +9,14 @@ Automatically publishes your new blog content to Social Networks. Auto-updates T
 
 == Description ==
 
-**Automatically updates your microblogs and bookmarking profiles** for each new blog post.
+**Auto updates your social media accounts/profiles** on each new blog post with a formatted message with backlink.
 You only have to configure your social network accounts. **Multiple Accounts per social site supported.**
 Possibility to nicely format the update message per account, **shortcodes supported**.
 
 **Logs are generated** on new blog post for each configured social network account.
 Easily follow the automated posting process from **MicroblogPoster**'s logs section and debug your configuration if needed.
 
-**Currently supported microblogging/bookmarking sites**
+**Currently supported social media sites**
 
 * twitter.com - Auto tweets backlink of new blogpost.
 * facebook.com - Auto updates your status with backlink.
