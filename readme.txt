@@ -14,7 +14,7 @@ You only have to configure your social network accounts. **Multiple Accounts per
 Possibility to nicely format the update message per account, **shortcodes supported**.
 
 **Logs are generated** on new blog post for each configured social network account.
-Easily follow the automated posting process from **MicroblogPoster**'s logs section and debug your configuration if needed.
+Easily follow the automated sharing process from **MicroblogPoster**'s logs section and debug your configuration if needed.
 
 **Currently supported social media sites**
 
