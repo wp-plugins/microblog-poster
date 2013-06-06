@@ -1,6 +1,6 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, delicious, diigo, plurk, friendfeed, identica, automatic, automation, links, backlinks, shortcodes, auto update status, update status, social media auto publish, social network auto publish, social media publishing, post to twitter, publish to facebook, post to plurk, social signals, publish to diigo
+Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, delicious, diigo, plurk, friendfeed, identica, automatic, automation, links, backlinks, shortcodes, auto update status, update status, social media auto publish, social network auto publish, social media publishing, post to twitter, publish to facebook, publish to plurk, social signals, publish to diigo
 Requires at least: 3.0
 Tested up to: 3.5.1
 Stable tag: 1.2.6
