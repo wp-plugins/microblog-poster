@@ -28,6 +28,12 @@ Easily follow the automated sharing process from **MicroblogPoster**'s logs sect
 
 Please visit **MicroblogPoster**'s [website](http://efficientscripts.com/microblogposter "MicroblogPoster's website").
 
+
+Plugin's main features:
+
+- Auto publish your new blog content
+- Sends out social signals and auto share to social media accounts
+
 The idea behind **MicroblogPoster** is to promote your wordpress blog and reach more people through social networks.
 There's general agreement in the SEO community that social signals strengthen your blog's page rank and authority.
 **MicroblogPoster** is simply an intermediary between your blog and your own social network accounts. You'll never
