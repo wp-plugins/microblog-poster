@@ -35,7 +35,7 @@ There's general agreement in the SEO community that social signals strengthen yo
 see "posted by MicroblogPoster" in your updates, you'll see "posted by your own App name" or simply "by API".
 
 
-Plugin's main features:
+MicroblogPoster in few words:
 
 - Auto publish your new blog content
 - Sends out social signals and auto share to social media accounts
