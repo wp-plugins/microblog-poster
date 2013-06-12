@@ -1,22 +1,22 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, delicious, plurk, friendfeed, identica, automatic, automation, links, backlinks, shortcodes, auto update status, update status, social media auto publish, social network auto publish, social media publishing, post to twitter, publish to facebook, publish to plurk, social signals
+Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, delicious, diigo, plurk, friendfeed, identica, automatic, automation, links, backlinks, shortcodes, auto update status, update status, social media auto publish, social network auto publish, social media publishing, post to twitter, publish to facebook
 Requires at least: 3.0
 Tested up to: 3.5.1
-Stable tag: 1.2.6
+Stable tag: 1.2.61
 
 Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Plurk, Diigo, Delicious..
 
 == Description ==
 
-**Automatically updates your microblogs and bookmarking profiles** for each new blog post.
+**Auto updates your social media accounts/profiles** on each new blog post with a formatted message with backlink.
 You only have to configure your social network accounts. **Multiple Accounts per social site supported.**
 Possibility to nicely format the update message per account, **shortcodes supported**.
 
 **Logs are generated** on new blog post for each configured social network account.
-Easily follow the automated posting process from **MicroblogPoster**'s logs section and debug your configuration if needed.
+Easily follow the automated sharing process from **MicroblogPoster**'s logs section and debug your configuration if needed.
 
-**Currently supported microblogging/bookmarking sites**
+**Currently supported social media sites**
 
 * twitter.com - Auto tweets backlink of new blogpost.
 * facebook.com - Auto updates your status with backlink.
@@ -28,9 +28,18 @@ Easily follow the automated posting process from **MicroblogPoster**'s logs sect
 
 Please visit **MicroblogPoster**'s [website](http://efficientscripts.com/microblogposter "MicroblogPoster's website").
 
+
 The idea behind **MicroblogPoster** is to promote your wordpress blog and reach more people through social networks.
+There's general agreement in the SEO community that social signals strengthen your blog's page rank and authority.
 **MicroblogPoster** is simply an intermediary between your blog and your own social network accounts. You'll never
 see "posted by MicroblogPoster" in your updates, you'll see "posted by your own App name" or simply "by API".
+
+
+**MicroblogPoster** in few words:
+
+- Auto publish your new blog content
+- Sends out social signals and auto share to social media accounts
+- Social signals and backlinks auto generator
 
 == Screenshots ==
 
@@ -41,6 +50,9 @@ see "posted by MicroblogPoster" in your updates, you'll see "posted by your own 
 3. MicroblogPoster Options page, Logs section.
 
 == Changelog ==
+
+= 1.2.61 (12-06-2013) =
+- Urgent twitter api fix
 
 = 1.2.6 (02-06-2013) =
 - diigo.com is now supported
@@ -182,7 +194,7 @@ Instead of the password the friendfeed API requires the remote key to let you po
     https://friendfeed.com/account/api (you need to be logged in).
 
 
-**diigo.com accounts**
+**diigo.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/diigohelp "Diigo help with screenshots.")
 
 In addition to your username/password you'll need to create your own diigo app and generate an Api key.
 

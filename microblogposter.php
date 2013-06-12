@@ -3,7 +3,7 @@
  *
  * Plugin Name: Microblog Poster
  * Description: Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Plurk, Diigo, Delicious..
- * Version: 1.2.6
+ * Version: 1.2.61
  * Author: cybperic
  * Author URI: http://profiles.wordpress.org/users/cybperic/
  *
@@ -282,7 +282,7 @@ class MicroblogPoster_Poster
                     $twitter_account['consumer_secret'],
                     $twitter_account['access_token'],
                     $twitter_account['access_token_secret'],
-                    "https://api.twitter.com/1/statuses/update.json",
+                    "https://api.twitter.com/1.1/statuses/update.json",
                     array("status"=>$update)
                 );
                 
