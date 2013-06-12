@@ -50,7 +50,7 @@ class MicroblogPoster_Curl
 		//set various options
 
 		//set error in case http return code bigger than 300
-		curl_setopt($this->ch, CURLOPT_FAILONERROR, 1);
+		//curl_setopt($this->ch, CURLOPT_FAILONERROR, 1);
 
 		// use gzip if possible
 		curl_setopt($this->ch,CURLOPT_ENCODING , 'gzip, deflate');
@@ -211,8 +211,12 @@ class MicroblogPoster_Curl
 				echo "Error number: " .curl_errno($this->ch) ."\n";
 				echo "Error message: " .curl_error($this->ch)."\n";
 			}
-
-			return false;
+                        
+                        $result .= "Error Occured in Curl\n";
+                        $result .= "Error number: " .curl_errno($this->ch) ."\n";
+                        $result .= "Error message: " .curl_error($this->ch)."\n";
+			
+                        return $result;
 		}
 		else
 		{
@@ -265,7 +269,11 @@ class MicroblogPoster_Curl
 				echo "Error message: " .curl_error($this->ch)."\n";
 			}
 
-			return false;
+			$result .= "Error Occured in Curl\n";
+                        $result .= "Error number: " .curl_errno($this->ch) ."\n";
+                        $result .= "Error message: " .curl_error($this->ch)."\n";
+                        
+                        return $result;
 		}
 		else
 		{
