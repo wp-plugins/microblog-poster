@@ -45,11 +45,11 @@ see "posted by MicroblogPoster" in your updates, you'll see "posted by your own 
 
 == Screenshots ==
 
-1. MicroblogPoster Options page, General section.
+1. MicroblogPoster Options page, General Section.
 
 2. MicroblogPoster Options page, Social Network Accounts.
 
-3. MicroblogPoster Options page, Logs section.
+3. MicroblogPoster Options page, Logs Section.
 
 == Changelog ==
 
