@@ -224,6 +224,62 @@ class MicroblogPoster_Curl
 		}
 	}
 
+        /**
+	 * Send post data to target URL
+	 * return data returned from url or false if error occured
+	 * @param string url
+	 * @param mixed post data (assoc array ie. $foo['post_var_name'] = $value or as string like var=val1&var2=val2)
+	 * @param string ip address to bind (default null)
+	 * @param int timeout in sec for complete curl operation (default 30)
+	 * @return string data
+	 * @access public
+	 */
+	function send_post_data_json($url, $postdata, $timeout=30)
+	{
+		//set various curl options first
+
+		// set url to post to
+		curl_setopt($this->ch, CURLOPT_URL,$url);
+
+		// return into a variable rather than displaying it
+		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER,true);
+
+
+		//set curl function timeout to $timeout
+		curl_setopt($this->ch, CURLOPT_TIMEOUT, $timeout);
+
+		//set method to post
+		curl_setopt($this->ch, CURLOPT_POST, true);
+
+
+		// set post string
+		curl_setopt($this->ch, CURLOPT_POSTFIELDS, $postdata);
+
+
+		//and finally send curl request
+		$result = curl_exec($this->ch);
+
+		if(curl_errno($this->ch))
+		{
+			if($this->debug)
+			{
+				echo "Error Occured in Curl\n";
+				echo "Error number: " .curl_errno($this->ch) ."\n";
+				echo "Error message: " .curl_error($this->ch)."\n";
+			}
+
+                        $result .= "Error Occured in Curl\n";
+                        $result .= "Error number: " .curl_errno($this->ch) ."\n";
+                        $result .= "Error message: " .curl_error($this->ch)."\n";
+                        
+			return $result;
+		}
+		else
+		{
+			return $result;
+		}
+	}
+        
 	/**
 	 * fetch data from target URL
 	 * return data returned from url or false if error occured

@@ -2,8 +2,9 @@
 /**
  *
  * Plugin Name: Microblog Poster
- * Description: Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Plurk, Diigo, Delicious..
- * Version: 1.2.61
+ * Plugin URI: http://efficientscripts.com/microblogposter
+ * Description: Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Linkedin, Plurk, Diigo, Delicious..
+ * Version: 1.2.7
  * Author: cybperic
  * Author URI: http://profiles.wordpress.org/users/cybperic/
  *
@@ -205,6 +206,24 @@ class MicroblogPoster_Poster
         }
         
         $post = get_post($post_ID);
+        $post->post_content = strip_tags($post->post_content);
+        $post->post_content = preg_replace("|(\r\n)+|", " ", $post->post_content);
+        $post->post_content = preg_replace("|(\t)+|", "", $post->post_content);
+        $post->post_content = preg_replace("|\&nbsp\;|", "", $post->post_content);
+        $post_content_actual = $post->post_content;
+        $post_content_actual_lkn = substr($post_content_actual, 0, 300);
+        
+        
+        $post_thumbnail_id = get_post_thumbnail_id($post_ID);
+        $featured_image_src = '';
+        if($post_thumbnail_id)
+        {
+            $image_attributes = wp_get_attachment_image_src($post_thumbnail_id, 'thumbnail');
+            $featured_image_src_thumbnail = $image_attributes[0];
+            $image_attributes = wp_get_attachment_image_src($post_thumbnail_id, 'medium');
+            $featured_image_src_medium = $image_attributes[0];
+        }
+        
 	$post_title = $post->post_title;
         $post_title = substr($post_title, 0, 110);
         if(strlen($post_title) == 110)
@@ -216,6 +235,7 @@ class MicroblogPoster_Poster
 	$update = $post_title . " $permalink";
         
         $post_content = array();
+        $post_content[] = home_url();
         $post_content[] = $post_title;
         $post_content[] = $permalink;
         
@@ -251,8 +271,9 @@ class MicroblogPoster_Poster
 	MicroblogPoster_Poster::update_identica($update, $post_content, $post_ID);
 	MicroblogPoster_Poster::update_delicious($post_title, $permalink, $tags, $post_content, $post_ID);
         MicroblogPoster_Poster::update_friendfeed($post_title, $permalink, $post_content, $post_ID);
-        MicroblogPoster_Poster::update_facebook($update, $post_content, $post_ID);
+        MicroblogPoster_Poster::update_facebook($update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_lkn, $featured_image_src_thumbnail);
         MicroblogPoster_Poster::update_diigo($post_title, $permalink, $tags, $post_content, $post_ID);
+        MicroblogPoster_Poster::update_linkedin($update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_lkn, $featured_image_src_medium);
         
         MicroblogPoster_Poster::maintain_logs();
     }
@@ -433,7 +454,7 @@ class MicroblogPoster_Poster
             {
                 if($delicious_account['message_format'])
                 {
-                    $title = str_ireplace(array('{title}'), array($post_content[0]), $delicious_account['message_format']);
+                    $title = str_ireplace(array('{title}'), array($post_content[1]), $delicious_account['message_format']);
                 }
                 $is_raw = MicroblogPoster_SupportEnc::is_enc($delicious_account['extra']);
                 if(!$is_raw)
@@ -502,7 +523,7 @@ class MicroblogPoster_Poster
             {
                 if($friendfeed_account['message_format'])
                 {
-                    $title = str_ireplace(array('{title}'), array($post_content[0]), $friendfeed_account['message_format']);
+                    $title = str_ireplace(array('{title}'), array($post_content[1]), $friendfeed_account['message_format']);
                 }
                 $is_raw = MicroblogPoster_SupportEnc::is_enc($friendfeed_account['extra']);
                 if(!$is_raw)
@@ -551,7 +572,7 @@ class MicroblogPoster_Poster
     * @param array $post_content 
     * @return void
     */
-    public static function update_facebook($update, $post_content, $post_ID)
+    public static function update_facebook($update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual, $featured_image_src)
     {
         
         $curl = new MicroblogPoster_Curl();
@@ -581,6 +602,23 @@ class MicroblogPoster_Poster
                         'message' => $update
                     );
 
+                    if(isset($extra['post_type']) && $extra['post_type'] == 'link')
+                    {
+                        $post_args['name'] = $post_title;
+                        $post_args['link'] = $permalink;
+                        $post_args['description'] = $post_content_actual;
+                        $picture_url = '';
+                        if(isset($extra['default_image_url']) && $extra['default_image_url'])
+                        {
+                            $picture_url = $extra['default_image_url'];
+                        }
+                        if($featured_image_src)
+                        {
+                            $picture_url = $featured_image_src;
+                        }
+                        $post_args['picture'] = $picture_url;
+                    }
+                    
                     $result = $curl->send_post_data($url, $post_args);
                     $result_dec = json_decode($result, true);
                     
@@ -628,7 +666,7 @@ class MicroblogPoster_Poster
             {
                 if($diigo_account['message_format'])
                 {
-                    $title = str_ireplace(array('{title}'), array($post_content[0]), $diigo_account['message_format']);
+                    $title = str_ireplace(array('{title}'), array($post_content[1]), $diigo_account['message_format']);
                 }
                 $is_raw = MicroblogPoster_SupportEnc::is_enc($diigo_account['extra']);
                 if(!$is_raw)
@@ -687,6 +725,91 @@ class MicroblogPoster_Poster
             }
         }
         
+    }
+    
+    /**
+    * Updates status on linkedin
+    *
+    * @param string  $update Text to be posted on microblogging site
+    * @param array $post_content 
+    * @return void
+    */
+    public static function update_linkedin($update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual, $featured_image_src)
+    {
+        
+        $curl = new MicroblogPoster_Curl();
+        $linkedin_accounts = MicroblogPoster_Poster::get_accounts('linkedin');
+        
+        if(!empty($linkedin_accounts))
+        {
+            foreach($linkedin_accounts as $linkedin_account)
+            {
+                if(!$linkedin_account['extra'])
+                {
+                    continue;
+                }
+                
+                if($linkedin_account['message_format'])
+                {
+                    $update = str_ireplace(MicroblogPoster_Poster::get_shortcodes(), $post_content, $linkedin_account['message_format']);
+                }
+                $extra = json_decode($linkedin_account['extra'], true);
+                
+                if(isset($extra['access_token']))
+                {
+                    
+                    $url = "https://api.linkedin.com/v1/people/~/shares/?oauth2_access_token={$extra['access_token']}";
+                    
+                    $body = new stdClass();
+                    $body->comment = $update;
+                    
+                    if(isset($extra['post_type']) && $extra['post_type'] == 'link')
+                    {
+                        $body->content = new stdClass();
+                        $body->content->title = $post_title;
+                        $body->content->{'submitted-url'} = $permalink;
+                        $body->content->description = $post_content_actual;
+                        $picture_url = '';// 180 wid, 110 hei
+                        if(isset($extra['default_image_url']) && $extra['default_image_url'])
+                        {
+                            $picture_url = $extra['default_image_url'];
+                        }
+                        if($featured_image_src)
+                        {
+                            $picture_url = $featured_image_src;
+                        }
+                        $body->content->{'submitted-image-url'} = $picture_url;
+                    }
+                    
+                    $body->visibility = new stdClass();
+                    $body->visibility->code = 'anyone';
+                    $body_json = json_encode($body);
+
+                    $curl->set_headers(array('Content-Type'=>'application/json'));
+                    $result = $curl->send_post_data_json($url, $body_json);
+                    
+                    
+                    $action_result = 2;
+                    if($result && stripos($result, '<update-key>')!==false && stripos($result, '</update-key>')!==false)
+                    {
+                        $action_result = 1;
+                        $result = "Success";
+                    }
+
+                    $log_data = array();
+                    $log_data['account_id'] = $linkedin_account['account_id'];
+                    $log_data['account_type'] = "linkedin";
+                    $log_data['username'] = $linkedin_account['username'];
+                    $log_data['post_id'] = $post_ID;
+                    $log_data['action_result'] = $action_result;
+                    $log_data['update_message'] = $update;
+                    $log_data['log_message'] = $result;
+                    MicroblogPoster_Poster::insert_log($log_data);
+                }
+                
+            }
+            
+        }
     }
     
     /**
@@ -751,7 +874,7 @@ class MicroblogPoster_Poster
     * @param   array  $log_data Log message
     * @return  bool
     */
-    private static function insert_log($log_data)
+    public static function insert_log($log_data)
     {
         global  $wpdb;
 
@@ -806,7 +929,7 @@ class MicroblogPoster_Poster
     */
     private static function get_shortcodes()
     {
-        return array('{title}', '{url}', '{short_url}');
+        return array('{site_url}', '{title}', '{url}', '{short_url}');
     }
     
 }

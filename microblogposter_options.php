@@ -80,6 +80,10 @@ function microblogposter_settings_output()
     $tags_sites = array('delicious','diigo');
     
     $mbp_accounts_tab_selected = false;
+    if(isset($_GET["t"]) && $_GET["t"]==2)
+    {
+        $mbp_accounts_tab_selected = true;
+    }
     
     if(isset($_POST["new_account_hidden"]))
     {
@@ -89,6 +93,7 @@ function microblogposter_settings_output()
         {
             $account_type = trim($_POST['account_type']);
         }
+        $extra = array();
         if(in_array($account_type, $tags_sites))
         {
             $extra['include_tags'] = 0;
@@ -132,8 +137,7 @@ function microblogposter_settings_output()
                 $password = stripslashes($password);
                 $password = MicroblogPoster_SupportEnc::enc($password);
                 $extra['penc'] = 1;
-                $extra = json_encode($extra);
-                $wpdb->escape_by_ref($extra);
+                
             }
             
         }
@@ -141,10 +145,29 @@ function microblogposter_settings_output()
         {
             $password = trim($_POST['facebook_profile_url']);
         }
+        if(isset($_POST['linkedin_profile_url']))
+        {
+            $password = trim($_POST['linkedin_profile_url']);
+        }
         if(isset($_POST['message_format']))
         {
             $message_format = trim($_POST['message_format']);
         }
+        if(isset($_POST['post_type_fb']))
+        {
+            $extra['post_type'] = trim($_POST['post_type_fb']);
+        }
+        if(isset($_POST['post_type_lkn']))
+        {
+            $extra['post_type'] = trim($_POST['post_type_lkn']);
+        }
+        if(isset($_POST['default_image_url']))
+        {
+            $extra['default_image_url'] = trim($_POST['default_image_url']);
+        }
+        
+        $extra = json_encode($extra);
+        $wpdb->escape_by_ref($extra);
         
         if($username)
         {
@@ -233,9 +256,25 @@ function microblogposter_settings_output()
         {
             $password = trim($_POST['facebook_profile_url']);
         }
+        if(isset($_POST['linkedin_profile_url']))
+        {
+            $password = trim($_POST['linkedin_profile_url']);
+        }
         if(isset($_POST['message_format']))
         {
             $message_format = trim($_POST['message_format']);
+        }
+        if(isset($_POST['post_type_fb']))
+        {
+            $extra['post_type'] = trim($_POST['post_type_fb']);
+        }
+        if(isset($_POST['post_type_lkn']))
+        {
+            $extra['post_type'] = trim($_POST['post_type_lkn']);
+        }
+        if(isset($_POST['default_image_url']))
+        {
+            $extra['default_image_url'] = trim($_POST['default_image_url']);
         }
         
         $extra = json_encode($extra);
@@ -288,9 +327,12 @@ function microblogposter_settings_output()
     
     $server_name = $_SERVER['SERVER_NAME'];
     $request_uri = $_SERVER['REQUEST_URI'];
+    $request_uri_arr = explode('&', $request_uri, 2);
+    $request_uri = $request_uri_arr[0];
     $protocol = ($_SERVER['HTTPS'] && $_SERVER['HTTPS'] != 'off')?'https':'http';
     $redirect_uri = $protocol.'://'.$server_name.$request_uri;
     $code = null;
+    $redirect_after_auth = false;
     if(isset($_GET['state']) && isset($_GET['code']))
     {
         $mbp_accounts_tab_selected = true;
@@ -307,29 +349,132 @@ function microblogposter_settings_output()
                 $rows = $wpdb->get_results($sql);
                 $row = $rows[0];
                 $extra = json_decode($row->extra, true);
-
+                $account_details = $extra;
+                
+                $log_data = array();
+                $log_data['account_id'] = $row->account_id;
+                $log_data['account_type'] = "facebook";
+                $log_data['username'] = $row->username;
+                $log_data['post_id'] = 0;
+                $log_data['action_result'] = 0;
+                $log_data['update_message'] = '';
+                
                 if($code)
                 {
                     $access_url = "https://graph.facebook.com/oauth/access_token?client_id={$row->consumer_key}&client_secret={$row->consumer_secret}&redirect_uri={$redirect_uri}&code={$code}";
-                    $account_details = array();
-                    $response = file_get_contents($access_url);
+                    
+                    $curl = new MicroblogPoster_Curl();
+                    
+                    $response = $curl->fetch_url($access_url);
+                    
                     parse_str($response, $params);
                     $account_details['access_token'] = $params['access_token'];
                     $account_details['expires'] = time()+$params['expires'];
+                    if(!isset($params['access_token']))
+                    {
+                        $log_data['log_message'] = $response;
+                        MicroblogPoster_Poster::insert_log($log_data);
+                    }
 
 
                     $user_url = "https://graph.facebook.com/me?fields=id,first_name,last_name&access_token={$params['access_token']}";
-                    $response = file_get_contents($user_url);
+                    
+                    $response = $curl->fetch_url($user_url);
+                    
                     $params1 = json_decode($response, true);
+                    $account_details['user_id'] = '';
                     if(isset($params1['first_name']) && isset($params1['last_name']))
                     {
                         $account_details['user_id'] = $params1['id'];
                     }
+                    else
+                    {
+                        $log_data['log_message'] = $response;
+                        MicroblogPoster_Poster::insert_log($log_data);
+                    }
+                    
+                    $access_url = "https://graph.facebook.com/oauth/access_token?client_id={$row->consumer_key}&client_secret={$row->consumer_secret}&grant_type=client_credentials";
+                    
+                    $response = $curl->fetch_url($access_url);
+                    
+                    parse_str($response, $params);
+                    $account_details['access_token'] = $params['access_token'];
+                    $account_details['expires'] = 0;
+                    if(!isset($params['access_token']))
+                    {
+                        $log_data['log_message'] = $response;
+                        MicroblogPoster_Poster::insert_log($log_data);
+                    }
+                    
+                    $redirect_after_auth = true;
+                }
+                
+                $account_details = json_encode($account_details);
+                $wpdb->escape_by_ref($account_details);
+                
+                $sql = "UPDATE {$table_accounts}
+                    SET extra='{$account_details}'
+                    WHERE account_id={$auth_user_id}";
 
-                    $account_details = json_encode($account_details);
-                    $wpdb->escape_by_ref($account_details);
+                $wpdb->query($sql);
+            }
+            
+            
+        }
+        elseif(preg_match('|^linkedin_microblogposter\_|i',trim($_GET['state'])))
+        {
+            $code = trim($_GET['code']);
+            $auth_user_data = explode('_', trim($_GET['state']));
+            $auth_user_id = (int) $auth_user_data[2];
+            
+            if(is_int($auth_user_id))
+            {
+                $sql="SELECT * FROM $table_accounts WHERE account_id={$auth_user_id}";
+                $rows = $wpdb->get_results($sql);
+                $row = $rows[0];
+                $extra = json_decode($row->extra, true);
+                $account_details = $extra;
+
+                $log_data = array();
+                $log_data['account_id'] = $row->account_id;
+                $log_data['account_type'] = "linkedin";
+                $log_data['username'] = $row->username;
+                $log_data['post_id'] = 0;
+                $log_data['action_result'] = 0;
+                $log_data['update_message'] = 'Linkedin Authorization';
+                
+                if($code)
+                {
+                    $url = "https://www.linkedin.com/uas/oauth2/accessToken";
+                    $post_args = array(
+                        'grant_type' => 'authorization_code',
+                        'code' => $code,
+                        'redirect_uri' => $redirect_uri,
+                        'client_id' => $row->consumer_key,
+                        'client_secret' => $row->consumer_secret
+                    );
+
+                    $curl = new MicroblogPoster_Curl();
+                    $json_res = $curl->send_post_data($url, $post_args);
+                    $response = json_decode($json_res, true);
+                    
+                    if(isset($response['access_token']))
+                    {
+                        $account_details['access_token'] = $response['access_token'];
+                        $account_details['expires'] = time()+$response['expires_in'];
+                    }
+                    else
+                    {
+                        $log_data['log_message'] = $json_res;
+                        MicroblogPoster_Poster::insert_log($log_data);
+                    }
+                    
+                    $redirect_after_auth = true;
                 }
 
+                $account_details = json_encode($account_details);
+                $wpdb->escape_by_ref($account_details);
+                
                 $sql = "UPDATE {$table_accounts}
                     SET extra='{$account_details}'
                     WHERE account_id={$auth_user_id}";
@@ -340,6 +485,8 @@ function microblogposter_settings_output()
             
         }
     }
+    
+    $description_shortcodes = "You can use shortcodes: {TITLE} = Title of the new blog post. {URL} = The blog post url. {SHORT_URL} = The blog post shortened url. {SITE_URL} = Your blog/site url.";
     
     
     
@@ -516,7 +663,7 @@ function microblogposter_settings_output()
 
                             </div>
                             <div class="input-div-large">
-                                <span class="description-small">You can use shortcodes: {TITLE} = Title of the new blog post. {URL} = The blog post url. {SHORT_URL} = The blog post shortened url.</span>
+                                <span class="description-small"><?php echo $description_shortcodes;?></span>
                             </div>
                             <div class="input-div">
                                 Consumer Key:
@@ -619,7 +766,7 @@ function microblogposter_settings_output()
 
                             </div>
                             <div class="input-div-large">
-                                <span class="description-small">You can use shortcodes: {TITLE} = Title of the new blog post. {URL} = The blog post url. {SHORT_URL} = The blog post shortened url.</span>
+                                <span class="description-small"><?php echo $description_shortcodes;?></span>
                             </div>
                             <div class="input-div">
                                 Consumer Key:
@@ -729,7 +876,7 @@ function microblogposter_settings_output()
 
                             </div>
                             <div class="input-div-large">
-                                <span class="description-small">You can use shortcodes: {TITLE} = Title of the new blog post. {URL} = The blog post url. {SHORT_URL} = The blog post shortened url.</span>
+                                <span class="description-small"><?php echo $description_shortcodes;?></span>
                             </div>
                         </div>
 
@@ -954,10 +1101,12 @@ function microblogposter_settings_output()
             $authorize_url = "http://www.facebook.com/dialog/oauth/?client_id={$row->consumer_key}&redirect_uri={$redirect_uri}&state=microblogposter_{$row->account_id}&scope=publish_actions";
             
             $fb_acc_extra = null;
+            $post_type = "";
             if($row->extra)
             {
                 $fb_acc_extra = json_decode($row->extra, true);
-                
+                $post_type = $fb_acc_extra['post_type'];
+                $default_image_url = $fb_acc_extra['default_image_url'];
             }
             
         ?>
@@ -994,8 +1143,36 @@ function microblogposter_settings_output()
 
                             </div>
                             <div class="input-div-large">
-                                <span class="description-small">You can use shortcodes: {TITLE} = Title of the new blog post. {URL} = The blog post url. {SHORT_URL} = The blog post shortened url.</span>
+                                <span class="description-small"><?php echo $description_shortcodes;?></span>
                             </div>
+                            <div class="mbp-separator"></div>
+                            <div class="input-div input-div-radio">
+                                Post Type:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="radio" name="post_type_fb" value="text" <?php if($post_type=='text') echo 'checked'; ?>> Text <span class="description">Text only status update.</span><br>
+                                <input type="radio" name="post_type_fb" value="link" <?php if($post_type=='link') echo 'checked'; ?>> Share a Link <span class="description">Status update that contains comment + facebook link box.</span>
+                            </div>
+                            <div class="input-div">
+
+                            </div>
+                            <div class="input-div-large">
+                                <span class="description-small">If you choose to post with link box you'll need a thumbnail for your link. 
+                                    If your new post contains a featured image, MicroblogPoster will take that one.
+                                    If not, no explicit image url will be submitted and facebook will try to fetch appropriate thumbnail for your post.
+                                    If there is no image, your link will appear without thumbnail.
+                                    Otherwise if you don't like image/thumbnail facebook is auto fetching then specify a default image url just below.
+                                    This default thumbnail url will be posted for each new post that doesn't have featured image.
+                                </span>
+                            </div>
+                            <div class="input-div">
+                                Default Image Url:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="default_image_url" name="default_image_url" value="<?php if(isset($default_image_url)) echo $default_image_url;?>"/>
+                                <span class="description">Default Thumbnail for link box. <a href="http://efficientscripts.com/help/microblogposter/generalhelp#def_img_url" target="_blank">Help</a></span>
+                            </div>
+                            <div class="mbp-separator"></div>
                             <div class="input-div">
                                 Application ID/API Key:
                             </div>
@@ -1027,7 +1204,7 @@ function microblogposter_settings_output()
                 <div id="delete_account<?php echo $row->account_id;?>">
                     <form id="delete_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
                         <div class="delete-wrapper">
-                        Twitter Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span><br />
+                        Facebook Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span><br />
                         <span class="delete-wrapper-del">Delete?</span>
                         </div>
                         <input type="hidden" name="account_id" value="<?php echo $row->account_id;?>" />
@@ -1045,10 +1222,15 @@ function microblogposter_settings_output()
                 <span class="edit-account edit<?php echo $row->account_id;?>">Edit</span>
                 <span class="del-account del<?php echo $row->account_id;?>">Del</span>
                 <?php if(isset($fb_acc_extra['access_token']) && $fb_acc_extra['access_token']):?>
-                <div>Authorization is valid until <?php echo date('d-m-Y', $fb_acc_extra['expires']); ?></div>
-                <div><a href="<?php echo $authorize_url; ?>" >Refresh authorization now</a></div>
+                    <?php if($fb_acc_extra['expires'] == '0'):?>
+                        <div>Authorization is valid permanently</div>
+                        <div><a href="<?php echo $authorize_url; ?>" >Re-Authorize this facebook account</a></div>
+                    <?php else:?>
+                        <div>Authorization is valid until <?php echo date('d-m-Y', $fb_acc_extra['expires']); ?></div>
+                        <div><a href="<?php echo $authorize_url; ?>" >Refresh authorization now</a></div>
+                    <?php endif;?>
                 <?php else:?>
-                <div><a href="<?php echo $authorize_url; ?>" >Authorize this facebook account</a></div>
+                        <div><a href="<?php echo $authorize_url; ?>" >Authorize this facebook account</a></div>
                 <?php endif;?>
             </div>
             
@@ -1134,7 +1316,7 @@ function microblogposter_settings_output()
                 <div id="delete_account<?php echo $row->account_id;?>">
                     <form id="delete_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
                         <div class="delete-wrapper">
-                        Delicious Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span><br />
+                        Diigo Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span><br />
                         <span class="delete-wrapper-del">Delete?</span>
                         </div>
                         <input type="hidden" name="account_id" value="<?php echo $row->account_id;?>" />
@@ -1152,6 +1334,148 @@ function microblogposter_settings_output()
                 <span class="edit-account edit<?php echo $row->account_id;?>">Edit</span>
                 <span class="del-account del<?php echo $row->account_id;?>">Del</span>
             </div>
+        <?php endforeach;?>
+            
+        <div class="social-network-accounts-site">
+            <img src="../wp-content/plugins/microblog-poster/images/linkedin_icon.png" />
+            <h4>Linkedin Accounts</h4>
+        </div>
+        <?php
+        $sql="SELECT * FROM $table_accounts WHERE type='linkedin'";
+        $rows = $wpdb->get_results($sql);
+        foreach($rows as $row):
+            $update_accounts[] = $row->account_id;
+            $linkedin_scope = urlencode("r_basicprofile rw_nus");
+            $authorize_url = "https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id={$row->consumer_key}&redirect_uri={$redirect_uri}&state=linkedin_microblogposter_{$row->account_id}&scope={$linkedin_scope}";
+            
+            $lkn_acc_extra = null;
+            if($row->extra)
+            {
+                $lkn_acc_extra = json_decode($row->extra, true);
+                $post_type = $lkn_acc_extra['post_type'];
+                $default_image_url = $lkn_acc_extra['default_image_url'];
+            }
+            
+        ?>
+            <div style="display:none">
+                <div id="update_account<?php echo $row->account_id;?>">
+                    <form id="update_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
+                        
+                        <h3 class="new-account-header"><span class="microblogposter-name">MicroblogPoster</span> Plugin</h3>
+                        <div class="delete-wrapper">
+                            Linkedin Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span>
+                        </div>
+                        <div id="facebook-div" class="one-account">
+                            <div class="input-div">
+                                Username:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="username" name="username" value="<?php echo $row->username;?>"/>
+                            </div>
+                            <div class="input-div">
+                                Linkedin profile URL:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="" name="linkedin_profile_url" value="<?php echo $row->password;?>" />
+                                <span class="description">Your Linkedin profile URL.</span>
+                            </div>
+                            <div class="input-div">
+                                Message Format:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="message_format" name="message_format" value="<?php echo $row->message_format;?>"/>
+                                <span class="description">Message that's actually posted.</span>
+                            </div>
+                            <div class="input-div">
+
+                            </div>
+                            <div class="input-div-large">
+                                <span class="description-small"><?php echo $description_shortcodes;?></span>
+                            </div>
+                            <div class="mbp-separator"></div>
+                            <div class="input-div input-div-radio">
+                                Post Type:
+                            </div>
+                            <div class="input-div-large">
+                                <!--input type="radio" name="post_type_lkn" value="text" <?php if($post_type=='text') echo 'checked'; ?>> Text <span class="description">Text only status update.</span><br-->
+                                <input type="radio" name="post_type_lkn" value="link" <?php if($post_type=='link') echo 'checked'; ?>> Share a Link <span class="description">Status update that contains comment + linkedin link box.</span>
+                            </div>
+                            <div class="input-div">
+
+                            </div>
+                            <div class="input-div-large">
+                                <span class="description-small">
+                                    Posting with link box you'll need a thumbnail for your link. 
+                                    If your new post contains a featured image, MicroblogPoster will take that one.
+                                    If not, no explicit image url will be submitted and your update will appear without a thumbnail.
+                                    If you want always to have an image going with your link then specify a default image url just below.
+                                    This default thumbnail url will be posted for each new post that doesn't have featured image.
+                                </span>
+                            </div>
+                            <div class="input-div">
+                                Default Image Url:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="default_image_url" name="default_image_url" value="<?php if(isset($default_image_url)) echo $default_image_url;?>"/>
+                                <span class="description">Default Thumbnail for link box. <a href="http://efficientscripts.com/help/microblogposter/generalhelp#def_img_url" target="_blank">Help</a></span>
+                            </div>
+                            <div class="mbp-separator"></div>
+                            <div class="input-div">
+                                Application ID/API Key:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="" name="consumer_key" value="<?php echo $row->consumer_key;?>" />
+                                <span class="description">Your Linkedin Application ID/API Key.</span>
+                            </div>
+                            <div class="input-div">
+                                Application Secret:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="" name="consumer_secret" value="<?php echo $row->consumer_secret;?>" />
+                                <span class="description">Your Linkedin Application Secret.</span>
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="account_id" value="<?php echo $row->account_id;?>" />
+                        <input type="hidden" name="account_type" value="linkedin" />
+                        <input type="hidden" name="update_account_hidden" value="1" />
+                        <div class="button-holder">
+                            <button type="button" class="button cancel-account" >Cancel</button>
+                            <button type="button" class="button-primary save-account<?php echo $row->account_id;?>" >Save</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <div style="display:none">
+                <div id="delete_account<?php echo $row->account_id;?>">
+                    <form id="delete_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
+                        <div class="delete-wrapper">
+                        Linkedin Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span><br />
+                        <span class="delete-wrapper-del">Delete?</span>
+                        </div>
+                        <input type="hidden" name="account_id" value="<?php echo $row->account_id;?>" />
+                        <input type="hidden" name="account_type" value="linkedin" />
+                        <input type="hidden" name="delete_account_hidden" value="1" />
+                        <div class="button-holder-del">
+                            <button type="button" class="button cancel-account" >Cancel</button>
+                            <button type="button" class="del-account-fb button del-account<?php echo $row->account_id;?>" >Delete</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="account-wrapper">
+                <span class="account-username"><?php echo $row->username;?></span>
+                <span class="edit-account edit<?php echo $row->account_id;?>">Edit</span>
+                <span class="del-account del<?php echo $row->account_id;?>">Del</span>
+                <?php if(isset($lkn_acc_extra['access_token']) && $lkn_acc_extra['access_token']):?>
+                <div>Authorization is valid until <?php echo date('d-m-Y', $lkn_acc_extra['expires']); ?></div>
+                <div><a href="<?php echo $authorize_url; ?>" >Refresh authorization now</a></div>
+                <?php else:?>
+                <div><a href="<?php echo $authorize_url; ?>" >Authorize this linkedin account</a></div>
+                <?php endif;?>
+            </div>
+            
         <?php endforeach;?>
         </div>
         
@@ -1172,6 +1496,7 @@ function microblogposter_settings_output()
                         <option value="delicious">Delicious</option>
                         <option value="facebook">Facebook</option>
                         <option value="diigo">Diigo</option>
+                        <option value="linkedin">Linkedin</option>
                     </select> 
                     </div>
 
@@ -1195,7 +1520,7 @@ function microblogposter_settings_output()
 
                         </div>
                         <div class="input-div-large">
-                            <span class="description-small">You can use shortcodes: {TITLE} = Title of the new blog post. {URL} = The blog post url. {SHORT_URL} = The blog post shortened url.</span>
+                            <span class="description-small"><?php echo $description_shortcodes;?></span>
                         </div>
                         <div class="input-div">
                             Consumer Key:
@@ -1245,7 +1570,7 @@ function microblogposter_settings_output()
 
                         </div>
                         <div class="input-div-large">
-                            <span class="description-small">You can use shortcodes: {TITLE} = Title of the new blog post. {URL} = The blog post url. {SHORT_URL} = The blog post shortened url.</span>
+                            <span class="description-small"><?php echo $description_shortcodes;?></span>
                         </div>
                         <div class="input-div">
                             Consumer Key:
@@ -1300,7 +1625,7 @@ function microblogposter_settings_output()
 
                         </div>
                         <div class="input-div-large">
-                            <span class="description-small">You can use shortcodes: {TITLE} = Title of the new blog post. {URL} = The blog post url. {SHORT_URL} = The blog post shortened url.</span>
+                            <span class="description-small"><?php echo $description_shortcodes;?></span>
                         </div>
                     </div>
                     <div id="friendfeed-div" class="one-account">
@@ -1393,8 +1718,36 @@ function microblogposter_settings_output()
 
                         </div>
                         <div class="input-div-large">
-                            <span class="description-small">You can use shortcodes: {TITLE} = Title of the new blog post. {URL} = The blog post url. {SHORT_URL} = The blog post shortened url.</span>
+                            <span class="description-small"><?php echo $description_shortcodes;?></span>
                         </div>
+                        <div class="mbp-separator"></div>
+                        <div class="input-div input-div-radio">
+                            Post Type:
+                        </div>
+                        <div class="input-div-large">
+                            <input type="radio" name="post_type_fb" value="text" checked="checked"> Text <span class="description">Text only status update.</span><br>
+                            <input type="radio" name="post_type_fb" value="link"> Share a Link <span class="description">Status update that contains comment + facebook link box.</span>
+                        </div>
+                        <div class="input-div">
+
+                        </div>
+                        <div class="input-div-large">
+                            <span class="description-small">If you choose to post with link box you'll need a thumbnail for your link. 
+                                If your new post contains a featured image, MicroblogPoster will take that one.
+                                If not, no explicit image url will be submitted and facebook will try to fetch appropriate thumbnail for your post.
+                                If there is no image, your link will appear without thumbnail.
+                                Otherwise if you don't like image/thumbnail facebook is auto fetching then specify a default image url just below.
+                                This default thumbnail url will be posted for each new post that doesn't have featured image.
+                            </span>
+                        </div>
+                        <div class="input-div">
+                            Default Image Url:
+                        </div>
+                        <div class="input-div-large">
+                            <input type="text" id="default_image_url" name="default_image_url" />
+                            <span class="description">Default Thumbnail for link box. <a href="http://efficientscripts.com/help/microblogposter/generalhelp#def_img_url" target="_blank">Help</a></span>
+                        </div>
+                        <div class="mbp-separator"></div>
                         <div class="input-div">
                             Application ID/API Key:
                         </div>
@@ -1449,6 +1802,78 @@ function microblogposter_settings_output()
                         <div class="input-div-large">
                             <input type="checkbox" id="include_tags" name="include_tags" value="1"/>
                             <span class="description">Do you want to include tags in the bookmarks?</span>
+                        </div>
+                    </div>
+                    <div id="linkedin-div" class="one-account">
+                        <div class="help-div"><span class="description">Help: <a href="http://wordpress.org/extend/plugins/microblog-poster/installation/" target="_blank">MicroblogPoster installation page</a></span></div>
+                        <div class="input-div">
+                            Username:
+                        </div>
+                        <div class="input-div-large">
+                            <input type="text" id="username" name="username" value="" />
+                            <span class="description">Easily identify it later, not used for posting.</span>
+                        </div>
+                        <div class="input-div">
+                            Linkedin profile URL:
+                        </div>
+                        <div class="input-div-large">
+                            <input type="text" id="" name="linkedin_profile_url" value="" />
+                            <span class="description">Your Linkedin profile URL.</span>
+                        </div>
+                        <div class="input-div">
+                            Message Format:
+                        </div>
+                        <div class="input-div-large">
+                            <input type="text" id="message_format" name="message_format" />
+                            <span class="description">Message that's actually posted.</span>
+                        </div>
+                        <div class="input-div">
+
+                        </div>
+                        <div class="input-div-large">
+                            <span class="description-small"><?php echo $description_shortcodes;?></span>
+                        </div>
+                        <div class="mbp-separator"></div>
+                        <div class="input-div input-div-radio">
+                            Post Type:
+                        </div>
+                        <div class="input-div-large">
+                            <!--input type="radio" name="post_type_lkn" value="text" checked="checked"> Text <span class="description">Text only status update.</span><br-->
+                            <input type="radio" name="post_type_lkn" value="link" checked="checked"> Share a Link <span class="description">Status update that contains comment + linkedin link box.</span>
+                        </div>
+                        <div class="input-div">
+
+                        </div>
+                        <div class="input-div-large">
+                            <span class="description-small">
+                                Posting with link box you'll need a thumbnail for your link. 
+                                If your new post contains a featured image, MicroblogPoster will take that one.
+                                If not, no explicit image url will be submitted and your update will appear without a thumbnail.
+                                If you want always to have an image going with your link then specify a default image url just below.
+                                This default thumbnail url will be posted for each new post that doesn't have featured image.
+                            </span>
+                        </div>
+                        <div class="input-div">
+                            Default Image Url:
+                        </div>
+                        <div class="input-div-large">
+                            <input type="text" id="default_image_url" name="default_image_url" />
+                            <span class="description">Default Thumbnail for link box. <a href="http://efficientscripts.com/help/microblogposter/generalhelp#def_img_url" target="_blank">Help</a></span>
+                        </div>
+                        <div class="mbp-separator"></div>
+                        <div class="input-div">
+                            Application ID/API Key:
+                        </div>
+                        <div class="input-div-large">
+                            <input type="text" id="" name="consumer_key" value="" />
+                            <span class="description">Your Linkedin Application ID/API Key.</span>
+                        </div>
+                        <div class="input-div">
+                            Application Secret:
+                        </div>
+                        <div class="input-div-large">
+                            <input type="text" id="" name="consumer_secret" value="" />
+                            <span class="description">Your Linkedin Application Secret.</span>
                         </div>
                     </div>
 
@@ -1507,6 +1932,10 @@ function microblogposter_settings_output()
             margin-bottom: 5px;
             display: inline-block;
             width: 150px;
+        }
+        .input-div-radio
+        {
+            vertical-align: top;
         }
         .input-div-large
         {
@@ -1790,6 +2219,10 @@ function microblogposter_settings_output()
             color: #21759B;
             font-weight: bold;
         }
+        .mbp-separator
+        {
+            min-height: 10px;
+        }
     </style>
 
     
@@ -1849,7 +2282,7 @@ function microblogposter_settings_output()
                     'scrolling'	: 'auto',
                     'titleShow'	: false,
                     'onComplete'	: function() {
-                        $('div#fancybox-content #plurk-div,div#fancybox-content #identica-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div,div#fancybox-content #diigo-div').hide().find('input').attr('disabled','disabled');
+                        $('div#fancybox-content #plurk-div,div#fancybox-content #identica-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div,div#fancybox-content #diigo-div,div#fancybox-content #linkedin-div').hide().find('input').attr('disabled','disabled');
                     }
                 });
                 
@@ -1890,7 +2323,7 @@ function microblogposter_settings_output()
             $("#account_type").live("change", function(){
                 var type = $(this).val();
                 //console.log(type);
-                $('div#fancybox-content #twitter-div,div#fancybox-content #plurk-div,div#fancybox-content #identica-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div,div#fancybox-content #diigo-div').hide().find('input').attr('disabled','disabled');
+                $('div#fancybox-content #twitter-div,div#fancybox-content #plurk-div,div#fancybox-content #identica-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div,div#fancybox-content #diigo-div,div#fancybox-content #linkedin-div').hide().find('input').attr('disabled','disabled');
                 $('div#fancybox-content #'+type+'-div').show().find('input').removeAttr('disabled');
             });
             
@@ -2007,7 +2440,10 @@ function microblogposter_settings_output()
                     $('#microblogposter_default_pbehavior_update').attr('disabled','disabled');
                 }
             });
-                
+            
+            <?php if($redirect_after_auth):?>
+                window.location = "<?php echo $redirect_uri.'&t=2';?>";
+            <?php endif;?>
         });
         
         
@@ -2017,4 +2453,5 @@ function microblogposter_settings_output()
     <?php
     
 }
+
 ?>

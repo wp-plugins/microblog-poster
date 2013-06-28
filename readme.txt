@@ -1,11 +1,11 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, delicious, diigo, plurk, friendfeed, identica, automatic, automation, links, backlinks, shortcodes, auto update status, update status, social media auto publish, social network auto publish, social media publishing, post to twitter, publish to facebook
+Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, delicious, diigo, plurk, friendfeed, identica, automatic, automation, links, backlinks, auto update status, social media auto publish, social network auto publish, post to twitter, post to facebook
 Requires at least: 3.0
-Tested up to: 3.5.1
-Stable tag: 1.2.61
+Tested up to: 3.5.2
+Stable tag: 1.2.7
 
-Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Plurk, Diigo, Delicious..
+Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Linkedin, Plurk, Diigo, Delicious..
 
 == Description ==
 
@@ -18,13 +18,14 @@ Easily follow the automated sharing process from **MicroblogPoster**'s logs sect
 
 **Currently supported social media sites**
 
-* twitter.com - Auto tweets backlink of new blogpost.
-* facebook.com - Auto updates your status with backlink.
-* plurk.com - Auto posts new plurk.
-* identi.ca - Auto publishes new message.
-* delicious.com - Auto submits bookmark of your blogpost to your account.
-* friendfeed.com - Auto updates your status.
-* diigo.com - Auto submits bookmark of your new blogpost.
+* twitter.com - Auto tweet backlink of new blogpost.
+* facebook.com - Auto publish to profile wall.
+* plurk.com - Auto post new plurk.
+* identi.ca - Auto publish new message.
+* delicious.com - Auto submit bookmark of your blogpost to your account.
+* friendfeed.com - Auto update your status.
+* diigo.com - Auto submit bookmark of your new blogpost.
+* linkedin.com - Auto publish to profile wall
 
 Please visit **MicroblogPoster**'s [website](http://efficientscripts.com/microblogposter "MicroblogPoster's website").
 
@@ -40,16 +41,24 @@ see "posted by MicroblogPoster" in your updates, you'll see "posted by your own 
 - Auto publish your new blog content
 - Sends out social signals and auto share to social media accounts
 - Social signals and backlinks auto generator
+- Cross post to facebook , twitter and more
+- Auto publish to social networks accounts
 
 == Screenshots ==
 
-1. MicroblogPoster Options page, General section.
+1. MicroblogPoster Options page, General Section.
 
 2. MicroblogPoster Options page, Social Network Accounts.
 
-3. MicroblogPoster Options page, Logs section.
+3. MicroblogPoster Options page, Logs Section.
 
 == Changelog ==
+
+= 1.2.7 (28-06-2013) =
+- linkedin.com is now supported.
+- facebook posting improvements (text only or share a link).
+- Added possibility to post featured image (facebook and linkedin cross posting).
+- Logging failed authorizations to help debugging.
 
 = 1.2.61 (12-06-2013) =
 - Urgent twitter api fix
@@ -196,10 +205,29 @@ Instead of the password the friendfeed API requires the remote key to let you po
 
 **diigo.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/diigohelp "Diigo help with screenshots.")
 
-In addition to your username/password you'll need to create your own diigo app and generate an Api key.
+In addition to your username and password you'll need to create your own diigo app and generate an Api key.
 
     1. Please go at this url: https://www.diigo.com/api_keys/new/
     and generate your diigo Api Key (you need to be logged in).
+
+
+**linkedin.com accounts**
+
+
+    1. Please go at this url https://www.linkedin.com/secure/developer
+    and click on 'Add New Application'.
+
+    2. Fill in the required informations.
+    For 'Live Status', select Live.
+    Leave everything else by default.
+    Click 'Add Application'.
+
+    3. Copy 'API Key' and 'Secret Key', click 'Done'.
+
+    4. Configure your linkedin account in the Social Accounts section.
+
+    5. Follow the link provided by MicroblogPoster to authorize your App 
+    posting on your behalf.
 
 
 == Upgrade Notice ==
@@ -211,7 +239,7 @@ Deactivate/Activate MicroblogPoster plugin.
 = My blog is hosted on shared hosting, can I use MicroblogPoster? =
 
 Warning about inherent php script execution time limitation that some Hosting Providers apply on shared accounts (max_execution_time PHP setting). 
-Since *MicroblogPoster* needs time to update all your social accounts when publishing a new blog post this limit might be reached and script execution stopped.
+Since *MicroblogPoster* needs time to update all your social accounts when publishing a new blog post, this limit might be reached and script execution stopped.
 In order to avoid it, please limit the number of social accounts based on your environment script execution time limit.
 
 = The PHP cURL extension is required? =
