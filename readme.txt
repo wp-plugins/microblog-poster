@@ -3,7 +3,7 @@ Contributors: cybperic
 Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, delicious, diigo, plurk, friendfeed, identica, automatic, automation, links, backlinks, auto update status, social media auto publish, social network auto publish, post to twitter, post to facebook
 Requires at least: 3.0
 Tested up to: 3.5.2
-Stable tag: 1.2.7
+Stable tag: 1.3.0
 
 Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Linkedin, Plurk, Diigo, Delicious..
 
@@ -53,6 +53,12 @@ see "posted by MicroblogPoster" in your updates, you'll see "posted by your own 
 3. MicroblogPoster Options page, Logs Section.
 
 == Changelog ==
+
+= 1.3.0 (01-07-2013) =
+- linkedin.com is now supported.
+- facebook posting improvements (text only or share a link).
+- Added possibility to post featured image (facebook and linkedin cross posting).
+- Logging failed authorizations to help debugging.
 
 = 1.2.7 (28-06-2013) =
 - linkedin.com is now supported.
