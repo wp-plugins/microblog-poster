@@ -228,7 +228,7 @@ In addition to your username and password you'll need to create your own diigo a
     Leave everything else by default.
     Click 'Add Application'.
 
-    3. Copy 'API Key' and 'Secret Key', click 'Done'.
+    3. Copy the 'API Key' and 'Secret Key', click 'Done'.
 
     4. Configure your linkedin account in the Social Accounts section.
 
