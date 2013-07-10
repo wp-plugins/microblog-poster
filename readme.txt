@@ -217,7 +217,7 @@ In addition to your username and password you'll need to create your own diigo a
     and generate your diigo Api Key (you need to be logged in).
 
 
-**linkedin.com accounts**
+**linkedin.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/linkedinhelp "Linkedin help with screenshots.")
 
 
     1. Please go at this url https://www.linkedin.com/secure/developer
