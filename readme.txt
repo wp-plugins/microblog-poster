@@ -226,7 +226,7 @@ In addition to your username and password you'll need to create your own diigo a
     2. Fill in the required informations.
     For 'Live Status', select Live.
     Leave everything else by default.
-    Click 'Add Application'.
+    Click the button 'Add Application'.
 
     3. Copy 'API Key' and 'Secret Key', click 'Done'.
 
