@@ -1,9 +1,9 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, delicious, diigo, plurk, friendfeed, identica, automatic, automation, links, backlinks, auto update status, social media auto publish, social network auto publish, post to twitter, post to facebook
+Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, identica, automatic, automation, links, backlinks, auto update status, social media auto publish, social network auto publish, post to twitter, post to facebook
 Requires at least: 3.0
 Tested up to: 3.5.2
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 
 Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Linkedin, Plurk, Diigo, Delicious..
 
@@ -16,12 +16,13 @@ Possibility to nicely format the update message per account, **shortcodes suppor
 **Logs are generated** on new blog post for each configured social network account.
 Easily follow the automated sharing process from **MicroblogPoster**'s logs section and debug your configuration if needed.
 
+**Filter posts** to be published based on excluded categories. (General section settings)
+
 **Currently supported social media sites**
 
 * twitter.com - Auto tweet backlink of new blogpost.
 * facebook.com - Auto publish to profile wall.
 * plurk.com - Auto post new plurk.
-* identi.ca - Auto publish new message.
 * delicious.com - Auto submit bookmark of your blogpost to your account.
 * friendfeed.com - Auto update your status.
 * diigo.com - Auto submit bookmark of your new blogpost.
@@ -31,7 +32,7 @@ Please visit **MicroblogPoster**'s [website](http://efficientscripts.com/microbl
 
 
 The idea behind **MicroblogPoster** is to promote your wordpress blog and reach more people through social networks.
-There's general agreement in the SEO community that social signals strengthen your blog's page rank and authority.
+There's a general agreement in the SEO community that social signals strengthen your blog's page rank and authority.
 **MicroblogPoster** is simply an intermediary between your blog and your own social network accounts. You'll never
 see "posted by MicroblogPoster" in your updates, you'll see "posted by your own App name" or simply "by API".
 
@@ -53,6 +54,13 @@ see "posted by MicroblogPoster" in your updates, you'll see "posted by your own 
 3. MicroblogPoster Options page, Logs Section.
 
 == Changelog ==
+
+= 1.3.1 (20-07-2013) =
+- Added currently recommended way of authentication with bit.ly (oauth).
+- MicroblogPoster's control checkbox moved from right side to center.
+- Dropped support for identi.ca because of the complete change of their API.
+- Added possibility to choose plurk qualifier.
+- In general section exclude posts from checked categories cross-posting automatically.
 
 = 1.3.0 (01-07-2013) =
 - linkedin.com is now supported.
@@ -156,7 +164,7 @@ It's most likely the same as for twitter, you'll need some more effort in order 
     3. Not finished yet, you need the second pair of credentials. 
     On 'My Plurk Apps' page this time click on 'test console' button.
 
-    4. First click on 'Get Request Token', some processing is done. 
+    4. First click on 'Get Request Token', then some processing is done. 
     After that click on 'Open Authorization URL', you'll be redirected 
     to a new page and you'll have to grant the permission in order to get
     your verification code.
@@ -214,10 +222,10 @@ Instead of the password the friendfeed API requires the remote key to let you po
 In addition to your username and password you'll need to create your own diigo app and generate an Api key.
 
     1. Please go at this url: https://www.diigo.com/api_keys/new/
-    and generate your diigo Api Key (you need to be logged in).
+    and generate your diigo Api Key. (you need to be logged in)
 
 
-**linkedin.com accounts**
+**linkedin.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/linkedinhelp "Linkedin help with screenshots.")
 
 
     1. Please go at this url https://www.linkedin.com/secure/developer
@@ -226,7 +234,7 @@ In addition to your username and password you'll need to create your own diigo a
     2. Fill in the required informations.
     For 'Live Status', select Live.
     Leave everything else by default.
-    Click 'Add Application'.
+    Click the button 'Add Application'.
 
     3. Copy 'API Key' and 'Secret Key', click 'Done'.
 

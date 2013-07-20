@@ -4,9 +4,9 @@
  * Plugin Name: Microblog Poster
  * Plugin URI: http://efficientscripts.com/microblogposter
  * Description: Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Linkedin, Plurk, Diigo, Delicious..
- * Version: 1.3.0
- * Author: cybperic
- * Author URI: http://profiles.wordpress.org/users/cybperic/
+ * Version: 1.3.1
+ * Author: Efficient Scripts
+ * Author URI: http://efficientscripts.com/
  *
  *
  */
@@ -205,6 +205,24 @@ class MicroblogPoster_Poster
             return;
         }
         
+        
+        $post_categories = wp_get_post_categories($post_ID);
+        
+        if(is_array($post_categories) && !empty($post_categories))
+        {
+            $excluded_categories_name = "microblogposter_excluded_categories";
+            $excluded_categories_value = get_option($excluded_categories_name, "");
+            $excluded_categories = json_decode($excluded_categories_value, true);
+            foreach($excluded_categories as $cat_id)
+            {
+                if(in_array($cat_id, $post_categories))
+                {
+                    return;
+                }
+            }
+        }
+        
+        
         $post = get_post($post_ID);
         $post->post_content = strip_tags($post->post_content);
         $post->post_content = preg_replace("|(\r\n)+|", " ", $post->post_content);
@@ -242,9 +260,10 @@ class MicroblogPoster_Poster
         $bitly_api = new MicroblogPoster_Bitly();
         $bitly_api_user_value = get_option("microblogposter_plg_bitly_api_user", "");
         $bitly_api_key_value = get_option("microblogposter_plg_bitly_api_key", "");
-        if($bitly_api_user_value and $bitly_api_key_value)
+        $bitly_access_token_value = get_option("microblogposter_plg_bitly_access_token", "");
+        if( ($bitly_api_user_value and $bitly_api_key_value) or $bitly_access_token_value )
         {
-            $bitly_api->setCredentials($bitly_api_user_value, $bitly_api_key_value);
+            $bitly_api->setCredentials($bitly_api_user_value, $bitly_api_key_value, $bitly_access_token_value);
             $shortened_permalink = $bitly_api->shorten($permalink);
             if($shortened_permalink)
             {
@@ -268,7 +287,6 @@ class MicroblogPoster_Poster
         
         MicroblogPoster_Poster::update_twitter($update, $post_content, $post_ID);
         MicroblogPoster_Poster::update_plurk($update, $post_content, $post_ID);
-	MicroblogPoster_Poster::update_identica($update, $post_content, $post_ID);
 	MicroblogPoster_Poster::update_delicious($post_title, $permalink, $tags, $post_content, $post_ID);
         MicroblogPoster_Poster::update_friendfeed($post_title, $permalink, $post_content, $post_ID);
         MicroblogPoster_Poster::update_facebook($update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_lkn, $featured_image_src_thumbnail);
@@ -349,13 +367,23 @@ class MicroblogPoster_Poster
                 {
                     $update = str_ireplace(MicroblogPoster_Poster::get_shortcodes(), $post_content, $plurk_account['message_format']);
                 }
+                
+                $qualifier = "says";
+                $extra = json_decode($plurk_account['extra'], true);
+                if(is_array($extra))
+                {    
+                    if(isset($extra['qualifier']))
+                    {
+                        $qualifier = $extra['qualifier'];
+                    }
+                }
                 $result = MicroblogPoster_Poster::send_signed_request(
                     $plurk_account['consumer_key'],
                     $plurk_account['consumer_secret'],
                     $plurk_account['access_token'],
                     $plurk_account['access_token_secret'],
                     "http://www.plurk.com/APP/Timeline/plurkAdd",
-                    array("content"=>$update, "qualifier"=>"says")
+                    array("content"=>$update, "qualifier"=>$qualifier)
                 );
                 
                 $action_result = 2;
@@ -380,58 +408,6 @@ class MicroblogPoster_Poster
         
     }
     
-    /**
-    * Updates status on identi.ca
-    *
-    * @param string  $update Text to be posted on microblogging site
-    * @param array $post_content
-    * @return void
-    */
-    public static function update_identica($update, $post_content, $post_ID)
-    {
-	
-        $curl = new MicroblogPoster_Curl();
-        $identica_accounts = MicroblogPoster_Poster::get_accounts('identica');
-        
-        if(!empty($identica_accounts))
-        {
-            foreach($identica_accounts as $identica_account)
-            {
-                
-                if($identica_account['message_format'])
-                {
-                    $update = str_ireplace(MicroblogPoster_Poster::get_shortcodes(), $post_content, $identica_account['message_format']);
-                }
-                $is_raw = MicroblogPoster_SupportEnc::is_enc($identica_account['extra']);
-                if(!$is_raw)
-                {
-                    $identica_account['password'] = MicroblogPoster_SupportEnc::dec($identica_account['password']);
-                }
-                $curl->set_credentials($identica_account['username'],$identica_account['password']);
-
-                $url = "http://identi.ca/api/statuses/update.json";
-                $post_args = array(
-                    'status' => $update
-                );
-
-                $result = $curl->send_post_data($url, $post_args);
-                
-                $action_result = 0;
-                
-                $log_data = array();
-                $log_data['account_id'] = $identica_account['account_id'];
-                $log_data['account_type'] = "identica";
-                $log_data['username'] = $identica_account['username'];
-                $log_data['post_id'] = $post_ID;
-                $log_data['action_result'] = $action_result;
-                $log_data['update_message'] = $update;
-                $log_data['log_message'] = $result;
-                MicroblogPoster_Poster::insert_log($log_data);
-            }
-        }
-        
-	
-    }
     
     /**
     * Updates status on delicious.com
@@ -1033,12 +1009,12 @@ function microblogposter_pmeta()
 //Add the checkbox defined above to post edit screen.
 function microblogposter_meta_box()
 {
-    add_meta_box('microblogposter_domain','MicroblogPoster','microblogposter_meta','post','side','high');
+    add_meta_box('microblogposter_domain','MicroblogPoster','microblogposter_meta','post','advanced','high');
     $page_mode_name = "microblogposter_page_mode";
     $page_mode_value = get_option($page_mode_name, "");
     if($page_mode_value)
     {
-        add_meta_box('microblogposter_domain','MicroblogPoster','microblogposter_pmeta','page','side','high');
+        add_meta_box('microblogposter_domain','MicroblogPoster','microblogposter_pmeta','page','advanced','high');
     }
 }
 add_action('admin_menu', 'microblogposter_meta_box');

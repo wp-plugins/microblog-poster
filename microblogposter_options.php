@@ -27,34 +27,43 @@ function microblogposter_settings_output()
     //Options names
     $bitly_api_user_name = "microblogposter_plg_bitly_api_user";
     $bitly_api_key_name = "microblogposter_plg_bitly_api_key";
+    $bitly_access_token_name = "microblogposter_plg_bitly_access_token";
     $default_behavior_name = "microblogposter_default_behavior";
     $default_behavior_update_name = "microblogposter_default_behavior_update";
     $default_pbehavior_name = "microblogposter_default_pbehavior";
     $default_pbehavior_update_name = "microblogposter_default_pbehavior_update";
     $page_mode_name = "microblogposter_page_mode";
+    $excluded_categories_name = "microblogposter_excluded_categories";
     
     
     $bitly_api_user_value = get_option($bitly_api_user_name, "");
     $bitly_api_key_value = get_option($bitly_api_key_name, "");
+    $bitly_access_token_value = get_option($bitly_access_token_name, "");
     $default_behavior_value = get_option($default_behavior_name, "");
     $default_behavior_update_value = get_option($default_behavior_update_name, "");
     $default_pbehavior_value = get_option($default_pbehavior_name, "");
     $default_pbehavior_update_value = get_option($default_pbehavior_update_name, "");
     $page_mode_value = get_option($page_mode_name, "");
+    $excluded_categories_value = get_option($excluded_categories_name, "");
+    $excluded_categories_value = json_decode($excluded_categories_value, true);
     
     
     if(isset($_POST["update_options"]))
     {
         $bitly_api_user_value = $_POST[$bitly_api_user_name];
         $bitly_api_key_value = $_POST[$bitly_api_key_name];
+        $bitly_access_token_value = $_POST[$bitly_access_token_name];
         $default_behavior_value = $_POST[$default_behavior_name];
         $default_behavior_update_value = $_POST[$default_behavior_update_name];
         $default_pbehavior_value = $_POST[$default_pbehavior_name];
         $default_pbehavior_update_value = $_POST[$default_pbehavior_update_name];
         $page_mode_value = $_POST[$page_mode_name];
+        $excluded_categories_value = $_POST[$excluded_categories_name];
+        $excluded_categories_value = json_encode($excluded_categories_value);
         
         update_option($bitly_api_user_name, $bitly_api_user_value);
         update_option($bitly_api_key_name, $bitly_api_key_value);
+        update_option($bitly_access_token_name, $bitly_access_token_value);
         update_option($default_behavior_name, $default_behavior_value);
         update_option($default_behavior_update_name, $default_behavior_update_value);
         
@@ -70,13 +79,22 @@ function microblogposter_settings_output()
             $default_pbehavior_update_value = get_option($default_pbehavior_update_name, "");
         }
         
+        update_option($excluded_categories_name, $excluded_categories_value);
+        $excluded_categories_value = json_decode($excluded_categories_value, true);
+        
         ?>
         <div class="updated"><p><strong>Options saved.</strong></p></div>
         <?php
         
     }
     
-    $http_auth_sites = array('identica','friendfeed','delicious','diigo');
+    $excluded_categories = array();
+    if(is_array($excluded_categories_value))
+    {
+        $excluded_categories = $excluded_categories_value;
+    }
+    
+    $http_auth_sites = array('friendfeed','delicious','diigo');
     $tags_sites = array('delicious','diigo');
     
     $mbp_accounts_tab_selected = false;
@@ -164,6 +182,10 @@ function microblogposter_settings_output()
         if(isset($_POST['default_image_url']))
         {
             $extra['default_image_url'] = trim($_POST['default_image_url']);
+        }
+        if(isset($_POST['mbp_plurk_qualifier']))
+        {
+            $extra['qualifier'] = trim($_POST['mbp_plurk_qualifier']);
         }
         
         $extra = json_encode($extra);
@@ -275,6 +297,10 @@ function microblogposter_settings_output()
         if(isset($_POST['default_image_url']))
         {
             $extra['default_image_url'] = trim($_POST['default_image_url']);
+        }
+        if(isset($_POST['mbp_plurk_qualifier']))
+        {
+            $extra['qualifier'] = trim($_POST['mbp_plurk_qualifier']);
         }
         
         $extra = json_encode($extra);
@@ -500,10 +526,10 @@ function microblogposter_settings_output()
         
         <p>
             The idea behind <span class="microblogposter-name">MicroblogPoster</span> is to promote your wordpress blog
-            and reach more people through social networks. <span class="microblogposter-name">MicroblogPoster</span> is 
-            simply an intermediary between your blog and your own social network accounts. 
-            You'll never see "posted by MicroblogPoster" in your updates, you'll see "posted by your own App name" 
-            or simply "by API".
+            and reach more people through social networks. <br />
+            There's a general agreement in the SEO community that social signals strengthen your blog's page rank and authority.<br />
+            <span class="microblogposter-name">MicroblogPoster</span> is simply an intermediary between your blog and your own social network accounts.<br /> 
+            You'll never see "posted by MicroblogPoster" in your updates, you'll see "posted by your own App name" or simply "by API".
         </p>
         
         <div id="mbp-menu-wrapper">
@@ -520,7 +546,7 @@ function microblogposter_settings_output()
                 <table class="form-table">
                     <tr>
                         <td colspan="2">
-                            <h3>Your Bitly Credentials: <span class="description">Help: Search for 'bitly api key'</span></h3>
+                            <h3>Your <img src="../wp-content/plugins/microblog-poster/images/bitly_icon.png" /> Credentials: <span class="description"> <a href="http://efficientscripts.com/help/microblogposter/bitlyhelp" target="_blank">Help with screenshots</a></span></h3>
 
                         </td>
                     </tr>
@@ -533,7 +559,15 @@ function microblogposter_settings_output()
                         <td><input type="text" id="<?php echo $bitly_api_key_name;?>" name="<?php echo $bitly_api_key_name;?>" value="<?php echo $bitly_api_key_value;?>" size="35" /></td>
                     </tr>
                     <tr>
-                        <td colspan="2" class="row-sep"></td>
+                        <td class="label-input padding-left">&nbsp;</td>
+                        <td>OR</td>
+                    </tr>
+                    <tr>
+                        <td class="label-input padding-left">Bitly Access Token:</td>
+                        <td><input type="text" id="<?php echo $bitly_access_token_name;?>" name="<?php echo $bitly_access_token_name;?>" value="<?php echo $bitly_access_token_value;?>" size="35" /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="padding-top-bottom">The combination of username/API key for authenticating with Bitly is now <span class="mbp-deprecated">deprecated</span> (still works).<br /> Recommended way is the oauth access token only authentication.</td>
                     </tr>
                     <tr>
                         <td colspan="2">
@@ -591,6 +625,31 @@ function microblogposter_settings_output()
                     <tr>
                         <td colspan="2" class="row-sep"></td>
                     </tr>
+                    <tr>
+                        <td colspan="2">
+                            <h3><span class="wp-blue-title">Categories to exclude posts from Cross Posting :</span></h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" id="mbp-excluded-category-header">Check categories for which you want to disable automatically <span class="microblogposter-name">MicroblogPoster</span> from cross-posting.</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" id="mbp-excluded-category-td">
+                    <?php
+                        $args = array(
+                            'orderby' => 'name',
+                            'parent' => 0,
+                            'hide_empty' => 0
+                        );
+                        $categories = get_categories($args);
+                        foreach ($categories as $category)
+                        {
+                            microblogposter_display_category($category, '<span class="mbp-separator-span"></span>', $excluded_categories);
+                        }
+                    ?>
+                        </td>
+                    </tr>
+                    
                 </table>
                 <p class="submit">
                     <input type="submit" name="update_options" class="update-options button" value="Update Options" />
@@ -740,6 +799,15 @@ function microblogposter_settings_output()
         $rows = $wpdb->get_results($sql);
         foreach($rows as $row):
             $update_accounts[] = $row->account_id;
+            $plurk_qualifier = "says";
+            $extra = json_decode($row->extra, true);
+            if(is_array($extra))
+            {
+                if(isset($extra['qualifier']))
+                {
+                    $plurk_qualifier = $extra['qualifier'];
+                }
+            }
         ?>
             <div style="display:none">
                 <div id="update_account<?php echo $row->account_id;?>">
@@ -754,6 +822,33 @@ function microblogposter_settings_output()
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="username" name="username" value="<?php echo $row->username;?>"/>
+                            </div>
+                            <div class="input-div">
+                                Qualifier:
+                            </div>
+                            <div class="input-div-large">
+                                <select name="mbp_plurk_qualifier">
+                                    <option value="loves" <?php if($plurk_qualifier=='loves') echo 'selected="selected";'?>>loves</option>
+                                    <option value="likes" <?php if($plurk_qualifier=='likes') echo 'selected="selected";'?>>likes</option>
+                                    <option value="shares" <?php if($plurk_qualifier=='shares') echo 'selected="selected";'?>>shares</option>
+                                    <option value="gives" <?php if($plurk_qualifier=='gives') echo 'selected="selected";'?>>gives</option>
+                                    <option value="hates" <?php if($plurk_qualifier=='hates') echo 'selected="selected";'?>>hates</option>
+                                    <option value="wants" <?php if($plurk_qualifier=='wants') echo 'selected="selected";'?>>wants</option>
+                                    <option value="has" <?php if($plurk_qualifier=='has') echo 'selected="selected";'?>>has</option>
+                                    <option value="will" <?php if($plurk_qualifier=='will') echo 'selected="selected";'?>>will</option>
+                                    <option value="asks" <?php if($plurk_qualifier=='asks') echo 'selected="selected";'?>>asks</option>
+                                    <option value="wishes" <?php if($plurk_qualifier=='wishes') echo 'selected="selected";'?>>wishes</option>
+                                    <option value="was" <?php if($plurk_qualifier=='was') echo 'selected="selected";'?>>was</option>
+                                    <option value="feels" <?php if($plurk_qualifier=='feels') echo 'selected="selected";'?>>feels</option>
+                                    <option value="thinks" <?php if($plurk_qualifier=='thinks') echo 'selected="selected";'?>>thinks</option>
+                                    <option value="says" <?php if($plurk_qualifier=='says') echo 'selected="selected";'?>>says</option>
+                                    <option value="is" <?php if($plurk_qualifier=='is') echo 'selected="selected";'?>>is</option>
+                                    <option value=":" <?php if($plurk_qualifier==':') echo 'selected="selected";'?>>:</option>
+                                    <option value="freestyle" <?php if($plurk_qualifier=='freestyle') echo 'selected="selected";'?>>freestyle</option>
+                                    <option value="hopes" <?php if($plurk_qualifier=='hopes') echo 'selected="selected";'?>>hopes</option>
+                                    <option value="needs" <?php if($plurk_qualifier=='needs') echo 'selected="selected";'?>>needs</option>
+                                    <option value="wonders" <?php if($plurk_qualifier=='wonders') echo 'selected="selected";'?>>wonders</option>
+                                </select>
                             </div>
                             <div class="input-div">
                                 Message Format:
@@ -834,86 +929,6 @@ function microblogposter_settings_output()
             
         <?php endforeach;?>
         
-        <div class="social-network-accounts-site">
-            <img src="../wp-content/plugins/microblog-poster/images/identica_icon.png" />
-            <h4>Identica Accounts</h4>
-        </div>   
-        <?php
-        $sql="SELECT * FROM $table_accounts WHERE type='identica'";
-        $rows = $wpdb->get_results($sql);
-        foreach($rows as $row):
-            $update_accounts[] = $row->account_id;
-            $is_raw = MicroblogPoster_SupportEnc::is_enc($row->extra);
-        ?>
-            <div style="display:none">
-                <div id="update_account<?php echo $row->account_id;?>">
-                    <form id="update_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
-                        <h3 class="new-account-header"><span class="microblogposter-name">MicroblogPoster</span> Plugin</h3>
-                        <div class="delete-wrapper">
-                            Identica Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span>
-                        </div>
-                        <div id="identica-div" class="one-account">
-                            <div class="input-div">
-                                Identi.ca Username:
-                            </div>
-                            <div class="input-div-large">
-                                <input type="text" id="" name="username" value="<?php echo $row->username;?>" />
-                            </div>
-                            <div class="input-div">
-                                Identi.ca Password:
-                            </div>
-                            <div class="input-div-large">
-                                <input type="text" id="" name="password" value="<?php echo ($is_raw)? $row->password : MicroblogPoster_SupportEnc::dec($row->password);?>" />
-                            </div>
-                            <div class="input-div">
-                                Message Format:
-                            </div>
-                            <div class="input-div-large">
-                                <input type="text" id="message_format" name="message_format" value="<?php echo $row->message_format;?>"/>
-                                <span class="description">Message that's actually posted.</span>
-                            </div>
-                            <div class="input-div">
-
-                            </div>
-                            <div class="input-div-large">
-                                <span class="description-small"><?php echo $description_shortcodes;?></span>
-                            </div>
-                        </div>
-
-                        <input type="hidden" name="account_id" value="<?php echo $row->account_id;?>" />
-                        <input type="hidden" name="account_type" value="identica" />
-                        <input type="hidden" name="update_account_hidden" value="1" />
-                        <div class="button-holder">
-                            <button type="button" class="button cancel-account" >Cancel</button>
-                            <button type="button" class="button-primary save-account<?php echo $row->account_id;?>" >Save</button>
-                        </div>
-
-                    </form>
-                </div>
-            </div>
-            <div style="display:none">
-                <div id="delete_account<?php echo $row->account_id;?>">
-                    <form id="delete_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
-                        <div class="delete-wrapper">
-                        Identica Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span><br />
-                        <span class="delete-wrapper-del">Delete?</span>
-                        </div>
-                        <input type="hidden" name="account_id" value="<?php echo $row->account_id;?>" />
-                        <input type="hidden" name="account_type" value="identica" />
-                        <input type="hidden" name="delete_account_hidden" value="1" />
-                        <div class="button-holder-del">
-                            <button type="button" class="button cancel-account" >Cancel</button>
-                            <button type="button" class="del-account-fb button del-account<?php echo $row->account_id;?>" >Delete</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="account-wrapper">
-                <span class="account-username"><?php echo $row->username;?></span>
-                <span class="edit-account edit<?php echo $row->account_id;?>">Edit</span>
-                <span class="del-account del<?php echo $row->account_id;?>">Del</span>
-            </div>
-        <?php endforeach;?>
         
         <div class="social-network-accounts-site">
             <img src="../wp-content/plugins/microblog-poster/images/friendfeed_icon.png" />
@@ -1491,7 +1506,6 @@ function microblogposter_settings_output()
                     <select id="account_type" name="account_type">
                         <option value="twitter">Twitter</option>
                         <option value="plurk">Plurk</option>
-                        <option value="identica">Identi.ca</option>
                         <option value="friendfeed">FriendFeed</option>
                         <option value="delicious">Delicious</option>
                         <option value="facebook">Facebook</option>
@@ -1502,7 +1516,7 @@ function microblogposter_settings_output()
 
 
                     <div id="twitter-div" class="one-account">
-                        <div class="help-div"><span class="description">Help: <a href="http://wordpress.org/extend/plugins/microblog-poster/installation/" target="_blank">MicroblogPoster installation page</a></span></div>
+                        <div class="help-div"><span class="description"> <a href="http://efficientscripts.com/help/microblogposter/twitterhelp" target="_blank">Twitter Help</a></span></div>
                         <div class="input-div">
                             Username:
                         </div>
@@ -1552,12 +1566,39 @@ function microblogposter_settings_output()
                         </div>
                     </div>
                     <div id="plurk-div" class="one-account">
-                        <div class="help-div"><span class="description">Help: <a href="http://wordpress.org/extend/plugins/microblog-poster/installation/" target="_blank">MicroblogPoster installation page</a></span></div>
+                        <div class="help-div"><span class="description"><a href="http://efficientscripts.com/help/microblogposter/plurkhelp" target="_blank">Plurk Help</a></span></div>
                         <div class="input-div">
                             Username:
                         </div>
                         <div class="input-div-large">
                             <input type="text" id="username" name="username" value="" />
+                        </div>
+                        <div class="input-div">
+                            Qualifier:
+                        </div>
+                        <div class="input-div-large">
+                            <select name="mbp_plurk_qualifier">
+                                <option value="loves">loves</option>
+                                <option value="likes">likes</option>
+                                <option value="shares">shares</option>
+                                <option value="gives">gives</option>
+                                <option value="hates">hates</option>
+                                <option value="wants">wants</option>
+                                <option value="has">has</option>
+                                <option value="will">will</option>
+                                <option value="asks">asks</option>
+                                <option value="wishes">wishes</option>
+                                <option value="was">was</option>
+                                <option value="feels">feels</option>
+                                <option value="thinks">thinks</option>
+                                <option value="says" selected="selected">says</option>
+                                <option value="is">is</option>
+                                <option value=":">:</option>
+                                <option value="freestyle">freestyle</option>
+                                <option value="hopes">hopes</option>
+                                <option value="needs">needs</option>
+                                <option value="wonders">wonders</option>
+                            </select>
                         </div>
                         <div class="input-div">
                             Message Format:
@@ -1601,35 +1642,8 @@ function microblogposter_settings_output()
                             <span class="description">Your Plurk Account Access Token Secret</span>
                         </div>
                     </div>
-                    <div id="identica-div" class="one-account">
-                        <div class="input-div">
-                            Identi.ca Username:
-                        </div>
-                        <div class="input-div-large">
-                            <input type="text" id="username" name="username" value="" />
-                        </div>
-                        <div class="input-div">
-                            Identi.ca Password:
-                        </div>
-                        <div class="input-div-large">
-                            <input type="text" id="" name="password" value="" />
-                        </div>
-                        <div class="input-div">
-                            Message Format:
-                        </div>
-                        <div class="input-div-large">
-                            <input type="text" id="message_format" name="message_format" />
-                            <span class="description">Message that's actually posted.</span>
-                        </div>
-                        <div class="input-div">
-
-                        </div>
-                        <div class="input-div-large">
-                            <span class="description-small"><?php echo $description_shortcodes;?></span>
-                        </div>
-                    </div>
                     <div id="friendfeed-div" class="one-account">
-                        <div class="help-div"><span class="description">Help: <a href="http://wordpress.org/extend/plugins/microblog-poster/installation/" target="_blank">MicroblogPoster installation page</a></span></div>
+                        <div class="help-div"><span class="description"><a href="http://efficientscripts.com/help/microblogposter/friendfeedhelp" target="_blank">FriendFeed Help</a></span></div>
                         <div class="input-div">
                             FriendFeed Username:
                         </div>
@@ -1692,7 +1706,7 @@ function microblogposter_settings_output()
                         </div>
                     </div>
                     <div id="facebook-div" class="one-account">
-                        <div class="help-div"><span class="description">Help: <a href="http://wordpress.org/extend/plugins/microblog-poster/installation/" target="_blank">MicroblogPoster installation page</a></span></div>
+                        <div class="help-div"><span class="description"><a href="http://efficientscripts.com/help/microblogposter/facebookhelp" target="_blank">Facebook Help</a></span></div>
                         <div class="input-div">
                             Username:
                         </div>
@@ -1764,7 +1778,7 @@ function microblogposter_settings_output()
                         </div>
                     </div>
                     <div id="diigo-div" class="one-account">
-                        <div class="help-div"><span class="description">Help: <a href="http://wordpress.org/extend/plugins/microblog-poster/installation/" target="_blank">MicroblogPoster installation page</a></span></div>
+                        <div class="help-div"><span class="description"><a href="http://efficientscripts.com/help/microblogposter/diigohelp" target="_blank">Diigo Help</a></span></div>
                         <div class="input-div">
                             Diigo Username:
                         </div>
@@ -1805,7 +1819,7 @@ function microblogposter_settings_output()
                         </div>
                     </div>
                     <div id="linkedin-div" class="one-account">
-                        <div class="help-div"><span class="description">Help: <a href="http://wordpress.org/extend/plugins/microblog-poster/installation/" target="_blank">MicroblogPoster installation page</a></span></div>
+                        <div class="help-div"><span class="description"><a href="http://efficientscripts.com/help/microblogposter/linkedinhelp" target="_blank">Linkedin Help</a></span></div>
                         <div class="input-div">
                             Username:
                         </div>
@@ -1912,6 +1926,11 @@ function microblogposter_settings_output()
         .form-table td.padding-left1
         {
             padding-left: 25px;
+        }
+        .form-table td.padding-top-bottom
+        {
+            padding-top: 25px;
+            padding-bottom: 25px;
         }
         .form-table td.row-sep
         {
@@ -2223,6 +2242,22 @@ function microblogposter_settings_output()
         {
             min-height: 10px;
         }
+        #mbp-excluded-category-td .mbp-excluded-category
+        {
+            margin-bottom: 5px;
+        }
+        #mbp-excluded-category-td .mbp-separator-span
+        {
+            padding-right: 15px;
+        }
+        #mbp-excluded-category-header
+        {
+            padding-bottom: 20px;
+        }
+        .mbp-deprecated
+        {
+            color: #ff0000;
+        }
     </style>
 
     
@@ -2282,7 +2317,7 @@ function microblogposter_settings_output()
                     'scrolling'	: 'auto',
                     'titleShow'	: false,
                     'onComplete'	: function() {
-                        $('div#fancybox-content #plurk-div,div#fancybox-content #identica-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div,div#fancybox-content #diigo-div,div#fancybox-content #linkedin-div').hide().find('input').attr('disabled','disabled');
+                        $('div#fancybox-content #plurk-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div,div#fancybox-content #diigo-div,div#fancybox-content #linkedin-div').hide().find('input,select').attr('disabled','disabled');
                     }
                 });
                 
@@ -2297,25 +2332,6 @@ function microblogposter_settings_output()
                 $('div#fancybox-content #new_account_form').submit();
                 $.fancybox.close();
                 
-                /*
-                var valid = 1;
-                
-                if(!$('div#fancybox-content #username').val())
-                {
-                    valid = 0;
-                }
-                
-                if(valid == 1)
-                {
-                    $('div#fancybox-content #new_account_form').submit();
-                    $.fancybox.close();
-                }
-                else
-                {
-                    alert('Please enter all required fields.');
-                }
-                */
-                
             });
             
             
@@ -2323,8 +2339,8 @@ function microblogposter_settings_output()
             $("#account_type").live("change", function(){
                 var type = $(this).val();
                 //console.log(type);
-                $('div#fancybox-content #twitter-div,div#fancybox-content #plurk-div,div#fancybox-content #identica-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div,div#fancybox-content #diigo-div,div#fancybox-content #linkedin-div').hide().find('input').attr('disabled','disabled');
-                $('div#fancybox-content #'+type+'-div').show().find('input').removeAttr('disabled');
+                $('div#fancybox-content #twitter-div,div#fancybox-content #plurk-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div,div#fancybox-content #diigo-div,div#fancybox-content #linkedin-div').hide().find('input,select').attr('disabled','disabled');
+                $('div#fancybox-content #'+type+'-div').show().find('input,select').removeAttr('disabled');
             });
             
             <?php foreach($update_accounts as $account_id):?>
@@ -2345,24 +2361,6 @@ function microblogposter_settings_output()
                     $('div#fancybox-content #update_account_form<?php echo $account_id;?>').submit();
                     $.fancybox.close();
                     
-                    /*
-                    var valid = 1;
-
-                    if(!$('div#fancybox-content #username').val())
-                    {
-                        valid = 0;
-                    }
-
-                    if(valid == 1)
-                    {
-                        $('div#fancybox-content #update_account_form<?php echo $account_id;?>').submit();
-                        $.fancybox.close();
-                    }
-                    else
-                    {
-                        alert('Please enter all required fields.');
-                    }
-                    */
                 });
                 
                 $(".del<?php echo $account_id;?>").live("click", function(){
@@ -2452,6 +2450,23 @@ function microblogposter_settings_output()
     
     <?php
     
+}
+
+function microblogposter_display_category($category, $sep, $excluded_categories)
+{
+    
+    ?>
+    <?php echo $sep;?><input type="checkbox" class="mbp-excluded-category" id="microblogposter_category_<?php echo $category->term_id;?>" name="microblogposter_excluded_categories[]" value="<?php echo $category->term_id;?>" <?php if(in_array($category->term_id, $excluded_categories)) echo 'checked="checked"';?> /> <label for="microblogposter_category_<?php echo $category->term_id;?>" ><?php echo $category->name;?></label> <br/>
+    <?php
+    
+    $categories1 = get_categories(array('parent' => $category->term_id, 'hide_empty' => 0));
+    if($categories1)
+    {
+        foreach($categories1 as $category1)
+        {
+            microblogposter_display_category($category1, $sep.'<span class="mbp-separator-span"></span>', $excluded_categories);
+        }
+    }
 }
 
 ?>
