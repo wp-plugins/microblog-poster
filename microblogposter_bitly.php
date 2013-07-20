@@ -41,6 +41,14 @@ class MicroblogPoster_Bitly
      */
     protected $bitly_api_key = "";
     
+    /**
+     * Bitly Access token
+     *
+     * @var string
+     * @access protected
+     */
+    protected $bitly_access_token = "";
+    
     
     /**
      * MicroblogPoster_Bitly Constructor
@@ -71,10 +79,11 @@ class MicroblogPoster_Bitly
     * @return string
     * @access public
     */
-    public function setCredentials($user, $apikey)
+    public function setCredentials($user, $apikey, $accesstoken)
     {
         $this->bitly_username = $user;
         $this->bitly_api_key = $apikey;
+        $this->bitly_access_token = $accesstoken;
     }
     
     /**
@@ -86,8 +95,17 @@ class MicroblogPoster_Bitly
      */		
     public function shorten($long_url)
     {
-        $url = "https://api-ssl.bitly.com/v3/shorten?login={$this->bitly_username}";
-        $url .= "&apiKey={$this->bitly_api_key}&longUrl=".urlencode($long_url);
+        if($this->bitly_access_token)
+        {
+            $url = "https://api-ssl.bitly.com/v3/shorten?access_token={$this->bitly_access_token}";
+            $url .= "&longUrl=".urlencode($long_url);
+        }
+        else
+        {
+            $url = "https://api-ssl.bitly.com/v3/shorten?login={$this->bitly_username}";
+            $url .= "&apiKey={$this->bitly_api_key}&longUrl=".urlencode($long_url);
+        }
+        
         
         $results = $this->browser->fetch_url($url);
         if($results === false)
