@@ -16,7 +16,7 @@ Possibility to nicely format the update message per account, **shortcodes suppor
 **Logs are generated** on new blog post for each configured social network account.
 Easily follow the automated sharing process from **MicroblogPoster**'s logs section and debug your configuration if needed.
 
-**Filter posts** to be published based on categories. (General section settings)
+**Filter posts** to be published based on categories. (General Section settings)
 
 **Currently supported social media sites**
 
