@@ -191,7 +191,7 @@ Business accounts can't manage facebook Apps.
 
     2. Fill in your 'App name' and click continue.
 
-    3. Enter the required Captcha challenge.
+    3. Enter the required captcha challenge.
 
     4. Once on the basic settings of your new app, 
     for the field 'App Domains' enter your blog domain name 
