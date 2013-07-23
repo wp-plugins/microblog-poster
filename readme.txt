@@ -16,7 +16,7 @@ Possibility to nicely format the update message per account, **shortcodes suppor
 **Logs are generated** on new blog post for each configured social network account.
 Easily follow the automated sharing process from **MicroblogPoster**'s logs section and debug your configuration if needed.
 
-**Filter posts** to be published based on categories. (General Section settings)
+**Filter posts** to be published based on categories (General Section settings).
 
 **Currently supported social media sites**
 
@@ -164,7 +164,7 @@ It's most likely the same as for twitter, you'll need some more effort in order 
     3. Not finished yet, you need the second pair of credentials. 
     On 'My Plurk Apps' page this time click on 'test console' button.
 
-    4. First click on 'Get Request Token', then some processing is done. 
+    4. First click on 'Get Request Token', some processing is done. 
     After that click on 'Open Authorization URL', you'll be redirected 
     to a new page and you'll have to grant the permission in order to get
     your verification code.
@@ -191,7 +191,7 @@ Business accounts can't manage facebook Apps.
 
     2. Fill in your 'App name' and click continue.
 
-    3. Enter the required captcha challenge.
+    3. Enter the required Captcha challenge.
 
     4. Once on the basic settings of your new app, 
     for the field 'App Domains' enter your blog domain name 
