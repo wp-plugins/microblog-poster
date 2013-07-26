@@ -232,7 +232,7 @@ In addition to your username and password you'll need to create your own diigo a
     and click on 'Add New Application'.
 
     2. Fill in the required informations.
-    For 'Live Status', select Live.
+    For the field 'Live Status', select Live.
     Leave everything else by default.
     Click the button 'Add Application'.
 
