@@ -169,9 +169,9 @@ It's most likely the same as for twitter, you'll need some more effort in order 
     to a new page and you'll have to grant the permission in order to get
     your verification code.
 
-    5. Finally return to the previous page and generate your 
+    5. Finally, return to the previous page and generate your 
     *token key and token secret* by clicking on
-    'Get Access Token' and by providing the verification code.
+    'Get Access Token' and by providing your verification code.
 
     6. Now you can copy your token key and token secret. 
     Coupled with the App key and App secret you've got previously 
