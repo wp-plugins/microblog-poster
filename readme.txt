@@ -135,7 +135,7 @@ No worries, it's rather a simple procedure.
     
     2. Once you've created your twitter app you have to change its access level
     to be Read and Write. 
-    Browse to Settings tab and check the Access level to be Read and Write,
+    Browse to the Settings tab and check the Access level to be Read and Write,
     save your new settings.
 
     3. Once this is done go back to the details tab, at the bottom you 
@@ -193,7 +193,7 @@ Business accounts can't manage facebook Apps.
 
     3. Enter the required captcha challenge.
 
-    4. Once on the basic settings of your new app, 
+    4. Once on basic settings of your new app, 
     for the field 'App Domains' enter your blog domain name 
     (example: mydomain.com)
     In the field 'Website with facebook login' enter your blog url.
