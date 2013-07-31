@@ -4,7 +4,7 @@
  * Plugin Name: Microblog Poster
  * Plugin URI: http://efficientscripts.com/microblogposter
  * Description: Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Linkedin, Plurk, Diigo, Delicious..
- * Version: 1.3.1
+ * Version: 1.3.2
  * Author: Efficient Scripts
  * Author URI: http://efficientscripts.com/
  *
@@ -14,6 +14,7 @@
 require_once "microblogposter_curl.php";
 require_once "microblogposter_oauth.php";
 require_once "microblogposter_bitly.php";
+
 
 
 
@@ -213,11 +214,14 @@ class MicroblogPoster_Poster
             $excluded_categories_name = "microblogposter_excluded_categories";
             $excluded_categories_value = get_option($excluded_categories_name, "");
             $excluded_categories = json_decode($excluded_categories_value, true);
-            foreach($excluded_categories as $cat_id)
+            if(is_array($excluded_categories) && !empty($excluded_categories))
             {
-                if(in_array($cat_id, $post_categories))
+                foreach($excluded_categories as $cat_id)
                 {
-                    return;
+                    if(in_array($cat_id, $post_categories))
+                    {
+                        return;
+                    }
                 }
             }
         }

@@ -1,9 +1,9 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, identica, automatic, automation, links, backlinks, auto update status, social media auto publish, social network auto publish, post to twitter, post to facebook
+Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, identica, automatic, automation, links, backlinks, auto update status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
 Requires at least: 3.0
 Tested up to: 3.5.2
-Stable tag: 1.3.1
+Stable tag: 1.3.2
 
 Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Linkedin, Plurk, Diigo, Delicious..
 
@@ -16,7 +16,7 @@ Possibility to nicely format the update message per account, **shortcodes suppor
 **Logs are generated** on new blog post for each configured social network account.
 Easily follow the automated sharing process from **MicroblogPoster**'s logs section and debug your configuration if needed.
 
-**Filter posts** to be published based on excluded categories. (General section settings)
+**Filter posts** to be published based on categories. (General Section settings)
 
 **Currently supported social media sites**
 
@@ -54,6 +54,9 @@ see "posted by MicroblogPoster" in your updates, you'll see "posted by your own 
 3. MicroblogPoster Options page, Logs Section.
 
 == Changelog ==
+
+= 1.3.2 (31-07-2013) =
+- Fixed critical error about a PHP warning produced by variable not being an array. Later that produces header already sent error.
 
 = 1.3.1 (20-07-2013) =
 - Added currently recommended way of authentication with bit.ly (oauth).
@@ -162,16 +165,16 @@ It's most likely the same as for twitter, you'll need some more effort in order 
     and get your *App Key and App Secret*.
 
     3. Not finished yet, you need the second pair of credentials. 
-    On 'My Plurk Apps' page this time click on 'test console' button.
+    On 'My Plurk Apps' page this time click on the 'test console' button.
 
-    4. First click on 'Get Request Token', then some processing is done. 
+    4. First click on 'Get Request Token', some processing is done. 
     After that click on 'Open Authorization URL', you'll be redirected 
     to a new page and you'll have to grant the permission in order to get
     your verification code.
 
-    5. Finally return to the previous page and generate your 
+    5. Finally, return to the previous page and generate your 
     *token key and token secret* by clicking on
-    'Get Access Token' and by providing the verification code.
+    'Get Access Token' and by providing your verification code.
 
     6. Now you can copy your token key and token secret. 
     Coupled with the App key and App secret you've got previously 
@@ -193,7 +196,7 @@ Business accounts can't manage facebook Apps.
 
     3. Enter the required captcha challenge.
 
-    4. Once on the basic settings of your new app, 
+    4. Once on basic settings of your new app, 
     for the field 'App Domains' enter your blog domain name 
     (example: mydomain.com)
     In the field 'Website with facebook login' enter your blog url.
@@ -232,7 +235,7 @@ In addition to your username and password you'll need to create your own diigo a
     and click on 'Add New Application'.
 
     2. Fill in the required informations.
-    For 'Live Status', select Live.
+    For the field 'Live Status', select Live.
     Leave everything else by default.
     Click the button 'Add Application'.
 
