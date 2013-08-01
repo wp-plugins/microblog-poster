@@ -1,6 +1,6 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, identica, automatic, automation, links, backlinks, auto update status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
+Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, identica, automatic, automation, links, backlinks, auto update status, social media auto publish, social network auto publish, post to twitter, post to facebook
 Requires at least: 3.0
 Tested up to: 3.5.2
 Stable tag: 1.3.2
@@ -56,7 +56,7 @@ see "posted by MicroblogPoster" in your updates, you'll see "posted by your own 
 == Changelog ==
 
 = 1.3.2 (31-07-2013) =
-- Fixed critical error about a PHP warning produced by variable not being an array. Later that produces header already sent error.
+- Fixed critical error about a PHP warning produced by a variable not being an array. Later that produces header already sent error.
 
 = 1.3.1 (20-07-2013) =
 - Added currently recommended way of authentication with bit.ly (oauth).
@@ -138,7 +138,7 @@ No worries, it's rather a simple procedure.
     
     2. Once you've created your twitter app you have to change its access level
     to be Read and Write. 
-    Browse to Settings tab and check the Access level to be Read and Write,
+    Browse to the Settings tab and check the Access level to be Read and Write,
     save your new settings.
 
     3. Once this is done go back to the details tab, at the bottom you 
