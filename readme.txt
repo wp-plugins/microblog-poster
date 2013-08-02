@@ -1,6 +1,6 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, identica, automatic, automation, links, backlinks, auto update status, social media auto publish, social network auto publish, post to twitter, post to facebook
+Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, identica, automatic, automation, links, backlinks, auto update status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
 Requires at least: 3.0
 Tested up to: 3.5.2
 Stable tag: 1.3.2
@@ -138,7 +138,7 @@ No worries, it's rather a simple procedure.
     
     2. Once you've created your twitter app you have to change its access level
     to be Read and Write. 
-    Browse to the Settings tab and check the Access level to be Read and Write,
+    Browse to the Settings tab and check Access level to be Read and Write,
     save your new settings.
 
     3. Once this is done go back to the details tab, at the bottom you 
@@ -235,7 +235,7 @@ In addition to your username and password you'll need to create your own diigo a
     and click on 'Add New Application'.
 
     2. Fill in the required informations.
-    For the field 'Live Status', select Live.
+    For field 'Live Status', select Live.
     Leave everything else by default.
     Click the button 'Add Application'.
 
