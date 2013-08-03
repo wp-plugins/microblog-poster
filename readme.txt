@@ -142,7 +142,7 @@ No worries, it's rather a simple procedure.
     save your new settings.
 
     3. Once this is done go back to the details tab, at the bottom you 
-    should have a button 'Create my access token', please do it.
+    should have button 'Create my access token', please do it.
 
     4. This is it, on the details tab you have all what you need, 
     i.e. consumer key/secret, access token and access token secret.
