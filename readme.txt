@@ -2,7 +2,7 @@
 Contributors: cybperic
 Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, identica, automatic, automation, links, backlinks, auto update status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
 Requires at least: 3.0
-Tested up to: 3.5.2
+Tested up to: 3.6
 Stable tag: 1.3.2
 
 Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Linkedin, Plurk, Diigo, Delicious..
@@ -138,7 +138,7 @@ No worries, it's rather a simple procedure.
     
     2. Once you've created your twitter app you have to change its access level
     to be Read and Write. 
-    Browse to Settings tab and check the Access level to be Read and Write,
+    Browse to the Settings tab and check the Access level to be Read and Write,
     save your new settings.
 
     3. Once this is done go back to the details tab, at the bottom you 
@@ -188,7 +188,7 @@ Business accounts can't manage facebook Apps.
 
     1. Please go at this url https://developers.facebook.com/apps 
     and click on 'Create New App'.
-    Note: If you can't click on 'Create New App', you need first 
+    Note: If you can't click on 'Create New App', you'll need first 
     to 'Register as a Developer'.
     Then the creation of new app will be available.
 
