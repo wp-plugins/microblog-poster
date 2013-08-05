@@ -1,6 +1,6 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, identica, automatic, automation, links, backlinks, auto update status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
+Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, identica, automatic, automation, links, backlinks, auto update status, social media auto publish, social network publish, post to twitter, publish to facebook
 Requires at least: 3.0
 Tested up to: 3.6
 Stable tag: 1.3.2
@@ -161,7 +161,7 @@ It's most likely the same as for twitter, you'll need some more effort in order 
     For App Type, choose 'Third-party web site integration'. 
     For App website you can put http://localhost
 
-    2. Once you're back on 'My Plurk Apps' page, click the edit button 
+    2. Once you are back on 'My Plurk Apps' page, click the edit button 
     and get your *App Key and App Secret*.
 
     3. Not finished yet, you need the second pair of credentials. 
@@ -178,7 +178,7 @@ It's most likely the same as for twitter, you'll need some more effort in order 
 
     6. Now you can copy your token key and token secret. 
     Coupled with the App key and App secret you've got previously 
-    you can configure your plurk account on MicroblogPoster plugin.
+    you can configure your plurk account in the Social Accounts section.
 
 
 **facebook.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/facebookhelp "Facebook help with screenshots.")
