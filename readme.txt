@@ -133,12 +133,12 @@ Basically your twitter username and password won't suffice in order to post auto
 No worries, it's rather a simple procedure.
 
 
-    1. In order to post updates through the twitter API you'll need first
+    1. In order to post updates through the twitter API you will need first
     to create your own twitter App here: https://dev.twitter.com/apps
     
     2. Once you've created your twitter app you have to change its access level
     to be Read and Write. 
-    Browse to Settings tab and check the Access level to be Read and Write,
+    Browse to the settings tab and check the Access level to be Read and Write,
     save your new settings.
 
     3. Once this is done go back to the details tab, at the bottom you 
@@ -172,7 +172,7 @@ It's most likely the same as for twitter, you'll need some more effort in order 
     to a new page and you'll have to grant the permission in order to get
     your verification code.
 
-    5. Finally, return to the previous page and generate your 
+    5. Finally, return to previous page and generate your 
     *token key and token secret* by clicking on
     'Get Access Token' and by providing your verification code.
 
