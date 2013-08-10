@@ -225,7 +225,7 @@ Instead of the password the friendfeed API requires a remote key to let you post
 In addition to your username and password you will need to create your own diigo app and generate an Api key.
 
     1. Please go at this url: https://www.diigo.com/api_keys/new/
-    and generate your diigo Api Key. (you need to be logged in)
+    and generate your diigo Api Key. (You need to be logged in)
 
 
 **linkedin.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/linkedinhelp "Linkedin help with screenshots.")
@@ -239,7 +239,7 @@ In addition to your username and password you will need to create your own diigo
     Leave everything else by Default.
     Click the button 'Add Application'.
 
-    3. Copy 'API Key' and 'Secret Key', click 'Done'.
+    3. Copy the 'API Key' and 'Secret Key', click 'Done'.
 
     4. Configure your linkedin account in the Social Accounts section.
 
