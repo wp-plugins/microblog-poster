@@ -1,6 +1,6 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, identica, automatic, automation, links, backlinks, auto update status, social media auto publish, social network auto publish, post to twitter, post to facebook
+Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, identica, automatic, automation, links, backlinks, auto update status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
 Requires at least: 3.0
 Tested up to: 3.6
 Stable tag: 1.3.2
@@ -133,7 +133,7 @@ Basically your twitter username and password won't suffice in order to post auto
 No worries, it's rather a simple procedure.
 
 
-    1. In order to post updates through the twitter API you will need first
+    1. In order to post updates through the twitter API you'll need first
     to create your own twitter App here: https://dev.twitter.com/apps
     
     2. Once you've created your twitter app you have to change its access level
@@ -164,7 +164,7 @@ It's most likely the same as for twitter, you'll need some more effort in order 
     2. Once you are back on 'My Plurk Apps' page, click the edit button 
     and get your *App Key and App Secret*.
 
-    3. Not finished yet, you need the second pair of credentials. 
+    3. Not finished yet, you now need the second pair of credentials. 
     On 'My Plurk Apps' page, this time click on the 'test console' button.
 
     4. First click on 'Get Request Token', some processing is done. 
@@ -194,7 +194,7 @@ Business accounts can't manage facebook Apps.
 
     2. Fill in your 'App name' and click continue.
 
-    3. Enter the required captcha challenge.
+    3. Enter the required Captcha challenge.
 
     4. Once on basic settings of your new app, 
     for the field 'App Domains' enter your blog domain name 
