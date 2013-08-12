@@ -169,7 +169,7 @@ It's most likely the same as for twitter, you'll need some more effort in order 
 
     4. First click on 'Get Request Token', some processing is done. 
     After that click on 'Open Authorization URL', you'll be redirected 
-    to a new page and you'll have to grant the permission in order to get
+    to a new page and you will have to grant the permission in order to get
     your verification code.
 
     5. Finally, return to previous page and generate your 
@@ -194,7 +194,7 @@ Business accounts can't manage facebook Apps.
 
     2. Fill in your 'App name' and click continue.
 
-    3. Enter the required Captcha challenge.
+    3. Enter the required captcha challenge.
 
     4. Once on basic settings of your new app, 
     for the field 'App Domains' enter your blog domain name 
