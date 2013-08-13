@@ -1,6 +1,6 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, identica, automatic, automation, links, backlinks, auto update status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
+Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, identica, automatic, automation, links, backlinks, auto update status, social media auto publish, social network auto publish, post to twitter, post to facebook
 Requires at least: 3.0
 Tested up to: 3.6
 Stable tag: 1.3.2
@@ -172,7 +172,7 @@ It's most likely the same as for twitter, you'll need some more effort in order 
     to a new page and you will have to grant the permission in order to get
     your verification code.
 
-    5. Finally, return to previous page and generate your 
+    5. Finally, return to the previous page and generate your 
     *token key and token secret* by clicking on
     'Get Access Token' and by providing your verification code.
 
