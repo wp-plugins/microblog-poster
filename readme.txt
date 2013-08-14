@@ -141,7 +141,7 @@ No worries, it's rather a simple procedure.
     Browse to the settings tab and check the Access level to be Read and Write,
     save your new settings.
 
-    3. Once this is done go back to the details tab, at the bottom you 
+    3. Once this is done go back to details tab, at the bottom you 
     should have a button 'Create my access token', please do it.
 
     4. This is it, on the details tab you have all what you need, 
@@ -161,7 +161,7 @@ It's most likely the same as for twitter, you'll need some more effort in order 
     For App Type, choose 'Third-party web site integration'. 
     For App website you can put http://localhost
 
-    2. Once you are back on 'My Plurk Apps' page, click the edit button 
+    2. Once you're back on 'My Plurk Apps' page, click the edit button 
     and get your *App Key and App Secret*.
 
     3. Not finished yet, you now need the second pair of credentials. 
