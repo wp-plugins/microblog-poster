@@ -138,8 +138,8 @@ No worries, it's rather a simple procedure.
     
     2. Once you've created your twitter app you have to change its access level
     to be Read and Write. 
-    Browse to the settings tab and check the Access level to be Read and Write,
-    save your new Settings.
+    Browse to settings tab and check the Access level to be Read and Write,
+    save your new settings.
 
     3. Once this is done go back to details tab, at the bottom you 
     should have a button 'Create my access token', please do it.
@@ -158,7 +158,7 @@ It's most likely the same as for twitter, you'll need some more effort in order 
 
     1. Please go at this url http://www.plurk.com/PlurkApp/ 
     and click on 'Create a new Plurk app'.
-    For App Type, choose 'Third-party web site integration'. 
+    For App Type, Choose 'Third-party web site integration'. 
     For App website you can put http://localhost
 
     2. Once you're back on 'My Plurk Apps' page, click the edit button 
@@ -178,7 +178,7 @@ It's most likely the same as for twitter, you'll need some more effort in order 
 
     6. Now you can copy your token key and token secret. 
     Coupled with the App key and App secret you've got previously 
-    you can configure your Plurk account in the Social Accounts section.
+    you can configure your plurk account in the Social Accounts section.
 
 
 **facebook.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/facebookhelp "Facebook help with screenshots.")
