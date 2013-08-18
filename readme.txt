@@ -129,7 +129,7 @@ see "posted by MicroblogPoster" in your updates, you'll see "posted by your own 
 
 **twitter.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/twitterhelp "Twitter help with screenshots.")
 
-Basically your twitter username and password won't suffice in order to post automatic updates, twitter api requires some more steps described below.
+Basically your twitter username and password won't suffice in order to post automatic updates, twitter API requires some more steps described below.
 No worries, it's rather a simple procedure.
 
 
@@ -141,7 +141,7 @@ No worries, it's rather a simple procedure.
     Browse to settings tab and check the Access level to be Read and Write,
     save your new settings.
 
-    3. Once this is done go back to details tab, at the bottom you 
+    3. Once this is done go back to the details tab, at the bottom you 
     should have a button 'Create my access token', please do it.
 
     4. This is it, on the Details tab you have all what you need, 
