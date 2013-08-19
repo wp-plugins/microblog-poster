@@ -138,7 +138,7 @@ No worries, it's rather a simple procedure.
     
     2. Once you've created your twitter app you have to change its access level
     to be Read and Write. 
-    Browse to settings tab and check the Access level to be Read and Write,
+    Browse to the settings tab and check the Access level to be Read and Write,
     save your new settings.
 
     3. Once this is done go back to the details tab, at the bottom you 
