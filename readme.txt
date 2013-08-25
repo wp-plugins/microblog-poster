@@ -168,8 +168,8 @@ It's most likely the same as for twitter, you'll need some more effort in order 
     On 'My Plurk Apps' page, this time click on the 'test console' button.
 
     4. First click on 'Get Request Token', some processing is done. 
-    After that click on 'Open Authorization URL', you'll be redirected 
-    to a new page and you will have to grant the permission in order to get
+    After that click on 'Open Authorization URL', you will be redirected 
+    to new page and you'll have to grant the permission in order to get
     your verification code.
 
     5. Finally, return to the previous page and generate your 
