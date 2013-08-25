@@ -232,11 +232,11 @@ In addition to the username and password you'll need to create your own diigo ap
 
 
     1. Please go at this url https://www.linkedin.com/secure/developer
-    and click on 'Add New Application'.
+    and click on the 'Add New Application'.
 
     2. Fill in the required informations.
-    For field 'Live Status', select Live.
-    Leave everything else by Default.
+    For the field 'Live Status', select Live.
+    Leave everything else by default.
     Click the button 'Add Application'.
 
     3. Copy the 'API Key' and 'Secret Key', click 'Done'.
