@@ -214,7 +214,7 @@ Business accounts can't manage facebook Apps.
 **friendfeed.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/friendfeedhelp "FriendFeed help with screenshots.")
 
 
-Instead of the password the friendfeed API requires a remote key to let you post with it.
+Instead of the password, the Friendfeed API requires a remote key to let you post with it.
 
     1. You can find your remote key associated with your account at this url:
     https://friendfeed.com/account/api (you need to be logged in).
