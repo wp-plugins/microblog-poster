@@ -236,8 +236,8 @@ In addition to the username and password you'll need to create your own diigo ap
 
     2. Fill in the required informations.
     For the field 'Live Status', select Live.
-    Leave everything else by Default.
-    Click the button 'Add Application'.
+    Leave everything else by default.
+    Click on the button 'Add Application'.
 
     3. Copy the 'API Key' and 'Secret Key', click 'Done'.
 
