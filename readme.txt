@@ -241,9 +241,9 @@ In addition to the username and password you'll need to create your own diigo ap
 
     3. Copy the 'API Key' and 'Secret Key', click 'Done'.
 
-    4. Configure your linkedin account in the Social Accounts section.
+    4. Configure your linkedin account in the Social Accounts Section.
 
-    5. Follow the link provided by MicroblogPoster to authorize your App 
+    5. Follow the link provided by MicroblogPoster and authorize your App 
     posting on your behalf.
 
 
