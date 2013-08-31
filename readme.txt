@@ -1,6 +1,6 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto update status, social media auto publish, social network auto publish, post to twitter, post to facebook
+Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto update status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
 Requires at least: 3.0
 Tested up to: 3.6
 Stable tag: 1.3.2
@@ -241,7 +241,7 @@ In addition to the username and password you'll need to create your own diigo ap
 
     3. Copy the 'API Key' and 'Secret Key', click 'Done'.
 
-    4. Configure your linkedin account in the Social Accounts Section.
+    4. Configure your linkedin account in the Social accounts section.
 
     5. Follow the link provided by MicroblogPoster and authorize your App 
     posting on your behalf.
