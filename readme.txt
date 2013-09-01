@@ -176,7 +176,7 @@ It's most likely the same as for twitter, you'll need some more effort in order 
     *token key and token secret* by clicking on
     'Get Access Token' and by providing your verification code.
 
-    6. Now you can copy your token key and token secret. 
+    6. Now you can copy the token key and token secret. 
     Coupled with the App key and App secret you've got previously 
     you can configure your plurk account in the Social Accounts section.
 
