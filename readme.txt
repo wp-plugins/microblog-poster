@@ -235,15 +235,15 @@ In addition to the username and password you will need to create your own Diigo 
     and click 'Add New Application'.
 
     2. Fill in the required informations.
-    For the field 'live status', select live.
-    Please, leave everything else by default.
+    For the field 'Live Status', select Live.
+    Leave everything else by default.
     Click on the button 'Add Application'.
 
-    3. Copy the 'API Key' and 'Secret Key', click 'Done'.
+    3. Copy the 'API KEY' and 'Secret KEY', click 'Done'.
 
-    4. Configure your Linkedin account in the Social Accounts Section.
+    4. Configure your linkedin account in the Social Accounts Section.
 
-    5. Follow the link provided by MicroblogPoster and authorize your App 
+    5. Follow the link provided by MicroblogPoster and Authorize your App 
     posting on your behalf.
 
 
