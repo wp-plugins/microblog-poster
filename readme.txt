@@ -1,6 +1,6 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto update status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
+Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto update status, social media auto publish, social network auto publish, post to twitter, post to facebook
 Requires at least: 3.0
 Tested up to: 3.6
 Stable tag: 1.3.2
@@ -207,14 +207,14 @@ Business accounts can't manage facebook Apps.
     5. Copy your 'App ID' and 'App Secret' and configure your facebook account
     on MicroblogPoster plugin.
 
-    6. Follow the link provided by MicroblogPoster to authorize your App 
+    6. Follow the link provided by MicroblogPoster to Authorize your App 
     posting on your behalf.
 
 
 **friendfeed.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/friendfeedhelp "FriendFeed help with screenshots.")
 
 
-Instead of the password, the Friendfeed API requires a Remote Key to let you post with it.
+Instead of the Password, the Friendfeed API requires a Remote Key to let you post with it.
 
     1. You can find your Remote Key associated with your account at this url:
     https://friendfeed.com/account/api (You need to be logged in).
