@@ -141,7 +141,7 @@ No worries, it's rather a simple procedure.
     Browse to the Settings tab and check the access level to be Read and Write,
     Save your new settings.
 
-    3. Once this is done go back to the details tab, at the bottom you 
+    3. Once this is done go back to the Details tab, at the bottom you 
     should have a button 'Create my access token', please do it.
 
     4. This is it. On the details tab you have all what you need, 
