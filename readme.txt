@@ -194,12 +194,12 @@ Business accounts can't manage facebook Apps.
 
     2. Fill in your 'App name' and click continue.
 
-    3. Enter the required captcha challenge.
+    3. Enter the required Captcha Challenge.
 
-    4. Once on basic settings of your new app, 
-    for the field 'App Domains' enter your blog domain name 
+    4. Once on basic settings of your new App, 
+    for the field 'App Domains' enter your Blog domain name 
     (example: mydomain.com)
-    In the field 'Website with facebook login' enter your blog url.
+    In the field 'Website with facebook login' enter your Blog Url.
     (example: http://mydomain.com)
     Sandbox mode should be disabled.
     Save changes.
