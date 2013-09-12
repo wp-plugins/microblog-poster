@@ -202,12 +202,12 @@ Business accounts can't manage facebook Apps.
     In the field 'Website with facebook login' enter your Blog Url.
     (example: http://mydomain.com)
     Sandbox mode should be disabled.
-    Save changes.
+    Save Changes.
 
-    5. Copy your 'App ID' and 'App Secret' and configure your facebook account
-    on MicroblogPoster plugin.
+    5. Copy your 'App ID' and 'App Secret' and configure your Facebook account
+    on MicroblogPoster Plugin.
 
-    6. Follow the link provided by MicroblogPoster to Authorize your App 
+    6. Follow the link provided by MicroblogPoster to authorize your App 
     posting on your behalf.
 
 
