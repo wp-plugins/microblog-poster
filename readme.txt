@@ -133,12 +133,12 @@ Basically your twitter username and password won't suffice in order to post auto
 No worries, it's rather a simple procedure.
 
 
-    1. In order to post your updates through the twitter API you will need first
+    1. In order to post your updates through the Twitter API you will need first
     to create your own twitter App here: https://dev.twitter.com/apps
     
     2. Once you've created your twitter App you have to change its access level
     to be Read and Write. 
-    Browse to the Settings tab and check the access level to be Read and Write,
+    Browse to the settings tab and check the access level to be Read and Write,
     Save your new settings.
 
     3. Once this is done go back to the Details tab, at the bottom you 
@@ -148,7 +148,7 @@ No worries, it's rather a simple procedure.
     i.e. consumer key/secret, access token and access token secret.
 
     5. If you don't see immediately the access token at the bottom, 
-    please refresh the details tab page.
+    please refresh the Details tab page.
 
 
 **plurk.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/plurkhelp "Plurk help with screenshots.")
