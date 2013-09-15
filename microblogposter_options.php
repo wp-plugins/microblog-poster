@@ -34,6 +34,7 @@ function microblogposter_settings_output()
     $default_pbehavior_update_name = "microblogposter_default_pbehavior_update";
     $page_mode_name = "microblogposter_page_mode";
     $excluded_categories_name = "microblogposter_excluded_categories";
+    $customer_license_key_name = "microblogposterpro_plg_customer_license_key";
     
     
     $bitly_api_user_value = get_option($bitly_api_user_name, "");
@@ -46,13 +47,31 @@ function microblogposter_settings_output()
     $page_mode_value = get_option($page_mode_name, "");
     $excluded_categories_value = get_option($excluded_categories_name, "");
     $excluded_categories_value = json_decode($excluded_categories_value, true);
+    $customer_license_key_value = get_option($customer_license_key_name, "");
     
+    
+    if(isset($_POST["update_license_key"]))
+    {
+        $customer_license_key_value = trim($_POST[$customer_license_key_name]);
+        $verified = false;
+        $customer_license_key_value_arr = array('key'=>$customer_license_key_value, 'verified'=>$verified);
+        if(method_exists('MicroblogPoster_Poster_Pro_Options','verify_license_key'))
+        {
+            $curl_license_key = new MicroblogPoster_Curl();
+            $verified = MicroblogPoster_Poster_Pro_Options::verify_license_key($curl_license_key, $customer_license_key_value);
+            $customer_license_key_value_arr['verified'] = $verified;
+        }
+        $customer_license_key_value = json_encode($customer_license_key_value_arr);
+        
+        update_option($customer_license_key_name, $customer_license_key_value);
+    }
+    $customer_license_key_value = json_decode($customer_license_key_value, true);
     
     if(isset($_POST["update_options"]))
     {
-        $bitly_api_user_value = $_POST[$bitly_api_user_name];
-        $bitly_api_key_value = $_POST[$bitly_api_key_name];
-        $bitly_access_token_value = $_POST[$bitly_access_token_name];
+        $bitly_api_user_value = trim($_POST[$bitly_api_user_name]);
+        $bitly_api_key_value = trim($_POST[$bitly_api_key_name]);
+        $bitly_access_token_value = trim($_POST[$bitly_access_token_name]);
         $default_behavior_value = $_POST[$default_behavior_name];
         $default_behavior_update_value = $_POST[$default_behavior_update_name];
         $default_pbehavior_value = $_POST[$default_pbehavior_name];
@@ -159,14 +178,8 @@ function microblogposter_settings_output()
             }
             
         }
-        if(isset($_POST['facebook_profile_url']))
-        {
-            $password = trim($_POST['facebook_profile_url']);
-        }
-        if(isset($_POST['linkedin_profile_url']))
-        {
-            $password = trim($_POST['linkedin_profile_url']);
-        }
+        
+        
         if(isset($_POST['message_format']))
         {
             $message_format = trim($_POST['message_format']);
@@ -187,6 +200,43 @@ function microblogposter_settings_output()
         {
             $extra['qualifier'] = trim($_POST['mbp_plurk_qualifier']);
         }
+        
+        if(function_exists('mbp_pro_activate_au_microblogposter'))
+        {
+            if(isset($_POST['mbp_facebook_target_type']))
+            {
+                $extra['target_type'] = trim($_POST['mbp_facebook_target_type']);
+            }
+            if(isset($_POST['mbp_facebook_page_id']))
+            {
+                $extra['page_id'] = trim($_POST['mbp_facebook_page_id']);
+            }
+            if(isset($_POST['mbp_facebook_group_id']))
+            {
+                $extra['group_id'] = trim($_POST['mbp_facebook_group_id']);
+            }
+            
+            if(isset($_POST['mbp_linkedin_target_type']))
+            {
+                $extra['target_type'] = trim($_POST['mbp_linkedin_target_type']);
+            }
+            if(isset($_POST['mbp_linkedin_group_id']))
+            {
+                $extra['group_id'] = trim($_POST['mbp_linkedin_group_id']);
+            }
+        }
+        else
+        {
+            if(isset($_POST['mbp_facebook_target_type']))
+            {
+                $extra['target_type'] = 'profile';
+            }
+            if(isset($_POST['mbp_linkedin_target_type']))
+            {
+                $extra['target_type'] = 'profile';
+            }
+        }
+        
         
         $extra = json_encode($extra);
         $wpdb->escape_by_ref($extra);
@@ -274,14 +324,8 @@ function microblogposter_settings_output()
                 $extra['penc'] = 1;
             }
         }
-        if(isset($_POST['facebook_profile_url']))
-        {
-            $password = trim($_POST['facebook_profile_url']);
-        }
-        if(isset($_POST['linkedin_profile_url']))
-        {
-            $password = trim($_POST['linkedin_profile_url']);
-        }
+        
+        
         if(isset($_POST['message_format']))
         {
             $message_format = trim($_POST['message_format']);
@@ -302,6 +346,24 @@ function microblogposter_settings_output()
         {
             $extra['qualifier'] = trim($_POST['mbp_plurk_qualifier']);
         }
+        if(function_exists('mbp_pro_activate_au_microblogposter'))
+        {
+            if(isset($_POST['mbp_facebook_page_id']))
+            {
+                $extra['page_id'] = trim($_POST['mbp_facebook_page_id']);
+            }
+            if(isset($_POST['mbp_facebook_group_id']))
+            {
+                $extra['group_id'] = trim($_POST['mbp_facebook_group_id']);
+            }
+            
+            if(isset($_POST['mbp_linkedin_group_id']))
+            {
+                $extra['group_id'] = trim($_POST['mbp_linkedin_group_id']);
+            }
+        }
+        
+        
         
         $extra = json_encode($extra);
         $wpdb->escape_by_ref($extra);
@@ -380,33 +442,37 @@ function microblogposter_settings_output()
                 $log_data = array();
                 $log_data['account_id'] = $row->account_id;
                 $log_data['account_type'] = "facebook";
-                $log_data['username'] = $row->username;
+                $log_data['username'] = $row->username.' - Authorization';
                 $log_data['post_id'] = 0;
                 $log_data['action_result'] = 0;
                 $log_data['update_message'] = '';
                 
                 if($code)
                 {
-                    $access_url = "https://graph.facebook.com/oauth/access_token?client_id={$row->consumer_key}&client_secret={$row->consumer_secret}&redirect_uri={$redirect_uri}&code={$code}";
-                    
                     $curl = new MicroblogPoster_Curl();
                     
-                    $response = $curl->fetch_url($access_url);
+                    $access_url = "https://graph.facebook.com/oauth/access_token?client_id={$row->consumer_key}&client_secret={$row->consumer_secret}&redirect_uri={$redirect_uri}&code={$code}";
                     
+                    $response = $curl->fetch_url($access_url);
                     parse_str($response, $params);
                     $account_details['access_token'] = $params['access_token'];
-                    $account_details['expires'] = time()+$params['expires'];
+                    $account_details['expires'] = 0;
+                    if(isset($params['expires']))
+                    {
+                        $account_details['expires'] = time()+$params['expires'];
+                    }
+                    
                     if(!isset($params['access_token']))
                     {
                         $log_data['log_message'] = $response;
                         MicroblogPoster_Poster::insert_log($log_data);
                     }
 
+                    
 
                     $user_url = "https://graph.facebook.com/me?fields=id,first_name,last_name&access_token={$params['access_token']}";
                     
                     $response = $curl->fetch_url($user_url);
-                    
                     $params1 = json_decode($response, true);
                     $account_details['user_id'] = '';
                     if(isset($params1['first_name']) && isset($params1['last_name']))
@@ -419,18 +485,43 @@ function microblogposter_settings_output()
                         MicroblogPoster_Poster::insert_log($log_data);
                     }
                     
-                    $access_url = "https://graph.facebook.com/oauth/access_token?client_id={$row->consumer_key}&client_secret={$row->consumer_secret}&grant_type=client_credentials";
                     
-                    $response = $curl->fetch_url($access_url);
+                    $app_access_url = "https://graph.facebook.com/oauth/access_token?client_id={$row->consumer_key}&client_secret={$row->consumer_secret}&grant_type=client_credentials";
                     
-                    parse_str($response, $params);
-                    $account_details['access_token'] = $params['access_token'];
-                    $account_details['expires'] = 0;
-                    if(!isset($params['access_token']))
+                    $response = $curl->fetch_url($app_access_url);
+                    parse_str($response, $params2);
+                    $app_access_token = $params2['access_token'];
+                    if(!isset($params2['access_token']))
                     {
                         $log_data['log_message'] = $response;
                         MicroblogPoster_Poster::insert_log($log_data);
                     }
+                    
+                    
+                    if($account_details['target_type'] == 'page')
+                    {
+                        if(method_exists('MicroblogPoster_Poster_Pro_Options','get_facebook_page_access_token'))
+                        {
+                            $fb_page_access_token = MicroblogPoster_Poster_Pro_Options::get_facebook_page_access_token($curl, $account_details['user_id'], $params['access_token'], $account_details['page_id'], $app_access_token);
+                            $account_details['access_token'] = $fb_page_access_token['access_token'];
+                            $account_details['expires'] = $fb_page_access_token['expires'];
+                        }
+                    }
+                    elseif($account_details['target_type'] == 'group')
+                    {
+                        if(method_exists('MicroblogPoster_Poster_Pro_Options','get_facebook_group_access_token'))
+                        {
+                            $fb_group_access_token = MicroblogPoster_Poster_Pro_Options::get_facebook_group_access_token($curl, $account_details['user_id'], $params['access_token'], $app_access_token);
+                            $account_details['access_token'] = $fb_group_access_token['access_token'];
+                            $account_details['expires'] = $fb_group_access_token['expires'];
+                        } 
+                    }
+                    else
+                    {
+                        $account_details['access_token'] = $app_access_token;
+                        $account_details['expires'] = 0;
+                    }
+                    
                     
                     $redirect_after_auth = true;
                 }
@@ -452,6 +543,7 @@ function microblogposter_settings_output()
             $code = trim($_GET['code']);
             $auth_user_data = explode('_', trim($_GET['state']));
             $auth_user_id = (int) $auth_user_data[2];
+            $linkedin_update_all_access_tokens = false;
             
             if(is_int($auth_user_id))
             {
@@ -460,6 +552,8 @@ function microblogposter_settings_output()
                 $row = $rows[0];
                 $extra = json_decode($row->extra, true);
                 $account_details = $extra;
+                $linkedin_consumer_key = $row->consumer_key;
+                $linkedin_consumer_secret = $row->consumer_secret;
 
                 $log_data = array();
                 $log_data['account_id'] = $row->account_id;
@@ -488,6 +582,7 @@ function microblogposter_settings_output()
                     {
                         $account_details['access_token'] = $response['access_token'];
                         $account_details['expires'] = time()+$response['expires_in'];
+                        $linkedin_update_all_access_tokens = true;
                     }
                     else
                     {
@@ -498,17 +593,44 @@ function microblogposter_settings_output()
                     $redirect_after_auth = true;
                 }
 
-                $account_details = json_encode($account_details);
-                $wpdb->escape_by_ref($account_details);
+                $account_details_enc = json_encode($account_details);
+                $wpdb->escape_by_ref($account_details_enc);
                 
                 $sql = "UPDATE {$table_accounts}
-                    SET extra='{$account_details}'
+                    SET extra='{$account_details_enc}'
                     WHERE account_id={$auth_user_id}";
 
                 $wpdb->query($sql);
             }
             
-            
+            if($linkedin_update_all_access_tokens)
+            {
+                $sql="SELECT * FROM $table_accounts WHERE type='linkedin' 
+                    AND consumer_key='{$linkedin_consumer_key}' 
+                    AND consumer_secret='{$linkedin_consumer_secret}'";
+                $rows = $wpdb->get_results($sql);
+                if(is_array($rows) && !empty($rows))
+                {
+                    foreach($rows as $row)
+                    {
+                        if($row->extra)
+                        {
+                            $lkn_acc_extra_auth = json_decode($row->extra, true);
+                            $lkn_acc_extra_auth['access_token'] = $account_details['access_token'];
+                            $lkn_acc_extra_auth['expires'] = $account_details['expires'];
+                            $lkn_acc_extra_auth = json_encode($lkn_acc_extra_auth);
+                            $wpdb->escape_by_ref($lkn_acc_extra_auth);
+
+                            $sql = "UPDATE {$table_accounts}
+                                SET extra='{$lkn_acc_extra_auth}'
+                                WHERE account_id={$row->account_id}";
+
+                            $wpdb->query($sql);
+                        }
+                    }
+                }
+                
+            }
         }
     }
     
@@ -531,6 +653,23 @@ function microblogposter_settings_output()
             <span class="microblogposter-name">MicroblogPoster</span> is simply an intermediary between your blog and your own social network accounts.<br /> 
             You'll never see "posted by MicroblogPoster" in your updates, you'll see "posted by your own App name" or simply "by API".
         </p>
+        
+        <?php if(function_exists('mbp_pro_activate_au_microblogposter') && !$customer_license_key_value['key']):?>
+            <div class="error"><p><strong>In order to complete the MicroblogPoster's Pro Add-on installation, please Save your Customer License Key.</strong></p></div>
+        <?php elseif(function_exists('mbp_pro_activate_au_microblogposter') && $customer_license_key_value['key']):?>
+            <div>
+                Customer License Key : <?php echo $customer_license_key_value['key'];?>
+                <?php if($customer_license_key_value['verified']):?><span class="mbp-green">(Valid)</span><?php else:?><span class="mbp-red">(Not Valid)</span><?php endif;?>
+                <a href="#" id="mbp_microblogposter_edit_switch" onclick="mbp_microblogposter_edit_license_key();return false;" >Edit</a>
+            </div>
+        <?php endif;?>
+            
+        <?php if(function_exists('mbp_pro_activate_au_microblogposter')):?>    
+            <form id="license_key_form" name="license_key_form" method="post" action="">
+                <input type="text" id="<?php echo $customer_license_key_name;?>" name="<?php echo $customer_license_key_name;?>" value="<?php echo $customer_license_key_value['key'];?>" size="35" />
+                <input type="submit" name="update_license_key" class="button" value="Save License Key" />
+            </form>
+        <?php endif;?>
         
         <div id="mbp-menu-wrapper">
             <ul id="mbp-menu">
@@ -1113,16 +1252,43 @@ function microblogposter_settings_output()
         $rows = $wpdb->get_results($sql);
         foreach($rows as $row):
             $update_accounts[] = $row->account_id;
-            $authorize_url = "http://www.facebook.com/dialog/oauth/?client_id={$row->consumer_key}&redirect_uri={$redirect_uri}&state=microblogposter_{$row->account_id}&scope=publish_actions";
             
             $fb_acc_extra = null;
+            $fb_scope = "publish_actions,status_update";
             $post_type = "";
+            $target_type = "profile";
+            $page_id = '';
+            $group_id = '';
             if($row->extra)
             {
                 $fb_acc_extra = json_decode($row->extra, true);
                 $post_type = $fb_acc_extra['post_type'];
                 $default_image_url = $fb_acc_extra['default_image_url'];
+                if(isset($fb_acc_extra['target_type']))
+                {
+                    $target_type = $fb_acc_extra['target_type'];
+                }
+                if(isset($fb_acc_extra['page_id']))
+                {
+                    $page_id = $fb_acc_extra['page_id'];
+                }
+                if(isset($fb_acc_extra['group_id']))
+                {
+                    $group_id = $fb_acc_extra['group_id'];
+                }
             }
+            
+            if($target_type == "page")
+            {
+                $fb_scope = "publish_actions,manage_pages,status_update";
+            }
+            elseif($target_type == "group")
+            {
+                $fb_scope = "publish_actions,manage_pages,user_groups,status_update";
+            }
+            $fb_scope = urlencode($fb_scope);
+            
+            $authorize_url = "http://www.facebook.com/dialog/oauth/?client_id={$row->consumer_key}&redirect_uri={$redirect_uri}&state=microblogposter_{$row->account_id}&scope={$fb_scope}";
             
         ?>
             <div style="display:none">
@@ -1141,12 +1307,28 @@ function microblogposter_settings_output()
                                 <input type="text" id="username" name="username" value="<?php echo $row->username;?>"/>
                             </div>
                             <div class="input-div">
-                                Facebook profile URL:
+                                Facebook target type:
                             </div>
                             <div class="input-div-large">
-                                <input type="text" id="" name="facebook_profile_url" value="<?php echo $row->password;?>" />
-                                <span class="description">Your Facebook profile URL.</span>
+                                <span class="mbp-facebook-target-type-span"><?php echo ucfirst($target_type).' timeline';?></span>
                             </div>
+                            <?php if($target_type=='page'):?>
+                                <div class="input-div">
+                                    Page ID:
+                                </div>
+                                <div class="input-div-large">
+                                    <input type="text" id="mbp_facebook_page_id" name="mbp_facebook_page_id" value="<?php echo $page_id;?>" />
+                                    <span class="description">Your Facebook Page ID.</span>
+                                </div>
+                            <?php elseif($target_type=='group'):?>
+                                <div class="input-div">
+                                    Group ID:
+                                </div>
+                                <div class="input-div-large">
+                                    <input type="text" id="mbp_facebook_group_id" name="mbp_facebook_group_id" value="<?php echo $group_id;?>" />
+                                    <span class="description">Your Facebook Group ID.</span>
+                                </div>
+                            <?php endif;?>
                             <div class="input-div">
                                 Message Format:
                             </div>
@@ -1360,16 +1542,28 @@ function microblogposter_settings_output()
         $rows = $wpdb->get_results($sql);
         foreach($rows as $row):
             $update_accounts[] = $row->account_id;
-            $linkedin_scope = urlencode("r_basicprofile rw_nus");
-            $authorize_url = "https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id={$row->consumer_key}&redirect_uri={$redirect_uri}&state=linkedin_microblogposter_{$row->account_id}&scope={$linkedin_scope}";
-            
+        
+            $linkedin_scope = urlencode("r_basicprofile rw_nus rw_groups");
             $lkn_acc_extra = null;
+            $target_type = "profile";
+            $group_id = '';
+            
             if($row->extra)
             {
                 $lkn_acc_extra = json_decode($row->extra, true);
                 $post_type = $lkn_acc_extra['post_type'];
                 $default_image_url = $lkn_acc_extra['default_image_url'];
+                if(isset($lkn_acc_extra['target_type']))
+                {
+                    $target_type = $lkn_acc_extra['target_type'];
+                }
+                if(isset($lkn_acc_extra['group_id']))
+                {
+                    $group_id = $lkn_acc_extra['group_id'];
+                }
             }
+            
+            $authorize_url = "https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id={$row->consumer_key}&redirect_uri={$redirect_uri}&state=linkedin_microblogposter_{$row->account_id}&scope={$linkedin_scope}";
             
         ?>
             <div style="display:none">
@@ -1388,12 +1582,20 @@ function microblogposter_settings_output()
                                 <input type="text" id="username" name="username" value="<?php echo $row->username;?>"/>
                             </div>
                             <div class="input-div">
-                                Linkedin profile URL:
+                                Linkedin target type:
                             </div>
                             <div class="input-div-large">
-                                <input type="text" id="" name="linkedin_profile_url" value="<?php echo $row->password;?>" />
-                                <span class="description">Your Linkedin profile URL.</span>
+                                <span class="mbp-linkedin-target-type-span"><?php echo ucfirst($target_type).' timeline';?></span>
                             </div>
+                            <?php if($target_type=='group'):?>
+                                <div class="input-div">
+                                    Group ID:
+                                </div>
+                                <div class="input-div-large">
+                                    <input type="text" id="mbp_linkedin_group_id" name="mbp_linkedin_group_id" value="<?php echo $group_id;?>" />
+                                    <span class="description">Your Linkedin Group ID.</span>
+                                </div>
+                            <?php endif;?>
                             <div class="input-div">
                                 Message Format:
                             </div>
@@ -1715,67 +1917,92 @@ function microblogposter_settings_output()
                             <span class="description">Easily identify it later, not used for posting.</span>
                         </div>
                         <div class="input-div">
-                            Facebook profile URL:
+                            Facebook target type:
                         </div>
                         <div class="input-div-large">
-                            <input type="text" id="" name="facebook_profile_url" value="" />
-                            <span class="description">Your Facebook profile URL.</span>
+                            <select name="mbp_facebook_target_type" id="mbp_facebook_target_type">
+                                <option value="profile">Profile timeline</option>
+                                <option value="page">Page timeline</option>
+                                <option value="group">Group timeline</option>
+                            </select>
+                            <span class="description">Where you want to auto post.</span>
                         </div>
-                        <div class="input-div">
-                            Message Format:
-                        </div>
-                        <div class="input-div-large">
-                            <input type="text" id="message_format" name="message_format" />
-                            <span class="description">Message that's actually posted.</span>
-                        </div>
-                        <div class="input-div">
+                        <div id="mbp-facebook-input-div">
+                            <div id="mbp-facebook-page-id-div">
+                                <div class="input-div">
+                                    Page ID:
+                                </div>
+                                <div class="input-div-large">
+                                    <input type="text" id="mbp_facebook_page_id" name="mbp_facebook_page_id" value="" />
+                                    <span class="description">Your Facebook Page ID.</span>
+                                </div>
+                            </div>
+                            <div id="mbp-facebook-group-id-div">
+                                <div class="input-div">
+                                    Group ID:
+                                </div>
+                                <div class="input-div-large">
+                                    <input type="text" id="mbp_facebook_group_id" name="mbp_facebook_group_id" value="" />
+                                    <span class="description">Your Facebook Group ID.</span>
+                                </div>
+                            </div>
+                            <div class="input-div">
+                                Message Format:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="message_format" name="message_format" />
+                                <span class="description">Message that's actually posted.</span>
+                            </div>
+                            <div class="input-div">
 
-                        </div>
-                        <div class="input-div-large">
-                            <span class="description-small"><?php echo $description_shortcodes;?></span>
-                        </div>
-                        <div class="mbp-separator"></div>
-                        <div class="input-div input-div-radio">
-                            Post Type:
-                        </div>
-                        <div class="input-div-large">
-                            <input type="radio" name="post_type_fb" value="text" checked="checked"> Text <span class="description">Text only status update.</span><br>
-                            <input type="radio" name="post_type_fb" value="link"> Share a Link <span class="description">Status update that contains comment + facebook link box.</span>
-                        </div>
-                        <div class="input-div">
+                            </div>
+                            <div class="input-div-large">
+                                <span class="description-small"><?php echo $description_shortcodes;?></span>
+                            </div>
+                            <div class="mbp-separator"></div>
+                            <div class="input-div input-div-radio">
+                                Post Type:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="radio" name="post_type_fb" value="text" checked="checked"> Text <span class="description">Text only status update.</span><br>
+                                <input type="radio" name="post_type_fb" value="link"> Share a Link <span class="description">Status update that contains comment + facebook link box.</span>
+                            </div>
+                            <div class="input-div">
 
+                            </div>
+                            <div class="input-div-large">
+                                <span class="description-small">If you choose to post with link box you'll need a thumbnail for your link. 
+                                    If your new post contains a featured image, MicroblogPoster will take that one.
+                                    If not, no explicit image url will be submitted and facebook will try to fetch appropriate thumbnail for your post.
+                                    If there is no image, your link will appear without thumbnail.
+                                    Otherwise if you don't like image/thumbnail facebook is auto fetching then specify a default image url just below.
+                                    This default thumbnail url will be posted for each new post that doesn't have featured image.
+                                </span>
+                            </div>
+                            <div class="input-div">
+                                Default Image Url:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="default_image_url" name="default_image_url" />
+                                <span class="description">Default Thumbnail for link box. <a href="http://efficientscripts.com/help/microblogposter/generalhelp#def_img_url" target="_blank">Help</a></span>
+                            </div>
+                            <div class="mbp-separator"></div>
+                            <div class="input-div">
+                                Application ID/API Key:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="" name="consumer_key" value="" />
+                                <span class="description">Your Facebook Application ID/API Key.</span>
+                            </div>
+                            <div class="input-div">
+                                Application Secret:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="" name="consumer_secret" value="" />
+                                <span class="description">Your Facebook Application Secret.</span>
+                            </div>
                         </div>
-                        <div class="input-div-large">
-                            <span class="description-small">If you choose to post with link box you'll need a thumbnail for your link. 
-                                If your new post contains a featured image, MicroblogPoster will take that one.
-                                If not, no explicit image url will be submitted and facebook will try to fetch appropriate thumbnail for your post.
-                                If there is no image, your link will appear without thumbnail.
-                                Otherwise if you don't like image/thumbnail facebook is auto fetching then specify a default image url just below.
-                                This default thumbnail url will be posted for each new post that doesn't have featured image.
-                            </span>
-                        </div>
-                        <div class="input-div">
-                            Default Image Url:
-                        </div>
-                        <div class="input-div-large">
-                            <input type="text" id="default_image_url" name="default_image_url" />
-                            <span class="description">Default Thumbnail for link box. <a href="http://efficientscripts.com/help/microblogposter/generalhelp#def_img_url" target="_blank">Help</a></span>
-                        </div>
-                        <div class="mbp-separator"></div>
-                        <div class="input-div">
-                            Application ID/API Key:
-                        </div>
-                        <div class="input-div-large">
-                            <input type="text" id="" name="consumer_key" value="" />
-                            <span class="description">Your Facebook Application ID/API Key.</span>
-                        </div>
-                        <div class="input-div">
-                            Application Secret:
-                        </div>
-                        <div class="input-div-large">
-                            <input type="text" id="" name="consumer_secret" value="" />
-                            <span class="description">Your Facebook Application Secret.</span>
-                        </div>
+                        <div id="mbp-facebook-upgrade-now">Available with the Pro Add-on. <a href="http://efficientscripts.com/microblogposterpro" target="_blank">Upgrade Now</a></div>
                     </div>
                     <div id="diigo-div" class="one-account">
                         <div class="help-div"><span class="description"><a href="http://efficientscripts.com/help/microblogposter/diigohelp" target="_blank">Diigo Help</a></span></div>
@@ -1828,67 +2055,82 @@ function microblogposter_settings_output()
                             <span class="description">Easily identify it later, not used for posting.</span>
                         </div>
                         <div class="input-div">
-                            Linkedin profile URL:
+                            Linkedin target type:
                         </div>
                         <div class="input-div-large">
-                            <input type="text" id="" name="linkedin_profile_url" value="" />
-                            <span class="description">Your Linkedin profile URL.</span>
+                            <select name="mbp_linkedin_target_type" id="mbp_linkedin_target_type">
+                                <option value="profile">Profile timeline</option>
+                                <option value="group">Group timeline</option>
+                            </select>
+                            <span class="description">Where you want to auto post.</span>
                         </div>
-                        <div class="input-div">
-                            Message Format:
-                        </div>
-                        <div class="input-div-large">
-                            <input type="text" id="message_format" name="message_format" />
-                            <span class="description">Message that's actually posted.</span>
-                        </div>
-                        <div class="input-div">
+                        <div id="mbp-linkedin-input-div">
+                            <div id="mbp-linkedin-group-id-div">
+                                <div class="input-div">
+                                    Group ID:
+                                </div>
+                                <div class="input-div-large">
+                                    <input type="text" id="mbp_linkedin_group_id" name="mbp_linkedin_group_id" value="" />
+                                    <span class="description">Your Linkedin Group ID.</span>
+                                </div>
+                            </div>
+                            <div class="input-div">
+                                Message Format:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="message_format" name="message_format" />
+                                <span class="description">Message that's actually posted.</span>
+                            </div>
+                            <div class="input-div">
 
-                        </div>
-                        <div class="input-div-large">
-                            <span class="description-small"><?php echo $description_shortcodes;?></span>
-                        </div>
-                        <div class="mbp-separator"></div>
-                        <div class="input-div input-div-radio">
-                            Post Type:
-                        </div>
-                        <div class="input-div-large">
-                            <!--input type="radio" name="post_type_lkn" value="text" checked="checked"> Text <span class="description">Text only status update.</span><br-->
-                            <input type="radio" name="post_type_lkn" value="link" checked="checked"> Share a Link <span class="description">Status update that contains comment + linkedin link box.</span>
-                        </div>
-                        <div class="input-div">
+                            </div>
+                            <div class="input-div-large">
+                                <span class="description-small"><?php echo $description_shortcodes;?></span>
+                            </div>
+                            <div class="mbp-separator"></div>
+                            <div class="input-div input-div-radio">
+                                Post Type:
+                            </div>
+                            <div class="input-div-large">
+                                <!--input type="radio" name="post_type_lkn" value="text" checked="checked"> Text <span class="description">Text only status update.</span><br-->
+                                <input type="radio" name="post_type_lkn" value="link" checked="checked"> Share a Link <span class="description">Status update that contains comment + linkedin link box.</span>
+                            </div>
+                            <div class="input-div">
 
+                            </div>
+                            <div class="input-div-large">
+                                <span class="description-small">
+                                    Posting with link box you'll need a thumbnail for your link. 
+                                    If your new post contains a featured image, MicroblogPoster will take that one.
+                                    If not, no explicit image url will be submitted and your update will appear without a thumbnail.
+                                    If you want always to have an image going with your link then specify a default image url just below.
+                                    This default thumbnail url will be posted for each new post that doesn't have featured image.
+                                </span>
+                            </div>
+                            <div class="input-div">
+                                Default Image Url:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="default_image_url" name="default_image_url" />
+                                <span class="description">Default Thumbnail for link box. <a href="http://efficientscripts.com/help/microblogposter/generalhelp#def_img_url" target="_blank">Help</a></span>
+                            </div>
+                            <div class="mbp-separator"></div>
+                            <div class="input-div">
+                                Application ID/API Key:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="" name="consumer_key" value="" />
+                                <span class="description">Your Linkedin Application ID/API Key.</span>
+                            </div>
+                            <div class="input-div">
+                                Application Secret:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="" name="consumer_secret" value="" />
+                                <span class="description">Your Linkedin Application Secret.</span>
+                            </div>
                         </div>
-                        <div class="input-div-large">
-                            <span class="description-small">
-                                Posting with link box you'll need a thumbnail for your link. 
-                                If your new post contains a featured image, MicroblogPoster will take that one.
-                                If not, no explicit image url will be submitted and your update will appear without a thumbnail.
-                                If you want always to have an image going with your link then specify a default image url just below.
-                                This default thumbnail url will be posted for each new post that doesn't have featured image.
-                            </span>
-                        </div>
-                        <div class="input-div">
-                            Default Image Url:
-                        </div>
-                        <div class="input-div-large">
-                            <input type="text" id="default_image_url" name="default_image_url" />
-                            <span class="description">Default Thumbnail for link box. <a href="http://efficientscripts.com/help/microblogposter/generalhelp#def_img_url" target="_blank">Help</a></span>
-                        </div>
-                        <div class="mbp-separator"></div>
-                        <div class="input-div">
-                            Application ID/API Key:
-                        </div>
-                        <div class="input-div-large">
-                            <input type="text" id="" name="consumer_key" value="" />
-                            <span class="description">Your Linkedin Application ID/API Key.</span>
-                        </div>
-                        <div class="input-div">
-                            Application Secret:
-                        </div>
-                        <div class="input-div-large">
-                            <input type="text" id="" name="consumer_secret" value="" />
-                            <span class="description">Your Linkedin Application Secret.</span>
-                        </div>
+                        <div id="mbp-linkedin-upgrade-now">Available with the Pro Add-on. <a href="http://efficientscripts.com/microblogposterpro" target="_blank">Upgrade Now</a></div>
                     </div>
 
                     <input type="hidden" name="new_account_hidden" value="1" />
@@ -2258,6 +2500,28 @@ function microblogposter_settings_output()
         {
             color: #ff0000;
         }
+        #mbp-facebook-upgrade-now, #mbp-linkedin-upgrade-now
+        {
+            margin: 20px auto 20px auto;
+            width: 300px;
+        }
+        #mbp_facebook_target_type, #mbp_linkedin_target_type
+        {
+            width: 130px;
+        }
+        .mbp-facebook-target-type-span, .mbp-linkedin-target-type-span
+        {
+            width: 130px;
+            font-weight: bold;
+        }
+        .mbp-green
+        {
+            color: green;
+        }
+        .mbp-red
+        {
+            color: red;
+        }
     </style>
 
     
@@ -2318,6 +2582,21 @@ function microblogposter_settings_output()
                     'titleShow'	: false,
                     'onComplete'	: function() {
                         $('div#fancybox-content #plurk-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div,div#fancybox-content #diigo-div,div#fancybox-content #linkedin-div').hide().find('input,select').attr('disabled','disabled');
+                        
+                        $(".save-account").removeAttr('disabled');
+                        
+                        $("div#fancybox-content #mbp-facebook-upgrade-now").hide();
+                        $("div#fancybox-content #mbp-facebook-page-id-div").hide().find('input').attr('disabled','disabled');
+                        $("div#fancybox-content #mbp-facebook-group-id-div").hide().find('input').attr('disabled','disabled');
+                        
+                        $("div#fancybox-content #mbp-linkedin-upgrade-now").hide();
+                        $("div#fancybox-content #mbp-linkedin-group-id-div").hide().find('input').attr('disabled','disabled');    
+                            
+                        <?php if(function_exists('mbp_pro_activate_au_microblogposter')):?>
+                        
+                        <?php else:?>
+                            
+                        <?php endif;?>
                     }
                 });
                 
@@ -2341,7 +2620,102 @@ function microblogposter_settings_output()
                 //console.log(type);
                 $('div#fancybox-content #twitter-div,div#fancybox-content #plurk-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div,div#fancybox-content #diigo-div,div#fancybox-content #linkedin-div').hide().find('input,select').attr('disabled','disabled');
                 $('div#fancybox-content #'+type+'-div').show().find('input,select').removeAttr('disabled');
+                $(".save-account").removeAttr('disabled');
+                if(type=='facebook')
+                {
+                    var target_type_selected_option = $('div#fancybox-content #mbp_facebook_target_type option:selected');
+                    target_type_selected_option.removeAttr('selected');
+                    $("div#fancybox-content #mbp-facebook-input-div").show().find('input').removeAttr('disabled');
+                    $("div#fancybox-content #mbp-facebook-upgrade-now").hide();
+                    $("div#fancybox-content #mbp-facebook-page-id-div").hide().find('input').attr('disabled','disabled');
+                    $("div#fancybox-content #mbp-facebook-group-id-div").hide().find('input').attr('disabled','disabled');
+                }
+                if(type=='linkedin')
+                {
+                    var target_type_selected_option = $('div#fancybox-content #mbp_linkedin_target_type option:selected');
+                    target_type_selected_option.removeAttr('selected');
+                    $("div#fancybox-content #mbp-linkedin-input-div").show().find('input').removeAttr('disabled');
+                    $("div#fancybox-content #mbp-linkedin-upgrade-now").hide();
+                    $("div#fancybox-content #mbp-linkedin-group-id-div").hide().find('input').attr('disabled','disabled');
+                }  
             });
+            
+            
+            
+            $("#mbp_facebook_target_type").live("change", function(){
+                var target_type = $(this).val();
+                
+                <?php if(function_exists('mbp_pro_activate_au_microblogposter')):?>
+                    if(target_type == 'page')
+                    {
+                        $("div#fancybox-content #mbp-facebook-group-id-div").hide().find('input').attr('disabled','disabled');
+                        $("div#fancybox-content #mbp-facebook-page-id-div").show().find('input').removeAttr('disabled');
+                    }
+                    else if(target_type == 'group')
+                    {
+                        $("div#fancybox-content #mbp-facebook-page-id-div").hide().find('input').attr('disabled','disabled');
+                        $("div#fancybox-content #mbp-facebook-group-id-div").show().find('input').removeAttr('disabled');
+                    }
+                    else if(target_type == 'profile')
+                    {
+                        $("div#fancybox-content #mbp-facebook-page-id-div").hide().find('input').attr('disabled','disabled');
+                        $("div#fancybox-content #mbp-facebook-group-id-div").hide().find('input').attr('disabled','disabled');
+                    }     
+                <?php else:?>
+                    if(target_type == 'page')
+                    {
+                        $("div#fancybox-content #mbp-facebook-input-div").hide().find('input').attr('disabled','disabled');
+                        //$("div#fancybox-content #mbp-facebook-page-id-div").show();
+                        $("div#fancybox-content #mbp-facebook-upgrade-now").show();
+                        $(".save-account").attr('disabled','disabled');
+                    }
+                    else if(target_type == 'group')
+                    {
+                        $("div#fancybox-content #mbp-facebook-input-div").hide().find('input').attr('disabled','disabled');
+                        $("div#fancybox-content #mbp-facebook-upgrade-now").show();
+                        $(".save-account").attr('disabled','disabled');
+                    }
+                    else if(target_type == 'profile')
+                    {
+                        $("div#fancybox-content #mbp-facebook-input-div").show().find('input').removeAttr('disabled');
+                        $("div#fancybox-content #mbp-facebook-upgrade-now").hide();
+                        $(".save-account").removeAttr('disabled');
+                    }     
+                <?php endif;?>
+                
+                
+            });
+            
+            $("#mbp_linkedin_target_type").live("change", function(){
+                var target_type = $(this).val();
+                
+                <?php if(function_exists('mbp_pro_activate_au_microblogposter')):?>
+                    if(target_type == 'group')
+                    {
+                        $("div#fancybox-content #mbp-linkedin-group-id-div").show().find('input').removeAttr('disabled');
+                    }
+                    else if(target_type == 'profile')
+                    {
+                        $("div#fancybox-content #mbp-linkedin-group-id-div").hide().find('input').attr('disabled','disabled');
+                    }     
+                <?php else:?>
+                    if(target_type == 'group')
+                    {
+                        $("div#fancybox-content #mbp-linkedin-input-div").hide().find('input').attr('disabled','disabled');
+                        $("div#fancybox-content #mbp-linkedin-upgrade-now").show();
+                        $(".save-account").attr('disabled','disabled');
+                    }
+                    else if(target_type == 'profile')
+                    {
+                        $("div#fancybox-content #mbp-linkedin-input-div").show().find('input').removeAttr('disabled');
+                        $("div#fancybox-content #mbp-linkedin-upgrade-now").hide();
+                        $(".save-account").removeAttr('disabled');
+                    }     
+                <?php endif;?>
+                
+                
+            });
+            
             
             <?php foreach($update_accounts as $account_id):?>
                 $(".edit<?php echo $account_id;?>").live("click", function(){
@@ -2353,7 +2727,10 @@ function microblogposter_settings_output()
                         'width'		: 700,
                         'height'	: 400,
                         'scrolling'	: 'auto',
-                        'titleShow'	: false
+                        'titleShow'	: false,
+                        'onComplete'	: function() {
+                            
+                        }
                     });
                 });
                 $(".save-account<?php echo $account_id;?>").live("click", function(){
@@ -2439,12 +2816,31 @@ function microblogposter_settings_output()
                 }
             });
             
+            <?php if(function_exists('mbp_pro_activate_au_microblogposter') && $customer_license_key_value['key']):?>
+                $("#license_key_form").hide().find('input').attr('disabled','disabled');
+            <?php endif;?>    
+            
+            
             <?php if($redirect_after_auth):?>
                 window.location = "<?php echo $redirect_uri.'&t=2';?>";
             <?php endif;?>
         });
         
-        
+        function mbp_microblogposter_edit_license_key()
+        {
+            if(jQuery("#license_key_form").is(':visible'))
+            {
+                jQuery("#license_key_form").hide().find('input').attr('disabled','disabled');
+                jQuery("#mbp_microblogposter_edit_switch").html('Edit');
+            }
+            else
+            {
+                jQuery("#license_key_form").show().find('input').removeAttr('disabled');
+                jQuery("#mbp_microblogposter_edit_switch").html('Hide');
+            }    
+            
+            
+        }
 
     </script>
     
