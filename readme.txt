@@ -1,6 +1,6 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, identica, automatic, automation, links, backlinks, auto update status, social media auto publish, social network auto publish, post to twitter, post to facebook
+Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, identica, automatic, automation, links, backlinks, auto update status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
 Requires at least: 3.0
 Tested up to: 3.6.1
 Stable tag: 1.3.3
@@ -225,7 +225,7 @@ Instead of the password the friendfeed API requires the remote key to let you po
 
 **diigo.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/diigohelp "Diigo help with screenshots.")
 
-In addition to your Username and Password you will need to create your own Diigo App and generate an Api Key.
+In addition to your username and password you will need to create your own Diigo App and generate an Api Key.
 
     1. Please go at this url: https://www.diigo.com/api_keys/new/
     and generate your Diigo Api Key. (You need to be logged in)
