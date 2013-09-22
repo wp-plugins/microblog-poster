@@ -164,10 +164,10 @@ It's most likely the same as for twitter, you'll need some more effort in order 
     1. Please go at this url http://www.plurk.com/PlurkApp/ 
     and click on 'Create a new Plurk app'.
     For App Type, choose 'Third-party web site integration'. 
-    For App website you can put http://localhost
+    For App Website you can put http://localhost
 
     2. Once you're back on 'My Plurk Apps' page, click the edit button 
-    and get your *App Key and App Secret*.
+    and get your *App key and App secret*.
 
     3. Not finished yet, you need the second pair of credentials. 
     On 'My Plurk Apps' page this time click on 'test console' button.
@@ -175,11 +175,11 @@ It's most likely the same as for twitter, you'll need some more effort in order 
     4. First click on 'Get Request Token', then some processing is done. 
     After that click on 'Open Authorization URL', you'll be redirected 
     to a new page and you'll have to grant the permission in order to get
-    your verification code.
+    your Verification Code.
 
     5. Finally return to the previous page and generate your 
     *token key and token secret* by clicking on
-    'Get Access Token' and by providing the verification code.
+    'Get Access Token' and by providing the Verification Code.
 
     6. Now you can copy your token key and token secret. 
     Coupled with the App key and App secret you've got previously 
