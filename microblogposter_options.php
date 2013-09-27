@@ -55,7 +55,7 @@ function microblogposter_settings_output()
         $customer_license_key_value = trim($_POST[$customer_license_key_name]);
         $verified = false;
         $customer_license_key_value_arr = array('key'=>$customer_license_key_value, 'verified'=>$verified);
-        if(method_exists('MicroblogPoster_Poster_Pro_Options','verify_license_key'))
+        if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro_Options','verify_license_key'))
         {
             $curl_license_key = new MicroblogPoster_Curl();
             $verified = MicroblogPoster_Poster_Pro_Options::verify_license_key($curl_license_key, $customer_license_key_value);
@@ -500,7 +500,7 @@ function microblogposter_settings_output()
                     
                     if($account_details['target_type'] == 'page')
                     {
-                        if(method_exists('MicroblogPoster_Poster_Pro_Options','get_facebook_page_access_token'))
+                        if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro_Options','get_facebook_page_access_token'))
                         {
                             $fb_page_access_token = MicroblogPoster_Poster_Pro_Options::get_facebook_page_access_token($curl, $account_details['user_id'], $params['access_token'], $account_details['page_id'], $app_access_token);
                             $account_details['access_token'] = $fb_page_access_token['access_token'];
@@ -509,7 +509,7 @@ function microblogposter_settings_output()
                     }
                     elseif($account_details['target_type'] == 'group')
                     {
-                        if(method_exists('MicroblogPoster_Poster_Pro_Options','get_facebook_group_access_token'))
+                        if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro_Options','get_facebook_group_access_token'))
                         {
                             $fb_group_access_token = MicroblogPoster_Poster_Pro_Options::get_facebook_group_access_token($curl, $account_details['user_id'], $params['access_token'], $app_access_token);
                             $account_details['access_token'] = $fb_group_access_token['access_token'];
