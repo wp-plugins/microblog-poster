@@ -163,18 +163,18 @@ It's most likely the same as for twitter, you'll need some more effort in order 
 
     1. Please go at this url http://www.plurk.com/PlurkApp/ 
     and click on 'Create a new Plurk app'.
-    For App Type, choose 'Third-party web site integration'. 
-    For App Website you can put http://localhost
+    For App type, choose 'Third-party web site integration'. 
+    For App website you can put http://localhost
 
-    2. Once you're back on 'My Plurk Apps' page, click the edit button 
+    2. Once you're back on 'My Plurk Apps' page, click the Edit button 
     and get your *App key and App secret*.
 
     3. Not finished yet, you need the second pair of credentials. 
     On 'My Plurk Apps' page this time click on 'test console' button.
 
     4. First click on 'Get Request Token', then some processing is done. 
-    After that click on 'Open Authorization URL', you'll be redirected 
-    to a new page and you'll have to grant the permission in order to get
+    After that click on 'Open Authorization URL', you will be redirected 
+    to a new page and you will have to grant the permission in order to get
     your Verification Code.
 
     5. Finally return to the previous page and generate your 
@@ -183,7 +183,7 @@ It's most likely the same as for twitter, you'll need some more effort in order 
 
     6. Now you can copy your token key and token secret. 
     Coupled with the App key and App secret you've got previously 
-    you can configure your plurk account on MicroblogPoster plugin.
+    you can configure your Plurk account on MicroblogPoster plugin.
 
 
 **facebook.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/facebookhelp "Facebook help with screenshots.")
