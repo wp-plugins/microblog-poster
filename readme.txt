@@ -203,7 +203,7 @@ Business accounts can't manage facebook Apps.
 
     2. Fill in your 'App name' and click continue.
 
-    3. Enter the required Captcha challenge.
+    3. Enter the required Captcha Challenge.
 
     4. Once on the basic settings of your new app, 
     for the field 'App Domains' enter your blog domain name 
@@ -213,7 +213,7 @@ Business accounts can't manage facebook Apps.
     Sandbox mode should be disabled.
     Save changes.
 
-    5. Copy your 'App ID' and 'App Secret' and configure your facebook account
+    5. Copy your 'App ID' and 'App Secret' and configure your Facebook account
     on MicroblogPoster plugin.
 
     6. Follow the link provided by MicroblogPoster to authorize your App 
