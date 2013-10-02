@@ -177,17 +177,17 @@ It's most likely the same as for twitter, you'll need some more effort in order 
     On 'My Plurk Apps' page this time click on 'test console' button.
 
     4. First click on 'Get Request Token', then some processing is done. 
-    After that click on 'Open Authorization URL', you'll be redirected 
+    After that click on 'Open Authorization Url', you will be redirected 
     to a new page and you'll have to grant the permission in order to get
     your verification code.
 
     5. Finally return to the previous page and generate your 
-    *token key and token secret* by clicking on
+    *Token key and Token secret* by clicking on
     'Get Access Token' and by providing the verification code.
 
     6. Now you can copy your token key and token secret. 
     Coupled with the App key and App secret you've got previously 
-    you can configure your plurk account on MicroblogPoster plugin.
+    you can configure your Plurk account on MicroblogPoster plugin.
 
 
 **facebook.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/facebookhelp "Facebook help with screenshots.")
