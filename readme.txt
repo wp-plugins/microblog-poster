@@ -1,6 +1,6 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, identica, automatic, automation, links, backlinks, auto update status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
+Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, identica, automatic, automation, links, backlinks, auto update status, social media auto publish, social network auto publish, post to twitter, post to facebook
 Requires at least: 3.0
 Tested up to: 3.6.1
 Stable tag: 1.3.4
@@ -142,7 +142,7 @@ Basically your Twitter username/password won't suffice in order to post automati
 No worries, it's rather a simple procedure.
 
 
-    1. In order to post updates through the Twitter Api you'll need first
+    1. In order to post updates through the twitter Api you'll need first
     to create your own Twitter App here: https://dev.twitter.com/apps
     
     2. Once you've created your twitter app you have to change its access level
@@ -150,7 +150,7 @@ No worries, it's rather a simple procedure.
     Browse to Settings tab and check the Access level to be Read and Write,
     save your new settings.
 
-    3. Once this is done go back to the Details tab, at the bottom you 
+    3. Once this is done go back to the details tab, at the bottom you 
     should have a button 'Create my access token', please do it.
 
     4. This is it, on the details tab you have all what you need, 
