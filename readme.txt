@@ -1,6 +1,6 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, identica, automatic, automation, links, backlinks, auto update status, social media auto publish, social network auto publish, post to twitter, post to facebook
+Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto update status, social media auto publish, social network auto publish, post to twitter, post to facebook
 Requires at least: 3.0
 Tested up to: 3.6.1
 Stable tag: 1.3.4
@@ -199,13 +199,13 @@ Business accounts can't manage facebook Apps.
     and click on 'Create New App'.
     Note: If you can't click on 'Create New App', you need first 
     to 'Register as a Developer'.
-    Then the creation of new app will be available.
+    Then the creation of new App will be available.
 
     2. Fill in your 'App name' and click continue.
 
-    3. Enter the required Captcha Challenge.
+    3. Enter the required Captcha challenge.
 
-    4. Once on the basic settings of your new app, 
+    4. Once on the basic settings of your new App, 
     for the field 'App Domains' enter your blog domain name 
     (example: mydomain.com)
     In the field 'Website with facebook login' enter your blog url.
@@ -213,7 +213,7 @@ Business accounts can't manage facebook Apps.
     Sandbox mode should be disabled.
     Save changes.
 
-    5. Copy your 'App ID' and 'App Secret' and configure your Facebook account
+    5. Copy your 'App ID' and 'App Secret' and configure your facebook account
     on MicroblogPoster plugin.
 
     6. Follow the link provided by MicroblogPoster to authorize your App 
