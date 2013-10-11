@@ -1,6 +1,6 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto update status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
+Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto update status, social media auto publish, social network auto publish, post to twitter, post to facebook
 Requires at least: 3.0
 Tested up to: 3.6.1
 Stable tag: 1.3.4
@@ -143,7 +143,7 @@ No worries, it's rather a simple procedure.
 
 
     1. In order to post updates through the twitter Api you'll need first
-    to create your own Twitter App here: https://dev.twitter.com/apps
+    to create your own twitter App here: https://dev.twitter.com/apps
     
     2. Once you have created your twitter app you have to change its access level
     to be Read and Write. 
@@ -179,7 +179,7 @@ It's most likely the same as for twitter, you will need some more effort in orde
     4. First click on 'Get Request Token', then some processing is done. 
     After that click on 'Open Authorization url', you will be redirected 
     to a new page and you'll have to grant the permission in order to get
-    your Verification Code.
+    your verification Code.
 
     5. Finally return to the previous page and generate your 
     *Token key and Token secret* by clicking on
