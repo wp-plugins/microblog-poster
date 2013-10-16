@@ -165,19 +165,19 @@ No worries, it's rather a simple procedure.
 It's most likely the same as for twitter, you will need some more effort in order to post updates through their api.
 
 
-    1. Please go at this url http://www.plurk.com/PlurkApp/ 
+    1. Please go at this Url http://www.plurk.com/PlurkApp/ 
     and click on 'Create a new Plurk app'.
-    For App type, choose 'Third-party web site integration'. 
-    For App website you can put http://localhost
+    For App Type, choose 'Third-party web site integration'. 
+    For App Website you can put http://localhost
 
     2. Once you're back on 'My Plurk Apps' page, click the edit button 
-    and get your *App key and App secret*.
+    and get your *App Key and App Secret*.
 
     3. Not finished yet, you need the second pair of credentials. 
     On 'My Plurk Apps' page this time Click on 'test console' button.
 
     4. First click on 'Get Request Token', then some processing is done. 
-    After that click on 'Open Authorization url', you will be redirected 
+    After that click on 'Open Authorization Url', you'll be redirected 
     to a new page and you'll have to grant the permission in order to get
     your Verification Code.
 
