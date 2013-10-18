@@ -1,6 +1,6 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto update status, social media auto publish, social network auto publish, post to twitter, post to facebook
+Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto update status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
 Requires at least: 3.0
 Tested up to: 3.6.1
 Stable tag: 1.3.4
@@ -177,8 +177,8 @@ It's most likely the same as for Twitter, you will need some more effort in orde
     On 'My Plurk apps' page this time Click on 'test console' button.
 
     4. First click on 'Get Request Token', then some processing is done. 
-    After that click on 'Open Authorization Url', you'll be redirected 
-    to a new page and you'll have to grant the permission in order to get
+    After that click on 'Open Authorization Url', you will be redirected 
+    to a new page and you will have to grant the permission in order to get
     your Verification Code.
 
     5. Finally return to the previous page and generate your 
