@@ -1,6 +1,6 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto update status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
+Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto update status, social media auto publish, social network auto publish, post to twitter, post to facebook
 Requires at least: 3.0
 Tested up to: 3.6.1
 Stable tag: 1.3.4
@@ -147,11 +147,11 @@ No worries, it's rather a simple procedure.
     
     2. Once you have created your twitter app you have to change its access level
     to be Read and Write. 
-    Browse to Settings tab and check the Access level to be Read and Write,
+    Browse to Settings tab and check the Access level to be read and write,
     save your new settings.
 
     3. Once this is done go back to the details tab, at the bottom you 
-    should have a button 'Create my access token', please do it.
+    should have a button 'Create my access token', Please do it.
 
     4. This is it, on the details tab you have all what you need, 
     i.e. consumer key / secret, access token and access token secret.
