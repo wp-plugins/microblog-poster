@@ -171,7 +171,7 @@ It's most likely the same as for Twitter, you will need some more effort in orde
     For App website you can put http://localhost
 
     2. Once you're back on 'My Plurk Apps' page, click the edit button 
-    and get your *App Key and App Secret*.
+    and get your *App key and App secret*.
 
     3. Not finished yet, you need the second pair of credentials. 
     On 'My Plurk apps' page this time Click on 'test console' button.
@@ -179,7 +179,7 @@ It's most likely the same as for Twitter, you will need some more effort in orde
     4. First click on 'Get Request Token', then some processing is done. 
     After that click on 'Open Authorization Url', you will be redirected 
     to a new page and you will have to grant the permission in order to get
-    your Verification Code.
+    your verification code.
 
     5. Finally return to the previous page and generate your 
     *Token key and Token secret* by clicking on
