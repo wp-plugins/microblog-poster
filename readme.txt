@@ -241,18 +241,18 @@ In addition to your username / password you will need to create your own Diigo A
 
 
     1. Please go at this url https://www.linkedin.com/secure/developer
-    and click on 'Add New Application'.
+    and Click on 'Add New Application'.
 
     2. Fill in the required informations.
-    For 'Live Status', select Live.
+    For 'Live Status', select live.
     Leave everything else by default.
     Click the button 'Add Application'.
 
-    3. Copy 'API Key' and 'Secret Key', click 'Done'.
+    3. Copy 'API key' and 'Secret key', click 'Done'.
 
-    4. Configure your linkedin account in the Social Accounts section.
+    4. Configure your linkedin account in the Social Accounts Section.
 
-    5. Follow the link provided by MicroblogPoster to authorize your App 
+    5. Follow the link provided by MicroblogPoster to Authorize your App 
     posting on your behalf.
 
 
