@@ -142,7 +142,7 @@ Basically your twitter username and password won't suffice in order to post auto
 No worries, it's rather a simple procedure.
 
 
-    1. In order to post updates through the twitter API you'll need first
+    1. In order to post updates through the twitter Api you'll need first
     to create your own twitter App here: https://dev.twitter.com/apps
     
     2. Once you have created your twitter app you have to change its access level
@@ -157,7 +157,7 @@ No worries, it's rather a simple procedure.
     i.e. consumer key / secret, access token and access token secret.
 
     5. If you don't see immediately the access token at the bottom, 
-    please refresh the details tab page.
+    please refresh the Details tab page.
 
 
 **plurk.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/plurkhelp "Plurk help with screenshots.")
@@ -208,7 +208,7 @@ Business accounts can't manage facebook Apps.
     4. Once on the basic settings of your new App, 
     for the field 'App Domains' enter your blog domain name 
     (example: mydomain.com)
-    In the field 'Website with facebook login' enter your blog url.
+    In the field 'Website with Facebook login' enter your blog url.
     (example: http://mydomain.com)
     Sandbox mode should be disabled.
     Save changes.
