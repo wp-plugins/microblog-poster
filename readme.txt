@@ -1,6 +1,6 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, post to twitter, post to facebook
+Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, post to twitter, publish to facebook
 Requires at least: 3.0
 Tested up to: 3.6.1
 Stable tag: 1.3.4
@@ -179,7 +179,7 @@ It's most likely the same as for Twitter, you will need some more effort in orde
     4. First click on 'Get Request Token', then some processing is done. 
     After that click on 'Open Authorization Url', you will be redirected 
     to a new page and you will have to grant the permission in order to get
-    your verification code.
+    your Verification Code.
 
     5. Finally return to the previous page and generate your 
     *Token key and Token secret* by clicking on
@@ -233,8 +233,8 @@ Instead of the password the FriendFeed API requires the Remote Key to let you po
 
 In addition to your username / password you will need to create your own Diigo App and generate an API Key.
 
-    1. Please go at this Url: https://www.diigo.com/api_keys/new/
-    and generate your Diigo API Key. (you need to be logged in)
+    1. Please go at this url: https://www.diigo.com/api_keys/new/
+    and generate your Diigo Api Key. (you need to be logged in)
 
 
 **linkedin.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/linkedinhelp "Linkedin help with screenshots.")
