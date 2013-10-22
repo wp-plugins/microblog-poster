@@ -208,12 +208,12 @@ Business accounts can't manage facebook Apps.
     4. Once on the basic settings of your new App, 
     for the field 'App Domains' enter your blog domain name 
     (example: mydomain.com)
-    In the field 'Website with Facebook login' enter your Blog Url.
+    In the field 'Website with Facebook login' enter your blog url.
     (example: http://mydomain.com)
     Sandbox mode should be disabled.
     Save changes.
 
-    5. Copy your 'App ID' and 'App Secret' and configure your facebook account
+    5. Copy your 'App ID' and 'App Secret' and configure your Facebook account
     on MicroblogPoster plugin.
 
     6. Follow the link provided by MicroblogPoster to authorize your App 
