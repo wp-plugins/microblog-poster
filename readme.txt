@@ -167,7 +167,7 @@ It's most likely the same as for Twitter, you will need some more effort in orde
 
     1. Please go at this Url http://www.plurk.com/PlurkApp/ 
     and click on 'Create a new Plurk app'.
-    For App type, choose 'Third-party web site integration'. 
+    For App Type, choose 'Third-party web site integration'. 
     For App website you can put http://localhost
 
     2. Once you're back on 'My Plurk Apps' page, click the edit button 
@@ -197,13 +197,13 @@ Business accounts can't manage Facebook Apps.
 
     1. Please go at this url https://developers.facebook.com/apps 
     and click on 'Create New App'.
-    Note: If you can't click on 'Create New App', You need first 
+    Note: If you can't click on 'Create New App', you need first 
     to 'Register as a Developer'.
-    Then the creation of New App will be available.
+    Then the creation of new app will be available.
 
     2. Fill in your 'App name' and click continue.
 
-    3. Enter the required Captcha challenge.
+    3. Enter the required captcha challenge.
 
     4. Once on the basic settings of your new App, 
     for the field 'App Domains' enter your blog domain name 
