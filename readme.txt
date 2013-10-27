@@ -1,6 +1,6 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, post to twitter, post to facebook
+Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
 Requires at least: 3.0
 Tested up to: 3.6.1
 Stable tag: 1.3.4
@@ -225,7 +225,7 @@ Business accounts can't manage Facebook Apps.
 
 Instead of the password the FriendFeed API requires the Remote Key to let you post with it.
 
-    1. You can find your Remote Key associated with your account at this url:
+    1. You can find your Remote key associated with your account at this url:
     https://friendfeed.com/account/api (You need to be logged in).
 
 
@@ -234,7 +234,7 @@ Instead of the password the FriendFeed API requires the Remote Key to let you po
 In addition to your username / password you will need to create your own Diigo App and generate an API Key.
 
     1. Please go at this url: https://www.diigo.com/api_keys/new/
-    and generate your Diigo Api Key. (you need to be logged in)
+    and generate your Diigo API key. (you need to be logged in)
 
 
 **linkedin.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/linkedinhelp "Linkedin help with screenshots.")
