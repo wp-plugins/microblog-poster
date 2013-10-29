@@ -154,7 +154,7 @@ No worries, it's rather a simple procedure.
     should have a button 'Create my access token', please do it.
 
     4. This is it, on the details tab you have all what you need, 
-    i.e. consumer key / secret, access token and access token secret.
+    i.e. consumer key / secret, Access token and Access token secret.
 
     5. If you don't see immediately the access token at the bottom, 
     please refresh the details tab page.
