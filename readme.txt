@@ -1,6 +1,6 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, post to twitter, post to facebook
+Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
 Requires at least: 3.0
 Tested up to: 3.6.1
 Stable tag: 1.3.4
@@ -244,9 +244,9 @@ In addition to your username and password you'll need to create your own Diigo A
     and click on 'Add New application'.
 
     2. Fill in the required informations.
-    For 'Live Status', select Live.
+    For 'Live Status', select live.
     Leave everything else by default.
-    Click the button 'Add application'.
+    Click the button 'Add Application'.
 
     3. Copy 'API Key' and 'Secret Key', click 'Done'.
 
