@@ -1,6 +1,6 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, post to twitter, post to facebook
+Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
 Requires at least: 3.0
 Tested up to: 3.7.1
 Stable tag: 1.3.5
@@ -27,6 +27,7 @@ Easily follow the automated sharing process from **MicroblogPoster**'s logs sect
 * friendfeed.com - Auto update your status.
 * diigo.com - Auto submit bookmark of your new blogpost.
 * linkedin.com - Auto publish to profile wall
+* tumblr.com - Auto publish to your blog.
 
 Please visit **MicroblogPoster**'s [website](http://efficientscripts.com/microblogposter "MicroblogPoster's website").
 
@@ -258,6 +259,21 @@ In addition to your username and password you'll need to create your own Diigo A
 
     5. Follow the link provided by MicroblogPoster to authorize your App 
     posting on your behalf.
+
+**tumblr.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/tumblrhelp "Tumblr help with screenshots.")
+
+Basically your Tumblr username and password won't suffice in order to post automatic updates, Tumblr Api requires some more steps described below.
+No worries, it's rather a simple procedure.
+
+
+    1. In order to post updates through the Tumblr Api you'll need first
+    to create your own Tumblr App here: http://www.tumblr.com/oauth/apps
+    
+    2. Once you have created your tumblr App copy your 'OAuth Consumer Key'.
+
+    3. Also click on 'Show secret key' and copy your 'Secret key'.
+
+    4. This is it, you can now configure your account.
 
 
 == Upgrade Notice ==
