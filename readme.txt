@@ -27,6 +27,7 @@ Easily follow the automated sharing process from **MicroblogPoster**'s logs sect
 * friendfeed.com - Auto update your status.
 * diigo.com - Auto submit bookmark of your new blogpost.
 * linkedin.com - Auto publish to profile wall
+* tumblr.com - Auto publish to your blog.
 
 Please visit **MicroblogPoster**'s [website](http://efficientscripts.com/microblogposter "MicroblogPoster's website").
 
