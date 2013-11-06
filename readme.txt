@@ -1,9 +1,9 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto post, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, delicious, diigo, plurk, friendfeed, identica, automatic, automation, links, backlinks, auto update status, social media auto publish, social network auto publish, post to twitter, post to facebook
+Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, post to twitter, post to facebook
 Requires at least: 3.0
-Tested up to: 3.5.2
-Stable tag: 1.3.1
+Tested up to: 3.6.1
+Stable tag: 1.3.4
 
 Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Linkedin, Plurk, Diigo, Delicious..
 
@@ -36,6 +36,8 @@ There's a general agreement in the SEO community that social signals strengthen 
 **MicroblogPoster** is simply an intermediary between your blog and your own social network accounts. You'll never
 see "posted by MicroblogPoster" in your updates, you'll see "posted by your own App name" or simply "by API".
 
+Additional features are available with the [Pro Add-on](http://efficientscripts.com/microblogposterpro "MicroblogPoster's Pro Add-on Page").
+
 
 **MicroblogPoster** in few words:
 
@@ -54,6 +56,20 @@ see "posted by MicroblogPoster" in your updates, you'll see "posted by your own 
 3. MicroblogPoster Options page, Logs Section.
 
 == Changelog ==
+
+= 1.3.5 (06-11-2013) =
+- Added support for tumblr.
+- Improved design of plugin's settings page.
+
+= 1.3.4 (27-09-2013) =
+- Fixed internal error 500 that was occurring for some PHP/web server configurations, related to the use of method_exists function.
+- Added 'Settings' link on plugins page.
+
+= 1.3.3 (15-09-2013) =
+- Adapted the free version of the plugin to work together with the new pro add-on. Additional features available with the pro add-on.
+
+= 1.3.2 (31-07-2013) =
+- Fixed critical error about a PHP warning produced by variable not being an array. Later that produces header already sent error.
 
 = 1.3.1 (20-07-2013) =
 - Added currently recommended way of authentication with bit.ly (oauth).
@@ -119,30 +135,30 @@ see "posted by MicroblogPoster" in your updates, you'll see "posted by your own 
 == Installation ==
 
 * Upload the contents of the microblogposter folder to your /wp-content/plugins/ folder.
-* Activate the plugin through the 'Plugins' menu in WordPress
+* Activate the Plugin through the 'Plugins' menu in WordPress
 * Settings->MicroblogPoster, Configure your social network accounts.
 * The plugin is ready, it will automatically cross posts whenever you publish a new blog post.
 
 
 **twitter.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/twitterhelp "Twitter help with screenshots.")
 
-Basically your twitter username and password won't suffice in order to post automatic updates, twitter api requires some more steps described below.
+Basically your Twitter username and password won't suffice in order to post automatic updates, Twitter Api requires some more steps described below.
 No worries, it's rather a simple procedure.
 
 
-    1. In order to post updates through the twitter API you'll need first
-    to create your own twitter App here: https://dev.twitter.com/apps
+    1. In order to post updates through the Twitter Api you'll need first
+    to create your own Twitter App here: https://dev.twitter.com/apps
     
-    2. Once you've created your twitter app you have to change its access level
+    2. Once you have created your twitter App you have to change its access level
     to be Read and Write. 
-    Browse to Settings tab and check the Access level to be Read and Write,
+    Browse to settings tab and check the Access Level to be read and write,
     save your new settings.
 
     3. Once this is done go back to the details tab, at the bottom you 
     should have a button 'Create my access token', please do it.
 
     4. This is it, on the details tab you have all what you need, 
-    i.e. consumer key/secret, access token and access token secret.
+    i.e. consumer key / secret, Access token and Access token secret.
 
     5. If you don't see immediately the access token at the bottom, 
     please refresh the details tab page.
@@ -150,59 +166,59 @@ No worries, it's rather a simple procedure.
 
 **plurk.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/plurkhelp "Plurk help with screenshots.")
 
-It's most likely the same as for twitter, you'll need some more effort in order to post updates through their api.
+It's most likely the same as for twitter, you will need some more effort in order to post updates through their API.
 
 
     1. Please go at this url http://www.plurk.com/PlurkApp/ 
-    and click on 'Create a new Plurk app'.
+    and click on 'Create a new Plurk App'.
     For App Type, choose 'Third-party web site integration'. 
-    For App website you can put http://localhost
+    For App Website you can put http://localhost
 
-    2. Once you're back on 'My Plurk Apps' page, click the edit button 
+    2. Once you're back on 'My Plurk Apps' page, Click the edit button 
     and get your *App Key and App Secret*.
 
     3. Not finished yet, you need the second pair of credentials. 
-    On 'My Plurk Apps' page this time click on 'test console' button.
+    On 'My Plurk apps' page this time click on 'test console' button.
 
     4. First click on 'Get Request Token', then some processing is done. 
-    After that click on 'Open Authorization URL', you'll be redirected 
-    to a new page and you'll have to grant the permission in order to get
+    After that click on 'Open Authorization Url', you'll be redirected 
+    to a new page and you will have to grant the permission in order to get
     your verification code.
 
     5. Finally return to the previous page and generate your 
-    *token key and token secret* by clicking on
+    *Token key and Token secret* by clicking on
     'Get Access Token' and by providing the verification code.
 
     6. Now you can copy your token key and token secret. 
     Coupled with the App key and App secret you've got previously 
-    you can configure your plurk account on MicroblogPoster plugin.
+    you can configure your plurk account in the Social Accounts section.
 
 
 **facebook.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/facebookhelp "Facebook help with screenshots.")
 
-Please note that only real personal facebook accounts have permissions to create an App.
-Business accounts can't manage facebook Apps.
+Please note that only real personal Facebook accounts have permissions to create an App.
+Business accounts can't manage Facebook Apps.
 
     1. Please go at this url https://developers.facebook.com/apps 
     and click on 'Create New App'.
-    Note: If you can't click on 'Create New App', you need first 
-    to 'Register as a Developer'.
-    Then the creation of new app will be available.
+    Note: If you can't click on 'Create New App', You need first 
+    to 'Register as a developer'.
+    Then the creation of new App will be available.
 
     2. Fill in your 'App name' and click continue.
 
     3. Enter the required captcha challenge.
 
-    4. Once on the basic settings of your new app, 
+    4. Once on the basic settings of your new App, 
     for the field 'App Domains' enter your blog domain name 
     (example: mydomain.com)
-    In the field 'Website with facebook login' enter your blog url.
+    In the field 'Website with Facebook login' enter your blog url.
     (example: http://mydomain.com)
     Sandbox mode should be disabled.
     Save changes.
 
-    5. Copy your 'App ID' and 'App Secret' and configure your facebook account
-    on MicroblogPoster plugin.
+    5. Copy your 'App ID' and 'App Secret' and configure your Facebook account
+    in MicroblogPoster's Social accounts section.
 
     6. Follow the link provided by MicroblogPoster to authorize your App 
     posting on your behalf.
@@ -211,18 +227,18 @@ Business accounts can't manage facebook Apps.
 **friendfeed.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/friendfeedhelp "FriendFeed help with screenshots.")
 
 
-Instead of the password the friendfeed API requires the remote key to let you post with it.
+Instead of the password the Friendfeed API requires the remote key to let you post with it.
 
-    1. You can find your remote key associated with your account at this url:
-    https://friendfeed.com/account/api (you need to be logged in).
+    1. You can find your remote key associated with your account at this Url:
+    https://friendfeed.com/account/api (You need to be logged in).
 
 
 **diigo.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/diigohelp "Diigo help with screenshots.")
 
-In addition to your username and password you'll need to create your own diigo app and generate an Api key.
+In addition to your username and password you'll need to create your own Diigo App and generate an Api key.
 
     1. Please go at this url: https://www.diigo.com/api_keys/new/
-    and generate your diigo Api Key. (you need to be logged in)
+    and generate your Diigo Api key. (You need to be logged in)
 
 
 **linkedin.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/linkedinhelp "Linkedin help with screenshots.")
@@ -234,11 +250,11 @@ In addition to your username and password you'll need to create your own diigo a
     2. Fill in the required informations.
     For 'Live Status', select Live.
     Leave everything else by default.
-    Click the button 'Add Application'.
+    Click the button 'Add application'.
 
-    3. Copy 'API Key' and 'Secret Key', click 'Done'.
+    3. Copy 'Api Key' and 'Secret Key', click 'Done'.
 
-    4. Configure your linkedin account in the Social Accounts section.
+    4. Configure your Linkedin Account in the Social Accounts Section.
 
     5. Follow the link provided by MicroblogPoster to authorize your App 
     posting on your behalf.
