@@ -4,7 +4,7 @@
  * Plugin Name: Microblog Poster
  * Plugin URI: http://efficientscripts.com/microblogposter
  * Description: Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Linkedin, Plurk, Diigo, Delicious..
- * Version: 1.3.4
+ * Version: 1.3.5
  * Author: Efficient Scripts
  * Author URI: http://efficientscripts.com/
  *
@@ -227,13 +227,10 @@ class MicroblogPoster_Poster
         
         
         $post = get_post($post_ID);
-        $post->post_content = strip_tags($post->post_content);
-        $post->post_content = preg_replace("|(\r\n)+|", " ", $post->post_content);
-        $post->post_content = preg_replace("|(\t)+|", "", $post->post_content);
-        $post->post_content = preg_replace("|\&nbsp\;|", "", $post->post_content);
-        $post_content_actual = $post->post_content;
-        $post_content_actual_lkn = substr($post_content_actual, 0, 300);
         
+        $post_content_actual = $post->post_content;
+        $post_content_actual_lkn = MicroblogPoster_Poster::clean_up_and_shorten_content($post_content_actual, 350, ' ');
+        $post_content_actual_tmb = MicroblogPoster_Poster::shorten_content($post_content_actual, 500, '.');
         
         $post_thumbnail_id = get_post_thumbnail_id($post_ID);
         $featured_image_src = '';
@@ -264,6 +261,7 @@ class MicroblogPoster_Poster
         $bitly_api_user_value = get_option("microblogposter_plg_bitly_api_user", "");
         $bitly_api_key_value = get_option("microblogposter_plg_bitly_api_key", "");
         $bitly_access_token_value = get_option("microblogposter_plg_bitly_access_token", "");
+        $shortened_permalink = '';
         if( ($bitly_api_user_value and $bitly_api_key_value) or $bitly_access_token_value )
         {
             $bitly_api->setCredentials($bitly_api_user_value, $bitly_api_key_value, $bitly_access_token_value);
@@ -272,10 +270,11 @@ class MicroblogPoster_Poster
             {
                 $update = $post_title . " $shortened_permalink";
                 $permalink = $shortened_permalink;
-                $post_content[] = $shortened_permalink;
+                
             }
         }
-	
+	$post_content[] = $shortened_permalink;
+        
 	
 	$tags = "";
 	$posttags = get_the_tags($post_ID);
@@ -295,6 +294,7 @@ class MicroblogPoster_Poster
         MicroblogPoster_Poster::update_facebook($update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_lkn, $featured_image_src_thumbnail);
         MicroblogPoster_Poster::update_diigo($post_title, $permalink, $tags, $post_content, $post_ID);
         MicroblogPoster_Poster::update_linkedin($update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_lkn, $featured_image_src_medium);
+        MicroblogPoster_Poster::update_tumblr($update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_tmb);
         
         MicroblogPoster_Poster::maintain_logs();
     }
@@ -941,10 +941,6 @@ class MicroblogPoster_Poster
                     }
                     
                     
-                    
-                    
-                    
-
                     $log_data = array();
                     $log_data['account_id'] = $linkedin_account['account_id'];
                     $log_data['account_type'] = "linkedin";
@@ -959,6 +955,97 @@ class MicroblogPoster_Poster
             }
             
         }
+    }
+    
+    /**
+    * Updates status on tumblr
+    *
+    * @param string  $update Text to be posted on microblogging site
+    * @param array $post_content
+    * @return void
+    */
+    public static function update_tumblr($update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual)
+    {   
+        
+        $tumblr_accounts = MicroblogPoster_Poster::get_accounts('tumblr');
+        
+        if(!empty($tumblr_accounts))
+        {
+            foreach($tumblr_accounts as $tumblr_account)
+            {
+                if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account'))
+                {
+                    $active = MicroblogPoster_Poster_Pro::filter_single_account($tumblr_account['account_id']);
+                    if($active === false)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        if(isset($active['message_format']) && $active['message_format'])
+                        {
+                            $tumblr_account['message_format'] = $active['message_format'];
+                        }
+                    }
+                }
+                
+                if($tumblr_account['message_format'])
+                {
+                    $update = str_ireplace(MicroblogPoster_Poster::get_shortcodes(), $post_content, $tumblr_account['message_format']);
+                }
+                $extra = json_decode($tumblr_account['extra'], true);
+                if(!$extra)
+                {
+                    continue;
+                }
+                
+                $post_data = array();
+                $post_data['update'] = $update;
+                $post_data['post_title'] = $post_title;
+                $post_data['permalink'] = $permalink;
+                $post_data['post_content_actual'] = $post_content_actual;
+                
+                $acc_extra = $extra;
+                
+                if($extra['post_type'] == 'text')
+                {
+                    $result = MicroblogPoster_Poster::send_signed_request(
+                        $tumblr_account['consumer_key'],
+                        $tumblr_account['consumer_secret'],
+                        $tumblr_account['access_token'],
+                        $tumblr_account['access_token_secret'],
+                        "http://api.tumblr.com/v2/blog/{$extra['blog_hostname']}/post",
+                        array("type"=>'text',"title"=>$post_title,"body"=>$update)
+                    );
+                }
+                elseif($extra['post_type'] == 'link')
+                {
+                    if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','update_tumblr_link'))
+                    {
+                        $result = MicroblogPoster_Poster_Pro::update_tumblr_link($tumblr_account, $acc_extra, $post_data);
+                    }
+                }
+                
+                $action_result = 2;
+                $result_dec = json_decode($result, true);
+                if($result_dec && isset($result_dec['meta']['msg']) && $result_dec['meta']['msg']=="Created")
+                {
+                    $action_result = 1;
+                    $result = "Success";
+                }
+                
+                $log_data = array();
+                $log_data['account_id'] = $tumblr_account['account_id'];
+                $log_data['account_type'] = "tumblr";
+                $log_data['username'] = $tumblr_account['username'];
+                $log_data['post_id'] = $post_ID;
+                $log_data['action_result'] = $action_result;
+                $log_data['update_message'] = $update;
+                $log_data['log_message'] = $result;
+                MicroblogPoster_Poster::insert_log($log_data);
+            }
+        }
+        
     }
     
     /**
@@ -1098,6 +1185,46 @@ class MicroblogPoster_Poster
         return array('{site_url}', '{title}', '{url}', '{short_url}');
     }
     
+    /**
+    * 
+    * @param string $content
+    * @param int $length
+    * @param string $ending_char
+    * @return string
+    */
+    private static function clean_up_and_shorten_content($content, $length, $ending_char)
+    {
+        $content = strip_tags($content);
+        $content = preg_replace("|(\r\n)+|", " ", $content);
+        $content = preg_replace("|(\t)+|", "", $content);
+        $content = preg_replace("|\&nbsp\;|", "", $content);
+        $content = substr($content, 0, $length);
+        
+        if(strlen($content) == $length)
+        {
+            $content = substr($content, 0, strrpos($content, $ending_char));
+        }
+        return $content;
+    }
+    
+    /**
+    * 
+    * @param string $content
+    * @param int $length
+    * @param string $ending_char
+    * @return string
+    */
+    private static function shorten_content($content, $length, $ending_char)
+    {
+        $content = strip_tags($content);
+        $content = substr($content, 0, $length);
+        
+        if(strlen($content) == $length)
+        {
+            $content = substr($content, 0, strrpos($content, $ending_char)+1);
+        }
+        return $content;
+    }
 }
 
 class MicroblogPoster_SupportEnc
@@ -1165,6 +1292,8 @@ function microblogposter_meta()
     $default_behavior_value = get_option($default_behavior_name, "");
     $default_behavior_update_name = "microblogposter_default_behavior_update";
     $default_behavior_update_value = get_option($default_behavior_update_name, "");
+    $pro_control_dash_mode_name = "microblogposter_plg_control_dash_mode";
+    $pro_control_dash_mode_value = get_option($pro_control_dash_mode_name, "");
     
     $screen = get_current_screen();
     if($screen->action != 'add')
@@ -1176,9 +1305,13 @@ function microblogposter_meta()
     <label for="microblogposteroff">Disable Microblog Poster this time?</label>
     
     <?php
-    if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','show_control_dashboard'))
+    if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','show_control_dashboard') && !$pro_control_dash_mode_value)
     {
         MicroblogPoster_Poster_Pro::show_control_dashboard();
+    }
+    elseif(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','show_control_dashboard') && $pro_control_dash_mode_value=='1')
+    {
+        echo "<br />The Control Dashboard part for checking/unchecking specific accounts is disabled in plugin's settings. MicroblogPoster will cross-post to all your social accounts.";
     }
     else
     {
@@ -1220,6 +1353,8 @@ function microblogposter_pmeta()
     $default_pbehavior_value = get_option($default_pbehavior_name, "");
     $default_pbehavior_update_name = "microblogposter_default_pbehavior_update";
     $default_pbehavior_update_value = get_option($default_pbehavior_update_name, "");
+    $pro_control_dash_mode_name = "microblogposter_plg_control_dash_mode";
+    $pro_control_dash_mode_value = get_option($pro_control_dash_mode_name, "");
     
     $screen = get_current_screen();
     if($screen->action != 'add')
@@ -1230,9 +1365,13 @@ function microblogposter_pmeta()
     <input type="checkbox" id="microblogposteroff" name="microblogposteroff" <?php if($default_pbehavior_value) echo 'checked="checked"';?> /> 
     <label for="microblogposteroff">Disable Microblog Poster this time?</label>
     <?php
-    if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','show_control_dashboard'))
+    if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','show_control_dashboard')  && !$pro_control_dash_mode_value)
     {
         MicroblogPoster_Poster_Pro::show_control_dashboard();
+    }
+    elseif(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','show_control_dashboard') && $pro_control_dash_mode_value=='1')
+    {
+        echo "<br />The Control Dashboard part for checking/unchecking specific accounts is disabled in plugin's settings. MicroblogPoster will cross-post to all your social accounts.";
     }
     else
     {

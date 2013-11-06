@@ -35,6 +35,7 @@ function microblogposter_settings_output()
     $page_mode_name = "microblogposter_page_mode";
     $excluded_categories_name = "microblogposter_excluded_categories";
     $customer_license_key_name = "microblogposterpro_plg_customer_license_key";
+    $pro_control_dash_mode_name = "microblogposter_plg_control_dash_mode";
     
     
     $bitly_api_user_value = get_option($bitly_api_user_name, "");
@@ -48,6 +49,7 @@ function microblogposter_settings_output()
     $excluded_categories_value = get_option($excluded_categories_name, "");
     $excluded_categories_value = json_decode($excluded_categories_value, true);
     $customer_license_key_value = get_option($customer_license_key_name, "");
+    $pro_control_dash_mode_value = get_option($pro_control_dash_mode_name, "");
     
     
     if(isset($_POST["update_license_key"]))
@@ -79,6 +81,7 @@ function microblogposter_settings_output()
         $page_mode_value = $_POST[$page_mode_name];
         $excluded_categories_value = $_POST[$excluded_categories_name];
         $excluded_categories_value = json_encode($excluded_categories_value);
+        $pro_control_dash_mode_value = $_POST[$pro_control_dash_mode_name];
         
         update_option($bitly_api_user_name, $bitly_api_user_value);
         update_option($bitly_api_key_name, $bitly_api_key_value);
@@ -100,6 +103,8 @@ function microblogposter_settings_output()
         
         update_option($excluded_categories_name, $excluded_categories_value);
         $excluded_categories_value = json_decode($excluded_categories_value, true);
+        
+        update_option($pro_control_dash_mode_name, $pro_control_dash_mode_value);
         
         ?>
         <div class="updated"><p><strong>Options saved.</strong></p></div>
@@ -224,6 +229,11 @@ function microblogposter_settings_output()
             {
                 $extra['group_id'] = trim($_POST['mbp_linkedin_group_id']);
             }
+            
+            if(isset($_POST['mbp_post_type_tmb']))
+            {
+                $extra['post_type'] = trim($_POST['mbp_post_type_tmb']);
+            }
         }
         else
         {
@@ -235,8 +245,16 @@ function microblogposter_settings_output()
             {
                 $extra['target_type'] = 'profile';
             }
+            if(isset($_POST['mbp_post_type_tmb']))
+            {
+                $extra['post_type'] = 'text';
+            }
         }
         
+        if(isset($_POST['mbp_tumblr_blog_hostname']))
+        {
+            $extra['blog_hostname'] = trim($_POST['mbp_tumblr_blog_hostname']);
+        }
         
         $extra = json_encode($extra);
         $wpdb->escape_by_ref($extra);
@@ -361,9 +379,17 @@ function microblogposter_settings_output()
             {
                 $extra['group_id'] = trim($_POST['mbp_linkedin_group_id']);
             }
+            
+            if(isset($_POST['mbp_post_type_tmb']))
+            {
+                $extra['post_type'] = trim($_POST['mbp_post_type_tmb']);
+            }
         }
         
-        
+        if(isset($_POST['mbp_tumblr_blog_hostname']))
+        {
+            $extra['blog_hostname'] = trim($_POST['mbp_tumblr_blog_hostname']);
+        }
         
         $extra = json_encode($extra);
         $wpdb->escape_by_ref($extra);
@@ -414,6 +440,10 @@ function microblogposter_settings_output()
     // Facebook accounts authorization process
     
     $server_name = $_SERVER['SERVER_NAME'];
+    if(isset($_SERVER['HTTP_HOST']))
+    {
+        $server_name = $_SERVER['HTTP_HOST'];
+    }
     $request_uri = $_SERVER['REQUEST_URI'];
     $request_uri_arr = explode('&', $request_uri, 2);
     $request_uri = $request_uri_arr[0];
@@ -633,6 +663,90 @@ function microblogposter_settings_output()
             }
         }
     }
+    if(isset($_GET['microblogposter_auth_tumblr']) && isset($_GET['account_id']))
+    {
+        
+        $tumblr_account_id = (int) $_GET['account_id'];
+        if(is_int($tumblr_account_id))
+        {
+            $sql="SELECT * FROM $table_accounts WHERE account_id={$tumblr_account_id}";
+            $rows = $wpdb->get_results($sql);
+            $row = $rows[0];
+            $tmb_acc_extra_auth = json_decode($row->extra, true);
+            $tumblr_c_key = $row->consumer_key;
+            $tumblr_c_secret = $row->consumer_secret;
+            $tumblr_consumer = new MicroblogPosterOAuthConsumer($tumblr_c_key, $tumblr_c_secret, null);
+            $tumblr_req_token_url = 'http://www.tumblr.com/oauth/request_token';
+            $params = array('oauth_callback'=>$redirect_uri.'&microblogposter_access_tumblr=tumblr_microblogposter_'.$tumblr_account_id);
+            $tumblr_sig_method = new MicroblogPosterOAuthSignatureMethod_HMAC_SHA1();
+            $tumblr_req_token_step = MicroblogPosterOAuthRequest::from_consumer_and_token($tumblr_consumer, null, "GET", $tumblr_req_token_url, $params);
+            $tumblr_req_token_step->sign_request($tumblr_sig_method, $tumblr_consumer, null);
+            $curl = new MicroblogPoster_Curl();
+            $response = $curl->fetch_url($tumblr_req_token_step);
+            parse_str($response, $params);
+            $tumblr_at_key = $params['oauth_token'];
+            $tumblr_at_secret = $params['oauth_token_secret'];
+            $tmb_acc_extra_auth['authorized'] = '0';
+            $wpdb->escape_by_ref($tumblr_at_key);
+            $wpdb->escape_by_ref($tumblr_at_secret);
+            $tmb_acc_extra_auth = json_encode($tmb_acc_extra_auth);
+            $wpdb->escape_by_ref($tmb_acc_extra_auth);
+            $sql = "UPDATE {$table_accounts}
+                    SET access_token='{$tumblr_at_key}', 
+                        access_token_secret='{$tumblr_at_secret}',
+                        extra='{$tmb_acc_extra_auth}'    
+                    WHERE account_id={$tumblr_account_id}";
+
+            $wpdb->query($sql);
+            $authorize_url_name = 'authorize_url_'.$tumblr_account_id;
+            $$authorize_url_name = 'http://www.tumblr.com/oauth/authorize'.'?oauth_token='.$params['oauth_token'].
+                    '&oauth_callback='.urlencode($redirect_uri).'&microblogposter_access_tumblr=tumblr_microblogposter_'.$tumblr_account_id;
+            
+            $mbp_accounts_tab_selected = true;
+        }
+    }
+    if(isset($_GET['microblogposter_access_tumblr']) && isset($_GET['oauth_verifier']))
+    {
+        if(preg_match('|^tumblr_microblogposter\_|i',trim($_GET['microblogposter_access_tumblr'])))
+        {
+            $auth_user_data = explode('_', trim($_GET['microblogposter_access_tumblr']));
+            $tumblr_account_id = (int) $auth_user_data[2];
+            $sql="SELECT * FROM $table_accounts WHERE account_id={$tumblr_account_id}";
+            $rows = $wpdb->get_results($sql);
+            $row = $rows[0];
+            $tmb_acc_extra_auth = json_decode($row->extra, true);
+            $tumblr_c_key = $row->consumer_key;
+            $tumblr_c_secret = $row->consumer_secret;
+            $tumblr_at_key = $row->access_token;
+            $tumblr_at_secret = $row->access_token_secret;
+            $tumblr_consumer = new MicroblogPosterOAuthConsumer($tumblr_c_key, $tumblr_c_secret, null);
+            $tumblr_token = new MicroblogPosterOAuthToken($tumblr_at_key, $tumblr_at_secret, null);
+            $tumblr_acc_token_url = 'http://www.tumblr.com/oauth/access_token';
+            $params = array('oauth_verifier'=>trim($_GET['oauth_verifier']));
+            $tumblr_sig_method = new MicroblogPosterOAuthSignatureMethod_HMAC_SHA1();
+            $tumblr_acc_token_step = MicroblogPosterOAuthRequest::from_consumer_and_token($tumblr_consumer, $tumblr_token, "GET", $tumblr_acc_token_url, $params);
+            $tumblr_acc_token_step->sign_request($tumblr_sig_method, $tumblr_consumer, $tumblr_token);
+            $curl = new MicroblogPoster_Curl();
+            $response = $curl->fetch_url($tumblr_acc_token_step);
+            parse_str($response, $params);
+            $tumblr_at_key1 = $params['oauth_token'];
+            $tumblr_at_secret1 = $params['oauth_token_secret'];
+            $tmb_acc_extra_auth['authorized'] = '1';
+            $tmb_acc_extra_auth['expires'] = 0;
+            $wpdb->escape_by_ref($tumblr_at_key1);
+            $wpdb->escape_by_ref($tumblr_at_secret1);
+            $tmb_acc_extra_auth = json_encode($tmb_acc_extra_auth);
+            $wpdb->escape_by_ref($tmb_acc_extra_auth);
+            $sql = "UPDATE {$table_accounts}
+                    SET access_token='{$tumblr_at_key1}', 
+                        access_token_secret='{$tumblr_at_secret1}',
+                        extra='{$tmb_acc_extra_auth}'
+                    WHERE account_id={$tumblr_account_id}";
+
+            $wpdb->query($sql);
+            $redirect_after_auth = true;
+        }
+    }
     
     $description_shortcodes = "You can use shortcodes: {TITLE} = Title of the new blog post. {URL} = The blog post url. {SHORT_URL} = The blog post shortened url. {SITE_URL} = Your blog/site url.";
     
@@ -671,6 +785,7 @@ function microblogposter_settings_output()
             </form>
         <?php endif;?>
         
+        
         <div id="mbp-menu-wrapper">
             <ul id="mbp-menu">
                 <li id="mbp-general-tab" class="mbp-tab-background mbp-tab-first">General Options</li><!--
@@ -679,7 +794,8 @@ function microblogposter_settings_output()
             </ul> 
         </div>
         
-        <div id="mbp-general-section">
+        
+        <div id="mbp-general-section" class="mbp-single-tab-wrapper">
             <h3 id="general-header">General Section:</h3>
             <form name="options_form" method="post" action="">
                 <table class="form-table">
@@ -790,13 +906,33 @@ function microblogposter_settings_output()
                     </tr>
                     
                 </table>
+                <?php if(function_exists('mbp_pro_activate_au_microblogposter')):?>
+                <h3 id="pro-addon-header">Pro Add-on Section:</h3>
+                <table class="form-table">
+                    <tr>
+                        <td colspan="2">
+                            <h3><span class="wp-blue-title">MicroblogPoster's Control Dashboard :</span></h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" id="mbp-excluded-category-header">
+                            If you're posting to your blog by email,<br /> 
+                            you'll need to disable the MicroblogPoster's Control Dashboard in order to cross-post successfully.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-input">Disable the control dashboard:</td>
+                        <td><input type="checkbox" id="microblogposter_plg_control_dash_mode" name="microblogposter_plg_control_dash_mode" value="1" <?php if($pro_control_dash_mode_value) echo 'checked="checked"';?> /></td>
+                    </tr>
+                </table>
+                <?php endif;?>
                 <p class="submit">
                     <input type="submit" name="update_options" class="update-options button" value="Update Options" />
                 </p>
             </form>
         </div>
         
-        <div id="mbp-social-networks-accounts">
+        <div id="mbp-social-networks-accounts" class="mbp-single-tab-wrapper">
         <h3 id="network-accounts-header">Social Network Accounts Section:</h3>
         
         <?php
@@ -1694,6 +1830,163 @@ function microblogposter_settings_output()
             </div>
             
         <?php endforeach;?>
+            
+        <div class="social-network-accounts-site">
+            <img src="../wp-content/plugins/microblog-poster/images/tumblr_icon.png" />
+            <h4>Tumblr Accounts</h4>
+        </div>
+        <?php
+        $sql="SELECT * FROM $table_accounts WHERE type='tumblr'";
+        $rows = $wpdb->get_results($sql);
+        foreach($rows as $row):
+            $update_accounts[] = $row->account_id;
+        
+            $authorized = false;
+            $tmb_blog_hostname = '';
+            if($row->extra)
+            {
+                $tmb_acc_extra = json_decode($row->extra, true);
+                $tmb_post_type = $tmb_acc_extra['post_type'];
+                if(isset($tmb_acc_extra['authorized']) && $tmb_acc_extra['authorized']=='1')
+                {
+                    $authorized = true;
+                }
+                if(isset($tmb_acc_extra['blog_hostname']))
+                {
+                    $tmb_blog_hostname = $tmb_acc_extra['blog_hostname'];
+                }
+            }
+            
+            $authorize_step = 1;
+            $authorize_url = $redirect_uri.'&microblogposter_auth_tumblr=1&account_id='.$row->account_id;
+            $authorize_url_name = 'authorize_url_'.$row->account_id;
+            if(isset($$authorize_url_name))
+            {
+                $authorize_url = $$authorize_url_name;
+                $authorize_step = 2;
+            }
+        ?>
+            <div style="display:none">
+                <div id="update_account<?php echo $row->account_id;?>">
+                    <form id="update_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
+                        
+                        <h3 class="new-account-header"><span class="microblogposter-name">MicroblogPoster</span> Plugin</h3>
+                        <div class="delete-wrapper">
+                            Tumblr Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span>
+                        </div>
+                        <div id="tumblr-div" class="one-account">
+                            <div class="input-div">
+                                Username:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="username" name="username" value="<?php echo $row->username;?>"/>
+                                <span class="description">Easily identify it later, not used for posting.</span>
+                            </div>
+                            <div class="input-div">
+                                Blog Hostname:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="mbp_tumblr_blog_hostname" name="mbp_tumblr_blog_hostname" value="<?php echo $tmb_blog_hostname;?>"/>
+                                <span class="description">Ex: 'blogname.tumblr.com'</span>
+                            </div>
+                            <div class="input-div">
+                                Message Format:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="message_format" name="message_format" value="<?php echo $row->message_format;?>"/>
+                                <span class="description">Message that's actually posted.</span>
+                            </div>
+                            <div class="input-div">
+
+                            </div>
+                            <div class="input-div-large">
+                                <span class="description-small"><?php echo $description_shortcodes;?></span>
+                            </div>
+                            <div class="mbp-separator"></div>
+                            <div class="input-div input-div-radio">
+                                Post Type:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="radio" name="mbp_post_type_tmb" value="text" <?php if($tmb_post_type=='text') echo 'checked="checked"';?> > Text <span class="description">Text status update.</span><br>
+                                <?php if(function_exists('mbp_pro_activate_au_microblogposter')):?>
+                                <input type="radio" name="mbp_post_type_tmb" value="link" <?php if($tmb_post_type=='link') echo 'checked="checked"';?> > Share a Link <span class="description">Tumblr link box status update.</span>
+                                <?php endif;?>
+                            </div>
+                            <?php if(function_exists('mbp_pro_activate_au_microblogposter')):?>
+                            <div class="input-div">
+                                
+                            </div>
+                            <div class="input-div-large">
+                                <span class="description-small">
+                                    Link box + description of your post.
+                                    Message Format field above isn't used.
+                                </span>
+                            </div>
+                            <?php endif;?>
+                            <div class="input-div">
+                                Consumer Key:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="" name="consumer_key" value="<?php echo $row->consumer_key;?>" />
+                                <span class="description">Your Tumblr Application Consumer Key.</span>
+                            </div>
+                            <div class="input-div">
+                                Consumer Secret:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="" name="consumer_secret" value="<?php echo $row->consumer_secret;?>" />
+                                <span class="description">Your Tumblr Application Consumer Secret.</span>
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="account_id" value="<?php echo $row->account_id;?>" />
+                        <input type="hidden" name="account_type" value="tumblr" />
+                        <input type="hidden" name="update_account_hidden" value="1" />
+                        <div class="button-holder">
+                            <button type="button" class="button cancel-account" >Cancel</button>
+                            <button type="button" class="button-primary save-account<?php echo $row->account_id;?>" >Save</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <div style="display:none">
+                <div id="delete_account<?php echo $row->account_id;?>">
+                    <form id="delete_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
+                        <div class="delete-wrapper">
+                        Tumblr Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span><br />
+                        <span class="delete-wrapper-del">Delete?</span>
+                        </div>
+                        <input type="hidden" name="account_id" value="<?php echo $row->account_id;?>" />
+                        <input type="hidden" name="account_type" value="tumblr" />
+                        <input type="hidden" name="delete_account_hidden" value="1" />
+                        <div class="button-holder-del">
+                            <button type="button" class="button cancel-account" >Cancel</button>
+                            <button type="button" class="del-account-fb button del-account<?php echo $row->account_id;?>" >Delete</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="account-wrapper">
+                <span class="account-username"><?php echo $row->username;?></span>
+                <span class="edit-account edit<?php echo $row->account_id;?>">Edit</span>
+                <span class="del-account del<?php echo $row->account_id;?>">Del</span>
+                <div>
+                    
+                    <?php if($authorized): ?>
+                        <div>Authorization is valid permanently</div>
+                        <a href="<?php echo $authorize_url; ?>" >Refresh authorization now</a>
+                        (2 steps required)
+                    <?php else:?>
+                        <a href="<?php echo $authorize_url; ?>" >Authorize this Tumblr account</a>
+                        <?php if($authorize_step==1) echo '2 steps required, after first click and page reload, please click again.'?>
+                        <?php if($authorize_step==2) echo 'Final step, click once again.'?>
+                    <?php endif;?>
+                    
+                </div>
+            </div>
+            
+        <?php endforeach;?>
         </div>
         
         
@@ -1713,6 +2006,7 @@ function microblogposter_settings_output()
                         <option value="facebook">Facebook</option>
                         <option value="diigo">Diigo</option>
                         <option value="linkedin">Linkedin</option>
+                        <option value="tumblr">Tumblr</option>
                     </select> 
                     </div>
 
@@ -2132,6 +2426,70 @@ function microblogposter_settings_output()
                         </div>
                         <div id="mbp-linkedin-upgrade-now">Available with the Pro Add-on. <a href="http://efficientscripts.com/microblogposterpro" target="_blank">Upgrade Now</a></div>
                     </div>
+                    <div id="tumblr-div" class="one-account">
+                        <div class="help-div"><span class="description"> <a href="http://efficientscripts.com/help/microblogposter/tumblrhelp" target="_blank">Tumblr Help</a></span></div>
+                        <div class="input-div">
+                            Username:
+                        </div>
+                        <div class="input-div-large">
+                            <input type="text" id="username" name="username" />
+                            <span class="description">Easily identify it later, not used for posting.</span>
+                        </div>
+                        <div class="input-div">
+                            Blog Hostname:
+                        </div>
+                        <div class="input-div-large">
+                            <input type="text" id="mbp_tumblr_blog_hostname" name="mbp_tumblr_blog_hostname" />
+                            <span class="description">Ex: 'blogname.tumblr.com'</span>
+                        </div>
+                        <div class="input-div">
+                            Message Format:
+                        </div>
+                        <div class="input-div-large">
+                            <input type="text" id="message_format" name="message_format" />
+                            <span class="description">Message that's actually posted.</span>
+                        </div>
+                        <div class="input-div">
+
+                        </div>
+                        <div class="input-div-large">
+                            <span class="description-small"><?php echo $description_shortcodes;?></span>
+                        </div>
+                        <div class="mbp-separator"></div>
+                        <div class="input-div input-div-radio">
+                            Post Type:
+                        </div>
+                        <div class="input-div-large">
+                            <input type="radio" class="post_type_tmb_class" name="mbp_post_type_tmb" id="post_type_tmb_text" value="text" checked="checked"> Text <span class="description">Text status update.</span><br>
+                            <input type="radio" class="post_type_tmb_class" name="mbp_post_type_tmb" value="link"> Share a Link <span class="description">Tumblr link box status update.</span>
+                        </div>
+                        <div class="input-div">
+
+                        </div>
+                        <div class="input-div-large">
+                            <span class="description-small">
+                                Link box + description of your post.
+                                Message Format field above isn't used.
+                            </span>
+                        </div>
+                        <div id="mbp-tumblr-input-div">
+                            <div class="input-div">
+                                Consumer Key:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="" name="consumer_key" value="" />
+                                <span class="description">Your Tumblr Application Consumer Key.</span>
+                            </div>
+                            <div class="input-div">
+                                Consumer Secret:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="" name="consumer_secret" value="" />
+                                <span class="description">Your Tumblr Application Consumer Secret.</span>
+                            </div>
+                        </div>
+                        <div id="mbp-tumblr-upgrade-now">Available with the Pro Add-on. <a href="http://efficientscripts.com/microblogposterpro" target="_blank">Upgrade Now</a></div>
+                    </div>
 
                     <input type="hidden" name="new_account_hidden" value="1" />
                     <div class="button-holder">
@@ -2143,7 +2501,7 @@ function microblogposter_settings_output()
             </div>
         </div>
         </div>
-    </div>
+    
     
     
     <style>
@@ -2315,20 +2673,26 @@ function microblogposter_settings_output()
         }
         #network-accounts-header
         {
-            margin-top: 30px;
+            margin-top: 0px;
             margin-bottom: 20px;
             width: 275px;
             border-bottom: 3px solid #99E399;
         }
         #general-header
         {
-            margin-top: 30px;
+            margin-top: 0px;
             width: 140px;
+            border-bottom: 3px solid #99E399;
+        }
+        #pro-addon-header
+        {
+            margin-top: 20px;
+            width: 165px;
             border-bottom: 3px solid #99E399;
         }
         #logs-header
         {
-            margin-top: 30px;
+            margin-top: 0px;
             width: 120px;
             border-bottom: 3px solid #99E399;
         }
@@ -2421,22 +2785,22 @@ function microblogposter_settings_output()
         {
             display: inline-block;
             vertical-align: bottom;
+            height: 44px;
         }
         #mbp-menu
         {
             list-style: none outside none;
-            margin: 25px 0px 10px 0px;
-            
-            
+            margin: 25px 0px 0px 0px;
         }
         #mbp-menu li
         {
             display: inline;
-            margin-right: 1px;
+            /*margin-right: 1px;*/
             color: #222222;
             padding: 3px 6px;
             font-size: 16px;
             border-top: 1px solid #222222;
+            border-right: 1px solid #a8a8a8;
         }
         
         .mbp-tab-background
@@ -2458,9 +2822,8 @@ function microblogposter_settings_output()
         .mbp-tab-first
         {
             border-left: 1px solid #222222;
-            
         }
-        .mbp-tab-last
+        #mbp-menu #mbp-logs-tab
         {
             border-right: 1px solid #222222;
         }
@@ -2500,7 +2863,7 @@ function microblogposter_settings_output()
         {
             color: #ff0000;
         }
-        #mbp-facebook-upgrade-now, #mbp-linkedin-upgrade-now
+        #mbp-facebook-upgrade-now, #mbp-linkedin-upgrade-now, #mbp-tumblr-upgrade-now
         {
             margin: 20px auto 20px auto;
             width: 300px;
@@ -2522,12 +2885,24 @@ function microblogposter_settings_output()
         {
             color: red;
         }
+        .mbp-single-tab-wrapper
+        {
+            border-top: 1px solid #888888;
+            border-left: 1px solid #888888;
+            border-bottom: 1px solid #888888;
+            border-right: 1px solid #888888;
+            border-bottom-left-radius: 2px;
+            border-bottom-right-radius: 2px;
+            border-top-right-radius: 2px;
+            padding-top: 40px;
+            padding-left: 20px;
+        }
     </style>
 
     
     
     
-    <div id="mbp-logs-wrapper">
+    <div id="mbp-logs-wrapper" class="mbp-single-tab-wrapper">
         
         <h3 id="logs-header">Logs Section:</h3>
         
@@ -2562,6 +2937,7 @@ function microblogposter_settings_output()
         
         </table> 
     </div>
+    </div><!--end wrap div-->
     
     <?php
         wp_enqueue_script( 'microblogposter-fancybox-js-script' );
@@ -2581,7 +2957,7 @@ function microblogposter_settings_output()
                     'scrolling'	: 'auto',
                     'titleShow'	: false,
                     'onComplete'	: function() {
-                        $('div#fancybox-content #plurk-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div,div#fancybox-content #diigo-div,div#fancybox-content #linkedin-div').hide().find('input,select').attr('disabled','disabled');
+                        $('div#fancybox-content #plurk-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div,div#fancybox-content #diigo-div,div#fancybox-content #linkedin-div,div#fancybox-content #tumblr-div').hide().find('input,select').attr('disabled','disabled');
                         
                         $(".save-account").removeAttr('disabled');
                         
@@ -2590,7 +2966,9 @@ function microblogposter_settings_output()
                         $("div#fancybox-content #mbp-facebook-group-id-div").hide().find('input').attr('disabled','disabled');
                         
                         $("div#fancybox-content #mbp-linkedin-upgrade-now").hide();
-                        $("div#fancybox-content #mbp-linkedin-group-id-div").hide().find('input').attr('disabled','disabled');    
+                        $("div#fancybox-content #mbp-linkedin-group-id-div").hide().find('input').attr('disabled','disabled');
+                        
+                        $("div#fancybox-content #mbp-tumblr-upgrade-now").hide();
                             
                         <?php if(function_exists('mbp_pro_activate_au_microblogposter')):?>
                         
@@ -2618,7 +2996,7 @@ function microblogposter_settings_output()
             $("#account_type").live("change", function(){
                 var type = $(this).val();
                 //console.log(type);
-                $('div#fancybox-content #twitter-div,div#fancybox-content #plurk-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div,div#fancybox-content #diigo-div,div#fancybox-content #linkedin-div').hide().find('input,select').attr('disabled','disabled');
+                $('div#fancybox-content #twitter-div,div#fancybox-content #plurk-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div,div#fancybox-content #diigo-div,div#fancybox-content #linkedin-div,div#fancybox-content #tumblr-div').hide().find('input,select').attr('disabled','disabled');
                 $('div#fancybox-content #'+type+'-div').show().find('input,select').removeAttr('disabled');
                 $(".save-account").removeAttr('disabled');
                 if(type=='facebook')
@@ -2637,7 +3015,20 @@ function microblogposter_settings_output()
                     $("div#fancybox-content #mbp-linkedin-input-div").show().find('input').removeAttr('disabled');
                     $("div#fancybox-content #mbp-linkedin-upgrade-now").hide();
                     $("div#fancybox-content #mbp-linkedin-group-id-div").hide().find('input').attr('disabled','disabled');
-                }  
+                }
+                if(type=='tumblr')
+                {
+                    var target_type_selected_option = $('div#fancybox-content #tumblr-div input[name=mbp_post_type_tmb]:checked');
+                    if(target_type_selected_option.val() == 'link')
+                    {
+                        target_type_selected_option.removeAttr('checked');
+                        $('div#fancybox-content #tumblr-div #post_type_tmb_text').attr('checked','checked');
+                        $("div#fancybox-content #mbp-tumblr-input-div").show().find('input').removeAttr('disabled');
+                        $("div#fancybox-content #mbp-tumblr-upgrade-now").hide();
+                        $(".save-account").removeAttr('disabled');
+                    }
+                    
+                }
             });
             
             
@@ -2709,6 +3100,29 @@ function microblogposter_settings_output()
                     {
                         $("div#fancybox-content #mbp-linkedin-input-div").show().find('input').removeAttr('disabled');
                         $("div#fancybox-content #mbp-linkedin-upgrade-now").hide();
+                        $(".save-account").removeAttr('disabled');
+                    }     
+                <?php endif;?>
+                
+                
+            });
+            
+            $(".post_type_tmb_class").live("change", function(){
+                var target_type = $(this).val();
+                
+                <?php if(function_exists('mbp_pro_activate_au_microblogposter')):?>
+                        
+                <?php else:?>
+                    if(target_type == 'link')
+                    {
+                        $("div#fancybox-content #mbp-tumblr-input-div").hide().find('input').attr('disabled','disabled');
+                        $("div#fancybox-content #mbp-tumblr-upgrade-now").show();
+                        $(".save-account").attr('disabled','disabled');
+                    }
+                    else if(target_type == 'text')
+                    {
+                        $("div#fancybox-content #mbp-tumblr-input-div").show().find('input').removeAttr('disabled');
+                        $("div#fancybox-content #mbp-tumblr-upgrade-now").hide();
                         $(".save-account").removeAttr('disabled');
                     }     
                 <?php endif;?>
