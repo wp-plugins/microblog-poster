@@ -5,7 +5,7 @@ Requires at least: 3.0
 Tested up to: 3.7.1
 Stable tag: 1.3.5
 
-Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Linkedin, Plurk, Diigo, Delicious..
+Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Linkedin, Tumblr, Diigo, Delicious..
 
 == Description ==
 
@@ -143,7 +143,7 @@ Additional features are available with the [Pro Add-on](http://efficientscripts.
 
 **twitter.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/twitterhelp "Twitter help with screenshots.")
 
-Basically your Twitter username and password won't suffice in order to post automatic updates, Twitter Api requires some more steps described below.
+Basically your twitter username and password won't suffice in order to post automatic updates, Twitter Api requires some more steps described below.
 No worries, it's rather a simple procedure.
 
 
