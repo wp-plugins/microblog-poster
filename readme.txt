@@ -1,6 +1,6 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, post to twitter, post to facebook
+Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
 Requires at least: 3.0
 Tested up to: 3.7.1
 Stable tag: 1.3.5
@@ -198,13 +198,13 @@ It's most likely the same as for twitter, you will need some more effort in orde
 
 **facebook.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/facebookhelp "Facebook help with screenshots.")
 
-Please note that only real personal Facebook accounts have permissions to create an App.
+Please note that only real personal Facebook Accounts have permissions to create an App.
 Business accounts can't manage Facebook Apps.
 
     1. Please go at this url https://developers.facebook.com/apps 
     and click on 'Create New App'.
-    Note: If you can't click on 'Create New App', You need first 
-    to 'Register as a developer'.
+    Note: If you can't click on 'Create New App', you need first 
+    to 'Register as a Developer'.
     Then the creation of new App will be available.
 
     2. Fill in your 'App name' and click continue.
