@@ -47,7 +47,7 @@ Additional features are available with the [Pro Add-on](http://efficientscripts.
 - Social signals and backlinks auto generator
 - Cross post to facebook , twitter and more
 - Auto publish to facebook , tumblr
-- Auto share to facebook
+- Auto share to twitter , facebook
 
 == Screenshots ==
 
