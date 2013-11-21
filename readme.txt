@@ -46,8 +46,8 @@ Additional features are available with the [Pro Add-on](http://efficientscripts.
 - Sends out social signals and auto share to social media accounts
 - Social signals and backlinks auto generator
 - Cross post to facebook , twitter and more
-- Auto share to social networks accounts
-- Auto share to tumblr
+- Auto publish to facebook , tumblr
+- Auto share to facebook
 
 == Screenshots ==
 
@@ -144,11 +144,11 @@ Additional features are available with the [Pro Add-on](http://efficientscripts.
 
 **twitter.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/twitterhelp "Twitter help with screenshots.")
 
-Basically your Twitter username / password won't suffice in order to post automatic updates, Twitter Api requires some more steps described below.
+Basically your Twitter username and password won't suffice in order to post automatic updates, Twitter Api requires some more steps described below.
 No worries, it's rather a simple procedure.
 
 
-    1. In order to post updates through the Twitter API you'll need first
+    1. In order to post updates through the Twitter Api you'll need first
     to create your own Twitter App here: https://dev.twitter.com/apps
     
     2. Once you have created your twitter App you have to change its access level
