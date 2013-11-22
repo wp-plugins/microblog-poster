@@ -32,7 +32,7 @@ Easily follow the automated sharing process from **MicroblogPoster**'s logs sect
 Please visit **MicroblogPoster**'s [website](http://efficientscripts.com/microblogposter "MicroblogPoster's website").
 
 
-The idea behind **MicroblogPoster** is to promote your wordpress blog and reach more people through social networks like Facebook, Twitter and LinkedIn. 
+The idea behind **MicroblogPoster** is to promote your wordpress blog and reach more people through social networks like Facebook, Twitter, LinkedIn, Tumblr.. 
 There's a general agreement in the SEO community that social signals strengthen your blog's page rank and authority.
 **MicroblogPoster** is simply an intermediary between your blog and your own social network accounts. You'll never
 see "posted by MicroblogPoster" in your updates, you'll see "posted by your own App name" or simply "by API".
