@@ -263,14 +263,14 @@ In addition to your username and password you'll need to create your own Diigo A
 
 **tumblr.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/tumblrhelp "Tumblr help with screenshots.")
 
-Basically your Tumblr username and password won't suffice in order to post automatic updates, Tumblr API requires some more steps described below.
+Basically your tumblr username / password won't suffice in order to post automatic updates, tumblr Api requires some more steps described below.
 No worries, it's rather a simple procedure.
 
 
-    1. In order to post updates through the Tumblr Api you'll need first
-    to create your own Tumblr App here: http://www.tumblr.com/oauth/apps
+    1. In order to post updates through the tumblr Api you'll need first
+    to create your own tumblr App here: http://www.tumblr.com/oauth/apps
     
-    2. Once you have created your Tumblr App copy your 'OAuth Consumer Key'.
+    2. Once you have created your tumblr App copy your 'OAuth Consumer Key'.
 
     3. Also click on 'Show secret key' and copy your 'Secret key'.
 
