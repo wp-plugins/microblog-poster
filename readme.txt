@@ -10,7 +10,8 @@ Automatically publishes your new blog content to Social Networks. Auto-updates T
 == Description ==
 
 **Auto updates your social media accounts/profiles** on each new blog post with a formatted message with backlink.
-You only have to configure your social network accounts. **Multiple Accounts per social site supported.**
+You only have to configure your social network accounts like Facebook, Twitter, LinkedIn, Tumblr. 
+**Multiple Accounts per social site supported.**
 Possibility to nicely format the update message per account, **shortcodes supported**.
 
 **Logs are generated** on new blog post for each configured social network account.
