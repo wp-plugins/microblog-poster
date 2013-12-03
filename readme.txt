@@ -1,6 +1,6 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
+Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, share to twitter, share to facebook
 Requires at least: 3.0
 Tested up to: 3.7.1
 Stable tag: 1.3.5
@@ -145,11 +145,11 @@ Additional features are available with the [Pro Add-on](http://efficientscripts.
 
 **twitter.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/twitterhelp "Twitter help with screenshots.")
 
-Basically your twitter username and password won't suffice in order to post automatic updates, Twitter API requires some more steps described below.
+Basically your twitter username / password won't suffice in order to post automatic updates, Twitter API requires some more steps described below.
 No worries, it's rather a simple procedure.
 
 
-    1. In order to post updates through the Twitter API you will need first
+    1. In order to post updates through the Twitter Api you will need first
     to create your own Twitter App here: https://dev.twitter.com/apps
     
     2. Once you have created your twitter App you have to change its Access Level
