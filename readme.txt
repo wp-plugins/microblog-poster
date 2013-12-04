@@ -169,7 +169,7 @@ No worries, it's rather a simple procedure.
 
 **plurk.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/plurkhelp "Plurk help with screenshots.")
 
-It's most likely the same as for twitter, you'll need some more effort in order to post updates through their API.
+It's most likely the same as for Twitter, you'll need some more effort in order to post updates through their API.
 
 
     1. Please go at this Url http://www.plurk.com/PlurkApp/ 
