@@ -169,19 +169,19 @@ No worries, it's rather a simple procedure.
 
 **plurk.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/plurkhelp "Plurk help with screenshots.")
 
-It's most likely the same as for Twitter, you'll need some more effort in order to post updates through their API.
+It's most likely the same as for twitter, you'll need some more effort in order to post updates through their Api.
 
 
     1. Please go at this Url http://www.plurk.com/PlurkApp/ 
     and click on 'Create a New Plurk App'.
-    For App Type, choose 'Third-party web site integration'. 
-    For App Website you can put http://localhost
+    For App type, choose 'Third-party web site integration'. 
+    For App website you can put http://localhost
 
     2. Once you're back on 'My Plurk Apps' page, click the edit button 
     and get your *App Key and App Secret*.
 
     3. Not finished yet, You need the second pair of credentials. 
-    On 'My Plurk apps' page this time click on 'test console' button.
+    On 'My Plurk apps' page this time click on 'test console' Button.
 
     4. First click on 'Get Request token', then some processing is done. 
     After that click on 'Open Authorization Url', you will be redirected 
