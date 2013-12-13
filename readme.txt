@@ -264,7 +264,7 @@ In addition to your username and password you'll need to create your own Diigo A
 
 **tumblr.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/tumblrhelp "Tumblr help with screenshots.")
 
-Basically your Tumblr username and password won't suffice in order to post automatic updates, Tumblr API requires some more steps described below.
+Basically your tumblr username / password won't suffice in order to post automatic updates, Tumblr API requires some more steps described below.
 No worries, it's rather a simple procedure.
 
 
