@@ -230,9 +230,9 @@ Business accounts can't manage facebook Apps.
 **friendfeed.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/friendfeedhelp "FriendFeed help with screenshots.")
 
 
-Instead of the password the friendfeed API requires the remote key to let you post with it.
+Instead of the password the Friendfeed Api requires the remote key to let you post with it.
 
-    1. You can find your remote key associated with your account at this Url:
+    1. You can find your remote key associated with your account at this url:
     https://friendfeed.com/account/api (you need to be logged in).
 
 
@@ -257,7 +257,7 @@ In addition to your username and password you'll need to create your own Diigo A
 
     3. Copy 'Api Key' and 'Secret Key', click 'Done'.
 
-    4. Configure your Linkedin Account in the Social Accounts Section.
+    4. Configure your Linkedin account in the Social accounts section.
 
     5. Follow the link provided by MicroblogPoster to authorize your App 
     posting on your behalf.
