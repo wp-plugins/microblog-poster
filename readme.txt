@@ -1,6 +1,6 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
+Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, post to twitter, post to facebook
 Requires at least: 3.0
 Tested up to: 3.7.1
 Stable tag: 1.3.5
@@ -169,7 +169,7 @@ No worries, it's rather a simple procedure.
 
 **plurk.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/plurkhelp "Plurk help with screenshots.")
 
-It's most likely the same as for twitter, you'll need some more effort in order to post updates through their API.
+It's most likely the same as for Twitter, you will need some more effort in order to post updates through their Api.
 
 
     1. Please go at this url http://www.plurk.com/PlurkApp/ 
@@ -184,7 +184,7 @@ It's most likely the same as for twitter, you'll need some more effort in order 
     On 'My Plurk apps' page this time click on 'test console' button.
 
     4. First click on 'Get Request Token', then some processing is done. 
-    After that click on 'Open Authorization Url', You will be redirected 
+    After that click on 'Open Authorization Url', you will be redirected 
     to a new page and you will have to grant the permission in order to get
     your Verification Code.
 
