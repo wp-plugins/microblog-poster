@@ -199,28 +199,28 @@ It's most likely the same as for Twitter, you will need some more effort in orde
 
 **facebook.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/facebookhelp "Facebook help with screenshots.")
 
-Please note that only real personal facebook accounts have permissions to create an App.
-Business accounts can't manage facebook Apps.
+Please note that only real personal Facebook accounts have permissions to create an App.
+Business accounts can't manage Facebook Apps.
 
-    1. Please go at this Url https://developers.facebook.com/apps 
+    1. Please go at this url https://developers.facebook.com/apps 
     and click on 'Create New App'.
-    Note: If you can't click on 'Create New App', you need first 
-    to 'Register as a developer'.
+    Note: If you can't click on 'Create New App', You need first 
+    to 'Register as a Developer'.
     Then the creation of new App will be available.
 
     2. Fill in your 'App Name' and click continue.
 
-    3. Enter the required Captcha Challenge.
+    3. Enter the required captcha challenge.
 
-    4. Once on the Basic settings of your new App, 
+    4. Once on the basic settings of your new App, 
     for the field 'App Domains' enter your blog domain name 
     (example: mydomain.com)
-    In the field 'Website with Facebook login' enter your Blog Url.
+    In the field 'Website with Facebook login' enter your blog url.
     (example: http://mydomain.com)
     Sandbox mode should be disabled.
     Save changes.
 
-    5. Copy your 'App ID' and 'App Secret' and configure your Facebook Account
+    5. Copy your 'App ID' and 'App Secret' and configure your Facebook account
     in MicroblogPoster's Social Accounts Section.
 
     6. Follow the link provided by MicroblogPoster to authorize your App 
