@@ -160,11 +160,11 @@ No worries, it's rather a simple procedure.
     3. Once this is done go back to the details tab, at the bottom you 
     should have a button 'Create my access token', please do it.
 
-    4. This is it, on the Details tab you have all what you need, 
+    4. This is it, on the Details Tab you have all what you need, 
     i.e. consumer key / secret, access token and access token secret.
 
     5. If you don't see immediately the access token at the bottom, 
-    please refresh the Details tab page.
+    please refresh the Details Tab page.
 
 
 **plurk.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/plurkhelp "Plurk help with screenshots.")
