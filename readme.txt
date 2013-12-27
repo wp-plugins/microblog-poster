@@ -183,8 +183,8 @@ It's most likely the same as for Twitter, you will need some more effort in orde
     3. Not finished yet, you need the second pair of credentials. 
     On 'My Plurk apps' Page this time click on 'test console' button.
 
-    4. First click on 'Get Request token', then some processing is done. 
-    After that click on 'Open Authorization url', you will be redirected 
+    4. First click on 'Get Request Token', then some processing is done. 
+    After that click on 'Open Authorization Url', you will be redirected 
     to a new page and you will have to grant the permission in order to get
     your verification code.
 
