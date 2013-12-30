@@ -247,17 +247,17 @@ In addition to your username and password you'll need to create your own Diigo A
 **linkedin.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/linkedinhelp "Linkedin help with screenshots.")
 
 
-    1. Please go at this url https://www.linkedin.com/secure/developer
-    and click on 'Add new application'.
+    1. Please go at this Url https://www.linkedin.com/secure/developer
+    and click on 'Add New Application'.
 
     2. Fill in the required informations.
-    For 'Live status', select Live.
-    Leave everything else by Default.
-    Click the button 'Add Application'.
+    For 'Live status', select live.
+    Leave everything else by default.
+    Click the Button 'Add Application'.
 
-    3. Copy 'Api Key' and 'Secret Key', click 'Done'.
+    3. Copy 'API Key' and 'Secret Key', click 'Done'.
 
-    4. Configure your Linkedin Account in the Social accounts section.
+    4. Configure your linkedin account in the social accounts section.
 
     5. Follow the link provided by MicroblogPoster to authorize your App 
     posting on your behalf.
