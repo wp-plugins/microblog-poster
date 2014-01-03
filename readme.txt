@@ -1,6 +1,6 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
+Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, post to twitter, post to facebook
 Requires at least: 3.0
 Tested up to: 3.8
 Stable tag: 1.3.5
@@ -190,11 +190,11 @@ It's most likely the same as for Twitter, you'll need some more effort in order 
 
     5. Finally return to the previous page and generate Your 
     *Token key and Token secret* by clicking on
-    'Get Access token' and by providing the Verification Code.
+    'Get access token' and by providing the Verification Code.
 
-    6. Now you can copy your Token Key and Token Secret. 
+    6. Now you can copy your Token key and Token secret. 
     Coupled with the App key and App secret you've got previously 
-    you can configure your Plurk account in the Social Accounts Section.
+    you can configure your Plurk account in the Social accounts section.
 
 
 **facebook.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/facebookhelp "Facebook help with screenshots.")
