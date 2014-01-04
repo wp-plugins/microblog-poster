@@ -1,6 +1,6 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, post to twitter, post to facebook
+Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
 Requires at least: 3.0
 Tested up to: 3.8
 Stable tag: 1.3.5
@@ -181,14 +181,14 @@ It's most likely the same as for Twitter, you'll need some more effort in order 
     and get your *App Key and App Secret*.
 
     3. Not finished yet, you need the second pair of credentials. 
-    On 'My Plurk Apps' page this time click on 'Test console' button.
+    On 'My Plurk Apps' page this time click on 'Test Console' button.
 
     4. First click on 'Get Request Token', then some processing is done. 
     After that click on 'Open Authorization url', you will be redirected 
     to a new page and you will have to grant the permission in order to get
     your verification code.
 
-    5. Finally return to the previous page and generate Your 
+    5. Finally return to the previous page and generate your 
     *Token key and Token secret* by clicking on
     'Get access token' and by providing the Verification Code.
 
@@ -230,7 +230,7 @@ Business accounts can't manage facebook Apps.
 **friendfeed.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/friendfeedhelp "FriendFeed help with screenshots.")
 
 
-Instead of the password, the friendfeed Api requires the remote key to let you post with it.
+Instead of the password, the friendfeed API requires the remote key to let you post with it.
 
     1. You can find your remote key associated with your account at this url:
     https://friendfeed.com/account/api (you need to be logged in).
