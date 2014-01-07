@@ -1,6 +1,6 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, post to twitter, post to facebook
+Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
 Requires at least: 3.0
 Tested up to: 3.8
 Stable tag: 1.3.5
@@ -172,18 +172,18 @@ No worries, it's rather a simple procedure.
 It's most likely the same as for twitter, you will need some more effort in order to post updates through their Api.
 
 
-    1. Please go at this url http://www.plurk.com/PlurkApp/ 
+    1. Please go at this Url http://www.plurk.com/PlurkApp/ 
     and click on 'Create a new Plurk app'.
-    For App Type, choose 'Third-party web site integration'. 
-    For App Website you can put http://localhost
+    For App type, choose 'Third-party web site integration'. 
+    For App website you can put http://localhost
 
     2. Once you're back on 'My Plurk Apps' Page, click the edit button 
-    and get your *App Key and App Secret*.
+    and get your *App key and App secret*.
 
     3. Not finished yet, you need the second pair of credentials. 
     On 'My Plurk Apps' page this time click on 'Test Console' button.
 
-    4. First click on 'Get Request token', then some processing is done. 
+    4. First click on 'Get Request Token', then some processing is done. 
     After that click on 'Open Authorization Url', you will be redirected 
     to a new page and you will have to grant the permission in order to get
     your Verification Code.
