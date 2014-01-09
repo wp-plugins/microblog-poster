@@ -190,11 +190,11 @@ It's most likely the same as for Twitter, you'll need some more effort in order 
 
     5. Finally return to the previous page and generate your 
     *Token Key and Token Secret* by clicking on
-    'Get access token' and by providing the verification code.
+    'Get access token' and by providing the Verification Code.
 
     6. Now you can copy your Token key and Token secret. 
     Coupled with the App key and App secret you've got previously 
-    you can configure your Plurk account in the Social accounts section.
+    you can configure your Plurk account in the Social Accounts Section.
 
 
 **facebook.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/facebookhelp "Facebook help with screenshots.")
