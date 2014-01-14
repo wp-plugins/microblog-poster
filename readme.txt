@@ -199,13 +199,13 @@ It's most likely the same as for twitter, you will need some more effort in orde
 
 **facebook.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/facebookhelp "Facebook help with screenshots.")
 
-Please note that only real personal facebook accounts have permissions to create an App.
-Business accounts can't manage facebook Apps.
+Please note that only real personal Facebook accounts have permissions to create an App.
+Business accounts can't manage Facebook Apps.
 
-    1. Please go at this url https://developers.facebook.com/apps 
+    1. Please go at this Url https://developers.facebook.com/apps 
     and click on 'Create new App'.
     Note: If you can't click on 'Create new App', you need first 
-    to 'Register as a Developer'.
+    to 'Register as a developer'.
     Then the creation of new App will be available.
 
     2. Fill in your 'App Name' and click continue.
@@ -218,7 +218,7 @@ Business accounts can't manage facebook Apps.
     In the field 'Website with facebook login' enter your blog Url.
     (example: http://mydomain.com)
     Sandbox mode should be disabled.
-    Save changes.
+    Save Changes.
 
     5. Copy your 'App ID' and 'App Secret' and configure your facebook account
     in MicroblogPoster's Social Accounts Section.
