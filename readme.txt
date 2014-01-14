@@ -1,6 +1,6 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
+Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, post to twitter, post to facebook
 Requires at least: 3.0
 Tested up to: 3.8
 Stable tag: 1.3.5
@@ -161,7 +161,7 @@ No worries, it's rather a simple procedure.
     should have a button 'Create my Access Token', please do it.
 
     4. This is it, on the details tab you have all what you need, 
-    i.e. consumer key / secret, Access token and Access token secret.
+    i.e. Consumer Key / Secret, Access Token and Access Token Secret.
 
     5. If you don't see immediately the access token at the bottom, 
     please refresh the details tab page.
