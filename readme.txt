@@ -203,27 +203,30 @@ Please note that only real personal Facebook accounts have permissions to create
 Business accounts can't manage Facebook Apps.
 
     1. Please go at this Url https://developers.facebook.com/apps 
-    and click on 'Create new App'.
+    and click on 'Apps' -> 'Create new App'.
     Note: If you can't click on 'Create new App', you need first 
     to 'Register as a developer'.
     Then the creation of new App will be available.
 
     2. Fill in your 'App Name' and click continue.
 
-    3. Enter the required captcha challenge.
+    3. Enter the required security check.
 
     4. Once on the basic settings of your new App, 
     for the field 'App Domains' enter your blog domain name 
     (example: mydomain.com)
-    In the field 'Website with facebook login' enter your blog Url.
+    Then click 'Add Platform' and choose 'Website'.
+    
+    5. In the field 'Site Url' enter your blog Url.
     (example: http://mydomain.com)
-    Sandbox mode should be disabled.
     Save Changes.
+    
+    6. Make your App Live by browsing to 'Status & Review'.
 
-    5. Copy your 'App ID' and 'App Secret' and configure your facebook account
+    7. Copy your 'App ID' and 'App Secret' and configure your facebook account
     in MicroblogPoster's Social Accounts Section.
 
-    6. Follow the link provided by MicroblogPoster to authorize your App 
+    8. Follow the link provided by MicroblogPoster to authorize your App 
     posting on your behalf.
 
 
