@@ -205,12 +205,12 @@ Business accounts can't manage Facebook Apps.
     1. Please go at this Url https://developers.facebook.com/apps 
     and click on 'Apps' -> 'Create new App'.
     Note: If you can't click on 'Create new App', you need first 
-    to 'Register as a developer'.
+    to 'Register as a Developer'.
     Then the creation of new App will be available.
 
     2. Fill in your 'App Name' and click continue.
 
-    3. Enter the required security check.
+    3. Enter the required Security Check.
 
     4. Once on the basic settings of your new App, 
     for the field 'App Domains' enter your blog domain name 
@@ -223,7 +223,7 @@ Business accounts can't manage Facebook Apps.
     
     6. Make your App Live by browsing to 'Status & Review'.
 
-    7. Copy your 'App ID' and 'App Secret' and configure your facebook account
+    7. Copy your 'App ID' and 'App Secret' and configure your Facebook account
     in MicroblogPoster's Social Accounts Section.
 
     8. Follow the link provided by MicroblogPoster to authorize your App 
