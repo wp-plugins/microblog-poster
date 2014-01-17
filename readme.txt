@@ -1,6 +1,6 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, post to twitter, post to facebook
+Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
 Requires at least: 3.0
 Tested up to: 3.8
 Stable tag: 1.3.5
@@ -145,7 +145,7 @@ Additional features are available with the [Pro Add-on](http://efficientscripts.
 
 **twitter.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/twitterhelp "Twitter help with screenshots.")
 
-Basically your twitter username / password won't suffice in order to post automatic updates, twitter Api requires some more steps described below.
+Basically your twitter username and password won't suffice in order to post automatic updates, twitter Api requires some more steps described below.
 No worries, it's rather a simple procedure.
 
 
@@ -161,10 +161,10 @@ No worries, it's rather a simple procedure.
     should have a button 'Create my Access Token', please do it.
 
     4. This is it, on the details tab you have all what you need, 
-    i.e. Consumer Key / Secret, Access Token and Access Token Secret.
+    i.e. Consumer key / secret, Access Token and Access Token Secret.
 
     5. If you don't see immediately the access token at the bottom, 
-    please refresh the details tab page.
+    please refresh the Details tab page.
 
 
 **plurk.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/plurkhelp "Plurk help with screenshots.")
