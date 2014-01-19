@@ -1,6 +1,6 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, share to twitter, share to facebook
+Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
 Requires at least: 3.0
 Tested up to: 3.8
 Stable tag: 1.3.5
@@ -169,13 +169,13 @@ No worries, it's rather a simple procedure.
 
 **plurk.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/plurkhelp "Plurk help with screenshots.")
 
-It's most likely the same as for Twitter, you'll need some more effort in order to post updates through their Api.
+It's most likely the same as for twitter, you will need some more effort in order to post updates through their Api.
 
 
     1. Please go at this url http://www.plurk.com/PlurkApp/ 
     and click on 'Create a new Plurk app'.
-    For App type, choose 'Third-party web site integration'. 
-    For App website you can put http://localhost
+    For App Type, choose 'Third-party web site integration'. 
+    For App Website you can put http://localhost
 
     2. Once you're back on 'My Plurk Apps' page, click the edit button 
     and get your *App Key and App Secret*.
@@ -194,7 +194,7 @@ It's most likely the same as for Twitter, you'll need some more effort in order 
 
     6. Now you can copy your Token Key and Token Secret. 
     Coupled with the App key and App secret you've got previously 
-    you can configure your plurk account in the Social accounts section.
+    you can configure your plurk account in the Social Accounts Section.
 
 
 **facebook.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/facebookhelp "Facebook help with screenshots.")
