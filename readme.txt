@@ -199,25 +199,25 @@ It's most likely the same as for twitter, you will need some more effort in orde
 
 **facebook.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/facebookhelp "Facebook help with screenshots.")
 
-Please note that only real personal facebook accounts have permissions to create an App.
-Business accounts can't manage facebook Apps.
+Please note that only real personal Facebook accounts have permissions to create an App.
+Business accounts can't manage Facebook Apps.
 
-    1. Please go at this url https://developers.facebook.com/apps 
+    1. Please go at this Url https://developers.facebook.com/apps 
     and click on 'Apps' -> 'Create new App'.
     Note: If you can't click on 'Create new App', you need first 
-    to 'Register as a developer'.
+    to 'Register as a Developer'.
     Then the creation of new App will be available.
 
     2. Fill in your 'App Name' and click continue.
 
-    3. Enter the required security check.
+    3. Enter the required Security Check.
 
     4. Once on the basic settings of your new App, 
     for the field 'App Domains' enter your blog domain name 
     (example: mydomain.com)
     Then click 'Add Platform' and choose 'Website'.
     
-    5. In the field 'Site Url' enter your blog url.
+    5. In the field 'Site Url' enter your Blog Url.
     (example: http://mydomain.com)
     Save Changes.
     
