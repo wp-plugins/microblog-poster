@@ -69,6 +69,14 @@ function microblogposter_settings_output()
     }
     $customer_license_key_value = json_decode($customer_license_key_value, true);
     
+    $mbp_logs_tab_selected = false;
+    if(isset($_POST["empty_logs"]))
+    {
+        $sql="DELETE FROM {$table_logs}";
+        $wpdb->query($sql);
+        $mbp_logs_tab_selected = true;
+    }
+    
     if(isset($_POST["update_options"]))
     {
         $bitly_api_user_value = trim($_POST[$bitly_api_user_name]);
@@ -748,14 +756,24 @@ function microblogposter_settings_output()
         }
     }
     
-    $description_shortcodes = "You can use shortcodes: {TITLE} = Title of the new blog post. {URL} = The blog post url. {SHORT_URL} = The blog post shortened url. {SITE_URL} = Your blog/site url.";
+    $description_shortcodes = "You can use shortcodes: {TITLE} = Title of the new blog post. {URL} = The blog post url.";
+    $description_shortcodes .= " {SHORT_URL} = The blog post shortened url. {SITE_URL} = Your blog/site url.";
+    $description_shortcodes .= " {MANUAL_EXCERPT} = Manually entered post excerpt, otherwise empty string. {EXCERPT} - If provided equals to manual excerpt, otherwise auto generated.";
+    $description_shortcodes .= " {CONTENT_FIRST_WORDS} = First few words of your content, suitable for twitter-like sites. {AUTHOR} - The author's name.";
     
+    $description_shortcodes_m = "You can use shortcodes: {TITLE} = Title of the new blog post. {URL} = The blog post url.";
+    $description_shortcodes_m .= " {SHORT_URL} = The blog post shortened url. {SITE_URL} = Your blog/site url.";
+    $description_shortcodes_m .= " {CONTENT_FIRST_WORDS} = First few words of your content, suitable for twitter-like sites. {AUTHOR} - The author's name.";
     
+    $description_shortcodes_m_ff = "You can use shortcodes: {TITLE} = Title of the new blog post.";
+    $description_shortcodes_m_ff .= " {CONTENT_FIRST_WORDS} = First few words of your content, suitable for twitter-like sites. {AUTHOR} - The author's name.";
     
+    $description_shortcodes_bookmark = "You can use shortcodes: {TITLE} = Title of the new blog post.";
+    $description_shortcodes_bookmark .= " {MANUAL_EXCERPT} = Manually entered post excerpt, otherwise empty string. {EXCERPT} - If provided equals to manual excerpt, otherwise auto generated.";
+    $description_shortcodes_bookmark .= " {CONTENT_FIRST_WORDS} = First few words of your content, suitable for twitter-like sites. {AUTHOR} - The author's name.";
     ?>
     
    
-    
     <div class="wrap">
         <div id="icon-plugins" class="icon32"><br /></div>
         <h2><span class="microblogposter-name">MicroblogPoster</span> Settings</h2>
@@ -997,7 +1015,7 @@ function microblogposter_settings_output()
 
                             </div>
                             <div class="input-div-large">
-                                <span class="description-small"><?php echo $description_shortcodes;?></span>
+                                <span class="description-small"><?php echo $description_shortcodes_m;?></span>
                             </div>
                             <div class="input-div">
                                 Consumer Key:
@@ -1136,7 +1154,7 @@ function microblogposter_settings_output()
 
                             </div>
                             <div class="input-div-large">
-                                <span class="description-small"><?php echo $description_shortcodes;?></span>
+                                <span class="description-small"><?php echo $description_shortcodes_m;?></span>
                             </div>
                             <div class="input-div">
                                 Consumer Key:
@@ -1247,7 +1265,7 @@ function microblogposter_settings_output()
 
                             </div>
                             <div class="input-div-large">
-                                <span class="description-small">You can use shortcodes: {TITLE} = Title of the new blog post.</span>
+                                <span class="description-small"><?php echo $description_shortcodes_m_ff;?></span>
                             </div>
                         </div>
 
@@ -1333,7 +1351,7 @@ function microblogposter_settings_output()
 
                             </div>
                             <div class="input-div-large">
-                                <span class="description-small">You can use shortcodes: {TITLE} = Title of the new blog post.</span>
+                                <span class="description-small"><?php echo $description_shortcodes_bookmark;?></span>
                             </div>
                             <div class="input-div">
                                 Include tags:
@@ -1623,7 +1641,7 @@ function microblogposter_settings_output()
 
                             </div>
                             <div class="input-div-large">
-                                <span class="description-small">You can use shortcodes: {TITLE} = Title of the new blog post.</span>
+                                <span class="description-small"><?php echo $description_shortcodes_bookmark;?></span>
                             </div>
                             <div class="input-div">
                                 Include tags:
@@ -2030,7 +2048,7 @@ function microblogposter_settings_output()
 
                         </div>
                         <div class="input-div-large">
-                            <span class="description-small"><?php echo $description_shortcodes;?></span>
+                            <span class="description-small"><?php echo $description_shortcodes_m;?></span>
                         </div>
                         <div class="input-div">
                             Consumer Key:
@@ -2107,7 +2125,7 @@ function microblogposter_settings_output()
 
                         </div>
                         <div class="input-div-large">
-                            <span class="description-small"><?php echo $description_shortcodes;?></span>
+                            <span class="description-small"><?php echo $description_shortcodes_m;?></span>
                         </div>
                         <div class="input-div">
                             Consumer Key:
@@ -2164,7 +2182,7 @@ function microblogposter_settings_output()
 
                         </div>
                         <div class="input-div-large">
-                            <span class="description-small">You can use shortcodes: {TITLE} = Title of the new blog post.</span>
+                            <span class="description-small"><?php echo $description_shortcodes_m_ff;?></span>
                         </div>
                     </div>
                     <div id="delicious-div" class="one-account">
@@ -2191,7 +2209,7 @@ function microblogposter_settings_output()
 
                         </div>
                         <div class="input-div-large">
-                            <span class="description-small">You can use shortcodes: {TITLE} = Title of the new blog post.</span>
+                            <span class="description-small"><?php echo $description_shortcodes_bookmark;?></span>
                         </div>
                         <div class="input-div">
                             Include tags:
@@ -2329,7 +2347,7 @@ function microblogposter_settings_output()
 
                         </div>
                         <div class="input-div-large">
-                            <span class="description-small">You can use shortcodes: {TITLE} = Title of the new blog post.</span>
+                            <span class="description-small"><?php echo $description_shortcodes_bookmark;?></span>
                         </div>
                         <div class="input-div">
                             Include tags:
@@ -2695,6 +2713,7 @@ function microblogposter_settings_output()
             margin-top: 0px;
             width: 120px;
             border-bottom: 3px solid #99E399;
+            display: inline-block;
         }
         #social-network-accounts
         {
@@ -2897,6 +2916,12 @@ function microblogposter_settings_output()
             padding-top: 40px;
             padding-left: 20px;
         }
+        #mbp_empty_logs_form_wrapper
+        {
+            display: inline-block;
+            margin-left: 750px;
+            margin-bottom: 20px;
+        }
     </style>
 
     
@@ -2905,6 +2930,12 @@ function microblogposter_settings_output()
     <div id="mbp-logs-wrapper" class="mbp-single-tab-wrapper">
         
         <h3 id="logs-header">Logs Section:</h3>
+        
+        <div id="mbp_empty_logs_form_wrapper">
+            <form id="mbp_empty_logs_form" name="mbp_empty_logs_form" method="post" action="">
+                <input type="submit" name="empty_logs" class="button" value="Empty Logs" />
+            </form>
+        </div>
         
         <table>
         <tr>
@@ -3177,6 +3208,10 @@ function microblogposter_settings_output()
                 $('#mbp-general-section').hide();
                 $('#mbp-logs-wrapper').hide();
                 $("#mbp-accounts-tab").addClass('mbp-selected-tab').removeClass('mbp-tab-background');
+            <?php elseif($mbp_logs_tab_selected):?>
+                $('#mbp-social-networks-accounts').hide();
+                $('#mbp-general-section').hide();
+                $("#mbp-logs-tab").addClass('mbp-selected-tab').removeClass('mbp-tab-background');
             <?php else:?>
                 $('#mbp-social-networks-accounts').hide();
                 $('#mbp-logs-wrapper').hide();
@@ -3228,6 +3263,10 @@ function microblogposter_settings_output()
                     $('#microblogposter_default_pbehavior').attr('disabled','disabled');
                     $('#microblogposter_default_pbehavior_update').attr('disabled','disabled');
                 }
+            });
+            
+            $('#mbp_empty_logs_form').submit(function() {
+                return confirm("Delete permanently all your logs?");
             });
             
             <?php if(function_exists('mbp_pro_activate_au_microblogposter') && $customer_license_key_value['key']):?>

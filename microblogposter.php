@@ -4,7 +4,7 @@
  * Plugin Name: Microblog Poster
  * Plugin URI: http://efficientscripts.com/microblogposter
  * Description: Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Linkedin, Plurk, Diigo, Delicious..
- * Version: 1.3.5
+ * Version: 1.3.6
  * Author: Efficient Scripts
  * Author URI: http://efficientscripts.com/
  *
@@ -65,129 +65,6 @@ class MicroblogPoster_Poster
         )";
         
         $wpdb->query($sql);
-        
-        //twitter
-        $twitter_consumer_key_name = "microblogposter_plg_twitter_consumer_key";
-        $twitter_consumer_secret_name = "microblogposter_plg_twitter_consumer_secret";
-        $twitter_access_token_name = "microblogposter_plg_twitter_access_token";
-        $twitter_access_token_secret_name = "microblogposter_plg_twitter_access_token_secret";
-        
-        $twitter_consumer_key_value = get_option($twitter_consumer_key_name, "");
-        $twitter_consumer_secret_value = get_option($twitter_consumer_secret_name, "");
-        $twitter_access_token_value = get_option($twitter_access_token_name, "");
-        $twitter_access_token_secret_value = get_option($twitter_access_token_secret_name, "");
-        
-        if($twitter_consumer_key_value and
-           $twitter_consumer_secret_value and
-           $twitter_access_token_value and
-           $twitter_access_token_secret_value)
-        {
-            $sql = "INSERT IGNORE INTO {$table_accounts} 
-            (username,password,consumer_key,consumer_secret,access_token,access_token_secret,type,message_format,extra)
-            VALUES
-            ('twitter1','','$twitter_consumer_key_value','$twitter_consumer_secret_value','$twitter_access_token_value','$twitter_access_token_secret_value','twitter','','')";
-        
-            $wpdb->query($sql);
-            
-            update_option($twitter_consumer_key_name, '');
-            update_option($twitter_consumer_secret_name, '');
-            update_option($twitter_access_token_name, '');
-            update_option($twitter_access_token_secret_name, '');
-        }
-        
-        //plurk
-        $plurk_consumer_key_name = "microblogposter_plg_plurk_consumer_key";
-        $plurk_consumer_secret_name = "microblogposter_plg_plurk_consumer_secret";
-        $plurk_access_token_name = "microblogposter_plg_plurk_access_token";
-        $plurk_access_token_secret_name = "microblogposter_plg_plurk_access_token_secret";
-        
-        $plurk_consumer_key_value = get_option($plurk_consumer_key_name, "");
-        $plurk_consumer_secret_value = get_option($plurk_consumer_secret_name, "");
-        $plurk_access_token_value = get_option($plurk_access_token_name, "");
-        $plurk_access_token_secret_value = get_option($plurk_access_token_secret_name, "");
-        
-        if($plurk_consumer_key_value and
-           $plurk_consumer_secret_value and
-           $plurk_access_token_value and
-           $plurk_access_token_secret_value)
-        {
-            $sql = "INSERT IGNORE INTO {$table_accounts} 
-            (username,password,consumer_key,consumer_secret,access_token,access_token_secret,type,message_format,extra)
-            VALUES
-            ('plurk1','','$plurk_consumer_key_value','$plurk_consumer_secret_value','$plurk_access_token_value','$plurk_access_token_secret_value','plurk','','')";
-        
-            $wpdb->query($sql);
-            
-            update_option($plurk_consumer_key_name, '');
-            update_option($plurk_consumer_secret_name, '');
-            update_option($plurk_access_token_name, '');
-            update_option($plurk_access_token_secret_name, '');
-        }
-        
-        //identica
-        $identica_username_name = "microblogposter_plg_identica_username";
-        $identica_password_name = "microblogposter_plg_identica_password";
-        
-        $identica_username_value = get_option($identica_username_name, "");
-        $identica_password_value = get_option($identica_password_name, "");
-        
-        if($identica_username_value and
-           $identica_password_value)
-        {
-            $sql = "INSERT IGNORE INTO {$table_accounts} 
-            (username,password,consumer_key,consumer_secret,access_token,access_token_secret,type,message_format,extra)
-            VALUES
-            ('$identica_username_value','$identica_password_value','','','','','identica','','')";
-        
-            $wpdb->query($sql);
-            
-            update_option($identica_username_name, '');
-            update_option($identica_password_name, '');
-        }
-        
-        //delicious
-        
-        $delicious_username_name = "microblogposter_plg_delicious_username";
-        $delicious_password_name = "microblogposter_plg_delicious_password";
-        
-        $delicious_username_value = get_option($delicious_username_name, "");
-        $delicious_password_value = get_option($delicious_password_name, "");
-        
-        if($delicious_username_value and
-           $delicious_password_value)
-        {
-            $sql = "INSERT IGNORE INTO {$table_accounts} 
-            (username,password,consumer_key,consumer_secret,access_token,access_token_secret,type,message_format,extra)
-            VALUES
-            ('$delicious_username_value','$delicious_password_value','','','','','delicious','','')";
-        
-            $wpdb->query($sql);
-            
-            update_option($delicious_username_name, '');
-            update_option($delicious_password_name, '');
-        }
-        
-        //friendfeed
-        
-        $friendfeed_username_name = "microblogposter_plg_friendfeed_username";
-        $friendfeed_password_name = "microblogposter_plg_friendfeed_password";
-        
-        $friendfeed_username_value = get_option($friendfeed_username_name, "");
-        $friendfeed_password_value = get_option($friendfeed_password_name, "");
-        
-        if($friendfeed_username_value and
-           $friendfeed_password_value)
-        {
-            $sql = "INSERT IGNORE INTO {$table_accounts} 
-            (username,password,consumer_key,consumer_secret,access_token,access_token_secret,type,message_format,extra)
-            VALUES
-            ('$friendfeed_username_value','$friendfeed_password_value','','','','','friendfeed','','')";
-        
-            $wpdb->query($sql);
-            
-            update_option($friendfeed_username_name, '');
-            update_option($friendfeed_password_name, '');
-        }
     }
     
     /**
@@ -225,7 +102,6 @@ class MicroblogPoster_Poster
             }
         }
         
-        
         $post = get_post($post_ID);
         
         $post_content_actual = $post->post_content;
@@ -243,12 +119,8 @@ class MicroblogPoster_Poster
         }
         
 	$post_title = $post->post_title;
-        $post_title = substr($post_title, 0, 110);
-        if(strlen($post_title) == 110)
-        {
-            $post_title = substr($post_title, 0, strrpos($post_title, " "));
-            $post_title .= "...";
-        }
+        $post_title = MicroblogPoster_Poster::shorten_title($post_title, 110, ' ');
+        
         $permalink = get_permalink($post_ID);
 	$update = $post_title . " $permalink";
         
@@ -275,7 +147,37 @@ class MicroblogPoster_Poster
         }
 	$post_content[] = $shortened_permalink;
         
+        $post_excerpt_manual = '';
+        $post_excerpt_tmp = MicroblogPoster_Poster::strip_shortcodes_and_tags($post->post_excerpt);
+        if($post_excerpt_tmp)
+        {
+            $post_excerpt_manual = $post_excerpt_tmp;
+        }
+        $post_content[] = $post_excerpt_manual;
 	
+        if($post_excerpt_manual != '')
+        {
+            $post_content[] = $post_excerpt_manual;
+        }
+        else
+        {
+            $post_excerpt = MicroblogPoster_Poster::shorten_content($post_content_actual, 400, '.');
+            $post_content[] = $post_excerpt;
+        }
+        
+        $author = '';
+        $user_ID = get_current_user_id();
+        $loggedin_user = get_user_by('id', $user_ID);
+        $author_tmp = $loggedin_user->display_name;
+        if($author_tmp)
+        {
+            $author = $author_tmp;
+        }
+        $post_content[] = $author;
+        
+        $post_content_first_words = MicroblogPoster_Poster::clean_up_and_shorten_content($post_content_actual, 90, ' ');
+        $post_content[] = $post_content_first_words;
+        
 	$tags = "";
 	$posttags = get_the_tags($post_ID);
 	if ($posttags) {
@@ -333,6 +235,8 @@ class MicroblogPoster_Poster
                 
                 if($twitter_account['message_format'])
                 {
+                    $twitter_account['message_format'] = str_ireplace('{manual_excerpt}', '', $twitter_account['message_format']);
+                    $twitter_account['message_format'] = str_ireplace('{excerpt}', '', $twitter_account['message_format']);
                     $update = str_ireplace(MicroblogPoster_Poster::get_shortcodes(), $post_content, $twitter_account['message_format']);
                 }
                 $result = MicroblogPoster_Poster::send_signed_request(
@@ -400,6 +304,8 @@ class MicroblogPoster_Poster
                 
                 if($plurk_account['message_format'])
                 {
+                    $plurk_account['message_format'] = str_ireplace('{manual_excerpt}', '', $plurk_account['message_format']);
+                    $plurk_account['message_format'] = str_ireplace('{excerpt}', '', $plurk_account['message_format']);
                     $update = str_ireplace(MicroblogPoster_Poster::get_shortcodes(), $post_content, $plurk_account['message_format']);
                 }
                 
@@ -481,7 +387,10 @@ class MicroblogPoster_Poster
                 
                 if($delicious_account['message_format'])
                 {
-                    $title = str_ireplace(array('{title}'), array($post_content[1]), $delicious_account['message_format']);
+                    $delicious_account['message_format'] = str_ireplace('{site_url}', '', $delicious_account['message_format']);
+                    $delicious_account['message_format'] = str_ireplace('{url}', '', $delicious_account['message_format']);
+                    $delicious_account['message_format'] = str_ireplace('{short_url}', '', $delicious_account['message_format']);
+                    $descr = str_ireplace(MicroblogPoster_Poster::get_shortcodes(), $post_content, $delicious_account['message_format']);
                 }
                 $is_raw = MicroblogPoster_SupportEnc::is_enc($delicious_account['extra']);
                 if(!$is_raw)
@@ -498,10 +407,11 @@ class MicroblogPoster_Poster
 
                 $link_enc=urlencode($link);
                 $title_enc = urlencode($title);
+                $descr_enc = urlencode($descr);
                 $tags_enc = urlencode($tags);
                 $update_message = $title." - ".$link;
 
-                $url = "https://api.del.icio.us/v1/posts/add?url=$link_enc&description=$title_enc&shared=yes";
+                $url = "https://api.del.icio.us/v1/posts/add?url={$link_enc}&description={$title_enc}&extended={$descr_enc}&shared=yes";
                 if($include_tags)
                 {
                     $url .= "&tags=$tags_enc";
@@ -566,7 +476,12 @@ class MicroblogPoster_Poster
                 
                 if($friendfeed_account['message_format'])
                 {
-                    $title = str_ireplace(array('{title}'), array($post_content[1]), $friendfeed_account['message_format']);
+                    $friendfeed_account['message_format'] = str_ireplace('{site_url}', '', $friendfeed_account['message_format']);
+                    $friendfeed_account['message_format'] = str_ireplace('{url}', '', $friendfeed_account['message_format']);
+                    $friendfeed_account['message_format'] = str_ireplace('{short_url}', '', $friendfeed_account['message_format']);
+                    $friendfeed_account['message_format'] = str_ireplace('{manual_excerpt}', '', $friendfeed_account['message_format']);
+                    $friendfeed_account['message_format'] = str_ireplace('{excerpt}', '', $friendfeed_account['message_format']);
+                    $title = str_ireplace(MicroblogPoster_Poster::get_shortcodes(), $post_content, $friendfeed_account['message_format']);
                 }
                 $is_raw = MicroblogPoster_SupportEnc::is_enc($friendfeed_account['extra']);
                 if(!$is_raw)
@@ -769,7 +684,10 @@ class MicroblogPoster_Poster
                 
                 if($diigo_account['message_format'])
                 {
-                    $title = str_ireplace(array('{title}'), array($post_content[1]), $diigo_account['message_format']);
+                    $diigo_account['message_format'] = str_ireplace('{site_url}', '', $diigo_account['message_format']);
+                    $diigo_account['message_format'] = str_ireplace('{url}', '', $diigo_account['message_format']);
+                    $diigo_account['message_format'] = str_ireplace('{short_url}', '', $diigo_account['message_format']);
+                    $descr = str_ireplace(MicroblogPoster_Poster::get_shortcodes(), $post_content, $diigo_account['message_format']);
                 }
                 $is_raw = MicroblogPoster_SupportEnc::is_enc($diigo_account['extra']);
                 if(!$is_raw)
@@ -785,15 +703,13 @@ class MicroblogPoster_Poster
                 $curl->set_credentials($diigo_account['username'], $diigo_account['password']);
                 $curl->set_user_agent("Mozilla/6.0 (Windows NT 6.2; WOW64; rv:16.0.1) Gecko/20121011 Firefox/16.0.1");
 
-                $link_enc=urlencode($link);
-                $title_enc = urlencode($title);
-                $tags_enc = urlencode($tags);
-                $update_message = $title." - ".$link;
+                $update_message = $descr." - ".$link;
 
                 $url = "https://secure.diigo.com/api/v2/bookmarks";
                 $post_args = array(
                     'key' => $api_key,
                     'title' => $title,
+                    'desc' => $descr,
                     'url' => $link,
                     'shared' => 'yes'
                 );
@@ -1182,7 +1098,15 @@ class MicroblogPoster_Poster
     */
     private static function get_shortcodes()
     {
-        return array('{site_url}', '{title}', '{url}', '{short_url}');
+        return array('{site_url}', 
+                    '{title}', 
+                    '{url}', 
+                    '{short_url}', 
+                    '{manual_excerpt}',
+                    '{excerpt}', 
+                    '{author}', 
+                    '{content_first_words}'
+        );
     }
     
     /**
@@ -1194,6 +1118,7 @@ class MicroblogPoster_Poster
     */
     private static function clean_up_and_shorten_content($content, $length, $ending_char)
     {
+        $content = strip_shortcodes($content);
         $content = strip_tags($content);
         $content = preg_replace("|(\r\n)+|", " ", $content);
         $content = preg_replace("|(\t)+|", "", $content);
@@ -1216,6 +1141,7 @@ class MicroblogPoster_Poster
     */
     private static function shorten_content($content, $length, $ending_char)
     {
+        $content = strip_shortcodes($content);
         $content = strip_tags($content);
         $content = substr($content, 0, $length);
         
@@ -1225,6 +1151,55 @@ class MicroblogPoster_Poster
         }
         return $content;
     }
+    
+    /**
+    * 
+    * @param string $title
+    * @param int $length
+    * @param string $ending_char
+    * @return string
+    */
+    private static function shorten_title($title, $length, $ending_char)
+    {
+        $title = substr($title, 0, $length);
+        
+        if(strlen($title) == $length)
+        {
+            $title = substr($title, 0, strrpos($title, $ending_char));
+            $title .= "...";
+        }
+        return $title;
+    }
+    
+    /**
+    * 
+    * @param string $content
+    * @return string
+    */
+    private static function clean_up_content($content)
+    {
+        $content = strip_shortcodes($content);
+        $content = strip_tags($content);
+        $content = preg_replace("|(\r\n)+|", " ", $content);
+        $content = preg_replace("|(\t)+|", "", $content);
+        $content = preg_replace("|\&nbsp\;|", "", $content);
+        
+        return $content;
+    }
+    
+    /**
+    * 
+    * @param string $content
+    * @return string
+    */
+    private static function strip_shortcodes_and_tags($content)
+    {
+        $content = strip_shortcodes($content);
+        $content = strip_tags($content);
+        
+        return $content;
+    }
+    
 }
 
 class MicroblogPoster_SupportEnc
