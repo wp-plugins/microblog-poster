@@ -2616,7 +2616,7 @@ function microblogposter_settings_output()
         }
         .button-holder
         {
-            width: 120px;
+            width: 130px;
             margin: 30px auto;
         }
         .button-holder-del
