@@ -43,12 +43,13 @@ Additional features are available with the [Pro Add-on](http://efficientscripts.
 
 **MicroblogPoster** in few words:
 
-- Auto publish your new blog content
-- Sends out social signals and auto share to social media accounts
+- Auto publish to social media networks your new blog content
+- Sends out social signals and auto share to social media networks
 - Social signals and backlinks auto generator
 - Cross post to facebook , twitter and more
 - Auto publish to facebook , tumblr
 - Auto share to twitter , facebook , linkedin
+- Auto post to social media networks
 
 == Screenshots ==
 
