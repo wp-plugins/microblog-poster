@@ -1,6 +1,6 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
+Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, post to twitter, post to facebook
 Requires at least: 3.0
 Tested up to: 3.8
 Stable tag: 1.3.6
@@ -146,8 +146,8 @@ Additional features are available with the [Pro Add-on](http://efficientscripts.
 
 * Upload the contents of the microblogposter folder to your /wp-content/plugins/ folder.
 * Activate the Plugin through the 'Plugins' menu in WordPress
-* Settings->MicroblogPoster, Configure your social network accounts.
-* The plugin is ready, it will automatically cross posts whenever you publish a new blog post.
+* Settings->MicroblogPoster, configure your social network accounts.
+* The plugin is ready, it will automatically cross posts to social networks whenever you publish a new blog post.
 
 
 **twitter.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/twitterhelp "Twitter help with screenshots.")
