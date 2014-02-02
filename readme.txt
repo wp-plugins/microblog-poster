@@ -248,10 +248,10 @@ Instead of the password, the Friendfeed API requires the Remote Key to let you p
 
 **diigo.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/diigohelp "Diigo help with screenshots.")
 
-In addition to your Username and Password you will need to create your own Diigo App and generate an API Key.
+In addition to your username / password you will need to create your own diigo App and generate an Api key.
 
-    1. Please go at this Url: https://www.diigo.com/api_keys/new/
-    and generate your Diigo API Key. (You need to be logged in)
+    1. Please go at this url: https://www.diigo.com/api_keys/new/
+    and generate your diigo Api key. (you need to be logged in)
 
 
 **linkedin.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/linkedinhelp "Linkedin help with screenshots.")
