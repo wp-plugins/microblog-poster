@@ -1,6 +1,6 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, post to twitter, post to facebook
+Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
 Requires at least: 3.0
 Tested up to: 3.8
 Stable tag: 1.3.6
@@ -217,14 +217,14 @@ Business accounts can't manage Facebook Apps.
 
     2. Fill in your 'App Name' and click continue.
 
-    3. Enter the required security check.
+    3. Enter the required Security Check.
 
-    4. Once on the basic settings of your new App, 
-    for the field 'App Domains' enter your blog domain name 
+    4. Once on the Basic Settings of your new App, 
+    for the field 'App Domains' enter your Blog domain name 
     (example: mydomain.com)
     Then click 'Add Platform' and choose 'Website'.
     
-    5. In the field 'Site Url' enter your Blog Url.
+    5. In the field 'Site Url' enter your Blog url.
     (example: http://mydomain.com)
     Save Changes.
     
