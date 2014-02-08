@@ -1,6 +1,6 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, share to twitter, share to facebook
+Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, post to twitter, post to facebook
 Requires at least: 3.0
 Tested up to: 3.8
 Stable tag: 1.3.6
@@ -193,11 +193,11 @@ It's most likely the same as for twitter, you will need some more effort in orde
     4. First click on 'Get Request Token', then some processing is done. 
     After that click on 'Open Authorization Url', you will be redirected 
     to a new page and you will have to grant the permission in order to get
-    your Verification code.
+    your Verification Code.
 
     5. Finally return to the previous page and generate your 
     *Token key and Token secret* by clicking on
-    'Get Access Token' and by providing the Verification code.
+    'Get Access Token' and by providing the Verification Code.
 
     6. Now you can copy your Token Key and Token Secret. 
     Coupled with the App key and App secret you've got previously 
@@ -212,7 +212,7 @@ Business accounts can't manage Facebook Apps.
     1. Please go at this url https://developers.facebook.com/apps 
     and click on 'Apps' -> 'Create New App'.
     Note: If you can't click on 'Create New App', you'll need first 
-    to 'Register as a Developer'.
+    to 'Register as a developer'.
     Then the creation of new App will be available.
 
     2. Fill in your 'App Name' and click continue.
@@ -224,7 +224,7 @@ Business accounts can't manage Facebook Apps.
     (example: mydomain.com)
     Then click 'Add Platform' and choose 'Website'.
     
-    5. In the field 'Site Url' enter your Blog Url.
+    5. In the field 'Site Url' enter your blog url.
     (example: http://mydomain.com)
     Save Changes.
     
