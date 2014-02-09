@@ -209,28 +209,28 @@ It's most likely the same as for Twitter, you will need some more effort in orde
 Please note that only real personal Facebook accounts have permissions to create an App.
 Business accounts can't manage Facebook Apps.
 
-    1. Please go at this url https://developers.facebook.com/apps 
+    1. Please go at this Url https://developers.facebook.com/apps 
     and click on 'Apps' -> 'Create New App'.
-    Note: If you can't click on 'Create New App', you'll need first 
-    to 'Register as a developer'.
+    Note: If you can't click on 'Create new App', you will need first 
+    to 'Register as a Developer'.
     Then the creation of new App will be available.
 
-    2. Fill in your 'App Name' and click continue.
+    2. Fill in your 'App name' and click continue.
 
-    3. Enter the required security check.
+    3. Enter the required Security Check.
 
-    4. Once on the Basic Settings of your new App, 
-    for the field 'App Domains' enter your Blog domain name 
+    4. Once on the basic settings of your new App, 
+    for the field 'App Domains' enter your blog domain name 
     (example: mydomain.com)
     Then click 'Add Platform' and choose 'Website'.
     
-    5. In the field 'Site Url' enter your blog url.
+    5. In the field 'Site Url' enter your Blog Url.
     (example: http://mydomain.com)
-    Save Changes.
+    Save changes.
     
     6. Make your App Live by browsing to 'Status & Review'.
 
-    7. Copy your 'App ID' and 'App Secret' and configure your Facebook Account
+    7. Copy your 'App ID' and 'App Secret' and configure your Facebook account
     in MicroblogPoster's social accounts section.
 
     8. Follow the link provided by MicroblogPoster to authorize your App 
