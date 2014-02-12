@@ -193,11 +193,11 @@ It's most likely the same as for Twitter, you will need some more effort in orde
     4. First click on 'Get Request Token', then some processing is done. 
     After that click on 'Open Authorization Url', you will be redirected 
     to a new page and you will have to grant the permission in order to get
-    your Verification Code.
+    your verification code.
 
     5. Finally return to the previous page and generate your 
     *Token key and Token secret* by clicking on
-    'Get Access Token' and by providing the Verification Code.
+    'Get Access Token' and by providing the verification code.
 
     6. Now you can copy your Token Key and Token Secret. 
     Coupled with the App key and App secret you've got previously 
@@ -231,7 +231,7 @@ Business accounts can't manage Facebook Apps.
     6. Make your App Live by browsing to 'Status & Review'.
 
     7. Copy your 'App ID' and 'App Secret' and configure your Facebook Account
-    in MicroblogPoster's social accounts section.
+    in MicroblogPoster's Social Accounts Section.
 
     8. Follow the link provided by MicroblogPoster to authorize your App 
     posting on your behalf.
@@ -267,7 +267,7 @@ In addition to your username / password you'll need to create your own diigo App
 
     3. Copy 'Api Key' and 'Secret Key', click 'Done'.
 
-    4. Configure your Linkedin account in the social accounts section.
+    4. Configure your Linkedin Account in the social accounts section.
 
     5. Follow the link provided by MicroblogPoster to authorize your App 
     posting on your behalf.
