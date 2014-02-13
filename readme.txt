@@ -193,11 +193,11 @@ It's most likely the same as for twitter, you'll need some more effort in order 
     4. First click on 'Get Request Token', then some processing is done. 
     After that click on 'Open Authorization url', you will be redirected 
     to a new page and you will have to grant the permission in order to get
-    your Verification Code.
+    your verification code.
 
     5. Finally return to the previous page and generate your 
     *Token key and Token secret* by clicking on
-    'Get Access Token' and by providing the Verification Code.
+    'Get Access Token' and by providing the verification code.
 
     6. Now you can copy your Token key and Token secret. 
     Coupled with the App key and App secret you've got previously 
@@ -210,12 +210,12 @@ Please note that only real personal Facebook accounts have permissions to create
 Business accounts can't manage Facebook Apps.
 
     1. Please go at this url https://developers.facebook.com/apps 
-    and click on 'Apps' -> 'Create New App'.
+    and click on 'Apps' -> 'Create new App'.
     Note: If you can't click on 'Create new App', you will need first 
-    to 'Register as a developer'.
+    to 'Register as a Developer'.
     Then the creation of New App will be available.
 
-    2. Fill in your 'App Name' and click continue.
+    2. Fill in your 'App name' and click continue.
 
     3. Enter the required security check.
 
@@ -224,13 +224,13 @@ Business accounts can't manage Facebook Apps.
     (example: mydomain.com)
     Then click 'Add Platform' and choose 'Website'.
     
-    5. In the field 'Site Url' enter your Blog url.
+    5. In the field 'Site url' enter your Blog url.
     (example: http://mydomain.com)
     Save changes.
     
     6. Make your App Live by browsing to 'Status & Review'.
 
-    7. Copy your 'App ID' and 'App Secret' and configure your Facebook Account
+    7. Copy your 'App ID' and 'App Secret' and configure your Facebook account
     in MicroblogPoster's Social Accounts Section.
 
     8. Follow the link provided by MicroblogPoster to authorize your App 
