@@ -157,21 +157,21 @@ No worries, it's rather a simple procedure.
 
 
     1. In order to post updates through the Twitter Api you will need first
-    to create your own Twitter App here: https://dev.twitter.com/apps
+    to create your own Twitter App here: https://apps.twitter.com/
     
     2. Once you have created your Twitter App you have to change its access level
     to be read and write. 
-    Browse to settings tab and check the access level to be read and write,
-    save your new settings.
+    Browse to settings tab and click on 'modify app permissions'.
+    Check the Access level to be Read and Write. Save settings.
 
-    3. Once this is done go back to the details tab, at the bottom you 
+    3. Once this is done go back to the API Keys tab, at the bottom you 
     should have a button 'Create my Access Token', please do it.
 
-    4. This is it, on the details tab you have all what you need, 
-    i.e. Consumer Key / Secret, Access Token and Access Token Secret.
+    4. This is it, on the API Keys tab you have all what you need, 
+    i.e. API (Consumer) Key / Secret, Access Token and Access Token Secret.
 
     5. If you don't see immediately the access token at the bottom, 
-    please refresh the Details tab page.
+    please refresh the API Keys tab page.
 
 
 **plurk.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/plurkhelp "Plurk help with screenshots.")
