@@ -1,6 +1,6 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, share to twitter, share to facebook
+Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
 Requires at least: 3.0
 Tested up to: 3.8
 Stable tag: 1.3.6
@@ -152,12 +152,12 @@ Additional features are available with the [Pro Add-on](http://efficientscripts.
 
 **twitter.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/twitterhelp "Twitter help with screenshots.")
 
-Basically your twitter username / password won't suffice in order to post automatic updates, twitter Api requires some more steps described below.
+Basically your Twitter username and password won't suffice in order to post automatic updates, Twitter Api requires some more steps described below.
 No worries, it's rather a simple procedure.
 
 
-    1. In order to post updates through the twitter Api you'll need first
-    to create your own twitter App here: https://apps.twitter.com/
+    1. In order to post updates through the Twitter Api you'll need first
+    to create your own Twitter App here: https://apps.twitter.com/
     
     2. Once you have created your twitter App you have to change its access level
     to be read and write. 
@@ -168,7 +168,7 @@ No worries, it's rather a simple procedure.
     should have a button 'Create my access token', please do it.
 
     4. This is it, on the API Keys tab you have all what you need, 
-    i.e. API (Consumer) key / secret, access token and access token secret.
+    i.e. API (Consumer) key / secret, Access token and Access token secret.
 
     5. If you don't see immediately the access token at the bottom, 
     please refresh the API Keys tab page.
