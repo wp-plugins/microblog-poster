@@ -4,7 +4,7 @@
  * Plugin Name: Microblog Poster
  * Plugin URI: http://efficientscripts.com/microblogposter
  * Description: Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Linkedin, Plurk, Diigo, Delicious..
- * Version: 1.3.6
+ * Version: 1.3.7
  * Author: Efficient Scripts
  * Author URI: http://efficientscripts.com/
  *
@@ -102,6 +102,31 @@ class MicroblogPoster_Poster
             }
         }
         
+        $shortcode_title_max_length_name = "microblogposter_plg_shortcode_title_max_length";
+        $shortcode_firstwords_max_length_name = "microblogposter_plg_shortcode_firstwords_max_length";
+        $shortcode_excerpt_max_length_name = "microblogposter_plg_shortcode_excerpt_max_length";
+        $shortcode_title_max_length_value = get_option($shortcode_title_max_length_name, "");
+        $shortcode_title_max_length = 110;
+        if(intval($shortcode_title_max_length_value) &&
+           intval($shortcode_title_max_length_value) >= 30 && intval($shortcode_title_max_length_value) <= 120)
+        {
+            $shortcode_title_max_length = $shortcode_title_max_length_value;
+        }
+        $shortcode_firstwords_max_length_value = get_option($shortcode_firstwords_max_length_name, "");
+        $shortcode_firstwords_max_length = 90;
+        if(intval($shortcode_firstwords_max_length_value) &&
+           intval($shortcode_firstwords_max_length_value) >= 30 && intval($shortcode_firstwords_max_length_value) <= 120)
+        {
+            $shortcode_firstwords_max_length = $shortcode_firstwords_max_length_value;
+        }
+        $shortcode_excerpt_max_length_value = get_option($shortcode_excerpt_max_length_name, "");
+        $shortcode_excerpt_max_length = 400;
+        if(intval($shortcode_excerpt_max_length_value) &&
+           intval($shortcode_excerpt_max_length_value) >= 100 && intval($shortcode_excerpt_max_length_value) <= 600)
+        {
+            $shortcode_excerpt_max_length = $shortcode_excerpt_max_length_value;
+        }
+        
         $post = get_post($post_ID);
         
         $post_content_actual = $post->post_content;
@@ -119,7 +144,7 @@ class MicroblogPoster_Poster
         }
         
 	$post_title = $post->post_title;
-        $post_title = MicroblogPoster_Poster::shorten_title($post_title, 110, ' ');
+        $post_title = MicroblogPoster_Poster::shorten_title($post_title, $shortcode_title_max_length, ' ');
         
         $permalink = get_permalink($post_ID);
 	$update = $post_title . " $permalink";
@@ -161,7 +186,7 @@ class MicroblogPoster_Poster
         }
         else
         {
-            $post_excerpt = MicroblogPoster_Poster::shorten_content($post_content_actual, 400, '.');
+            $post_excerpt = MicroblogPoster_Poster::shorten_content($post_content_actual, $shortcode_excerpt_max_length, '.');
             $post_content[] = $post_excerpt;
         }
         
@@ -175,7 +200,7 @@ class MicroblogPoster_Poster
         }
         $post_content[] = $author;
         
-        $post_content_first_words = MicroblogPoster_Poster::clean_up_and_shorten_content($post_content_actual, 90, ' ');
+        $post_content_first_words = MicroblogPoster_Poster::clean_up_and_shorten_content($post_content_actual, $shortcode_firstwords_max_length, ' ');
         $post_content[] = $post_content_first_words;
         
 	$tags = "";
@@ -811,6 +836,20 @@ class MicroblogPoster_Poster
                         
                         $action_result = 2;
                         if(!$result)
+                        {
+                            $action_result = 1;
+                            $result = "Success";
+                        }
+                    }
+                    elseif(isset($extra['target_type']) && $extra['target_type']=='company' && isset($extra['company_id']))
+                    {
+                        if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','update_linkedin_company'))
+                        {
+                            $result = MicroblogPoster_Poster_Pro::update_linkedin_company($curl, $acc_extra, $post_data);
+                        }
+                        
+                        $action_result = 2;
+                        if($result && stripos($result, '<update-key>')!==false && stripos($result, '</update-key>')!==false)
                         {
                             $action_result = 1;
                             $result = "Success";

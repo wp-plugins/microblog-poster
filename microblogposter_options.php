@@ -36,6 +36,9 @@ function microblogposter_settings_output()
     $excluded_categories_name = "microblogposter_excluded_categories";
     $customer_license_key_name = "microblogposterpro_plg_customer_license_key";
     $pro_control_dash_mode_name = "microblogposter_plg_control_dash_mode";
+    $shortcode_title_max_length_name = "microblogposter_plg_shortcode_title_max_length";
+    $shortcode_firstwords_max_length_name = "microblogposter_plg_shortcode_firstwords_max_length";
+    $shortcode_excerpt_max_length_name = "microblogposter_plg_shortcode_excerpt_max_length";
     
     
     $bitly_api_user_value = get_option($bitly_api_user_name, "");
@@ -50,6 +53,9 @@ function microblogposter_settings_output()
     $excluded_categories_value = json_decode($excluded_categories_value, true);
     $customer_license_key_value = get_option($customer_license_key_name, "");
     $pro_control_dash_mode_value = get_option($pro_control_dash_mode_name, "");
+    $shortcode_title_max_length_value = get_option($shortcode_title_max_length_name, "110");
+    $shortcode_firstwords_max_length_value = get_option($shortcode_firstwords_max_length_name, "90");
+    $shortcode_excerpt_max_length_value = get_option($shortcode_excerpt_max_length_name, "400");
     
     
     if(isset($_POST["update_license_key"]))
@@ -90,6 +96,24 @@ function microblogposter_settings_output()
         $excluded_categories_value = $_POST[$excluded_categories_name];
         $excluded_categories_value = json_encode($excluded_categories_value);
         $pro_control_dash_mode_value = $_POST[$pro_control_dash_mode_name];
+        $shortcode_title_max_length_value_temp = trim($_POST[$shortcode_title_max_length_name]);
+        if(intval($shortcode_title_max_length_value_temp) && 
+           intval($shortcode_title_max_length_value_temp) >= 30 && intval($shortcode_title_max_length_value_temp) <= 120)
+        {
+            $shortcode_title_max_length_value = $shortcode_title_max_length_value_temp;
+        }
+        $shortcode_firstwords_max_length_value_temp = trim($_POST[$shortcode_firstwords_max_length_name]);
+        if(intval($shortcode_firstwords_max_length_value_temp) && 
+           intval($shortcode_firstwords_max_length_value_temp) >= 30 && intval($shortcode_firstwords_max_length_value_temp) <= 120)
+        {
+            $shortcode_firstwords_max_length_value = $shortcode_firstwords_max_length_value_temp;
+        }
+        $shortcode_excerpt_max_length_value_temp = trim($_POST[$shortcode_excerpt_max_length_name]);
+        if(intval($shortcode_excerpt_max_length_value_temp) && 
+           intval($shortcode_excerpt_max_length_value_temp) >= 100 && intval($shortcode_excerpt_max_length_value_temp) <= 600)
+        {
+            $shortcode_excerpt_max_length_value = $shortcode_excerpt_max_length_value_temp;
+        }
         
         update_option($bitly_api_user_name, $bitly_api_user_value);
         update_option($bitly_api_key_name, $bitly_api_key_value);
@@ -113,6 +137,9 @@ function microblogposter_settings_output()
         $excluded_categories_value = json_decode($excluded_categories_value, true);
         
         update_option($pro_control_dash_mode_name, $pro_control_dash_mode_value);
+        update_option($shortcode_title_max_length_name, $shortcode_title_max_length_value);
+        update_option($shortcode_firstwords_max_length_name, $shortcode_firstwords_max_length_value);
+        update_option($shortcode_excerpt_max_length_name, $shortcode_excerpt_max_length_value);
         
         ?>
         <div class="updated"><p><strong>Options saved.</strong></p></div>
@@ -236,6 +263,10 @@ function microblogposter_settings_output()
             if(isset($_POST['mbp_linkedin_group_id']))
             {
                 $extra['group_id'] = trim($_POST['mbp_linkedin_group_id']);
+            }
+            if(isset($_POST['mbp_linkedin_company_id']))
+            {
+                $extra['company_id'] = trim($_POST['mbp_linkedin_company_id']);
             }
             
             if(isset($_POST['mbp_post_type_tmb']))
@@ -386,6 +417,10 @@ function microblogposter_settings_output()
             if(isset($_POST['mbp_linkedin_group_id']))
             {
                 $extra['group_id'] = trim($_POST['mbp_linkedin_group_id']);
+            }
+            if(isset($_POST['mbp_linkedin_company_id']))
+            {
+                $extra['company_id'] = trim($_POST['mbp_linkedin_company_id']);
             }
             
             if(isset($_POST['mbp_post_type_tmb']))
@@ -921,6 +956,26 @@ function microblogposter_settings_output()
                         }
                     ?>
                         </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <h3><span class="wp-blue-title">Shortcodes adjustments :</span></h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" id="mbp-excluded-category-header">Change only if you know what you're doing, otherwise default values are just fine.</td>
+                    </tr>
+                    <tr>
+                        <td class="label-input padding-left">{TITLE} max length:</td>
+                        <td><input type="text" id="<?php echo $shortcode_title_max_length_name;?>" name="<?php echo $shortcode_title_max_length_name;?>" value="<?php echo $shortcode_title_max_length_value;?>" size="10" />&nbsp;characters.&nbsp;&nbsp;(default value=110, range between 30 and 120)</td>
+                    </tr>
+                    <tr>
+                        <td class="label-input padding-left">{CONTENT_FIRST_WORDS} length:</td>
+                        <td><input type="text" id="<?php echo $shortcode_firstwords_max_length_name;?>" name="<?php echo $shortcode_firstwords_max_length_name;?>" value="<?php echo $shortcode_firstwords_max_length_value;?>" size="10" />&nbsp;characters.&nbsp;&nbsp;(default value=90, range between 30 and 120)</td>
+                    </tr>
+                    <tr>
+                        <td class="label-input padding-left">{EXCERPT} length:<br />(Used when auto generated)</td>
+                        <td><input type="text" id="<?php echo $shortcode_excerpt_max_length_name;?>" name="<?php echo $shortcode_excerpt_max_length_name;?>" value="<?php echo $shortcode_excerpt_max_length_value;?>" size="10" />&nbsp;characters.&nbsp;&nbsp;(default value=400, range between 100 and 600)</td>
                     </tr>
                     
                 </table>
@@ -1697,10 +1752,11 @@ function microblogposter_settings_output()
         foreach($rows as $row):
             $update_accounts[] = $row->account_id;
         
-            $linkedin_scope = urlencode("r_basicprofile rw_nus rw_groups");
+            $linkedin_scope = urlencode("r_basicprofile rw_nus rw_groups rw_company_admin");
             $lkn_acc_extra = null;
             $target_type = "profile";
             $group_id = '';
+            $company_id = '';
             
             if($row->extra)
             {
@@ -1714,6 +1770,10 @@ function microblogposter_settings_output()
                 if(isset($lkn_acc_extra['group_id']))
                 {
                     $group_id = $lkn_acc_extra['group_id'];
+                }
+                if(isset($lkn_acc_extra['company_id']))
+                {
+                    $company_id = $lkn_acc_extra['company_id'];
                 }
             }
             
@@ -1748,6 +1808,14 @@ function microblogposter_settings_output()
                                 <div class="input-div-large">
                                     <input type="text" id="mbp_linkedin_group_id" name="mbp_linkedin_group_id" value="<?php echo $group_id;?>" />
                                     <span class="description">Your Linkedin Group ID.</span>
+                                </div>
+                            <?php elseif($target_type=='company'):?>
+                                <div class="input-div">
+                                    Company ID:
+                                </div>
+                                <div class="input-div-large">
+                                    <input type="text" id="mbp_linkedin_company_id" name="mbp_linkedin_company_id" value="<?php echo $company_id;?>" />
+                                    <span class="description">Your Linkedin Company ID.</span>
                                 </div>
                             <?php endif;?>
                             <div class="input-div">
@@ -2373,6 +2441,7 @@ function microblogposter_settings_output()
                             <select name="mbp_linkedin_target_type" id="mbp_linkedin_target_type">
                                 <option value="profile">Profile timeline</option>
                                 <option value="group">Group timeline</option>
+                                <option value="company">Company timeline</option>
                             </select>
                             <span class="description">Where you want to auto post.</span>
                         </div>
@@ -2384,6 +2453,15 @@ function microblogposter_settings_output()
                                 <div class="input-div-large">
                                     <input type="text" id="mbp_linkedin_group_id" name="mbp_linkedin_group_id" value="" />
                                     <span class="description">Your Linkedin Group ID.</span>
+                                </div>
+                            </div>
+                            <div id="mbp-linkedin-company-id-div">
+                                <div class="input-div">
+                                    Company ID:
+                                </div>
+                                <div class="input-div-large">
+                                    <input type="text" id="mbp_linkedin_company_id" name="mbp_linkedin_company_id" value="" />
+                                    <span class="description">Your Linkedin Company ID.</span>
                                 </div>
                             </div>
                             <div class="input-div">
@@ -2616,7 +2694,7 @@ function microblogposter_settings_output()
         }
         .button-holder
         {
-            width: 120px;
+            width: 130px;
             margin: 30px auto;
         }
         .button-holder-del
@@ -2998,6 +3076,7 @@ function microblogposter_settings_output()
                         
                         $("div#fancybox-content #mbp-linkedin-upgrade-now").hide();
                         $("div#fancybox-content #mbp-linkedin-group-id-div").hide().find('input').attr('disabled','disabled');
+                        $("div#fancybox-content #mbp-linkedin-company-id-div").hide().find('input').attr('disabled','disabled');
                         
                         $("div#fancybox-content #mbp-tumblr-upgrade-now").hide();
                             
@@ -3046,6 +3125,7 @@ function microblogposter_settings_output()
                     $("div#fancybox-content #mbp-linkedin-input-div").show().find('input').removeAttr('disabled');
                     $("div#fancybox-content #mbp-linkedin-upgrade-now").hide();
                     $("div#fancybox-content #mbp-linkedin-group-id-div").hide().find('input').attr('disabled','disabled');
+                    $("div#fancybox-content #mbp-linkedin-company-id-div").hide().find('input').attr('disabled','disabled');
                 }
                 if(type=='tumblr')
                 {
@@ -3084,14 +3164,7 @@ function microblogposter_settings_output()
                         $("div#fancybox-content #mbp-facebook-group-id-div").hide().find('input').attr('disabled','disabled');
                     }     
                 <?php else:?>
-                    if(target_type == 'page')
-                    {
-                        $("div#fancybox-content #mbp-facebook-input-div").hide().find('input').attr('disabled','disabled');
-                        //$("div#fancybox-content #mbp-facebook-page-id-div").show();
-                        $("div#fancybox-content #mbp-facebook-upgrade-now").show();
-                        $(".save-account").attr('disabled','disabled');
-                    }
-                    else if(target_type == 'group')
+                    if(target_type == 'page' || target_type == 'group')
                     {
                         $("div#fancybox-content #mbp-facebook-input-div").hide().find('input').attr('disabled','disabled');
                         $("div#fancybox-content #mbp-facebook-upgrade-now").show();
@@ -3115,13 +3188,20 @@ function microblogposter_settings_output()
                     if(target_type == 'group')
                     {
                         $("div#fancybox-content #mbp-linkedin-group-id-div").show().find('input').removeAttr('disabled');
+                        $("div#fancybox-content #mbp-linkedin-company-id-div").hide().find('input').attr('disabled','disabled');
+                    }
+                    else if(target_type == 'company')
+                    {
+                        $("div#fancybox-content #mbp-linkedin-company-id-div").show().find('input').removeAttr('disabled');
+                        $("div#fancybox-content #mbp-linkedin-group-id-div").hide().find('input').attr('disabled','disabled');
                     }
                     else if(target_type == 'profile')
                     {
                         $("div#fancybox-content #mbp-linkedin-group-id-div").hide().find('input').attr('disabled','disabled');
-                    }     
+                        $("div#fancybox-content #mbp-linkedin-company-id-div").hide().find('input').attr('disabled','disabled');
+                    }
                 <?php else:?>
-                    if(target_type == 'group')
+                    if(target_type == 'group' || target_type == 'company')
                     {
                         $("div#fancybox-content #mbp-linkedin-input-div").hide().find('input').attr('disabled','disabled');
                         $("div#fancybox-content #mbp-linkedin-upgrade-now").show();
