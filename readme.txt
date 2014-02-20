@@ -252,9 +252,9 @@ Instead of the password, the Friendfeed API requires the Remote Key to let you p
 
 **diigo.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/diigohelp "Diigo help with screenshots.")
 
-In addition to your username and password you'll need to create your own Diigo App and generate an Api key.
+In addition to your Username / Password you will need to create your own Diigo App and generate an API Key.
 
-    1. Please go at this Url: https://www.diigo.com/api_keys/new/
+    1. Please go at this url: https://www.diigo.com/api_keys/new/
     and generate your Diigo API Key. (You need to be logged in)
 
 
@@ -265,13 +265,13 @@ In addition to your username and password you'll need to create your own Diigo A
     and click on 'Add new Application'.
 
     2. Fill in the required informations.
-    For 'Live status', select live.
-    Leave everything else by Default.
+    For 'Live status', select Live.
+    Leave everything else by default.
     Click the button 'Add Application'.
 
-    3. Copy 'Api key' and 'Secret key', click 'Done'.
+    3. Copy 'Api Key' and 'Secret Key', click 'Done'.
 
-    4. Configure your linkedin account in the Social Accounts section.
+    4. Configure your linkedin account in the Social Accounts Section.
 
     5. Follow the link provided by MicroblogPoster to authorize your App 
     posting on your behalf.
