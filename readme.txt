@@ -156,23 +156,23 @@ Additional features are available with the [Pro Add-on](http://efficientscripts.
 
 **twitter.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/twitterhelp "Twitter help with screenshots.")
 
-Basically your Twitter username and password won't suffice in order to post automatic updates, twitter API requires some more steps described below.
+Basically your twitter username / password won't suffice in order to post automatic updates, twitter Api requires some more steps described below.
 No worries, it's rather a simple procedure.
 
 
-    1. In order to post updates through the Twitter API you will need first
+    1. In order to post updates through the twitter Api you will need first
     to create your own twitter App here: https://apps.twitter.com/
     
-    2. Once you have created your Twitter App you have to change its access level
-    to be read and write. 
+    2. Once you have created your twitter App you have to change its access level
+    to be Read and Write. 
     Browse to settings tab and click on 'modify app permissions'.
-    Check the Access level to be read and write. Save Settings.
+    Check the Access level to be Read and Write. Save settings.
 
     3. Once this is done go back to the API Keys tab, at the bottom you 
-    should have a button 'Create my Access Token', please do it.
+    should have a button 'Create my Access token', please do it.
 
     4. This is it, on the API Keys tab you have all what you need, 
-    i.e. API (Consumer) key / secret, Access token and Access Token Secret.
+    i.e. API (Consumer) key / secret, Access token and Access token secret.
 
     5. If you don't see immediately the access token at the bottom, 
     please refresh the API Keys tab page.
@@ -244,9 +244,9 @@ Business accounts can't manage Facebook Apps.
 **friendfeed.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/friendfeedhelp "FriendFeed help with screenshots.")
 
 
-Instead of the password, the Friendfeed API requires the Remote Key to let you post with it.
+Instead of the password, the friendfeed Api requires the remote key to let you post with it.
 
-    1. You can find your Remote Key associated with your Account at this Url:
+    1. You can find your remote key associated with your account at this url:
     https://friendfeed.com/account/api (You need to be logged in).
 
 
