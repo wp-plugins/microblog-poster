@@ -189,23 +189,23 @@ It's most likely the same as for twitter, you will need some more effort in orde
     For App website you can put http://localhost
 
     2. Once you're back on 'My Plurk Apps' page, click the edit button 
-    and get your *App key and App secret*.
+    and get your *App Key and App Secret*.
 
     3. Not finished yet, you need the second pair of credentials. 
-    On 'My plurk Apps' page this time click on 'Test Console' button.
+    On 'My Plurk Apps' page this time click on 'Test Console' button.
 
     4. First click on 'Get Request Token', then some processing is done. 
     After that click on 'Open Authorization url', you will be redirected 
     to a new page and you will have to grant the permission in order to get
-    your Verification Code.
+    your verification code.
 
     5. Finally return to the previous page and generate your 
     *Token Key and Token Secret* by clicking on
-    'Get Access token' and by providing the Verification Code.
+    'Get Access token' and by providing the verification code.
 
-    6. Now you can copy your Token key and Token secret. 
+    6. Now you can copy your Token Key and Token Secret. 
     Coupled with the App key and App secret you've got previously 
-    you can configure your plurk account in the Social Accounts section.
+    you can configure your Plurk account in the Social Accounts Section.
 
 
 **facebook.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/facebookhelp "Facebook help with screenshots.")
