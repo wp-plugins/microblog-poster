@@ -282,14 +282,14 @@ Basically your Tumblr username and password won't suffice in order to post autom
 No worries, it's rather a simple procedure.
 
 
-    1. In order to post updates through the Tumblr API you will need first
-    to create your own Tumblr App here: http://www.tumblr.com/oauth/apps
+    1. In order to post updates through the tumblr API you will need first
+    to create your own tumblr App here: http://www.tumblr.com/oauth/apps
     
-    2. Once you have created your Tumblr App copy your 'OAuth Consumer key'.
+    2. Once you have created your tumblr App copy your 'OAuth Consumer Key'.
 
     3. Also click on 'Show Secret key' and copy your 'Secret key'.
 
-    4. This is it, you can now configure your account in the Social Accounts section.
+    4. This is it, you can now configure your account in the Social Accounts Section.
 
 
 == Upgrade Notice ==
