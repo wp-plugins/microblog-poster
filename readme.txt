@@ -252,10 +252,10 @@ Instead of the password, the friendfeed Api requires the remote key to let you p
 
 **diigo.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/diigohelp "Diigo help with screenshots.")
 
-In addition to your Username / Password you will need to create your own Diigo App and generate an API Key.
+In addition to your username and password you will need to create your own diigo App and generate an Api key.
 
-    1. Please go at this Url: https://www.diigo.com/api_keys/new/
-    and generate your Diigo API key. (You need to be logged in)
+    1. Please go at this url: https://www.diigo.com/api_keys/new/
+    and generate your diigo Api key. (you need to be logged in)
 
 
 **linkedin.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/linkedinhelp "Linkedin help with screenshots.")
@@ -278,18 +278,18 @@ In addition to your Username / Password you will need to create your own Diigo A
 
 **tumblr.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/tumblrhelp "Tumblr help with screenshots.")
 
-Basically your Tumblr username and password won't suffice in order to post automatic updates, Tumblr API requires some more steps described below.
+Basically your tumblr username and password won't suffice in order to post automatic updates, tumblr Api requires some more steps described below.
 No worries, it's rather a simple procedure.
 
 
-    1. In order to post updates through the tumblr API you will need first
+    1. In order to post updates through the tumblr Api you will need first
     to create your own tumblr App here: http://www.tumblr.com/oauth/apps
     
-    2. Once you have created your tumblr App copy your 'OAuth Consumer Key'.
+    2. Once you have created your tumblr App copy your 'OAuth Consumer key'.
 
     3. Also click on 'Show Secret key' and copy your 'Secret key'.
 
-    4. This is it, you can now configure your account in the Social Accounts Section.
+    4. This is it, you can now configure your account in the Social Accounts section.
 
 
 == Upgrade Notice ==
