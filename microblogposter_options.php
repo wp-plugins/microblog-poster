@@ -294,6 +294,10 @@ function microblogposter_settings_output()
         {
             $extra['blog_hostname'] = trim($_POST['mbp_tumblr_blog_hostname']);
         }
+        if($account_type == 'twitter' && $consumer_key && $consumer_secret && $access_token && $access_token_secret)
+        {
+            $extra['authorized'] = 1;
+        }
         
         $extra = json_encode($extra);
         $wpdb->escape_by_ref($extra);
@@ -432,6 +436,15 @@ function microblogposter_settings_output()
         if(isset($_POST['mbp_tumblr_blog_hostname']))
         {
             $extra['blog_hostname'] = trim($_POST['mbp_tumblr_blog_hostname']);
+        }
+        
+        if($account_type == 'twitter' && $consumer_key && $consumer_secret && $access_token && $access_token_secret)
+        {
+            $extra['authorized'] = 1;
+        }
+        elseif($account_type == 'twitter' && (!$consumer_key || !$consumer_secret || !$access_token || !$access_token_secret))
+        {
+            $extra['authorized'] = 0;
         }
         
         $extra = json_encode($extra);
@@ -790,6 +803,117 @@ function microblogposter_settings_output()
             $redirect_after_auth = true;
         }
     }
+    if(isset($_GET['microblogposter_auth_twitter']) && isset($_GET['account_id']))
+    {
+        
+        $twitter_account_id = (int) $_GET['account_id'];
+        if(is_int($twitter_account_id))
+        {   
+            $sql="SELECT * FROM $table_accounts WHERE account_id={$twitter_account_id}";
+            $rows = $wpdb->get_results($sql);
+            $row = $rows[0];
+            
+            $log_data = array();
+            $log_data['account_id'] = $row->account_id;
+            $log_data['account_type'] = "twitter";
+            $log_data['username'] = $row->username;
+            $log_data['post_id'] = 0;
+            $log_data['action_result'] = 0;
+            $log_data['update_message'] = 'Twitter Authorization Step 1';
+            
+            $twt_acc_extra_auth = json_decode($row->extra, true);
+            $twitter_c_key = $row->consumer_key;
+            $twitter_c_secret = $row->consumer_secret;
+            $twitter_consumer = new MicroblogPosterOAuthConsumer($twitter_c_key, $twitter_c_secret, null);
+            $twitter_req_token_url = 'https://api.twitter.com/oauth/request_token';
+            $params = array('oauth_callback'=>$redirect_uri.'&microblogposter_access_twitter=twitter_microblogposter_'.$twitter_account_id);
+            $twitter_sig_method = new MicroblogPosterOAuthSignatureMethod_HMAC_SHA1();
+            $twitter_req_token_step = MicroblogPosterOAuthRequest::from_consumer_and_token($twitter_consumer, null, "POST", $twitter_req_token_url, $params);
+            $twitter_req_token_step->sign_request($twitter_sig_method, $twitter_consumer, null);
+            $curl = new MicroblogPoster_Curl();
+            $response = $curl->send_post_data('https://api.twitter.com/oauth/request_token', $twitter_req_token_step->get_parameters());
+            if($response && stripos($response, 'oauth_token=')===false)
+            {
+                $log_data['log_message'] = $response;
+                MicroblogPoster_Poster::insert_log($log_data);
+            }
+            parse_str($response, $params);
+            $twitter_at_key = $params['oauth_token'];
+            $twitter_at_secret = $params['oauth_token_secret'];
+            $twt_acc_extra_auth['authorized'] = '0';
+            $wpdb->escape_by_ref($twitter_at_key);
+            $wpdb->escape_by_ref($twitter_at_secret);
+            $twt_acc_extra_auth = json_encode($twt_acc_extra_auth);
+            $wpdb->escape_by_ref($twt_acc_extra_auth);
+            $sql = "UPDATE {$table_accounts}
+                    SET access_token='{$twitter_at_key}', 
+                        access_token_secret='{$twitter_at_secret}',
+                        extra='{$twt_acc_extra_auth}'    
+                    WHERE account_id={$twitter_account_id}";
+
+            $wpdb->query($sql);
+            $authorize_url_name = 'authorize_url_'.$twitter_account_id;
+            $$authorize_url_name = 'https://api.twitter.com/oauth/authorize'.'?oauth_token='.$params['oauth_token'].
+                    '&force_login=1&microblogposter_access_twitter=twitter_microblogposter_'.$twitter_account_id;
+            
+            $mbp_accounts_tab_selected = true;
+        }
+    }
+    if(isset($_GET['microblogposter_access_twitter']) && isset($_GET['oauth_verifier']))
+    {
+        if(preg_match('|^twitter_microblogposter\_|i',trim($_GET['microblogposter_access_twitter'])))
+        {
+            $auth_user_data = explode('_', trim($_GET['microblogposter_access_twitter']));
+            $twitter_account_id = (int) $auth_user_data[2];
+            $sql="SELECT * FROM $table_accounts WHERE account_id={$twitter_account_id}";
+            $rows = $wpdb->get_results($sql);
+            $row = $rows[0];
+            
+            $log_data = array();
+            $log_data['account_id'] = $row->account_id;
+            $log_data['account_type'] = "twitter";
+            $log_data['username'] = $row->username;
+            $log_data['post_id'] = 0;
+            $log_data['action_result'] = 0;
+            $log_data['update_message'] = 'Twitter Authorization Step 2';
+            
+            $twt_acc_extra_auth = json_decode($row->extra, true);
+            $twitter_c_key = $row->consumer_key;
+            $twitter_c_secret = $row->consumer_secret;
+            $twitter_at_key = $row->access_token;
+            $twitter_at_secret = $row->access_token_secret;
+            $twitter_consumer = new MicroblogPosterOAuthConsumer($twitter_c_key, $twitter_c_secret, null);
+            $twitter_token = new MicroblogPosterOAuthToken($twitter_at_key, $twitter_at_secret, null);
+            $twitter_acc_token_url = 'https://api.twitter.com/oauth/access_token';
+            $params = array('oauth_verifier'=>trim($_GET['oauth_verifier']));
+            $twitter_sig_method = new MicroblogPosterOAuthSignatureMethod_HMAC_SHA1();
+            $twitter_acc_token_step = MicroblogPosterOAuthRequest::from_consumer_and_token($twitter_consumer, $twitter_token, "POST", $twitter_acc_token_url, $params);
+            $twitter_acc_token_step->sign_request($twitter_sig_method, $twitter_consumer, $twitter_token);
+            $curl = new MicroblogPoster_Curl();
+            $response = $curl->send_post_data('https://api.twitter.com/oauth/access_token', $twitter_acc_token_step->get_parameters());
+            if($response && stripos($response, 'oauth_token=')===false)
+            {
+                $log_data['log_message'] = $response;
+                MicroblogPoster_Poster::insert_log($log_data);
+            }
+            parse_str($response, $params);
+            $twitter_at_key1 = $params['oauth_token'];
+            $twitter_at_secret1 = $params['oauth_token_secret'];
+            $twt_acc_extra_auth['authorized'] = '1';
+            $wpdb->escape_by_ref($twitter_at_key1);
+            $wpdb->escape_by_ref($twitter_at_secret1);
+            $twt_acc_extra_auth = json_encode($twt_acc_extra_auth);
+            $wpdb->escape_by_ref($twt_acc_extra_auth);
+            $sql = "UPDATE {$table_accounts}
+                    SET access_token='{$twitter_at_key1}', 
+                        access_token_secret='{$twitter_at_secret1}',
+                        extra='{$twt_acc_extra_auth}'
+                    WHERE account_id={$twitter_account_id}";
+
+            $wpdb->query($sql);
+            $redirect_after_auth = true;
+        }
+    }
     
     $description_shortcodes = "You can use shortcodes: {TITLE} = Title of the new blog post. {URL} = The blog post url.";
     $description_shortcodes .= " {SHORT_URL} = The blog post shortened url. {SITE_URL} = Your blog/site url.";
@@ -811,7 +935,13 @@ function microblogposter_settings_output()
    
     <div class="wrap">
         <div id="icon-plugins" class="icon32"><br /></div>
-        <h2><span class="microblogposter-name">MicroblogPoster</span> Settings</h2>
+        <h2 id="mbp-intro">
+            <span class="microblogposter-name">MicroblogPoster</span> Settings
+            <?php if(!function_exists('mbp_pro_activate_au_microblogposter')):?>
+                <span class="mbp-intro-text">Advanced features are available with the Pro Add-on</span>
+                <a class="mbp-intro-text" href="http://efficientscripts.com/microblogposterpro" target="_blank">Upgrade Now</a>
+            <?php endif;?>
+        </h2>
         
         <p>
             The idea behind <span class="microblogposter-name">MicroblogPoster</span> is to promote your wordpress blog
@@ -820,7 +950,7 @@ function microblogposter_settings_output()
             <span class="microblogposter-name">MicroblogPoster</span> is simply an intermediary between your blog and your own social network accounts.<br /> 
             You'll never see "posted by MicroblogPoster" in your updates, you'll see "posted by your own App name" or simply "by API".
         </p>
-        
+            
         <?php if(function_exists('mbp_pro_activate_au_microblogposter') && !$customer_license_key_value['key']):?>
             <div class="error"><p><strong>In order to complete the MicroblogPoster's Pro Add-on installation, please Save your Customer License Key.</strong></p></div>
         <?php elseif(function_exists('mbp_pro_activate_au_microblogposter') && $customer_license_key_value['key']):?>
@@ -1043,6 +1173,29 @@ function microblogposter_settings_output()
         $rows = $wpdb->get_results($sql);
         foreach($rows as $row):
             $update_accounts[] = $row->account_id;
+        
+            $authorized = false;
+            if($row->extra)
+            {
+                $twt_acc_extra = json_decode($row->extra, true);
+                if(isset($twt_acc_extra['authorized']) && $twt_acc_extra['authorized']=='1')
+                {
+                    $authorized = true;
+                }
+            }
+            elseif($row->consumer_key && $row->consumer_secret && $row->access_token && $row->access_token_secret)
+            {
+                $authorized = true;
+            }
+            
+            $authorize_step = 1;
+            $authorize_url = $redirect_uri.'&microblogposter_auth_twitter=1&account_id='.$row->account_id;
+            $authorize_url_name = 'authorize_url_'.$row->account_id;
+            if(isset($$authorize_url_name))
+            {
+                $authorize_url = $$authorize_url_name;
+                $authorize_step = 2;
+            }
         ?>
             <div style="display:none">
                 <div id="update_account<?php echo $row->account_id;?>">
@@ -1085,6 +1238,16 @@ function microblogposter_settings_output()
                             <div class="input-div-large">
                                 <input type="text" id="" name="consumer_secret" value="<?php echo $row->consumer_secret;?>" />
                                 <span class="description">Your Twitter Application Consumer Secret.</span>
+                            </div>
+                            <div class="input-div">
+
+                            </div>
+                            <div class="input-div-large">
+                                <span class="description-small">
+                                    The two fields below 'Access Token' and 'Access Token Secret' are either generated interactively
+                                    or you provided them manually. In any case these two fields are MANDATORY in order to 
+                                    successfully post to twitter.
+                                </span>
                             </div>
                             <div class="input-div">
                                 Access Token:
@@ -1134,6 +1297,17 @@ function microblogposter_settings_output()
                 <span class="account-username"><?php echo $row->username;?></span>
                 <span class="edit-account edit<?php echo $row->account_id;?>">Edit</span>
                 <span class="del-account del<?php echo $row->account_id;?>">Del</span>
+                <div>
+                    <?php if($authorized): ?>
+                        <div>Authorization is valid permanently</div>
+                        <a href="<?php echo $authorize_url; ?>" >Refresh authorization now</a>
+                        (2 steps required)
+                    <?php else:?>
+                        <a href="<?php echo $authorize_url; ?>" >Authorize this Twitter account</a>
+                        <?php if($authorize_step==1) echo '2 steps required, after first click and page reload, please click again.'?>
+                        <?php if($authorize_step==2) echo 'Final step, click once again.'?>
+                    <?php endif;?>
+                </div>
             </div>
             
         <?php endforeach;?>
@@ -2133,18 +2307,30 @@ function microblogposter_settings_output()
                             <span class="description">Your Twitter Application Consumer Secret.</span>
                         </div>
                         <div class="input-div">
+
+                        </div>
+                        <div class="input-div-large">
+                            <span class="description-small">
+                                Leave the fields 'Access Token' and 'Access Token Secret' below blank if you want to authorize
+                                your account interactively. If you provide them, your account will be ready to post immediately
+                                and you won't have to authorize interactively. Not providing these two fields is meant to allow
+                                you posting to multiple twitter accounts with a single twitter App. You then authorize each one
+                                interactively against your App.
+                            </span>
+                        </div>
+                        <div class="input-div">
                             Access Token:
                         </div>
                         <div class="input-div-large">
                             <input type="text" id="" name="access_token" value="" />
-                            <span class="description">Your Twitter Account Access Token</span>
+                            <span class="description">Optional. Your Twitter Account Access Token</span>
                         </div>
                         <div class="input-div">
                             Access Token Secret:
                         </div>
                         <div class="input-div-large">
                             <input type="text" id="" name="access_token_secret" value="" />
-                            <span class="description">Your Twitter Account Access Token Secret</span>
+                            <span class="description">Optional. Your Twitter Account Access Token Secret</span>
                         </div>
                     </div>
                     <div id="plurk-div" class="one-account">
@@ -2999,6 +3185,20 @@ function microblogposter_settings_output()
             display: inline-block;
             margin-left: 750px;
             margin-bottom: 20px;
+        }
+        #mbp-intro
+        {
+            display: inline-block;
+        }
+        #mbp-intro .mbp-intro-text
+        {
+            color: #001A66;
+            font-size: 13px;
+        }
+        span.mbp-intro-text
+        {
+            margin-left: 20px;
+            margin-right: 5px;
         }
     </style>
 
