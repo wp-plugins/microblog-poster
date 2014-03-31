@@ -208,7 +208,8 @@ It's most likely the same as for Twitter, you will need some more effort in orde
 
     6. Now you can copy your Token Key and Token Secret. 
     Coupled with the App Key and App Secret you've got previously 
-    you can configure your Plurk account in the Social accounts section.
+    you can configure your Plurk Account in the Social Accounts Section.
+
 
 
 **facebook.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/facebookhelp "Facebook help with screenshots.")
@@ -255,7 +256,8 @@ Instead of the password, the friendfeed Api requires the remote key to let you p
 
 **diigo.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/diigohelp "Diigo help with screenshots.")
 
-In addition to your Username and Password you'll need to create your own Diigo App and generate an API Key.
+
+In addition to your Username and Password you will need to create your own Diigo App and generate an API Key.
 
     1. Please go at this Url: https://www.diigo.com/api_keys/new/
     and generate your Diigo API Key. (You need to be logged in)
