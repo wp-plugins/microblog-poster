@@ -200,15 +200,15 @@ It's most likely the same as for Twitter, you will need some more effort in orde
     4. First click on 'Get Request token', then some processing is done. 
     After that click on 'Open Authorization url', you will be redirected 
     to a new page and you will have to grant the permission in order to get
-    your verification code.
+    your Verification Code.
 
     5. Finally return to the previous page and generate your 
     *Token Key and Token Secret* by clicking on
-    'Get Access Token' and by providing the verification code.
+    'Get Access Token' and by providing the Verification Code.
 
-    6. Now you can copy your Token key and Token secret. 
+    6. Now you can copy your Token Key and Token Secret. 
     Coupled with the App Key and App Secret you've got previously 
-    you can configure your Plurk account in the Social Accounts Section.
+    you can configure your plurk account in the Social Accounts section.
 
 
 
@@ -266,17 +266,17 @@ In addition to your Username and Password you will need to create your own Diigo
 **linkedin.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/linkedinhelp "Linkedin help with screenshots.")
 
 
-    1. Please go at this Url https://www.linkedin.com/secure/developer
-    and click on 'Add New Application'.
+    1. Please go at this url https://www.linkedin.com/secure/developer
+    and click on 'Add new Application'.
 
     2. Fill in the required informations.
-    For 'Live Status', select live.
-    Leave everything else by default.
+    For 'Live Status', select Live.
+    Leave everything else by Default.
     Click the button 'Add Application'.
 
-    3. Copy 'Api Key' and 'Secret Key', click 'Done'.
+    3. Copy 'Api key' and 'Secret key', click 'Done'.
 
-    4. Configure your linkedin account in the Social Accounts Section.
+    4. Configure your linkedin account in the Social Accounts section.
 
     5. Follow the link provided by MicroblogPoster to authorize your App 
     posting on your behalf.
