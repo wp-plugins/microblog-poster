@@ -266,17 +266,17 @@ In addition to your Username and Password you'll need to create your own Diigo A
 **linkedin.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/linkedinhelp "Linkedin help with screenshots.")
 
 
-    1. Please go at this Url https://www.linkedin.com/secure/developer
+    1. Please go at this url https://www.linkedin.com/secure/developer
     and click on 'Add New Application'.
 
     2. Fill in the required informations.
-    For 'Live Status', select Live.
+    For 'Live status', select live.
     Leave everything else by default.
     Click the button 'Add Application'.
 
-    3. Copy 'Api Key' and 'Secret Key', click 'Done'.
+    3. Copy 'Api key' and 'Secret key', click 'Done'.
 
-    4. Configure your Linkedin Account in the Social Accounts Section.
+    4. Configure your linkedin account in the Social Accounts section.
 
     5. Follow the link provided by MicroblogPoster to authorize your App 
     posting on your behalf.
@@ -287,14 +287,14 @@ Basically your tumblr username and password won't suffice in order to post autom
 No worries, it's rather a simple procedure.
 
 
-    1. In order to post updates through the tumblr Api you'll need first
-    to create your own tumblr App here: http://www.tumblr.com/oauth/apps
+    1. In order to post updates through the Tumblr API you will need first
+    to create your own Tumblr App here: http://www.tumblr.com/oauth/apps
     
-    2. Once you have created your tumblr App copy your 'OAuth Consumer key'.
+    2. Once you have created your Tumblr App copy your 'OAuth Consumer Key'.
 
-    3. Also click on 'Show Secret key' and copy your 'Secret key'.
+    3. Also click on 'Show Secret Key' and copy your 'Secret Key'.
 
-    4. This is it, you can now configure your Account in the Social Accounts section.
+    4. This is it, you can now configure your Account in the Social Accounts Section.
 
 
 == Upgrade Notice ==
