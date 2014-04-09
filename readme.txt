@@ -188,8 +188,8 @@ It's most likely the same as for twitter, you will need some more effort in orde
 
     1. Please go at this url http://www.plurk.com/PlurkApp/ 
     and click on 'Create a New Plurk App'.
-    For App type, choose 'Third-party web site integration'. 
-    For App website you can put http://localhost
+    For App Type, choose 'Third-party web site integration'. 
+    For App Website you can put http://localhost
 
     2. Once you're back on 'My Plurk Apps' page, click the edit button 
     and get your *App key and App secret*.
@@ -200,11 +200,11 @@ It's most likely the same as for twitter, you will need some more effort in orde
     4. First click on 'Get Request token', then some processing is done. 
     After that click on 'Open Authorization url', you will be redirected 
     to a new page and you will have to grant the permission in order to get
-    your verification code.
+    your Verification Code.
 
     5. Finally return to the previous page and generate your 
     *Token key and Token secret* by clicking on
-    'Get Access token' and by providing the verification code.
+    'Get Access token' and by providing the Verification Code.
 
     6. Now you can copy your Token key and Token secret. 
     Coupled with the App key and App secret you've got previously 
@@ -287,14 +287,14 @@ Basically your tumblr username and password won't suffice in order to post autom
 No worries, it's rather a simple procedure.
 
 
-    1. In order to post updates through the Tumblr API you will need first
-    to create your own Tumblr App here: http://www.tumblr.com/oauth/apps
+    1. In order to post updates through the tumblr Api you will need first
+    to create your own tumblr App here: http://www.tumblr.com/oauth/apps
     
-    2. Once you have created your Tumblr App copy your 'OAuth Consumer Key'.
+    2. Once you have created your tumblr App copy your 'OAuth Consumer key'.
 
-    3. Also click on 'Show Secret Key' and copy your 'Secret Key'.
+    3. Also click on 'Show Secret key' and copy your 'Secret key'.
 
-    4. This is it, you can now configure your Account in the Social Accounts Section.
+    4. This is it, you can now configure your Account in the Social Accounts section.
 
 
 == Upgrade Notice ==
