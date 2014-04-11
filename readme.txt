@@ -206,9 +206,9 @@ It's most likely the same as for Twitter, you will need some more effort in orde
     *Token Key and Token Secret* by clicking on
     'Get Access Token' and by providing the verification code.
 
-    6. Now you can copy your Token Key and Token Secret. 
-    Coupled with the App Key and App Secret you've got previously 
-    you can configure your Plurk account in the Social Accounts Section.
+    6. Now you can copy your Token key and Token secret. 
+    Coupled with the App key and App secret you've got previously 
+    you can configure your plurk account in the Social Accounts section.
 
 
 
@@ -257,10 +257,10 @@ Instead of the password, the friendfeed Api requires the remote key to let you p
 **diigo.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/diigohelp "Diigo help with screenshots.")
 
 
-In addition to your username and password you will need to create your own diigo App and generate an Api key.
+In addition to your Username and Password you'll need to create your own Diigo App and generate an API Key.
 
-    1. Please go at this url: https://www.diigo.com/api_keys/new/
-    and generate your diigo Api key. (you need to be logged in)
+    1. Please go at this Url: https://www.diigo.com/api_keys/new/
+    and generate your Diigo API Key. (You need to be logged in)
 
 
 **linkedin.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/linkedinhelp "Linkedin help with screenshots.")
