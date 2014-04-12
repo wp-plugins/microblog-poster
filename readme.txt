@@ -188,8 +188,8 @@ It's most likely the same as for twitter, you will need some more effort in orde
 
     1. Please go at this url http://www.plurk.com/PlurkApp/ 
     and click on 'Create a new Plurk App'.
-    For App type, choose 'Third-party web site integration'. 
-    For App website you can put http://localhost
+    For App Type, choose 'Third-party web site integration'. 
+    For App Website you can put http://localhost
 
     2. Once you're back on 'My Plurk Apps' page, click the edit button 
     and get your *App key and App secret*.
@@ -200,11 +200,11 @@ It's most likely the same as for twitter, you will need some more effort in orde
     4. First click on 'Get Request Token', then some processing is done. 
     After that click on 'Open Authorization Url', you will be redirected 
     to a new page and you will have to grant the permission in order to get
-    your verification code.
+    your Verification Code.
 
     5. Finally return to the previous page and generate your 
     *Token key and Token secret* by clicking on
-    'Get Access Token' and by providing the verification code.
+    'Get Access Token' and by providing the Verification Code.
 
     6. Now you can copy your Token key and Token secret. 
     Coupled with the App key and App secret you've got previously 
@@ -266,17 +266,17 @@ In addition to your username and password you will need to create your own diigo
 **linkedin.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/linkedinhelp "Linkedin help with screenshots.")
 
 
-    1. Please go at this Url https://www.linkedin.com/secure/developer
-    and click on 'Add New Application'.
+    1. Please go at this url https://www.linkedin.com/secure/developer
+    and click on 'Add new Application'.
 
     2. Fill in the required informations.
     For 'Live status', select live.
-    Leave everything else by Default.
+    Leave everything else by default.
     Click the button 'Add Application'.
 
-    3. Copy 'Api Key' and 'Secret Key', click 'Done'.
+    3. Copy 'Api key' and 'Secret key', click 'Done'.
 
-    4. Configure your linkedin account in the Social Accounts Section.
+    4. Configure your linkedin account in the Social Accounts section.
 
     5. Follow the link provided by MicroblogPoster to authorize your App 
     posting on your behalf.
