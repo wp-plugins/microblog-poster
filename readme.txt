@@ -183,16 +183,16 @@ No worries, it's rather a simple procedure.
 
 **plurk.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/plurkhelp "Plurk help with screenshots.")
 
-It's most likely the same as for Twitter, you will need some more effort in order to post updates through their API.
+It's most likely the same as for twitter, you will need some more effort in order to post updates through their Api.
 
 
     1. Please go at this url http://www.plurk.com/PlurkApp/ 
     and click on 'Create a new Plurk App'.
-    For App Type, choose 'Third-party web site integration'. 
-    For App Website you can put http://localhost
+    For App type, choose 'Third-party web site integration'. 
+    For App website you can put http://localhost
 
     2. Once you're back on 'My Plurk Apps' page, click the edit button 
-    and get your *App Key and App Secret*.
+    and get your *App key and App secret*.
 
     3. Not finished yet, you need the second pair of credentials. 
     On 'My Plurk Apps' page this time click on 'Test Console' button.
@@ -203,7 +203,7 @@ It's most likely the same as for Twitter, you will need some more effort in orde
     your verification code.
 
     5. Finally return to the previous page and generate your 
-    *Token Key and Token Secret* by clicking on
+    *Token key and Token secret* by clicking on
     'Get Access Token' and by providing the verification code.
 
     6. Now you can copy your Token key and Token secret. 
@@ -248,10 +248,10 @@ Business accounts can't manage Facebook Apps.
 **friendfeed.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/friendfeedhelp "FriendFeed help with screenshots.")
 
 
-Instead of the password, the Friendfeed API requires the Remote Key to let you post with it.
+Instead of the password, the friendfeed Api requires the remote key to let you post with it.
 
-    1. You can find your Remote Key associated with your Account at this Url:
-    https://friendfeed.com/account/api (You need to be logged in).
+    1. You can find your remote key associated with your account at this url:
+    https://friendfeed.com/account/api (you need to be logged in).
 
 
 **diigo.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/diigohelp "Diigo help with screenshots.")
