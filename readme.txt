@@ -223,7 +223,7 @@ Business accounts can't manage Facebook Apps.
     to 'Register as a Developer'.
     Then the creation of New App will be available.
 
-    2. Fill in your 'App name' and click continue.
+    2. Fill in your 'App Name' and click continue.
 
     3. Enter the required security check.
 
@@ -232,7 +232,7 @@ Business accounts can't manage Facebook Apps.
     (example: mydomain.com)
     Then click 'Add Platform' and choose 'Website'.
     
-    5. In the field 'Site url' enter your Blog url.
+    5. In the field 'Site url' enter your Blog Url.
     (example: http://mydomain.com)
     Save changes.
     
@@ -257,10 +257,10 @@ Instead of the password, the friendfeed Api requires the remote key to let you p
 **diigo.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/diigohelp "Diigo help with screenshots.")
 
 
-In addition to your username and password you will need to create your own diigo App and generate an Api key.
+In addition to your Username and Password you will need to create your own Diigo App and generate an API Key.
 
-    1. Please go at this url: https://www.diigo.com/api_keys/new/
-    and generate your diigo Api key. (you need to be logged in)
+    1. Please go at this Url: https://www.diigo.com/api_keys/new/
+    and generate your Diigo API Key. (You need to be logged in)
 
 
 **linkedin.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/linkedinhelp "Linkedin help with screenshots.")
@@ -290,7 +290,7 @@ No worries, it's rather a simple procedure.
     1. In order to post updates through the tumblr Api you will need first
     to create your own tumblr App here: http://www.tumblr.com/oauth/apps
     
-    2. Once you have created your tumblr App copy your 'OAuth Consumer key'.
+    2. Once you have created your tumblr App copy your 'OAuth Consumer Key'.
 
     3. Also click on 'Show Secret key' and copy your 'Secret key'.
 
