@@ -248,10 +248,10 @@ Business accounts can't manage Facebook Apps.
 **friendfeed.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/friendfeedhelp "FriendFeed help with screenshots.")
 
 
-Instead of the password, the friendfeed Api requires the remote key to let you post with it.
+Instead of the password, the Friendfeed API requires the Remote Key to let you post with it.
 
-    1. You can find your remote key associated with your account at this url:
-    https://friendfeed.com/account/api (you need to be logged in).
+    1. You can find your Remote Key associated with your account at this Url:
+    https://friendfeed.com/account/api (You need to be logged in).
 
 
 **diigo.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/diigohelp "Diigo help with screenshots.")
@@ -283,18 +283,18 @@ In addition to your Username and Password you will need to create your own Diigo
 
 **tumblr.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/tumblrhelp "Tumblr help with screenshots.")
 
-Basically your tumblr username and password won't suffice in order to post automatic updates, tumblr Api requires some more steps described below.
+Basically your Tumblr username and password won't suffice in order to post automatic updates, Tumblr API requires some more steps described below.
 No worries, it's rather a simple procedure.
 
 
-    1. In order to post updates through the tumblr Api you will need first
-    to create your own tumblr App here: http://www.tumblr.com/oauth/apps
+    1. In order to post updates through the Tumblr API you will need first
+    to create your own Tumblr App here: http://www.tumblr.com/oauth/apps
     
-    2. Once you have created your tumblr App copy your 'OAuth Consumer Key'.
+    2. Once you have created your Tumblr App copy your 'OAuth Consumer Key'.
 
-    3. Also click on 'Show Secret key' and copy your 'Secret key'.
+    3. Also click on 'Show Secret Key' and copy your 'Secret Key'.
 
-    4. This is it, you can now configure your Account in the Social Accounts section.
+    4. This is it, you can now configure your Account in the Social Accounts Section.
 
 
 == Upgrade Notice ==
