@@ -200,11 +200,11 @@ It's most likely the same as for twitter, you will need some more effort in orde
     4. First click on 'Get Request Token', then some processing is done. 
     After that click on 'Open Authorization Url', you will be redirected 
     to a new page and you will have to grant the permission in order to get
-    your verification code.
+    your Verification Code.
 
     5. Finally return to the previous page and generate your 
     *Token key and Token secret* by clicking on
-    'Get Access Token' and by providing the verification code.
+    'Get Access Token' and by providing the Verification Code.
 
     6. Now you can copy your Token key and Token secret. 
     Coupled with the App key and App secret you've got previously 
@@ -248,19 +248,19 @@ Business accounts can't manage Facebook Apps.
 **friendfeed.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/friendfeedhelp "FriendFeed help with screenshots.")
 
 
-Instead of the password, the Friendfeed API requires the Remote Key to let you post with it.
+Instead of the password, the friendfeed Api requires the remote key to let you post with it.
 
-    1. You can find your Remote Key associated with your account at this Url:
-    https://friendfeed.com/account/api (You need to be logged in).
+    1. You can find your remote key associated with your account at this url:
+    https://friendfeed.com/account/api (you need to be logged in).
 
 
 **diigo.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/diigohelp "Diigo help with screenshots.")
 
 
-In addition to your Username and Password you will need to create your own Diigo App and generate an API Key.
+In addition to your username and password you'll need to create your own diigo App and generate an Api key.
 
-    1. Please go at this Url: https://www.diigo.com/api_keys/new/
-    and generate your Diigo API Key. (You need to be logged in)
+    1. Please go at this url: https://www.diigo.com/api_keys/new/
+    and generate your diigo Api key. (you need to be logged in)
 
 
 **linkedin.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/linkedinhelp "Linkedin help with screenshots.")
