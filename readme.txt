@@ -163,7 +163,7 @@ Basically your Twitter Username and Password won't suffice in order to post auto
 No worries, it's rather a simple procedure.
 
 
-    1. To auto post updates through the Twitter API you will need first
+    1. In order to auto post updates through the Twitter API you will need
     to create your own Twitter App here: https://apps.twitter.com/
     
     2. Once, you have created your Twitter App you have to change its Access Level
@@ -183,7 +183,7 @@ No worries, it's rather a simple procedure.
 
 **plurk.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/plurkhelp "Plurk help with screenshots.")
 
-It's most likely the same as for twitter, you will need some more effort in order to post updates through their Api.
+It's most likely the same as for twitter, you'll need some more effort in order to post updates through Plurk Api.
 
 
     1. Please go at this url http://www.plurk.com/PlurkApp/ 
