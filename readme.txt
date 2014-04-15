@@ -159,17 +159,17 @@ Additional features are available with the [Pro Add-on](http://efficientscripts.
 
 **twitter.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/twitterhelp "Twitter help with screenshots.")
 
-Basically your twitter username and password won't suffice in order to post automatic updates, twitter Api requires some more steps described below.
+Basically your Twitter Username and Password won't suffice in order to post automatic updates, Twitter API requires some more steps described below.
 No worries, it's rather a simple procedure.
 
 
-    1. In order to post updates through the twitter Api you will need first
-    to create your own twitter App here: https://apps.twitter.com/
+    1. In order to post updates through the Twitter API you will need first
+    to create your own Twitter App here: https://apps.twitter.com/
     
-    2. Once you have created your twitter App you have to change its access level
+    2. Once you have created your Twitter App you have to change its Access Level
     to be Read and Write. 
-    Browse to settings tab and click on 'modify app permissions'.
-    Check the access level to be read and write. Save Settings.
+    Browse to settings tab and click on 'Modify App Permissions'.
+    Check the Access Level to be Read and Write. Save Settings.
 
     3. Once this is done go back to the API Keys tab, at the bottom you 
     should have a button 'Create my Access token', please do it.
@@ -177,7 +177,7 @@ No worries, it's rather a simple procedure.
     4. This is it, on the API Keys tab you have all what you need, 
     i.e. API (Consumer) key / secret, Access token and Access token secret.
 
-    5. If you don't see immediately the Access token at the bottom, 
+    5. If you don't see immediately the Access Token at the bottom, 
     please refresh the API Keys tab page.
 
 
