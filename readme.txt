@@ -163,13 +163,13 @@ Basically your Twitter Username and Password won't suffice in order to post auto
 No worries, it's rather a simple procedure.
 
 
-    1. In order to post updates through the Twitter API you will need first
+    1. To auto post updates through the Twitter API you will need first
     to create your own Twitter App here: https://apps.twitter.com/
     
-    2. Once you have created your Twitter App you have to change its Access Level
+    2. Once, you have created your Twitter App you have to change its Access Level
     to be Read and Write. 
     Browse to settings tab and click on 'Modify App Permissions'.
-    Check the Access Level to be Read and Write. Save Settings.
+    Check the Access Level to be Read and Write. Save your Settings.
 
     3. Once this is done go back to the API Keys tab, at the bottom you 
     should have a button 'Create my Access token', please do it.
@@ -225,7 +225,7 @@ Business accounts can't manage Facebook Apps.
 
     2. Fill in your 'App Name' and click continue.
 
-    3. Enter the required security check.
+    3. Enter the required Security Check.
 
     4. Once on the basic settings of your new App, 
     for the field 'App Domains' enter your Blog domain name 
@@ -259,7 +259,7 @@ Instead of the Password, the Friendfeed API requires the Remote Key to let you p
 
 In addition to your username and password you will need to create your own diigo App and generate an Api key.
 
-    1. Please go at this url: https://www.diigo.com/api_keys/new/
+    1. Please browse to this url: https://www.diigo.com/api_keys/new/
     and generate your diigo Api key. (you need to be logged in)
 
 
