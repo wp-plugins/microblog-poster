@@ -200,11 +200,11 @@ It's most likely the same as for Twitter, you'll need some more effort in order 
     4. First click on 'Get Request Token', then some processing is done. 
     After that click on 'Open Authorization Url', you will be redirected 
     to a new page and you will have to grant the permission in order to get
-    your verification code.
+    your Verification Code.
 
     5. Finally return to the previous page and generate your 
     *Token Key and Token Secret* by clicking on
-    'Get Access Token' and by providing the verification code.
+    'Get Access Token' and by providing the Verification Code.
 
     6. Now you can copy your Token Key and Token Secret. 
     Coupled with the App Key and App Secret you've got previously 
@@ -248,10 +248,10 @@ Business accounts can't manage Facebook Apps.
 **friendfeed.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/friendfeedhelp "FriendFeed help with screenshots.")
 
 
-Instead of the password, the friendfeed Api requires the remote key to let you post with it.
+Instead of the Password, the Friendfeed API requires the Remote Key to let you post with it.
 
-    1. You can find your remote key associated with your account at this url:
-    https://friendfeed.com/account/api (you need to be logged in).
+    1. You can find your Remote Key associated with your account at this Url:
+    https://friendfeed.com/account/api (You need to be logged in).
 
 
 **diigo.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/diigohelp "Diigo help with screenshots.")
@@ -266,17 +266,17 @@ In addition to your Username and Password you will need to create your own Diigo
 **linkedin.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/linkedinhelp "Linkedin help with screenshots.")
 
 
-    1. Please go at this Url https://www.linkedin.com/secure/developer
-    and click on 'Add New Application'.
+    1. Please go at this url https://www.linkedin.com/secure/developer
+    and click on 'Add new Application'.
 
     2. Fill in the required informations.
-    For 'Live Status', select Live.
+    For 'Live status', select live.
     Leave everything else by default.
     Click the button 'Add Application'.
 
-    3. Copy 'Api Key' and 'Secret Key', click 'Done'.
+    3. Copy 'Api key' and 'Secret key', click 'Done'.
 
-    4. Configure your Linkedin Account in the Social Accounts Section.
+    4. Configure your linkedin account in the Social Accounts section.
 
     5. Follow the link provided by MicroblogPoster to authorize your App 
     posting on your behalf.
