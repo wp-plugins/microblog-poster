@@ -163,7 +163,7 @@ Basically your Twitter Username and Password won't suffice in order to post auto
 No worries, it's rather a simple procedure.
 
 
-    1. In order to auto post updates through the Twitter API you will need
+    1. If you want to auto post updates through the Twitter API you'll need
     to create your own Twitter App here: https://apps.twitter.com/
     
     2. Once, you have created your Twitter App you have to change its Access Level
@@ -172,7 +172,7 @@ No worries, it's rather a simple procedure.
     Check the Access Level to be Read and Write. Save your Settings.
 
     3. Once this is done go back to the API Keys tab, at the bottom you 
-    should have a button 'Create my Access token', please do it.
+    should have a button 'Create My Access token', please do it.
 
     4. This is it, on the API Keys tab you have all what you need, 
     i.e. API (Consumer) key / secret, Access token and Access token secret.
@@ -191,7 +191,7 @@ It's most likely the same as for twitter, you'll need some more effort in order 
     For App type, choose 'Third-party web site integration'. 
     For App website you can put http://localhost
 
-    2. Once you're back on 'My Plurk Apps' page, click the edit button 
+    2. Once you are back on 'My Plurk Apps' page, click the edit button 
     and copy your *App key and App secret*.
 
     3. Not finished yet, you need the second pair of credentials. 
@@ -248,10 +248,10 @@ Business accounts can't manage Facebook Apps.
 **friendfeed.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/friendfeedhelp "FriendFeed help with screenshots.")
 
 
-Instead of the Password, the Friendfeed API requires the Remote Key to let you post with it.
+Instead of the password, the friendfeed Api requires the remote key to let you post with it.
 
-    1. You can find your Remote Key associated with your account at this Url:
-    https://friendfeed.com/account/api (You need to be logged in).
+    1. You can find your remote key associated with your account at this url:
+    https://friendfeed.com/account/api (you need to be logged in).
 
 
 **diigo.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/diigohelp "Diigo help with screenshots.")
