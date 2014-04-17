@@ -188,17 +188,17 @@ It's most likely the same as for twitter, you'll need some more effort in order 
 
     1. Please browse to this url http://www.plurk.com/PlurkApp/ 
     and click on 'Create a New Plurk App'.
-    For App type, choose 'Third-party web site integration'. 
-    For App website you can put http://localhost
+    For App Type, choose 'Third-party web site integration'. 
+    For App Website you can put http://localhost
 
     2. Once you are back on 'My Plurk Apps' page, click the edit button 
-    and copy your *App key and App secret*.
+    and copy your *App Key and App Secret*.
 
     3. Not finished yet, you need the second pair of credentials. 
     On 'My Plurk Apps' page this time click on 'Test Console' button.
 
     4. First click on 'Get Request Token', then some processing is done. 
-    After that click on 'Open Authorization url', you will be redirected 
+    After that, click on 'Open Authorization url', you will be redirected 
     to a new page and you will have to grant the permission in order to get
     your Verification Code.
 
@@ -257,10 +257,10 @@ Instead of the password, the friendfeed Api requires the remote key to let you p
 **diigo.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/diigohelp "Diigo help with screenshots.")
 
 
-In addition to your username and password you will need to create your own diigo App and generate an Api key.
+In addition to your username and password you will need to create your own Diigo App and generate an API Key.
 
-    1. Please browse to this url: https://www.diigo.com/api_keys/new/
-    and generate your diigo Api key. (you need to be logged in)
+    1. Please go to this url: https://www.diigo.com/api_keys/new/
+    and generate your Diigo API Key. (You need to be logged in)
 
 
 **linkedin.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/linkedinhelp "Linkedin help with screenshots.")
