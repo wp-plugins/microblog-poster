@@ -166,7 +166,7 @@ No worries, it's rather a simple procedure.
     1. In order to auto post updates through the Twitter API you'll need
     to create your own Twitter App here: https://apps.twitter.com/
     
-    2. Once, you have created your Twitter App you have to change its Access Level
+    2. Once you have created your Twitter App you have to change its Access Level
     to be Read and Write. 
     Browse to settings tab and click on 'Modify App Permissions'.
     Check the Access Level to be Read and Write. Save your Settings.
@@ -186,7 +186,7 @@ No worries, it's rather a simple procedure.
 It's most likely the same as for twitter, you'll need some more effort in order to post updates through Plurk Api.
 
 
-    1. Please browse to this url http://www.plurk.com/PlurkApp/ 
+    1. Please go at this url http://www.plurk.com/PlurkApp/ 
     and click on 'Create a New Plurk App'.
     For App type, choose 'Third-party web site integration'. 
     For App website, you can put http://localhost
@@ -248,10 +248,10 @@ Business accounts can't manage Facebook Apps.
 **friendfeed.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/friendfeedhelp "FriendFeed help with screenshots.")
 
 
-Instead of the Password, the Friendfeed API requires the Remote Key to let you post with it.
+Instead of the password, the friendfeed Api requires the remote key to let you post with it.
 
-    1. You can find your Remote Key associated with your account at this Url:
-    https://friendfeed.com/account/api (You must be logged in).
+    1. You can find your remote key associated with your account at this url:
+    https://friendfeed.com/account/api (you must be logged in).
 
 
 **diigo.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/diigohelp "Diigo help with screenshots.")
