@@ -188,8 +188,8 @@ It's most likely the same as for twitter, you'll need some more effort in order 
 
     1. Please browse to this url http://www.plurk.com/PlurkApp/ 
     and click on 'Create a New Plurk App'.
-    For App Type, choose 'Third-party web site integration'. 
-    For App Website you can put http://localhost
+    For App type, choose 'Third-party web site integration'. 
+    For App website, you can put http://localhost
 
     2. Once you are back on 'My Plurk Apps' page, click the edit button 
     and copy your *App Key and App Secret*.
@@ -200,11 +200,11 @@ It's most likely the same as for twitter, you'll need some more effort in order 
     4. First click on 'Get Request Token', then some processing is done. 
     After that, click on 'Open Authorization url', you will be redirected 
     to a new page and you will have to grant the permission in order to get
-    your Verification Code.
+    your verification code.
 
     5. Finally return to the previous page and generate your 
     *Token key and Token secret* by clicking on
-    'Get Access token' and by providing the Verification Code.
+    'Get Access token' and by providing the verification code.
 
     6. Now you can copy your Token key and Token secret. 
     Coupled with the App key and App secret you've got previously 
@@ -217,7 +217,7 @@ It's most likely the same as for twitter, you'll need some more effort in order 
 Please note that only real personal Facebook accounts have permissions to create an App.
 Business accounts can't manage Facebook Apps.
 
-    1. Please go at this url https://developers.facebook.com/apps 
+    1. Please browse to this url https://developers.facebook.com/apps 
     and click on 'Apps' -> 'Create new App'.
     Note: If you can't click on 'Create new App', you will need first 
     to 'Register as a Developer'.
