@@ -159,7 +159,7 @@ Additional features are available with the [Pro Add-on](http://efficientscripts.
 
 **twitter.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/twitterhelp "Twitter help with screenshots.")
 
-Basically your Twitter Username and Password won't suffice in order to post automatic updates, Twitter API requires some more steps described below.
+Your Twitter username and password won't suffice in order to post automatic updates, Twitter API requires some more steps described below.
 No worries, it's rather a simple procedure.
 
 
@@ -174,7 +174,7 @@ No worries, it's rather a simple procedure.
     3. Once, this is done go back to the API Keys tab, at the bottom you 
     should have a button 'Create My Access token', please do it.
 
-    4. This is it, on the API Keys tab you have all what you need, 
+    4. Now, on the API Keys tab you have all what you need, 
     i.e. API (Consumer) key / secret, Access token and Access token secret.
 
     5. If you don't see immediately the Access Token at the bottom, 
@@ -248,10 +248,10 @@ Business accounts can't manage Facebook Apps.
 **friendfeed.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/friendfeedhelp "FriendFeed help with screenshots.")
 
 
-Instead of the password, the friendfeed Api requires the remote key to let you post with it.
+Instead of the password, the Friendfeed API requires the Remote Key to let you post with it.
 
-    1. You can find your remote key associated with your account at this url:
-    https://friendfeed.com/account/api (you must be logged in).
+    1. You can find your Remote Key associated with your account at this Url:
+    https://friendfeed.com/account/api (You must be logged in).
 
 
 **diigo.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/diigohelp "Diigo help with screenshots.")
