@@ -206,7 +206,7 @@ It's most likely the same as for twitter, you'll need some more effort in order 
     *Token key and Token secret* by clicking on
     'Get Access token' and by providing the Verification Code.
 
-    6. Now you can copy your Token key and Token secret. 
+    6. Now, you can copy your Token Key and Token Secret. 
     Coupled with the App key and App secret you've got previously 
     you can configure your plurk account in the Social Accounts Section.
 
@@ -217,7 +217,7 @@ It's most likely the same as for twitter, you'll need some more effort in order 
 Please note that only real personal Facebook accounts have permissions to create an App.
 Business accounts can't manage Facebook Apps.
 
-    1. Please go at this url https://developers.facebook.com/apps 
+    1. Please browse to this url https://developers.facebook.com/apps 
     and click on 'Apps' -> 'Create new App'.
     Note: If you can not click on 'Create new App', you'll need first 
     to 'Register as a Developer'.
@@ -257,10 +257,10 @@ Instead of the password, the friendfeed Api requires the remote key to let you p
 **diigo.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/diigohelp "Diigo help with screenshots.")
 
 
-In addition to your username and password you'll need to create your own diigo App and generate an Api key.
+In addition to your Username and Password you will need to create your own Diigo App and generate an API Key.
 
-    1. Please go to this url: https://www.diigo.com/api_keys/new/
-    and generate your diigo Api key. (you need to be logged in)
+    1. Please go to this Url: https://www.diigo.com/api_keys/new/
+    and generate your Diigo API Key. (You need to be logged in)
 
 
 **linkedin.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/linkedinhelp "Linkedin help with screenshots.")
