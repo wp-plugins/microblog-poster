@@ -200,11 +200,11 @@ It's most likely the same as for twitter, you'll need some more effort in order 
     4. First, click on 'Get Request Token', then some processing is done. 
     After that, click on 'Open Authorization Url', you'll be redirected 
     to a new page and you will have to grant the permission in order to get
-    your Verification Code.
+    your verification code.
 
     5. Finally, return to the previous page and generate your 
     *Token Key and Token Secret* by clicking on
-    'Get Access Token' and by providing the Verification Code.
+    'Get Access Token' and by providing the verification code.
 
     6. Now, you can copy your Token Key and Token Secret. 
     Coupled with the App key and App secret you've got previously 
@@ -232,7 +232,7 @@ Business accounts can't manage Facebook Apps.
     (example: mydomain.com)
     Then click 'Add Platform' and choose 'Website'.
     
-    5. In the field 'Site url' enter your Blog url.
+    5. In the field 'Site url' enter your Blog Url.
     (example: http://mydomain.com)
     Save changes.
     
@@ -257,10 +257,10 @@ Instead of the password, the Friendfeed API requires the Remote Key to let you p
 **diigo.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/diigohelp "Diigo help with screenshots.")
 
 
-In addition to your username and password you'll need to create your own diigo App and generate an Api key.
+In addition to your Username and Password you will need to create your own Diigo App and generate an API Key.
 
-    1. Please browse to this url: https://www.diigo.com/api_keys/new/
-    and generate your diigo Api key. (you need to be logged in)
+    1. Please browse to this Url: https://www.diigo.com/api_keys/new/
+    and generate your Diigo API Key. (You need to be logged in)
 
 
 **linkedin.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/linkedinhelp "Linkedin help with screenshots.")
