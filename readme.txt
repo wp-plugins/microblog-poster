@@ -163,7 +163,7 @@ Your Twitter username and password won't suffice in order to post automatic upda
 No worries, it's rather a simple procedure.
 
 
-    1. In order to auto post updates through the Twitter API you'll need
+    1. To auto post updates through the Twitter API you'll need
     to create your own Twitter App here: https://apps.twitter.com/
     
     2. Once, you have created your Twitter App you have to change its Access Level
@@ -171,7 +171,7 @@ No worries, it's rather a simple procedure.
     Go at settings tab and click on 'Modify App Permissions'.
     Check the Access Level to be Read and Write. Save your Settings.
 
-    3. Once, this is done go back to the API Keys tab, at the bottom you 
+    3. Once this is done return to the API Keys tab, at the bottom you 
     should have a button 'Create My Access token', please do it.
 
     4. Now, on the API Keys tab you have all what you need, 
@@ -200,11 +200,11 @@ It's most likely the same as for twitter, you'll need some more effort in order 
     4. First, click on 'Get Request Token', then some processing is done. 
     After that, click on 'Open Authorization Url', you'll be redirected 
     to a new page and you will have to grant the permission in order to get
-    your verification code.
+    your Verification Code.
 
     5. Finally, return to the previous page and generate your 
     *Token Key and Token Secret* by clicking on
-    'Get Access Token' and by providing the verification code.
+    'Get Access Token' and by providing the Verification Code.
 
     6. Now, you can copy your Token Key and Token Secret. 
     Coupled with the App key and App secret you've got previously 
@@ -217,7 +217,7 @@ It's most likely the same as for twitter, you'll need some more effort in order 
 Please note that only real personal Facebook accounts have permissions to create an App.
 Business accounts can't manage Facebook Apps.
 
-    1. Please browse to this url https://developers.facebook.com/apps 
+    1. Please go at this url https://developers.facebook.com/apps 
     and click on 'Apps' -> 'Create new App'.
     Note: If you can not click on 'Create new App', you'll need first 
     to 'Register as a Developer'.
@@ -248,10 +248,10 @@ Business accounts can't manage Facebook Apps.
 **friendfeed.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/friendfeedhelp "FriendFeed help with screenshots.")
 
 
-Instead of the password, the friendfeed Api requires the remote key to let you post with it.
+Instead of the password, the Friendfeed API requires the Remote Key to let you post with it.
 
-    1. You can find your remote key associated with your account at this url:
-    https://friendfeed.com/account/api (you must be logged in).
+    1. You can find your Remote Key associated with your account at this Url:
+    https://friendfeed.com/account/api (You must be logged in).
 
 
 **diigo.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/diigohelp "Diigo help with screenshots.")
