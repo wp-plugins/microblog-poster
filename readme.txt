@@ -163,18 +163,18 @@ Your Twitter username and password won't suffice in order to post automatic upda
 No worries, it's rather a simple procedure.
 
 
-    1. To auto post updates through the Twitter API you'll need
+    1. In order to auto post updates through the Twitter API you'll need
     to create your own Twitter App here: https://apps.twitter.com/
     
-    2. Once, you have created your Twitter App you have to change its Access Level
+    2. Once you have created your Twitter App you have to change its Access Level
     to be Read and Write. 
-    Go at settings tab and click on 'Modify App Permissions'.
+    Browse to the settings tab and click on 'Modify App Permissions'.
     Check the Access Level to be Read and Write. Save your Settings.
 
     3. Once this is done return to the API Keys tab, at the bottom you 
     should have a button 'Create My Access token', please do it.
 
-    4. Now, on the API Keys tab you have all what you need, 
+    4. Now on the API Keys tab you have all what you need, 
     i.e. API (Consumer) key / secret, Access token and Access token secret.
 
     5. If you don't see immediately the Access Token at the bottom, 
@@ -248,10 +248,10 @@ Business accounts can't manage Facebook Apps.
 **friendfeed.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/friendfeedhelp "FriendFeed help with screenshots.")
 
 
-Instead of the password, the Friendfeed API requires the Remote Key to let you post with it.
+Instead of the password, the friendfeed Api requires the remote key to let you post with it.
 
-    1. You can find your Remote Key associated with your account at this Url:
-    https://friendfeed.com/account/api (You must be logged in).
+    1. You can find your remote key associated with your account at this url:
+    https://friendfeed.com/account/api (you must be logged in).
 
 
 **diigo.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/diigohelp "Diigo help with screenshots.")
