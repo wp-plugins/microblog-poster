@@ -200,11 +200,11 @@ It's most likely the same as for twitter, you'll need some more effort in order 
     4. First, click on 'Get Request Token', then some processing is done. 
     After that, click on 'Open Authorization Url', you'll be redirected 
     to a new page and you will have to grant the permission in order to get
-    your verification code.
+    your Verification Code.
 
     5. Finally, return to the previous page and generate your 
     *Token Key and Token Secret* by clicking on
-    'Get Access Token' and by providing the verification code.
+    'Get Access Token' and by providing the Verification Code.
 
     6. Now, you can copy your Token Key and Token Secret. 
     Coupled with the App key and App secret you've got previously 
@@ -270,13 +270,13 @@ In addition to your username and password you will need to create your own diigo
     and click on 'Add New Application'.
 
     2. Fill in the required informations.
-    For 'Live Status', select Live.
+    For 'Live status', select live.
     Leave everything else by default.
-    Click the button 'add Application'.
+    Click the button 'Add Application'.
 
-    3. Copy 'Api Key' and 'Secret Key', and click 'Done'.
+    3. Copy 'Api key' and 'Secret key', and click 'Done'.
 
-    4. Configure your Linkedin account in the Social Accounts Section.
+    4. Configure your linkedin account in the Social Accounts section.
 
     5. Follow the link provided by MicroblogPoster to authorize your App 
     posting on your behalf.
