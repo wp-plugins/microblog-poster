@@ -186,7 +186,7 @@ No worries, it's rather a simple procedure.
 It's most likely the same as for twitter, you'll need some more effort in order to post updates through Plurk Api.
 
 
-    1. Please browse to this url http://www.plurk.com/PlurkApp/ 
+    1. Please go at this url http://www.plurk.com/PlurkApp/ 
     and click on 'Create a New Plurk App'.
     For App Type choose 'Third-party web site integration'. 
     For App Website you can put http://localhost
@@ -200,11 +200,11 @@ It's most likely the same as for twitter, you'll need some more effort in order 
     4. First, click on 'Get Request Token', then some processing is done. 
     After that, click on 'Open Authorization Url', you'll be redirected 
     to a new page and you will have to grant the permission in order to get
-    your verification code.
+    your Verification Code.
 
     5. Finally, return to the previous page and generate your 
     *Token Key and Token Secret* by clicking on
-    'Get Access Token' and by providing the verification code.
+    'Get Access Token' and by providing the Verification Code.
 
     6. Now, you can copy your Token Key and Token Secret. 
     Coupled with the App key and App secret you've got previously 
@@ -248,19 +248,19 @@ Business accounts can't manage Facebook Apps.
 **friendfeed.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/friendfeedhelp "FriendFeed help with screenshots.")
 
 
-Instead of the Password, the Friendfeed API requires the Remote Key to let you post with it.
+Instead of the password, the friendfeed Api requires the remote key to let you post with it.
 
-    1. You can find your Remote Key associated with your account at this Url:
-    https://friendfeed.com/account/api (You must be logged in).
+    1. You can find your remote key associated with your account at this url:
+    https://friendfeed.com/account/api (you must be logged in).
 
 
 **diigo.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/diigohelp "Diigo help with screenshots.")
 
 
-In addition to your username and password you will need to create your own diigo App and generate an Api key.
+In addition to your Username and Password you will need to create your own Diigo App and generate an API Key.
 
-    1. Please browse to this url: https://www.diigo.com/api_keys/new/
-    and generate your diigo Api key. (you need to be logged in)
+    1. Please browse to this Url: https://www.diigo.com/api_keys/new/
+    and generate your Diigo API Key. (You need to be logged in)
 
 
 **linkedin.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/linkedinhelp "Linkedin help with screenshots.")
