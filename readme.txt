@@ -200,11 +200,11 @@ It's most likely the same as for twitter, you'll need some more effort in order 
     4. First, click on 'Get Request Token', then some processing is done. 
     After that, click on 'Open Authorization Url', you'll be redirected 
     to a new page and you will have to grant the permission in order to get
-    your verification code.
+    your Verification Code.
 
     5. Finally, return to the previous page and generate your 
     *Token Key and Token Secret* by clicking on
-    'Get Access Token' and by providing the verification code.
+    'Get Access Token' and by providing the Verification Code.
 
     6. Now, you can copy your Token Key and Token Secret. 
     Coupled with the App key and App secret you've got previously 
@@ -248,10 +248,10 @@ Business accounts can't manage Facebook Apps.
 **friendfeed.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/friendfeedhelp "FriendFeed help with screenshots.")
 
 
-Instead of the password, the friendfeed Api requires the remote key to let you post with it.
+Instead of the Password, the Friendfeed API requires the Remote Key to let you post with it.
 
-    1. You can find your remote key associated with your account at this url:
-    https://friendfeed.com/account/api (you must be logged in).
+    1. You can find your Remote Key associated with your account at this Url:
+    https://friendfeed.com/account/api (You must be logged in).
 
 
 **diigo.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/diigohelp "Diigo help with screenshots.")
@@ -287,7 +287,7 @@ Basically your tumblr username and password won't suffice in order to post autom
 No worries, it's rather a simple procedure.
 
 
-    1. In order to post updates through the tumblr Api you'll need first
+    1. To post updates through the tumblr Api you'll need first
     to create your own tumblr App here: http://www.tumblr.com/oauth/apps
     
     2. Once you have created your tumblr App copy your 'OAuth Consumer key'.
@@ -313,9 +313,6 @@ In order to avoid it, please limit the number of social accounts based on your e
 
 Yes, otherwise the plugin simply won't function at all.
 
-= The PHP cURL extension is required? =
-
-Yes, otherwise the plugin simply won't function at all.
 
 
 
