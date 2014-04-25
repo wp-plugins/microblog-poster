@@ -248,10 +248,10 @@ Business accounts can't manage Facebook Apps.
 **friendfeed.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/friendfeedhelp "FriendFeed help with screenshots.")
 
 
-Instead of the Password, the Friendfeed API requires the Remote Key to let you post with it.
+Instead of the password, the friendfeed Api requires the remote key to let you post with it.
 
-    1. You can find your Remote Key associated with your account at this Url:
-    https://friendfeed.com/account/api (You must be logged in).
+    1. You can find your remote key associated with your account at this url:
+    https://friendfeed.com/account/api (you must be logged in).
 
 
 **diigo.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/diigohelp "Diigo help with screenshots.")
@@ -266,7 +266,7 @@ In addition to your Username and Password you will need to create your own Diigo
 **linkedin.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/linkedinhelp "Linkedin help with screenshots.")
 
 
-    1. Please go at this url https://www.linkedin.com/secure/developer
+    1. Please browse to this url https://www.linkedin.com/secure/developer
     and click on 'Add New Application'.
 
     2. Fill in the required informations.
@@ -287,7 +287,7 @@ Basically your tumblr username and password won't suffice in order to post autom
 No worries, it's rather a simple procedure.
 
 
-    1. To post updates through the tumblr Api you'll need first
+    1. In order to post updates through the tumblr Api you'll need first
     to create your own tumblr App here: http://www.tumblr.com/oauth/apps
     
     2. Once you have created your tumblr App copy your 'OAuth Consumer key'.
@@ -308,6 +308,10 @@ Deactivate/Activate MicroblogPoster plugin.
 Warning about inherent php script execution time limitation that some Hosting Providers apply on shared accounts (max_execution_time PHP setting). 
 Since *MicroblogPoster* needs time to update all your social accounts when publishing a new blog post, this limit might be reached and script execution stopped.
 In order to avoid it, please limit the number of social accounts based on your environment script execution time limit.
+
+= The PHP cURL extension is required? =
+
+Yes, otherwise the plugin simply won't function at all.
 
 = The PHP cURL extension is required? =
 
