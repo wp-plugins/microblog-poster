@@ -163,7 +163,7 @@ Your Twitter username and password won't suffice in order to post automatic upda
 No worries, it's rather a simple procedure.
 
 
-    1. In order to auto post updates through the Twitter API you'll need
+    1. To auto post updates through the Twitter API you'll need
     to create your own Twitter App here: https://apps.twitter.com/
     
     2. Once, you have created your Twitter App you have to change its Access Level
@@ -200,11 +200,11 @@ It's most likely the same as for twitter, you'll need some more effort in order 
     4. First, click on 'Get Request Token', then some processing is done. 
     After that, click on 'Open Authorization Url', you'll be redirected 
     to a new page and you will have to grant the permission in order to get
-    your Verification Code.
+    your verification code.
 
     5. Finally, return to the previous page and generate your 
     *Token Key and Token Secret* by clicking on
-    'Get Access Token' and by providing the Verification Code.
+    'Get Access Token' and by providing the verification code.
 
     6. Now, you can copy your Token Key and Token Secret. 
     Coupled with the App key and App secret you've got previously 
@@ -257,10 +257,10 @@ Instead of the password, the friendfeed Api requires the remote key to let you p
 **diigo.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/diigohelp "Diigo help with screenshots.")
 
 
-In addition to your username and password you'll need to create your own diigo App and generate an Api key.
+In addition to your Username and Password you will need to create your own Diigo App and generate an API Key.
 
-    1. Please browse to this url: https://www.diigo.com/api_keys/new/
-    and generate your diigo Api key. (you need to be logged in)
+    1. Please browse to this Url: https://www.diigo.com/api_keys/new/
+    and generate your Diigo API Key. (You need to be logged in)
 
 
 **linkedin.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/linkedinhelp "Linkedin help with screenshots.")
@@ -287,7 +287,7 @@ Basically your tumblr username and password won't suffice in order to post autom
 No worries, it's rather a simple procedure.
 
 
-    1. To post updates through the tumblr Api you'll need first
+    1. In order to post updates through the tumblr Api you'll need first
     to create your own tumblr App here: http://www.tumblr.com/oauth/apps
     
     2. Once you have created your tumblr App copy your 'OAuth Consumer key'.
@@ -308,10 +308,6 @@ Deactivate/Activate MicroblogPoster plugin.
 Warning about inherent php script execution time limitation that some Hosting Providers apply on shared accounts (max_execution_time PHP setting). 
 Since *MicroblogPoster* needs time to update all your social accounts when publishing a new blog post, this limit might be reached and script execution stopped.
 In order to avoid it, please limit the number of social accounts based on your environment script execution time limit.
-
-= The PHP cURL extension is required? =
-
-Yes, otherwise the plugin simply won't function at all.
 
 = The PHP cURL extension is required? =
 
