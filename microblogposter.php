@@ -4,7 +4,7 @@
  * Plugin Name: Microblog Poster
  * Plugin URI: http://efficientscripts.com/microblogposter
  * Description: Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Linkedin, Plurk, Diigo, Delicious..
- * Version: 1.3.6
+ * Version: 1.3.9
  * Author: Efficient Scripts
  * Author URI: http://efficientscripts.com/
  *
@@ -102,6 +102,31 @@ class MicroblogPoster_Poster
             }
         }
         
+        $shortcode_title_max_length_name = "microblogposter_plg_shortcode_title_max_length";
+        $shortcode_firstwords_max_length_name = "microblogposter_plg_shortcode_firstwords_max_length";
+        $shortcode_excerpt_max_length_name = "microblogposter_plg_shortcode_excerpt_max_length";
+        $shortcode_title_max_length_value = get_option($shortcode_title_max_length_name, "");
+        $shortcode_title_max_length = 110;
+        if(intval($shortcode_title_max_length_value) &&
+           intval($shortcode_title_max_length_value) >= 30 && intval($shortcode_title_max_length_value) <= 120)
+        {
+            $shortcode_title_max_length = $shortcode_title_max_length_value;
+        }
+        $shortcode_firstwords_max_length_value = get_option($shortcode_firstwords_max_length_name, "");
+        $shortcode_firstwords_max_length = 90;
+        if(intval($shortcode_firstwords_max_length_value) &&
+           intval($shortcode_firstwords_max_length_value) >= 30 && intval($shortcode_firstwords_max_length_value) <= 120)
+        {
+            $shortcode_firstwords_max_length = $shortcode_firstwords_max_length_value;
+        }
+        $shortcode_excerpt_max_length_value = get_option($shortcode_excerpt_max_length_name, "");
+        $shortcode_excerpt_max_length = 400;
+        if(intval($shortcode_excerpt_max_length_value) &&
+           intval($shortcode_excerpt_max_length_value) >= 100 && intval($shortcode_excerpt_max_length_value) <= 600)
+        {
+            $shortcode_excerpt_max_length = $shortcode_excerpt_max_length_value;
+        }
+        
         $post = get_post($post_ID);
         
         $post_content_actual = $post->post_content;
@@ -119,7 +144,7 @@ class MicroblogPoster_Poster
         }
         
 	$post_title = $post->post_title;
-        $post_title = MicroblogPoster_Poster::shorten_title($post_title, 110, ' ');
+        $post_title = MicroblogPoster_Poster::shorten_title($post_title, $shortcode_title_max_length, ' ');
         
         $permalink = get_permalink($post_ID);
 	$update = $post_title . " $permalink";
@@ -161,11 +186,15 @@ class MicroblogPoster_Poster
         }
         else
         {
-            $post_excerpt = MicroblogPoster_Poster::shorten_content($post_content_actual, 400, '.');
+            $post_excerpt = MicroblogPoster_Poster::shorten_content($post_content_actual, $shortcode_excerpt_max_length, '.');
             $post_content[] = $post_excerpt;
         }
         
         $author = '';
+        if (!function_exists('get_user_by'))
+        {
+            require_once( ABSPATH . WPINC . '/pluggable.php' );
+        }
         $user_ID = get_current_user_id();
         $loggedin_user = get_user_by('id', $user_ID);
         $author_tmp = $loggedin_user->display_name;
@@ -175,7 +204,7 @@ class MicroblogPoster_Poster
         }
         $post_content[] = $author;
         
-        $post_content_first_words = MicroblogPoster_Poster::clean_up_and_shorten_content($post_content_actual, 90, ' ');
+        $post_content_first_words = MicroblogPoster_Poster::clean_up_and_shorten_content($post_content_actual, $shortcode_firstwords_max_length, ' ');
         $post_content[] = $post_content_first_words;
         
 	$tags = "";
@@ -816,6 +845,20 @@ class MicroblogPoster_Poster
                             $result = "Success";
                         }
                     }
+                    elseif(isset($extra['target_type']) && $extra['target_type']=='company' && isset($extra['company_id']))
+                    {
+                        if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','update_linkedin_company'))
+                        {
+                            $result = MicroblogPoster_Poster_Pro::update_linkedin_company($curl, $acc_extra, $post_data);
+                        }
+                        
+                        $action_result = 2;
+                        if($result && stripos($result, '<update-key>')!==false && stripos($result, '</update-key>')!==false)
+                        {
+                            $action_result = 1;
+                            $result = "Success";
+                        }
+                    }
                     else
                     {
                         $url = "https://api.linkedin.com/v1/people/~/shares/?oauth2_access_token={$extra['access_token']}";
@@ -1259,6 +1302,16 @@ if($page_mode_value)
     add_action('publish_page', array('MicroblogPoster_Poster', 'update'));
 }
 
+$enabled_custom_types_name = "microblogposter_enabled_custom_types";
+$enabled_custom_types_value = get_option($enabled_custom_types_name, "");
+$enabled_custom_types = json_decode($enabled_custom_types_value, true);
+if(is_array($enabled_custom_types) && !empty($enabled_custom_types))
+{
+    foreach($enabled_custom_types as $custom_type)
+    {
+        add_action('publish_' . $custom_type, array('MicroblogPoster_Poster', 'update'));
+    }
+}
 
 //Displays a checkbox that allows users to disable Microblog Poster on a per post basis.
 function microblogposter_meta()
@@ -1380,15 +1433,93 @@ function microblogposter_pmeta()
     }
 }
 
-//Add the checkbox defined above to post edit screen.
+//Displays a checkbox that allows users to disable Microblog Poster on a per custom type basis.
+function microblogposter_custom_meta($post, $metabox)
+{   
+    $default_pbehavior_value = false;
+    $pro_control_dash_mode_name = "microblogposter_plg_control_dash_mode";
+    $pro_control_dash_mode_value = get_option($pro_control_dash_mode_name, "");
+    
+    $enabled_custom_updates_name = "microblogposter_enabled_custom_updates";
+    $enabled_custom_updates_value = get_option($enabled_custom_updates_name, "");
+    $enabled_custom_updates = json_decode($enabled_custom_updates_value, true);
+    
+    $screen = get_current_screen();
+    if($screen->action != 'add')
+    {
+        if(is_array($enabled_custom_updates) && !empty($enabled_custom_updates))
+        {
+            if(in_array($metabox['args']['type'], $enabled_custom_updates))
+            {
+                $default_pbehavior_value = true;
+            }
+        }
+    }
+    ?>
+    <input type="checkbox" id="microblogposteroff" name="microblogposteroff" <?php if($default_pbehavior_value) echo 'checked="checked"';?> /> 
+    <label for="microblogposteroff">Disable Microblog Poster this time?</label>
+    <?php
+    if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','show_control_dashboard')  && !$pro_control_dash_mode_value)
+    {
+        MicroblogPoster_Poster_Pro::show_control_dashboard();
+    }
+    elseif(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','show_control_dashboard') && $pro_control_dash_mode_value=='1')
+    {
+        echo "<br />The Control Dashboard part for checking/unchecking specific accounts is disabled in plugin's settings. MicroblogPoster will cross-post to all your social accounts.";
+    }
+    else
+    {
+        ?>
+        <style>
+            #mbp_upgrade_notice_div_microblogposter
+            {
+                margin-top: 10px;
+            }
+        </style>
+        
+        <script>
+            function mbp_show_upgrade_notice_microblogposter()
+            {
+                if(jQuery('#mbp_upgrade_notice_div_microblogposter').is(':visible'))
+                {
+                    jQuery('#mbp_upgrade_notice_div_microblogposter').hide();
+                    jQuery('#mbp_upgrade_notice_lnk_microblogposter').html('Show complete Control Dashboard');
+                }
+                else
+                {
+                    jQuery('#mbp_upgrade_notice_div_microblogposter').show();
+                    jQuery('#mbp_upgrade_notice_lnk_microblogposter').html('Hide complete Control Dashboard');
+                }    
+                
+            }
+        </script>
+        &nbsp;<a href="#" id="mbp_upgrade_notice_lnk_microblogposter" onclick="mbp_show_upgrade_notice_microblogposter();return false;" >Show complete Control Dashboard</a>
+        <div id="mbp_upgrade_notice_div_microblogposter" style="display:none;">Available with the Pro Add-on. <a href="http://efficientscripts.com/microblogposterpro" target="_blank">Upgrade Now</a></div>
+        <?php
+    }
+}
+
+//Add the checkbox defined above to post/page/custom type edit screen.
 function microblogposter_meta_box()
 {
     add_meta_box('microblogposter_domain','MicroblogPoster','microblogposter_meta','post','advanced','high');
+    
     $page_mode_name = "microblogposter_page_mode";
     $page_mode_value = get_option($page_mode_name, "");
     if($page_mode_value)
     {
         add_meta_box('microblogposter_domain','MicroblogPoster','microblogposter_pmeta','page','advanced','high');
+    }
+    
+    $enabled_custom_types_name = "microblogposter_enabled_custom_types";
+    $enabled_custom_types_value = get_option($enabled_custom_types_name, "");
+    $enabled_custom_types = json_decode($enabled_custom_types_value, true);
+    if(is_array($enabled_custom_types) && !empty($enabled_custom_types))
+    {
+        foreach($enabled_custom_types as $custom_type)
+        {
+            add_meta_box('microblogposter_domain','MicroblogPoster','microblogposter_custom_meta',$custom_type,'advanced','high',array('type'=>$custom_type));
+        }
     }
 }
 add_action('admin_menu', 'microblogposter_meta_box');

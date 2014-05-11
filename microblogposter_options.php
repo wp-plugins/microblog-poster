@@ -34,8 +34,13 @@ function microblogposter_settings_output()
     $default_pbehavior_update_name = "microblogposter_default_pbehavior_update";
     $page_mode_name = "microblogposter_page_mode";
     $excluded_categories_name = "microblogposter_excluded_categories";
+    $enabled_custom_types_name = "microblogposter_enabled_custom_types";
+    $enabled_custom_updates_name = "microblogposter_enabled_custom_updates";
     $customer_license_key_name = "microblogposterpro_plg_customer_license_key";
     $pro_control_dash_mode_name = "microblogposter_plg_control_dash_mode";
+    $shortcode_title_max_length_name = "microblogposter_plg_shortcode_title_max_length";
+    $shortcode_firstwords_max_length_name = "microblogposter_plg_shortcode_firstwords_max_length";
+    $shortcode_excerpt_max_length_name = "microblogposter_plg_shortcode_excerpt_max_length";
     
     
     $bitly_api_user_value = get_option($bitly_api_user_name, "");
@@ -48,8 +53,15 @@ function microblogposter_settings_output()
     $page_mode_value = get_option($page_mode_name, "");
     $excluded_categories_value = get_option($excluded_categories_name, "");
     $excluded_categories_value = json_decode($excluded_categories_value, true);
+    $enabled_custom_types_value = get_option($enabled_custom_types_name, "");
+    $enabled_custom_types_value = json_decode($enabled_custom_types_value, true);
+    $enabled_custom_updates_value = get_option($enabled_custom_updates_name, "");
+    $enabled_custom_updates_value = json_decode($enabled_custom_updates_value, true);
     $customer_license_key_value = get_option($customer_license_key_name, "");
     $pro_control_dash_mode_value = get_option($pro_control_dash_mode_name, "");
+    $shortcode_title_max_length_value = get_option($shortcode_title_max_length_name, "110");
+    $shortcode_firstwords_max_length_value = get_option($shortcode_firstwords_max_length_name, "90");
+    $shortcode_excerpt_max_length_value = get_option($shortcode_excerpt_max_length_name, "400");
     
     
     if(isset($_POST["update_license_key"]))
@@ -89,7 +101,29 @@ function microblogposter_settings_output()
         $page_mode_value = $_POST[$page_mode_name];
         $excluded_categories_value = $_POST[$excluded_categories_name];
         $excluded_categories_value = json_encode($excluded_categories_value);
+        $enabled_custom_types_value = $_POST[$enabled_custom_types_name];
+        $enabled_custom_types_value = json_encode($enabled_custom_types_value);
+        $enabled_custom_updates_value = $_POST[$enabled_custom_updates_name];
+        $enabled_custom_updates_value = json_encode($enabled_custom_updates_value);
         $pro_control_dash_mode_value = $_POST[$pro_control_dash_mode_name];
+        $shortcode_title_max_length_value_temp = trim($_POST[$shortcode_title_max_length_name]);
+        if(intval($shortcode_title_max_length_value_temp) && 
+           intval($shortcode_title_max_length_value_temp) >= 30 && intval($shortcode_title_max_length_value_temp) <= 120)
+        {
+            $shortcode_title_max_length_value = $shortcode_title_max_length_value_temp;
+        }
+        $shortcode_firstwords_max_length_value_temp = trim($_POST[$shortcode_firstwords_max_length_name]);
+        if(intval($shortcode_firstwords_max_length_value_temp) && 
+           intval($shortcode_firstwords_max_length_value_temp) >= 30 && intval($shortcode_firstwords_max_length_value_temp) <= 120)
+        {
+            $shortcode_firstwords_max_length_value = $shortcode_firstwords_max_length_value_temp;
+        }
+        $shortcode_excerpt_max_length_value_temp = trim($_POST[$shortcode_excerpt_max_length_name]);
+        if(intval($shortcode_excerpt_max_length_value_temp) && 
+           intval($shortcode_excerpt_max_length_value_temp) >= 100 && intval($shortcode_excerpt_max_length_value_temp) <= 600)
+        {
+            $shortcode_excerpt_max_length_value = $shortcode_excerpt_max_length_value_temp;
+        }
         
         update_option($bitly_api_user_name, $bitly_api_user_value);
         update_option($bitly_api_key_name, $bitly_api_key_value);
@@ -111,8 +145,15 @@ function microblogposter_settings_output()
         
         update_option($excluded_categories_name, $excluded_categories_value);
         $excluded_categories_value = json_decode($excluded_categories_value, true);
+        update_option($enabled_custom_types_name, $enabled_custom_types_value);
+        $enabled_custom_types_value = json_decode($enabled_custom_types_value, true);
+        update_option($enabled_custom_updates_name, $enabled_custom_updates_value);
+        $enabled_custom_updates_value = json_decode($enabled_custom_updates_value, true);
         
         update_option($pro_control_dash_mode_name, $pro_control_dash_mode_value);
+        update_option($shortcode_title_max_length_name, $shortcode_title_max_length_value);
+        update_option($shortcode_firstwords_max_length_name, $shortcode_firstwords_max_length_value);
+        update_option($shortcode_excerpt_max_length_name, $shortcode_excerpt_max_length_value);
         
         ?>
         <div class="updated"><p><strong>Options saved.</strong></p></div>
@@ -124,6 +165,16 @@ function microblogposter_settings_output()
     if(is_array($excluded_categories_value))
     {
         $excluded_categories = $excluded_categories_value;
+    }
+    $enabled_custom_types = array();
+    if(is_array($enabled_custom_types_value))
+    {
+        $enabled_custom_types = $enabled_custom_types_value;
+    }
+    $enabled_custom_updates = array();
+    if(is_array($enabled_custom_updates_value))
+    {
+        $enabled_custom_updates = $enabled_custom_updates_value;
     }
     
     $http_auth_sites = array('friendfeed','delicious','diigo');
@@ -237,6 +288,10 @@ function microblogposter_settings_output()
             {
                 $extra['group_id'] = trim($_POST['mbp_linkedin_group_id']);
             }
+            if(isset($_POST['mbp_linkedin_company_id']))
+            {
+                $extra['company_id'] = trim($_POST['mbp_linkedin_company_id']);
+            }
             
             if(isset($_POST['mbp_post_type_tmb']))
             {
@@ -262,6 +317,10 @@ function microblogposter_settings_output()
         if(isset($_POST['mbp_tumblr_blog_hostname']))
         {
             $extra['blog_hostname'] = trim($_POST['mbp_tumblr_blog_hostname']);
+        }
+        if($account_type == 'twitter' && $consumer_key && $consumer_secret && $access_token && $access_token_secret)
+        {
+            $extra['authorized'] = 1;
         }
         
         $extra = json_encode($extra);
@@ -387,6 +446,10 @@ function microblogposter_settings_output()
             {
                 $extra['group_id'] = trim($_POST['mbp_linkedin_group_id']);
             }
+            if(isset($_POST['mbp_linkedin_company_id']))
+            {
+                $extra['company_id'] = trim($_POST['mbp_linkedin_company_id']);
+            }
             
             if(isset($_POST['mbp_post_type_tmb']))
             {
@@ -397,6 +460,15 @@ function microblogposter_settings_output()
         if(isset($_POST['mbp_tumblr_blog_hostname']))
         {
             $extra['blog_hostname'] = trim($_POST['mbp_tumblr_blog_hostname']);
+        }
+        
+        if($account_type == 'twitter' && $consumer_key && $consumer_secret && $access_token && $access_token_secret)
+        {
+            $extra['authorized'] = 1;
+        }
+        elseif($account_type == 'twitter' && (!$consumer_key || !$consumer_secret || !$access_token || !$access_token_secret))
+        {
+            $extra['authorized'] = 0;
         }
         
         $extra = json_encode($extra);
@@ -755,6 +827,117 @@ function microblogposter_settings_output()
             $redirect_after_auth = true;
         }
     }
+    if(isset($_GET['microblogposter_auth_twitter']) && isset($_GET['account_id']))
+    {
+        
+        $twitter_account_id = (int) $_GET['account_id'];
+        if(is_int($twitter_account_id))
+        {   
+            $sql="SELECT * FROM $table_accounts WHERE account_id={$twitter_account_id}";
+            $rows = $wpdb->get_results($sql);
+            $row = $rows[0];
+            
+            $log_data = array();
+            $log_data['account_id'] = $row->account_id;
+            $log_data['account_type'] = "twitter";
+            $log_data['username'] = $row->username;
+            $log_data['post_id'] = 0;
+            $log_data['action_result'] = 0;
+            $log_data['update_message'] = 'Twitter Authorization Step 1';
+            
+            $twt_acc_extra_auth = json_decode($row->extra, true);
+            $twitter_c_key = $row->consumer_key;
+            $twitter_c_secret = $row->consumer_secret;
+            $twitter_consumer = new MicroblogPosterOAuthConsumer($twitter_c_key, $twitter_c_secret, null);
+            $twitter_req_token_url = 'https://api.twitter.com/oauth/request_token';
+            $params = array('oauth_callback'=>$redirect_uri.'&microblogposter_access_twitter=twitter_microblogposter_'.$twitter_account_id);
+            $twitter_sig_method = new MicroblogPosterOAuthSignatureMethod_HMAC_SHA1();
+            $twitter_req_token_step = MicroblogPosterOAuthRequest::from_consumer_and_token($twitter_consumer, null, "POST", $twitter_req_token_url, $params);
+            $twitter_req_token_step->sign_request($twitter_sig_method, $twitter_consumer, null);
+            $curl = new MicroblogPoster_Curl();
+            $response = $curl->send_post_data('https://api.twitter.com/oauth/request_token', $twitter_req_token_step->get_parameters());
+            if($response && stripos($response, 'oauth_token=')===false)
+            {
+                $log_data['log_message'] = $response;
+                MicroblogPoster_Poster::insert_log($log_data);
+            }
+            parse_str($response, $params);
+            $twitter_at_key = $params['oauth_token'];
+            $twitter_at_secret = $params['oauth_token_secret'];
+            $twt_acc_extra_auth['authorized'] = '0';
+            $wpdb->escape_by_ref($twitter_at_key);
+            $wpdb->escape_by_ref($twitter_at_secret);
+            $twt_acc_extra_auth = json_encode($twt_acc_extra_auth);
+            $wpdb->escape_by_ref($twt_acc_extra_auth);
+            $sql = "UPDATE {$table_accounts}
+                    SET access_token='{$twitter_at_key}', 
+                        access_token_secret='{$twitter_at_secret}',
+                        extra='{$twt_acc_extra_auth}'    
+                    WHERE account_id={$twitter_account_id}";
+
+            $wpdb->query($sql);
+            $authorize_url_name = 'authorize_url_'.$twitter_account_id;
+            $$authorize_url_name = 'https://api.twitter.com/oauth/authorize'.'?oauth_token='.$params['oauth_token'].
+                    '&force_login=1&microblogposter_access_twitter=twitter_microblogposter_'.$twitter_account_id;
+            
+            $mbp_accounts_tab_selected = true;
+        }
+    }
+    if(isset($_GET['microblogposter_access_twitter']) && isset($_GET['oauth_verifier']))
+    {
+        if(preg_match('|^twitter_microblogposter\_|i',trim($_GET['microblogposter_access_twitter'])))
+        {
+            $auth_user_data = explode('_', trim($_GET['microblogposter_access_twitter']));
+            $twitter_account_id = (int) $auth_user_data[2];
+            $sql="SELECT * FROM $table_accounts WHERE account_id={$twitter_account_id}";
+            $rows = $wpdb->get_results($sql);
+            $row = $rows[0];
+            
+            $log_data = array();
+            $log_data['account_id'] = $row->account_id;
+            $log_data['account_type'] = "twitter";
+            $log_data['username'] = $row->username;
+            $log_data['post_id'] = 0;
+            $log_data['action_result'] = 0;
+            $log_data['update_message'] = 'Twitter Authorization Step 2';
+            
+            $twt_acc_extra_auth = json_decode($row->extra, true);
+            $twitter_c_key = $row->consumer_key;
+            $twitter_c_secret = $row->consumer_secret;
+            $twitter_at_key = $row->access_token;
+            $twitter_at_secret = $row->access_token_secret;
+            $twitter_consumer = new MicroblogPosterOAuthConsumer($twitter_c_key, $twitter_c_secret, null);
+            $twitter_token = new MicroblogPosterOAuthToken($twitter_at_key, $twitter_at_secret, null);
+            $twitter_acc_token_url = 'https://api.twitter.com/oauth/access_token';
+            $params = array('oauth_verifier'=>trim($_GET['oauth_verifier']));
+            $twitter_sig_method = new MicroblogPosterOAuthSignatureMethod_HMAC_SHA1();
+            $twitter_acc_token_step = MicroblogPosterOAuthRequest::from_consumer_and_token($twitter_consumer, $twitter_token, "POST", $twitter_acc_token_url, $params);
+            $twitter_acc_token_step->sign_request($twitter_sig_method, $twitter_consumer, $twitter_token);
+            $curl = new MicroblogPoster_Curl();
+            $response = $curl->send_post_data('https://api.twitter.com/oauth/access_token', $twitter_acc_token_step->get_parameters());
+            if($response && stripos($response, 'oauth_token=')===false)
+            {
+                $log_data['log_message'] = $response;
+                MicroblogPoster_Poster::insert_log($log_data);
+            }
+            parse_str($response, $params);
+            $twitter_at_key1 = $params['oauth_token'];
+            $twitter_at_secret1 = $params['oauth_token_secret'];
+            $twt_acc_extra_auth['authorized'] = '1';
+            $wpdb->escape_by_ref($twitter_at_key1);
+            $wpdb->escape_by_ref($twitter_at_secret1);
+            $twt_acc_extra_auth = json_encode($twt_acc_extra_auth);
+            $wpdb->escape_by_ref($twt_acc_extra_auth);
+            $sql = "UPDATE {$table_accounts}
+                    SET access_token='{$twitter_at_key1}', 
+                        access_token_secret='{$twitter_at_secret1}',
+                        extra='{$twt_acc_extra_auth}'
+                    WHERE account_id={$twitter_account_id}";
+
+            $wpdb->query($sql);
+            $redirect_after_auth = true;
+        }
+    }
     
     $description_shortcodes = "You can use shortcodes: {TITLE} = Title of the new blog post. {URL} = The blog post url.";
     $description_shortcodes .= " {SHORT_URL} = The blog post shortened url. {SITE_URL} = Your blog/site url.";
@@ -776,7 +959,13 @@ function microblogposter_settings_output()
    
     <div class="wrap">
         <div id="icon-plugins" class="icon32"><br /></div>
-        <h2><span class="microblogposter-name">MicroblogPoster</span> Settings</h2>
+        <h2 id="mbp-intro">
+            <span class="microblogposter-name">MicroblogPoster</span> Settings
+            <?php if(!function_exists('mbp_pro_activate_au_microblogposter')):?>
+                <span class="mbp-intro-text">Advanced features are available with the Pro Add-on</span>
+                <a class="mbp-intro-text" href="http://efficientscripts.com/microblogposterpro" target="_blank">Upgrade Now</a>
+            <?php endif;?>
+        </h2>
         
         <p>
             The idea behind <span class="microblogposter-name">MicroblogPoster</span> is to promote your wordpress blog
@@ -785,7 +974,7 @@ function microblogposter_settings_output()
             <span class="microblogposter-name">MicroblogPoster</span> is simply an intermediary between your blog and your own social network accounts.<br /> 
             You'll never see "posted by MicroblogPoster" in your updates, you'll see "posted by your own App name" or simply "by API".
         </p>
-        
+            
         <?php if(function_exists('mbp_pro_activate_au_microblogposter') && !$customer_license_key_value['key']):?>
             <div class="error"><p><strong>In order to complete the MicroblogPoster's Pro Add-on installation, please Save your Customer License Key.</strong></p></div>
         <?php elseif(function_exists('mbp_pro_activate_au_microblogposter') && $customer_license_key_value['key']):?>
@@ -900,6 +1089,41 @@ function microblogposter_settings_output()
                     </tr>
                     <tr>
                         <td colspan="2">
+                            <h3><span class="wp-blue-title">Custom Post Types :</span></h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" id="mbp-excluded-category-header">Check Custom Post Types for which you want to enable <span class="microblogposter-name">MicroblogPoster</span>.</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" id="mbp-excluded-category-td">
+                    <?php
+                        $args = array(
+                            'public' => true,
+                            '_builtin' => false
+                        );
+                        $custom_post_types=get_post_types($args, 'names', 'and');
+                        if(is_array($custom_post_types) && !empty($custom_post_types))
+                        {
+                            foreach ($custom_post_types as $custom_post_type)
+                            {
+                                microblogposter_display_custom_type($custom_post_type, '<span class="mbp-separator-span"></span>', $enabled_custom_types, $enabled_custom_updates);
+                            }
+                        }
+                        else
+                        {
+                            ?>
+                            Currently, no custom types are active.
+                            <?php        
+                        }
+                    ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="row-sep"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
                             <h3><span class="wp-blue-title">Categories to exclude posts from Cross Posting :</span></h3>
                         </td>
                     </tr>
@@ -921,6 +1145,29 @@ function microblogposter_settings_output()
                         }
                     ?>
                         </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="row-sep"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <h3><span class="wp-blue-title">Shortcodes adjustments :</span></h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" id="mbp-excluded-category-header">Change only if you know what you're doing, otherwise default values are just fine.</td>
+                    </tr>
+                    <tr>
+                        <td class="label-input padding-left">{TITLE} max length:</td>
+                        <td><input type="text" id="<?php echo $shortcode_title_max_length_name;?>" name="<?php echo $shortcode_title_max_length_name;?>" value="<?php echo $shortcode_title_max_length_value;?>" size="10" />&nbsp;characters.&nbsp;&nbsp;(default value=110, range between 30 and 120)</td>
+                    </tr>
+                    <tr>
+                        <td class="label-input padding-left">{CONTENT_FIRST_WORDS} length:</td>
+                        <td><input type="text" id="<?php echo $shortcode_firstwords_max_length_name;?>" name="<?php echo $shortcode_firstwords_max_length_name;?>" value="<?php echo $shortcode_firstwords_max_length_value;?>" size="10" />&nbsp;characters.&nbsp;&nbsp;(default value=90, range between 30 and 120)</td>
+                    </tr>
+                    <tr>
+                        <td class="label-input padding-left">{EXCERPT} length:<br />(Used when auto generated)</td>
+                        <td><input type="text" id="<?php echo $shortcode_excerpt_max_length_name;?>" name="<?php echo $shortcode_excerpt_max_length_name;?>" value="<?php echo $shortcode_excerpt_max_length_value;?>" size="10" />&nbsp;characters.&nbsp;&nbsp;(default value=400, range between 100 and 600)</td>
                     </tr>
                     
                 </table>
@@ -988,6 +1235,29 @@ function microblogposter_settings_output()
         $rows = $wpdb->get_results($sql);
         foreach($rows as $row):
             $update_accounts[] = $row->account_id;
+        
+            $authorized = false;
+            if($row->extra)
+            {
+                $twt_acc_extra = json_decode($row->extra, true);
+                if(isset($twt_acc_extra['authorized']) && $twt_acc_extra['authorized']=='1')
+                {
+                    $authorized = true;
+                }
+            }
+            elseif($row->consumer_key && $row->consumer_secret && $row->access_token && $row->access_token_secret)
+            {
+                $authorized = true;
+            }
+            
+            $authorize_step = 1;
+            $authorize_url = $redirect_uri.'&microblogposter_auth_twitter=1&account_id='.$row->account_id;
+            $authorize_url_name = 'authorize_url_'.$row->account_id;
+            if(isset($$authorize_url_name))
+            {
+                $authorize_url = $$authorize_url_name;
+                $authorize_step = 2;
+            }
         ?>
             <div style="display:none">
                 <div id="update_account<?php echo $row->account_id;?>">
@@ -1030,6 +1300,16 @@ function microblogposter_settings_output()
                             <div class="input-div-large">
                                 <input type="text" id="" name="consumer_secret" value="<?php echo $row->consumer_secret;?>" />
                                 <span class="description">Your Twitter Application Consumer Secret.</span>
+                            </div>
+                            <div class="input-div">
+
+                            </div>
+                            <div class="input-div-large">
+                                <span class="description-small">
+                                    The two fields below 'Access Token' and 'Access Token Secret' are either generated interactively
+                                    or you provided them manually. In any case these two fields are MANDATORY in order to 
+                                    successfully post to twitter.
+                                </span>
                             </div>
                             <div class="input-div">
                                 Access Token:
@@ -1079,6 +1359,17 @@ function microblogposter_settings_output()
                 <span class="account-username"><?php echo $row->username;?></span>
                 <span class="edit-account edit<?php echo $row->account_id;?>">Edit</span>
                 <span class="del-account del<?php echo $row->account_id;?>">Del</span>
+                <div>
+                    <?php if($authorized): ?>
+                        <div>Authorization is valid permanently</div>
+                        <a href="<?php echo $authorize_url; ?>" >Refresh authorization now</a>
+                        (2 steps required)
+                    <?php else:?>
+                        <a href="<?php echo $authorize_url; ?>" >Authorize this Twitter account</a>
+                        <?php if($authorize_step==1) echo '2 steps required, after first click and page reload, please click again.'?>
+                        <?php if($authorize_step==2) echo 'Final step, click once again.'?>
+                    <?php endif;?>
+                </div>
             </div>
             
         <?php endforeach;?>
@@ -1697,10 +1988,11 @@ function microblogposter_settings_output()
         foreach($rows as $row):
             $update_accounts[] = $row->account_id;
         
-            $linkedin_scope = urlencode("r_basicprofile rw_nus rw_groups");
+            $linkedin_scope = urlencode("r_basicprofile rw_nus rw_groups rw_company_admin");
             $lkn_acc_extra = null;
             $target_type = "profile";
             $group_id = '';
+            $company_id = '';
             
             if($row->extra)
             {
@@ -1714,6 +2006,10 @@ function microblogposter_settings_output()
                 if(isset($lkn_acc_extra['group_id']))
                 {
                     $group_id = $lkn_acc_extra['group_id'];
+                }
+                if(isset($lkn_acc_extra['company_id']))
+                {
+                    $company_id = $lkn_acc_extra['company_id'];
                 }
             }
             
@@ -1748,6 +2044,14 @@ function microblogposter_settings_output()
                                 <div class="input-div-large">
                                     <input type="text" id="mbp_linkedin_group_id" name="mbp_linkedin_group_id" value="<?php echo $group_id;?>" />
                                     <span class="description">Your Linkedin Group ID.</span>
+                                </div>
+                            <?php elseif($target_type=='company'):?>
+                                <div class="input-div">
+                                    Company ID:
+                                </div>
+                                <div class="input-div-large">
+                                    <input type="text" id="mbp_linkedin_company_id" name="mbp_linkedin_company_id" value="<?php echo $company_id;?>" />
+                                    <span class="description">Your Linkedin Company ID.</span>
                                 </div>
                             <?php endif;?>
                             <div class="input-div">
@@ -2065,18 +2369,30 @@ function microblogposter_settings_output()
                             <span class="description">Your Twitter Application Consumer Secret.</span>
                         </div>
                         <div class="input-div">
+
+                        </div>
+                        <div class="input-div-large">
+                            <span class="description-small">
+                                Leave the fields 'Access Token' and 'Access Token Secret' below blank if you want to authorize
+                                your account interactively. If you provide them, your account will be ready to post immediately
+                                and you won't have to authorize interactively. Not providing these two fields is meant to allow
+                                you posting to multiple twitter accounts with a single twitter App. You then authorize each one
+                                interactively against your App.
+                            </span>
+                        </div>
+                        <div class="input-div">
                             Access Token:
                         </div>
                         <div class="input-div-large">
                             <input type="text" id="" name="access_token" value="" />
-                            <span class="description">Your Twitter Account Access Token</span>
+                            <span class="description">Optional. Your Twitter Account Access Token</span>
                         </div>
                         <div class="input-div">
                             Access Token Secret:
                         </div>
                         <div class="input-div-large">
                             <input type="text" id="" name="access_token_secret" value="" />
-                            <span class="description">Your Twitter Account Access Token Secret</span>
+                            <span class="description">Optional. Your Twitter Account Access Token Secret</span>
                         </div>
                     </div>
                     <div id="plurk-div" class="one-account">
@@ -2373,6 +2689,7 @@ function microblogposter_settings_output()
                             <select name="mbp_linkedin_target_type" id="mbp_linkedin_target_type">
                                 <option value="profile">Profile timeline</option>
                                 <option value="group">Group timeline</option>
+                                <option value="company">Company timeline</option>
                             </select>
                             <span class="description">Where you want to auto post.</span>
                         </div>
@@ -2384,6 +2701,15 @@ function microblogposter_settings_output()
                                 <div class="input-div-large">
                                     <input type="text" id="mbp_linkedin_group_id" name="mbp_linkedin_group_id" value="" />
                                     <span class="description">Your Linkedin Group ID.</span>
+                                </div>
+                            </div>
+                            <div id="mbp-linkedin-company-id-div">
+                                <div class="input-div">
+                                    Company ID:
+                                </div>
+                                <div class="input-div-large">
+                                    <input type="text" id="mbp_linkedin_company_id" name="mbp_linkedin_company_id" value="" />
+                                    <span class="description">Your Linkedin Company ID.</span>
                                 </div>
                             </div>
                             <div class="input-div">
@@ -2616,7 +2942,7 @@ function microblogposter_settings_output()
         }
         .button-holder
         {
-            width: 120px;
+            width: 130px;
             margin: 30px auto;
         }
         .button-holder-del
@@ -2922,6 +3248,20 @@ function microblogposter_settings_output()
             margin-left: 750px;
             margin-bottom: 20px;
         }
+        #mbp-intro
+        {
+            display: inline-block;
+        }
+        #mbp-intro .mbp-intro-text
+        {
+            color: #001A66;
+            font-size: 13px;
+        }
+        span.mbp-intro-text
+        {
+            margin-left: 20px;
+            margin-right: 5px;
+        }
     </style>
 
     
@@ -2998,6 +3338,7 @@ function microblogposter_settings_output()
                         
                         $("div#fancybox-content #mbp-linkedin-upgrade-now").hide();
                         $("div#fancybox-content #mbp-linkedin-group-id-div").hide().find('input').attr('disabled','disabled');
+                        $("div#fancybox-content #mbp-linkedin-company-id-div").hide().find('input').attr('disabled','disabled');
                         
                         $("div#fancybox-content #mbp-tumblr-upgrade-now").hide();
                             
@@ -3046,6 +3387,7 @@ function microblogposter_settings_output()
                     $("div#fancybox-content #mbp-linkedin-input-div").show().find('input').removeAttr('disabled');
                     $("div#fancybox-content #mbp-linkedin-upgrade-now").hide();
                     $("div#fancybox-content #mbp-linkedin-group-id-div").hide().find('input').attr('disabled','disabled');
+                    $("div#fancybox-content #mbp-linkedin-company-id-div").hide().find('input').attr('disabled','disabled');
                 }
                 if(type=='tumblr')
                 {
@@ -3084,14 +3426,7 @@ function microblogposter_settings_output()
                         $("div#fancybox-content #mbp-facebook-group-id-div").hide().find('input').attr('disabled','disabled');
                     }     
                 <?php else:?>
-                    if(target_type == 'page')
-                    {
-                        $("div#fancybox-content #mbp-facebook-input-div").hide().find('input').attr('disabled','disabled');
-                        //$("div#fancybox-content #mbp-facebook-page-id-div").show();
-                        $("div#fancybox-content #mbp-facebook-upgrade-now").show();
-                        $(".save-account").attr('disabled','disabled');
-                    }
-                    else if(target_type == 'group')
+                    if(target_type == 'page' || target_type == 'group')
                     {
                         $("div#fancybox-content #mbp-facebook-input-div").hide().find('input').attr('disabled','disabled');
                         $("div#fancybox-content #mbp-facebook-upgrade-now").show();
@@ -3115,13 +3450,20 @@ function microblogposter_settings_output()
                     if(target_type == 'group')
                     {
                         $("div#fancybox-content #mbp-linkedin-group-id-div").show().find('input').removeAttr('disabled');
+                        $("div#fancybox-content #mbp-linkedin-company-id-div").hide().find('input').attr('disabled','disabled');
+                    }
+                    else if(target_type == 'company')
+                    {
+                        $("div#fancybox-content #mbp-linkedin-company-id-div").show().find('input').removeAttr('disabled');
+                        $("div#fancybox-content #mbp-linkedin-group-id-div").hide().find('input').attr('disabled','disabled');
                     }
                     else if(target_type == 'profile')
                     {
                         $("div#fancybox-content #mbp-linkedin-group-id-div").hide().find('input').attr('disabled','disabled');
-                    }     
+                        $("div#fancybox-content #mbp-linkedin-company-id-div").hide().find('input').attr('disabled','disabled');
+                    }
                 <?php else:?>
-                    if(target_type == 'group')
+                    if(target_type == 'group' || target_type == 'company')
                     {
                         $("div#fancybox-content #mbp-linkedin-input-div").hide().find('input').attr('disabled','disabled');
                         $("div#fancybox-content #mbp-linkedin-upgrade-now").show();
@@ -3316,6 +3658,19 @@ function microblogposter_display_category($category, $sep, $excluded_categories)
             microblogposter_display_category($category1, $sep.'<span class="mbp-separator-span"></span>', $excluded_categories);
         }
     }
+}
+
+function microblogposter_display_custom_type($custom_type, $sep, $enabled_custom_types, $enabled_custom_updates)
+{
+    
+    ?>
+    <?php echo $sep;?>
+    <input type="checkbox" class="mbp-excluded-category" id="microblogposter_enabled_custom_types_<?php echo $custom_type;?>" name="microblogposter_enabled_custom_types[]" value="<?php echo $custom_type;?>" <?php if(in_array($custom_type, $enabled_custom_types)) echo 'checked="checked"';?> /> 
+    <label for="microblogposter_enabled_custom_types_<?php echo $custom_type;?>" ><?php echo $custom_type;?></label> 
+    &nbsp;&nbsp;-&nbsp;&nbsp;Don't cross-post automatically on Update&nbsp;<input type="checkbox" class="mbp-excluded-category" id="microblogposter_enabled_custom_updates_<?php echo $custom_type;?>" name="microblogposter_enabled_custom_updates[]" value="<?php echo $custom_type;?>" <?php if(in_array($custom_type, $enabled_custom_updates)) echo 'checked="checked"';?> /> 
+    &nbsp;(This is most likely to be checked.)<br/>
+    <?php
+    
 }
 
 ?>
