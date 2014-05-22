@@ -270,7 +270,7 @@ In addition to your username and password you will need to create your own Diigo
 **linkedin.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/linkedinhelp "Linkedin help with screenshots.")
 
 
-    1. Please browse to this Url https://www.linkedin.com/secure/developer
+    1. Please go at this Url https://www.linkedin.com/secure/developer
     and click on 'Add New Application'.
 
     2. Fill in the required informations.
@@ -291,7 +291,7 @@ Basically your tumblr username and password won't suffice in order to post autom
 No worries, it's rather a simple procedure.
 
 
-    1. In order to post updates through the tumblr Api you'll need first
+    1. To post updates through the tumblr Api you'll need first
     to create your own tumblr App here: http://www.tumblr.com/oauth/apps
     
     2. Once you have created your tumblr App copy your 'OAuth Consumer key'.
