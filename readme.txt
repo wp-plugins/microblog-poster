@@ -190,7 +190,7 @@ No worries, it's rather a simple procedure.
 It's most likely the same as for twitter, you'll need some more effort in order to post updates through Plurk Api.
 
 
-    1. Please browse to this url http://www.plurk.com/PlurkApp/ 
+    1. Please go at this url http://www.plurk.com/PlurkApp/ 
     and click on 'Create a New Plurk App'.
     For App Type choose 'Third-party web site integration'. 
     For App Website you can put http://localhost
@@ -263,7 +263,7 @@ Instead of the password, the Friendfeed API requires the Remote Key to let you p
 
 In addition to your username and password you will need to create your own Diigo App and generate an API Key.
 
-    1. Please browse to this Url: https://www.diigo.com/api_keys/new/
+    1. Please go at this Url: https://www.diigo.com/api_keys/new/
     and generate your Diigo API Key. (You need to be logged in)
 
 
@@ -313,9 +313,11 @@ Warning about inherent php script execution time limitation that some Hosting Pr
 Since *MicroblogPoster* needs time to update all your social accounts when publishing a new blog post, this limit might be reached and script execution stopped.
 In order to avoid it, please limit the number of social accounts based on your environment script execution time limit.
 
-= The PHP cURL extension is required? =
+= My blog is hosted on shared hosting, can I use MicroblogPoster? =
 
-Yes, otherwise the plugin simply won't function at all.
+Warning about inherent php script execution time limitation that some Hosting Providers apply on shared accounts (max_execution_time PHP setting). 
+Since *MicroblogPoster* needs time to update all your social accounts when publishing a new blog post, this limit might be reached and script execution stopped.
+In order to avoid it, please limit the number of social accounts based on your environment script execution time limit.
 
 = The PHP cURL extension is required? =
 
