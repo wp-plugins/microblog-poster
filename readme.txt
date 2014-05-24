@@ -190,7 +190,7 @@ No worries, it's rather a simple procedure.
 It's most likely the same as for twitter, you'll need some more effort in order to post updates through Plurk Api.
 
 
-    1. Please browse to this url http://www.plurk.com/PlurkApp/ 
+    1. Please go at this url http://www.plurk.com/PlurkApp/ 
     and click on 'Create a New Plurk App'.
     For App Type choose 'Third-party web site integration'. 
     For App Website you can put http://localhost
@@ -221,7 +221,7 @@ It's most likely the same as for twitter, you'll need some more effort in order 
 Please note that only real personal Facebook accounts have permissions to create an App.
 Business accounts can't manage Facebook Apps.
 
-    1. Please go at this url https://developers.facebook.com/apps 
+    1. Please browse to this url https://developers.facebook.com/apps 
     and click on 'Apps' -> 'Create new App'.
     Note: If you can not click on 'Create new App', you'll need first 
     to 'Register as a Developer'.
@@ -263,14 +263,14 @@ Instead of the password, the Friendfeed API requires the Remote Key to let you p
 
 In addition to your username and password you will need to create your own Diigo App and generate an API Key.
 
-    1. Please browse to this Url: https://www.diigo.com/api_keys/new/
+    1. Please go at this Url: https://www.diigo.com/api_keys/new/
     and generate your Diigo API Key. (You must be logged in)
 
 
 **linkedin.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/linkedinhelp "Linkedin help with screenshots.")
 
 
-    1. Please browse to this Url https://www.linkedin.com/secure/developer
+    1. Please go at this Url https://www.linkedin.com/secure/developer
     and click on 'Add New Application'.
 
     2. Fill in the required informations.
@@ -291,7 +291,7 @@ Basically your tumblr username and password won't suffice in order to post autom
 No worries, it's rather a simple procedure.
 
 
-    1. In order to post updates through the tumblr Api you'll need first
+    1. To post updates through the tumblr Api you'll need first
     to create your own tumblr App here: http://www.tumblr.com/oauth/apps
     
     2. Once you have created your tumblr App copy your 'OAuth Consumer key'.
@@ -312,10 +312,6 @@ Deactivate/Activate MicroblogPoster plugin.
 Warning about inherent php script execution time limitation that some Hosting Providers apply on shared accounts (max_execution_time PHP setting). 
 Since *MicroblogPoster* needs time to update all your social accounts when publishing a new blog post, this limit might be reached and script execution stopped.
 In order to avoid it, please limit the number of social accounts based on your environment script execution time limit.
-
-= The PHP cURL extension is required? =
-
-Yes, otherwise the plugin simply won't function at all.
 
 = The PHP cURL extension is required? =
 
