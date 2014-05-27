@@ -270,7 +270,7 @@ In addition to your username and password you will need to create your own Diigo
 **linkedin.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/linkedinhelp "Linkedin help with screenshots.")
 
 
-    1. Please go at this Url https://www.linkedin.com/secure/developer
+    1. Please browse to this Url https://www.linkedin.com/secure/developer
     and click on 'Add New Application'.
 
     2. Fill in the required informations.
@@ -287,11 +287,11 @@ In addition to your username and password you will need to create your own Diigo
 
 **tumblr.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/tumblrhelp "Tumblr help with screenshots.")
 
-Basically your tumblr username and password won't suffice in order to post automatic updates, tumblr Api requires some more steps described below.
+Basically your tumblr username/password won't suffice in order to post automatic updates, tumblr Api requires some more steps described below.
 No worries, it's rather a simple procedure.
 
 
-    1. In order to post updates through the tumblr Api you'll need first
+    1. To post updates through the tumblr Api you'll need first
     to create your own tumblr App here: http://www.tumblr.com/oauth/apps
     
     2. Once you have created your tumblr App copy your 'OAuth Consumer key'.
@@ -306,6 +306,12 @@ No worries, it's rather a simple procedure.
 Deactivate/Activate MicroblogPoster plugin.
 
 == Frequently Asked Questions ==
+
+= My blog is hosted on shared hosting, can I use MicroblogPoster? =
+
+Warning about inherent php script execution time limitation that some Hosting Providers apply on shared accounts (max_execution_time PHP setting). 
+Since *MicroblogPoster* needs time to update all your social accounts when publishing a new blog post, this limit might be reached and script execution stopped.
+In order to avoid it, please limit the number of social accounts based on your environment script execution time limit.
 
 = My blog is hosted on shared hosting, can I use MicroblogPoster? =
 
