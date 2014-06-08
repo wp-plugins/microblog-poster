@@ -167,7 +167,7 @@ Your Twitter username and password won't suffice in order to post automatic upda
 No worries, it's rather a simple procedure.
 
 
-    1. In order to auto post updates through the Twitter API you'll need
+    1. To auto post updates through the Twitter API you'll need
     to create your own Twitter App here: https://apps.twitter.com/
     
     2. Once, you have created your Twitter App you have to change its Access Level
@@ -190,7 +190,7 @@ No worries, it's rather a simple procedure.
 It's most likely the same as for twitter, you'll need some more effort in order to post updates through Plurk Api.
 
 
-    1. Please, browse to this url http://www.plurk.com/PlurkApp/ 
+    1. Please, go at this url http://www.plurk.com/PlurkApp/ 
     and click on 'Create a New Plurk App'.
     For App Type choose 'Third-party web site integration'. 
     For App Website you can put http://localhost
@@ -221,7 +221,7 @@ It's most likely the same as for twitter, you'll need some more effort in order 
 Please note that only real personal Facebook accounts have permissions to create an App.
 Business accounts can't manage Facebook Apps.
 
-    1. Please go at this url https://developers.facebook.com/apps 
+    1. Go at this url https://developers.facebook.com/apps 
     and click on 'Apps' -> 'Create new App'.
     Note: If you can not click on 'Create new App', you'll need first 
     to 'Register as a Developer'.
@@ -270,7 +270,8 @@ In addition to your username and password you will need to create your own Diigo
 **linkedin.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/linkedinhelp "Linkedin help with screenshots.")
 
 
-    1. Browse to this Url https://www.linkedin.com/secure/developer
+
+    1. Please browse to this Url https://www.linkedin.com/secure/developer
     and click on 'Add New Application'.
 
     2. Fill in the required informations.
