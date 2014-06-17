@@ -4,7 +4,7 @@
  * Plugin Name: Microblog Poster
  * Plugin URI: http://efficientscripts.com/microblogposter
  * Description: Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Linkedin, Plurk, Diigo, Delicious..
- * Version: 1.3.9
+ * Version: 1.4.0
  * Author: Efficient Scripts
  * Author URI: http://efficientscripts.com/
  *
@@ -226,6 +226,7 @@ class MicroblogPoster_Poster
         MicroblogPoster_Poster::update_diigo($post_title, $permalink, $tags, $post_content, $post_ID);
         MicroblogPoster_Poster::update_linkedin($update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_lkn, $featured_image_src_medium);
         MicroblogPoster_Poster::update_tumblr($update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_tmb);
+        MicroblogPoster_Poster::update_blogger($update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_tmb);
         
         MicroblogPoster_Poster::maintain_logs();
     }
@@ -1005,6 +1006,109 @@ class MicroblogPoster_Poster
             }
         }
         
+    }
+    
+    /**
+    * Make new post to blogger blogs
+    *
+    * @param string  $update Text to be posted on microblogging site
+    * @param array $post_content
+    * @return void
+    */
+    public static function update_blogger($update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual)
+    {
+        $blogger_accounts = MicroblogPoster_Poster::get_accounts('blogger');
+        
+        if(!empty($blogger_accounts))
+        {
+            foreach($blogger_accounts as $blogger_account)
+            {
+                if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account'))
+                {
+                    $active = MicroblogPoster_Poster_Pro::filter_single_account($blogger_account['account_id']);
+                    if($active === false)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        if(isset($active['message_format']) && $active['message_format'])
+                        {
+                            $blogger_account['message_format'] = $active['message_format'];
+                        }
+                    }
+                }
+                if($blogger_account['message_format'])
+                {
+                    $update = str_ireplace(MicroblogPoster_Poster::get_shortcodes(), $post_content, $blogger_account['message_format']);
+                }
+                $extra = json_decode($blogger_account['extra'], true);
+                if(!$extra)
+                {
+                    continue;
+                }
+                
+                $url = "https://accounts.google.com/o/oauth2/token";
+                $post_args = array(
+                    'refresh_token' => $extra['refresh_token'],
+                    'grant_type' => 'refresh_token',
+                    'client_id' => $blogger_account['consumer_key'],
+                    'client_secret' => $blogger_account['consumer_secret']
+                );
+                $curl = new MicroblogPoster_Curl();
+                $json_res = $curl->send_post_data($url, $post_args);
+                $response = json_decode($json_res, true);
+
+                if(isset($response['access_token']) && isset($response['token_type']) && $response['token_type'] == 'Bearer')
+                {
+                    $access_token_short = $response['access_token'];
+                    $blogger_end_point = 'https://www.googleapis.com/blogger/v3/blogs/'.$extra['blog_id'].'/posts/';
+                    $access_token = "Bearer " . $access_token_short;
+                    $body = new stdClass();
+                    $body->kind = 'blogger#post';
+                    $body->title = $post_title;
+                    $body->content = $update;
+                    $body->blog = new stdClass();
+                    $body->blog->id = $extra['blog_id'];
+                    $body_json = json_encode($body);
+                    $headers = array(
+                        'Authorization' => $access_token,
+                        'Content-type'  => 'application/json',
+                    );
+                    $curl->set_headers($headers);
+                    $result = $curl->send_post_data_json($blogger_end_point, $body_json);
+                    $result_dec = json_decode($result, true);
+                    $action_result = 2;
+                    if($result_dec && isset($result_dec['kind']) && $result_dec['kind']=='blogger#post')
+                    {
+                        $action_result = 1;
+                        $result = "Success";
+                    }
+
+                    $log_data = array();
+                    $log_data['account_id'] = $blogger_account['account_id'];
+                    $log_data['account_type'] = "blogger";
+                    $log_data['username'] = $blogger_account['username'];
+                    $log_data['post_id'] = $post_ID;
+                    $log_data['action_result'] = $action_result;
+                    $log_data['update_message'] = $update;
+                    $log_data['log_message'] = $result;
+                    MicroblogPoster_Poster::insert_log($log_data);
+                }
+                else
+                {
+                    $log_data = array();
+                    $log_data['account_id'] = $blogger_account['account_id'];
+                    $log_data['account_type'] = "blogger";
+                    $log_data['username'] = $blogger_account['username'];
+                    $log_data['post_id'] = $post_ID;
+                    $log_data['action_result'] = 2;
+                    $log_data['update_message'] = $update;
+                    $log_data['log_message'] = $json_res;
+                    MicroblogPoster_Poster::insert_log($log_data);
+                }
+            }
+        }
     }
     
     /**

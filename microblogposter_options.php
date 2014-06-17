@@ -318,6 +318,10 @@ function microblogposter_settings_output()
         {
             $extra['blog_hostname'] = trim($_POST['mbp_tumblr_blog_hostname']);
         }
+        if(isset($_POST['mbp_blogger_blog_id']))
+        {
+            $extra['blog_id'] = trim($_POST['mbp_blogger_blog_id']);
+        }
         if($account_type == 'twitter' && $consumer_key && $consumer_secret && $access_token && $access_token_secret)
         {
             $extra['authorized'] = 1;
@@ -460,6 +464,10 @@ function microblogposter_settings_output()
         if(isset($_POST['mbp_tumblr_blog_hostname']))
         {
             $extra['blog_hostname'] = trim($_POST['mbp_tumblr_blog_hostname']);
+        }
+        if(isset($_POST['mbp_blogger_blog_id']))
+        {
+            $extra['blog_id'] = trim($_POST['mbp_blogger_blog_id']);
         }
         
         if($account_type == 'twitter' && $consumer_key && $consumer_secret && $access_token && $access_token_secret)
@@ -741,6 +749,96 @@ function microblogposter_settings_output()
                 }
                 
             }
+        }
+        elseif(preg_match('|^blogger_microblogposter\_|i',trim($_GET['state'])))
+        {
+            $code = trim($_GET['code']);
+            $auth_user_data = explode('_', trim($_GET['state']));
+            $auth_user_id = (int) $auth_user_data[2];
+            
+            if(is_int($auth_user_id))
+            {
+                $sql="SELECT * FROM $table_accounts WHERE account_id={$auth_user_id}";
+                $rows = $wpdb->get_results($sql);
+                $row = $rows[0];
+                $extra = json_decode($row->extra, true);
+                $account_details = $extra;
+                $blogger_consumer_key = $row->consumer_key;
+                $blogger_consumer_secret = $row->consumer_secret;
+
+                $log_data = array();
+                $log_data['account_id'] = $row->account_id;
+                $log_data['account_type'] = "blogger";
+                $log_data['username'] = $row->username;
+                $log_data['post_id'] = 0;
+                $log_data['action_result'] = 0;
+                $log_data['update_message'] = 'Blogger Authorization';
+                
+                if($code)
+                {
+                    $url = "https://accounts.google.com/o/oauth2/token";
+                    $post_args = array(
+                        'grant_type' => 'authorization_code',
+                        'code' => $code,
+                        'redirect_uri' => $redirect_uri,
+                        'client_id' => $blogger_consumer_key,
+                        'client_secret' => $blogger_consumer_secret
+                    );
+
+                    $curl = new MicroblogPoster_Curl();
+                    $json_res = $curl->send_post_data($url, $post_args);
+                    $response = json_decode($json_res, true);
+                    
+                    if(isset($response['access_token']) && isset($response['token_type']) && $response['token_type'] == 'Bearer')
+                    {
+                        $account_details['access_token'] = $response['access_token'];
+                        if (isset($response['refresh_token']) && $response['refresh_token'])
+                        {
+                            $account_details['refresh_token'] = $response['refresh_token'];
+                        }
+                        else
+                        {
+                            $sql="SELECT * FROM $table_accounts WHERE type='blogger' 
+                                AND consumer_key='{$blogger_consumer_key}' 
+                                AND consumer_secret='{$blogger_consumer_secret}'";
+                            $rows = $wpdb->get_results($sql);
+                            if(is_array($rows) && !empty($rows))
+                            {
+                                foreach($rows as $row)
+                                {
+                                    if($row->extra)
+                                    {
+                                        $blogger_acc_extra_auth = json_decode($row->extra, true);
+                                        if (isset($blogger_acc_extra_auth['refresh_token']))
+                                        {
+                                            $account_details['refresh_token'] = $blogger_acc_extra_auth['refresh_token'];
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        $account_details['expires'] = time()+$response['expires_in'];
+                    }
+                    else
+                    {
+                        $log_data['log_message'] = $json_res;
+                        MicroblogPoster_Poster::insert_log($log_data);
+                    }
+                    
+                    $redirect_after_auth = true;
+                }
+
+                $account_details_enc = json_encode($account_details);
+                $wpdb->escape_by_ref($account_details_enc);
+                
+                $sql = "UPDATE {$table_accounts}
+                    SET extra='{$account_details_enc}'
+                    WHERE account_id={$auth_user_id}";
+
+                $wpdb->query($sql);
+            }
+            
         }
     }
     if(isset($_GET['microblogposter_auth_tumblr']) && isset($_GET['account_id']))
@@ -2309,7 +2407,131 @@ function microblogposter_settings_output()
             </div>
             
         <?php endforeach;?>
+        <div class="social-network-accounts-site">
+            <img src="../wp-content/plugins/microblog-poster/images/blogger_icon.png" />
+            <h4>Blogger Accounts</h4>
         </div>
+        <?php
+        $sql="SELECT * FROM $table_accounts WHERE type='blogger'";
+        $rows = $wpdb->get_results($sql);
+        foreach($rows as $row):
+            $update_accounts[] = $row->account_id;
+        
+            $authorized = false;
+            if($row->extra)
+            {
+                $blogg_acc_extra = json_decode($row->extra, true);
+                if(isset($blogg_acc_extra['refresh_token']))
+                {
+                    $authorized = true;
+                }
+                if(isset($blogg_acc_extra['blog_id']))
+                {
+                    $blogg_blog_id = $blogg_acc_extra['blog_id'];
+                }
+            }
+            
+            $authorize_url = "https://accounts.google.com/o/oauth2/auth?response_type=code&client_id={$row->consumer_key}&redirect_uri={$redirect_uri}&state=blogger_microblogposter_{$row->account_id}&scope=http://www.blogger.com/feeds/&access_type=offline";
+        ?>
+            <div style="display:none">
+                <div id="update_account<?php echo $row->account_id;?>">
+                    <form id="update_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
+                        
+                        <h3 class="new-account-header"><span class="microblogposter-name">MicroblogPoster</span> Plugin</h3>
+                        <div class="delete-wrapper">
+                            Blogger Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span>
+                        </div>
+                        <div id="blogger-div" class="one-account">
+                            <div class="input-div">
+                                Username:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="username" name="username" value="<?php echo $row->username;?>"/>
+                                <span class="description">Easily identify it later, not used for posting.</span>
+                            </div>
+                            <div class="input-div">
+                                Blog Id:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="mbp_blogger_blog_id" name="mbp_blogger_blog_id" value="<?php echo $blogg_blog_id;?>"/>
+                                <span class="description">Ex: '1237342953579224633'</span>
+                            </div>
+                            <div class="input-div">
+                                Message Format:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="message_format" name="message_format" value="<?php echo $row->message_format;?>"/>
+                                <span class="description">Message that's actually posted.</span>
+                            </div>
+                            <div class="input-div">
+
+                            </div>
+                            <div class="input-div-large">
+                                <span class="description-small"><?php echo $description_shortcodes;?></span>
+                            </div>
+                            <div class="mbp-separator"></div>
+                            <div class="input-div">
+                                Client Id:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="" name="consumer_key" value="<?php echo $row->consumer_key;?>" />
+                                <span class="description">Your Blogger Client Id.</span>
+                            </div>
+                            <div class="input-div">
+                                Client Secret:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="" name="consumer_secret" value="<?php echo $row->consumer_secret;?>" />
+                                <span class="description">Your Blogger Client Secret.</span>
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="account_id" value="<?php echo $row->account_id;?>" />
+                        <input type="hidden" name="account_type" value="blogger" />
+                        <input type="hidden" name="update_account_hidden" value="1" />
+                        <div class="button-holder">
+                            <button type="button" class="button cancel-account" >Cancel</button>
+                            <button type="button" class="button-primary save-account<?php echo $row->account_id;?>" >Save</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <div style="display:none">
+                <div id="delete_account<?php echo $row->account_id;?>">
+                    <form id="delete_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
+                        <div class="delete-wrapper">
+                        Blogger Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span><br />
+                        <span class="delete-wrapper-del">Delete?</span>
+                        </div>
+                        <input type="hidden" name="account_id" value="<?php echo $row->account_id;?>" />
+                        <input type="hidden" name="account_type" value="blogger" />
+                        <input type="hidden" name="delete_account_hidden" value="1" />
+                        <div class="button-holder-del">
+                            <button type="button" class="button cancel-account" >Cancel</button>
+                            <button type="button" class="del-account-fb button del-account<?php echo $row->account_id;?>" >Delete</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="account-wrapper">
+                <span class="account-username"><?php echo $row->username;?></span>
+                <span class="edit-account edit<?php echo $row->account_id;?>">Edit</span>
+                <span class="del-account del<?php echo $row->account_id;?>">Del</span>
+                <div>
+                    
+                    <?php if($authorized): ?>
+                        <div>Authorization is valid permanently</div>
+                        <a href="<?php echo $authorize_url; ?>" >Refresh authorization now</a>
+                    <?php else:?>
+                        <a href="<?php echo $authorize_url; ?>" >Authorize this Blogger account</a>
+                    <?php endif;?>
+                    
+                </div>
+            </div>
+            
+        <?php endforeach;?>
+        </div><!--end #social-network-accounts -->
         
         
         
@@ -2329,6 +2551,7 @@ function microblogposter_settings_output()
                         <option value="diigo">Diigo</option>
                         <option value="linkedin">Linkedin</option>
                         <option value="tumblr">Tumblr</option>
+                        <option value="blogger">Blogger</option>
                     </select> 
                     </div>
 
@@ -2834,6 +3057,51 @@ function microblogposter_settings_output()
                         </div>
                         <div id="mbp-tumblr-upgrade-now">Available with the Pro Add-on. <a href="http://efficientscripts.com/microblogposterpro" target="_blank">Upgrade Now</a></div>
                     </div>
+                    <div id="blogger-div" class="one-account">
+                        <div class="help-div"><span class="description"> <a href="http://efficientscripts.com/help/microblogposter/bloggerhelp" target="_blank">Blogger/Blogspot Help</a></span></div>
+                        <div class="input-div">
+                            Username:
+                        </div>
+                        <div class="input-div-large">
+                            <input type="text" id="username" name="username" />
+                            <span class="description">Easily identify it later, not used for posting.</span>
+                        </div>
+                        <div class="input-div">
+                            Blog Id:
+                        </div>
+                        <div class="input-div-large">
+                            <input type="text" id="mbp_tumblr_blog_hostname" name="mbp_blogger_blog_id" />
+                            <span class="description">Ex: '1237342953579224633'</span>
+                        </div>
+                        <div class="input-div">
+                            Message Format:
+                        </div>
+                        <div class="input-div-large">
+                            <input type="text" id="message_format" name="message_format" />
+                            <span class="description">Message that's actually posted.</span>
+                        </div>
+                        <div class="input-div">
+
+                        </div>
+                        <div class="input-div-large">
+                            <span class="description-small"><?php echo $description_shortcodes;?></span>
+                        </div>
+                        <div class="mbp-separator"></div>
+                        <div class="input-div">
+                            Client Id:
+                        </div>
+                        <div class="input-div-large">
+                            <input type="text" id="" name="consumer_key" value="" />
+                            <span class="description">Your Blogger Client Id.</span>
+                        </div>
+                        <div class="input-div">
+                            Client Secret:
+                        </div>
+                        <div class="input-div-large">
+                            <input type="text" id="" name="consumer_secret" value="" />
+                            <span class="description">Your Blogger Client Secret.</span>
+                        </div>
+                    </div>
 
                     <input type="hidden" name="new_account_hidden" value="1" />
                     <div class="button-holder">
@@ -3328,7 +3596,7 @@ function microblogposter_settings_output()
                     'scrolling'	: 'auto',
                     'titleShow'	: false,
                     'onComplete'	: function() {
-                        $('div#fancybox-content #plurk-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div,div#fancybox-content #diigo-div,div#fancybox-content #linkedin-div,div#fancybox-content #tumblr-div').hide().find('input,select').attr('disabled','disabled');
+                        $('div#fancybox-content #plurk-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div,div#fancybox-content #diigo-div,div#fancybox-content #linkedin-div,div#fancybox-content #tumblr-div,div#fancybox-content #blogger-div').hide().find('input,select').attr('disabled','disabled');
                         
                         $(".save-account").removeAttr('disabled');
                         
@@ -3368,7 +3636,7 @@ function microblogposter_settings_output()
             $("#account_type").live("change", function(){
                 var type = $(this).val();
                 //console.log(type);
-                $('div#fancybox-content #twitter-div,div#fancybox-content #plurk-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div,div#fancybox-content #diigo-div,div#fancybox-content #linkedin-div,div#fancybox-content #tumblr-div').hide().find('input,select').attr('disabled','disabled');
+                $('div#fancybox-content #twitter-div,div#fancybox-content #plurk-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div,div#fancybox-content #diigo-div,div#fancybox-content #linkedin-div,div#fancybox-content #tumblr-div,div#fancybox-content #blogger-div').hide().find('input,select').attr('disabled','disabled');
                 $('div#fancybox-content #'+type+'-div').show().find('input,select').removeAttr('disabled');
                 $(".save-account").removeAttr('disabled');
                 if(type=='facebook')
