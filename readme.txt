@@ -30,6 +30,7 @@ Easily follow the automated sharing process from **MicroblogPoster**'s logs sect
 * diigo.com - Auto submit bookmark of your new blogpost.
 * linkedin.com - Auto publish to profile wall
 * tumblr.com - Auto publish to your blog.
+* blogger.com (blogspot.com) - Auto publish to your blog.
 
 Please visit **MicroblogPoster**'s [website](http://efficientscripts.com/microblogposter "MicroblogPoster's website").
 
@@ -302,6 +303,19 @@ No worries, it's rather a simple procedure.
     3. Also click on 'Show Secret key' and copy your 'Secret key'.
 
     4. This is it, you can now configure your Account in the Social Accounts section.
+
+**blogger.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/bloggerhelp "Blogger help with screenshots.")
+
+Coming soon
+
+
+    1. ..
+    
+    2. ..
+
+    3. ..
+
+    4. ..
 
 
 == Upgrade Notice ==
