@@ -306,16 +306,33 @@ No worries, it's rather a simple procedure.
 
 **blogger.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/bloggerhelp "Blogger help with screenshots.")
 
-Coming soon
+Basically first you'll need to request the activation from Google of the Blogger API. It takes about 5 working days.
+Once it's activated you'll need to create your 'Client ID' (aka App) which will auto post on your behalf.
 
 
-    1. ..
+    1. Please go at this url: https://console.developers.google.com/
+    Select 'API Project', then on left side select 'APIs & auth'. The 'APIs' tab is selected by default.
     
-    2. ..
+    2. Scroll down and locate 'Blogger API v3'.
+    Click the 'OFF' button in order to request the activation. 
 
-    3. ..
+    3. After few days you'll receive an email from Google asking to complete the activation.
+    Please follow the steps provided.
 
-    4. ..
+    4. Browse to this url again: https://console.developers.google.com/
+    Select 'API Project', then on left side select 'APIs & auth' -> 'Credentials'
+
+    5. Click on 'Create new Client ID'
+
+    6. For 'Application type', select 'Web application'.
+    For 'Authorized Javascript Origins', enter your blog url (ex: http://www.yourblog.com)
+    For 'Authorized Redirect Uri', enter the Url when you're on the settings of MicroblogPoster.<br />
+    It is something like http://www.yourblog.com/wp-admin/options-general.php?page=microblogposter.php<br />
+    Click 'Create Client ID'.
+
+    7. Copy the Client ID and Client secret and configure your account under MicroblogPoster.
+
+    8. MicroblogPoster will provide you a link in order to authorize the App posting on your behalf.
 
 
 == Upgrade Notice ==
