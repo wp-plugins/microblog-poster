@@ -326,8 +326,8 @@ Once it's activated you'll need to create your 'Client ID' (aka App) which will 
 
     6. For 'Application type', select 'Web application'.
     For 'Authorized Javascript Origins', enter your blog url (ex: http://www.yourblog.com)
-    For 'Authorized Redirect Uri', enter the Url when you're on the settings of MicroblogPoster.<br />
-    It is something like http://www.yourblog.com/wp-admin/options-general.php?page=microblogposter.php<br />
+    For 'Authorized Redirect Uri', enter the Url when you're on the settings of MicroblogPoster.
+    It is something like http://www.yourblog.com/wp-admin/options-general.php?page=microblogposter.php
     Click 'Create Client ID'.
 
     7. Copy the Client ID and Client secret and configure your account under MicroblogPoster.
