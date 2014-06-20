@@ -1,6 +1,6 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
+Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, blogger, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
 Requires at least: 3.0
 Tested up to: 3.9
 Stable tag: 1.4.0
@@ -267,14 +267,14 @@ Instead of the password, the Friendfeed API requires the Remote Key to let you p
 
 In addition to your username and password you will need to create your own Diigo App and generate an API Key.
 
-    1. Please browse to this Url: https://www.diigo.com/api_keys/new/
+    1. Please go at this Url: https://www.diigo.com/api_keys/new/
     and generate your Diigo API Key. (You need to be logged in)
 
 
 **linkedin.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/linkedinhelp "Linkedin help with screenshots.")
 
 
-    1. Please browse to this Url https://www.linkedin.com/secure/developer
+    1. Please go at this Url https://www.linkedin.com/secure/developer
     and click on 'Add New Application'.
 
     2. Fill in the required informations.
@@ -295,7 +295,7 @@ Basically your tumblr username and password won't suffice in order to post autom
 No worries, it's rather a simple procedure.
 
 
-    1. In order to post updates through the tumblr Api you'll need first
+    1. To post updates through the tumblr Api you'll need first
     to create your own tumblr App here: http://www.tumblr.com/oauth/apps
     
     2. Once you have created your tumblr App copy your 'OAuth Consumer key'.
@@ -310,7 +310,7 @@ Basically first you'll need to request the activation from Google of the Blogger
 Once it's activated you'll need to create your 'Client ID' (aka App) which will auto post on your behalf.
 
 
-    1. Please browse to this url: https://console.developers.google.com/
+    1. Please, browse to this url: https://console.developers.google.com/
     Select 'API Project', then on left side select 'APIs & auth'. The 'APIs' tab is selected by default.
     
     2. Scroll down and locate 'Blogger API v3'.
@@ -319,7 +319,7 @@ Once it's activated you'll need to create your 'Client ID' (aka App) which will 
     3. After few days you'll receive an email from Google asking to complete the activation.
     Please follow the steps provided.
 
-    4. Browse to this url again: https://console.developers.google.com/
+    4. Please, browse to this url again: https://console.developers.google.com/
     Select 'API Project', then on left side select 'APIs & auth' -> 'Credentials'
 
     5. Click on 'Create new Client ID'
@@ -347,11 +347,9 @@ Warning about inherent php script execution time limitation that some Hosting Pr
 Since *MicroblogPoster* needs time to update all your social accounts when publishing a new blog post, this limit might be reached and script execution stopped.
 In order to avoid it, please limit the number of social accounts based on your environment script execution time limit.
 
-= My blog is hosted on shared hosting, can I use MicroblogPoster? =
+= The PHP cURL extension is required? =
 
-Warning about inherent php script execution time limitation that some Hosting Providers apply on shared accounts (max_execution_time PHP setting). 
-Since *MicroblogPoster* needs time to update all your social accounts when publishing a new blog post, this limit might be reached and script execution stopped.
-In order to avoid it, please limit the number of social accounts based on your environment script execution time limit.
+Yes, otherwise the plugin simply won't function at all.
 
 = The PHP cURL extension is required? =
 
