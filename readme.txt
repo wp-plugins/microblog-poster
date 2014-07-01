@@ -171,7 +171,7 @@ Your Twitter username and password won't suffice in order to post automatic upda
 No worries, it's rather a simple procedure.
 
 
-    1. To auto post updates through the Twitter API you'll need
+    1. In order to auto post updates through the Twitter API you'll need
     to create your own Twitter App here: https://apps.twitter.com/
     
     2. Once, you have created your Twitter App you have to change its Access Level
@@ -194,7 +194,7 @@ No worries, it's rather a simple procedure.
 It's most likely the same as for twitter, you'll need some more effort in order to post updates through Plurk Api.
 
 
-    1. Please, go at this url http://www.plurk.com/PlurkApp/ 
+    1. Please browse to this url http://www.plurk.com/PlurkApp/ 
     and click on 'Create a New Plurk App'.
     For App Type choose 'Third-party web site integration'. 
     For App Website you can put http://localhost
@@ -295,7 +295,7 @@ Basically your tumblr username and password won't suffice in order to post autom
 No worries, it's rather a simple procedure.
 
 
-    1. In order to post updates through the tumblr Api you'll need first
+    1. To post updates through the tumblr Api you'll need first
     to create your own tumblr App here: http://www.tumblr.com/oauth/apps
     
     2. Once you have created your tumblr App copy your 'OAuth Consumer key'.
@@ -310,7 +310,7 @@ Basically first you'll need to request the activation from Google of the Blogger
 Once it's activated you'll need to create your 'Client ID' (aka App) which will auto post on your behalf.
 
 
-    1. Please browse to this url: https://console.developers.google.com/
+    1. Please go at this url: https://console.developers.google.com/
     Select 'API Project', then on left side select 'APIs & auth'. The 'APIs' tab is selected by default.
     
     2. Scroll down and locate 'Blogger API v3'.
@@ -340,12 +340,6 @@ Once it's activated you'll need to create your 'Client ID' (aka App) which will 
 Deactivate/Activate MicroblogPoster plugin.
 
 == Frequently Asked Questions ==
-
-= My blog is hosted on shared hosting, can I use MicroblogPoster? =
-
-Warning about inherent php script execution time limitation that some Hosting Providers apply on shared accounts (max_execution_time PHP setting). 
-Since *MicroblogPoster* needs time to update all your social accounts when publishing a new blog post, this limit might be reached and script execution stopped.
-In order to avoid it, please limit the number of social accounts based on your environment script execution time limit.
 
 = My blog is hosted on shared hosting, can I use MicroblogPoster? =
 
