@@ -194,7 +194,7 @@ No worries, it's rather a simple procedure.
 It's most likely the same as for twitter, you'll need some more effort in order to post updates through Plurk Api.
 
 
-    1. Please go at this url http://www.plurk.com/PlurkApp/ 
+    1. Please browse to this url http://www.plurk.com/PlurkApp/ 
     and click on 'Create a New Plurk App'.
     For App Type choose 'Third-party web site integration'. 
     For App Website you can put http://localhost
@@ -225,7 +225,7 @@ It's most likely the same as for twitter, you'll need some more effort in order 
 Please note that only real personal Facebook accounts have permissions to create an App.
 Business accounts can't manage Facebook Apps.
 
-    1. Please go at this url https://developers.facebook.com/apps 
+    1. Browse to this url https://developers.facebook.com/apps 
     and click on 'Apps' -> 'Create new App'.
     Note: If you can not click on 'Create new App', you'll need first 
     to 'Register as a Developer'.
@@ -267,7 +267,7 @@ Instead of the password, the Friendfeed API requires the Remote Key to let you p
 
 In addition to your username and password you will need to create your own Diigo App and generate an API Key.
 
-    1. Browse to this Url: https://www.diigo.com/api_keys/new/
+    1. Please go at this Url: https://www.diigo.com/api_keys/new/
     and generate your Diigo API Key. (You need to be logged in)
 
 
@@ -310,7 +310,7 @@ Basically first you'll need to request the activation from Google of the Blogger
 Once it's activated you'll need to create your 'Client ID' (aka App) which will auto post on your behalf.
 
 
-    1. Please browse to this url: https://console.developers.google.com/
+    1. Please go at this url: https://console.developers.google.com/
     Select 'API Project', then on left side select 'APIs & auth'. The 'APIs' tab is selected by default.
     
     2. Scroll down and locate 'Blogger API v3'.
@@ -319,7 +319,7 @@ Once it's activated you'll need to create your 'Client ID' (aka App) which will 
     3. After few days you'll receive an email from Google asking to complete the activation.
     Please follow the steps provided.
 
-    4. Please, go at this url again: https://console.developers.google.com/
+    4. Browse to this url again: https://console.developers.google.com/
     Select 'API Project', then on left side select 'APIs & auth' -> 'Credentials'
 
     5. Click on 'Create new Client ID'
