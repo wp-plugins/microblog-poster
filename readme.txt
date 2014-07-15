@@ -1,9 +1,9 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
+Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, blogger, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
 Requires at least: 3.0
 Tested up to: 3.9
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 
 Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Linkedin, Tumblr, Diigo, Delicious..
 
@@ -30,6 +30,8 @@ Easily follow the automated sharing process from **MicroblogPoster**'s logs sect
 * diigo.com - Auto submit bookmark of your new blogpost.
 * linkedin.com - Auto publish to profile wall
 * tumblr.com - Auto publish to your blog.
+* blogger.com (blogspot.com) - Auto publish to your blog.
+* instapaper.com - Auto submit bookmark of your new blogpost.
 
 Please visit **MicroblogPoster**'s [website](http://efficientscripts.com/microblogposter "MicroblogPoster's website").
 
@@ -61,6 +63,9 @@ Additional features are available with the [Pro Add-on](http://efficientscripts.
 3. MicroblogPoster Options page, Logs Section.
 
 == Changelog ==
+
+= 1.4.1 (15-07-2014) =
+- Added support for instapaper auto publish.
 
 = 1.4.0 (17-06-2014) =
 - Added support for blogger (blogspot) auto publish.
@@ -224,7 +229,7 @@ It's most likely the same as for twitter, you'll need some more effort in order 
 Please note that only real personal Facebook accounts have permissions to create an App.
 Business accounts can't manage Facebook Apps.
 
-    1. Please browse to this url https://developers.facebook.com/apps 
+    1. Please go at this url https://developers.facebook.com/apps 
     and click on 'Apps' -> 'Create new App'.
     Note: If you can not click on 'Create new App', you'll need first 
     to 'Register as a Developer'.
@@ -266,7 +271,7 @@ Instead of the password, the Friendfeed API requires the Remote Key to let you p
 
 In addition to your username and password you will need to create your own Diigo App and generate an API Key.
 
-    1. Please browse to this Url: https://www.diigo.com/api_keys/new/
+    1. Browse to this Url: https://www.diigo.com/api_keys/new/
     and generate your Diigo API Key. (You need to be logged in)
 
 
@@ -294,7 +299,7 @@ Basically your tumblr username and password won't suffice in order to post autom
 No worries, it's rather a simple procedure.
 
 
-    1. To post updates through the tumblr Api you'll need first
+    1. In order to post updates through the tumblr Api you'll need first
     to create your own tumblr App here: http://www.tumblr.com/oauth/apps
     
     2. Once you have created your tumblr App copy your 'OAuth Consumer key'.
@@ -302,6 +307,36 @@ No worries, it's rather a simple procedure.
     3. Also click on 'Show Secret key' and copy your 'Secret key'.
 
     4. This is it, you can now configure your Account in the Social Accounts section.
+
+**blogger.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/bloggerhelp "Blogger help with screenshots.")
+
+Basically first you'll need to request the activation from Google of the Blogger API. It takes about 5 working days.
+Once it's activated you'll need to create your 'Client ID' (aka App) which will auto post on your behalf.
+
+
+    1. Browse to this url: https://console.developers.google.com/
+    Select 'API Project', then on left side select 'APIs & auth'. The 'APIs' tab is selected by default.
+    
+    2. Scroll down and locate 'Blogger API v3'.
+    Click the 'OFF' button in order to request the activation. 
+
+    3. After few days you'll receive an email from Google asking to complete the activation.
+    Please follow the steps provided.
+
+    4. Browse to this url again: https://console.developers.google.com/
+    Select 'API Project', then on left side select 'APIs & auth' -> 'Credentials'
+
+    5. Click on 'Create new Client ID'
+
+    6. For 'Application type', select 'Web application'.
+    For 'Authorized Javascript Origins', enter your blog url (ex: http://www.yourblog.com)
+    For 'Authorized Redirect Uri', enter the Url when you're on the settings of MicroblogPoster.
+    It is something like http://www.yourblog.com/wp-admin/options-general.php?page=microblogposter.php
+    Click 'Create Client ID'.
+
+    7. Copy the Client ID and Client secret and configure your account under MicroblogPoster.
+
+    8. MicroblogPoster will provide you a link in order to authorize the App posting on your behalf.
 
 
 == Upgrade Notice ==

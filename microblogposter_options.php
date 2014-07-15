@@ -177,7 +177,7 @@ function microblogposter_settings_output()
         $enabled_custom_updates = $enabled_custom_updates_value;
     }
     
-    $http_auth_sites = array('friendfeed','delicious','diigo');
+    $http_auth_sites = array('friendfeed','delicious','diigo','instapaper');
     $tags_sites = array('delicious','diigo');
     
     $mbp_accounts_tab_selected = false;
@@ -1052,6 +1052,8 @@ function microblogposter_settings_output()
     $description_shortcodes_bookmark = "You can use shortcodes: {TITLE} = Title of the new blog post.";
     $description_shortcodes_bookmark .= " {MANUAL_EXCERPT} = Manually entered post excerpt, otherwise empty string. {EXCERPT} - If provided equals to manual excerpt, otherwise auto generated.";
     $description_shortcodes_bookmark .= " {CONTENT_FIRST_WORDS} = First few words of your content, suitable for twitter-like sites. {AUTHOR} - The author's name.";
+    
+    $description_mandatory_username = "Mandatory. Easily identify it, not used for posting.";
     ?>
     
    
@@ -2531,6 +2533,88 @@ function microblogposter_settings_output()
             </div>
             
         <?php endforeach;?>
+            
+        <div class="social-network-accounts-site">
+            <img src="../wp-content/plugins/microblog-poster/images/instapaper_icon.png" />
+            <h4>Instapaper Accounts</h4>
+        </div>  
+        <?php
+        $sql="SELECT * FROM $table_accounts WHERE type='instapaper'";
+        $rows = $wpdb->get_results($sql);
+        foreach($rows as $row):
+            $update_accounts[] = $row->account_id;
+            $is_raw = MicroblogPoster_SupportEnc::is_enc($row->extra);
+            $extra = json_decode($row->extra, true);
+        ?>
+            <div style="display:none">
+                <div id="update_account<?php echo $row->account_id;?>">
+                    <form id="update_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
+                        <h3 class="new-account-header"><span class="microblogposter-name">MicroblogPoster</span> Plugin</h3>
+                        <div class="delete-wrapper">
+                            Instapaper Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span>
+                        </div>
+                        <div id="delicious-div" class="one-account">
+                            <div class="input-div">
+                                Instapaper Username:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="" name="username" value="<?php echo $row->username;?>" />
+                            </div>
+                            <div class="input-div">
+                                Instapaper Password:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="" name="password" value="<?php echo ($is_raw)? $row->password : MicroblogPoster_SupportEnc::dec($row->password);?>" />
+                            </div>
+                            <div class="input-div">
+                                Message Format:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="message_format" name="message_format" value="<?php echo $row->message_format;?>"/>
+                                <span class="description">Message that's actually posted.</span>
+                            </div>
+                            <div class="input-div">
+
+                            </div>
+                            <div class="input-div-large">
+                                <span class="description-small"><?php echo $description_shortcodes_bookmark;?></span>
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="account_id" value="<?php echo $row->account_id;?>" />
+                        <input type="hidden" name="account_type" value="instapaper" />
+                        <input type="hidden" name="update_account_hidden" value="1" />
+                        <div class="button-holder">
+                            <button type="button" class="button cancel-account" >Cancel</button>
+                            <button type="button" class="button-primary save-account<?php echo $row->account_id;?>" >Save</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <div style="display:none">
+                <div id="delete_account<?php echo $row->account_id;?>">
+                    <form id="delete_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
+                        <div class="delete-wrapper">
+                        Instapaper Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span><br />
+                        <span class="delete-wrapper-del">Delete?</span>
+                        </div>
+                        <input type="hidden" name="account_id" value="<?php echo $row->account_id;?>" />
+                        <input type="hidden" name="account_type" value="instapaper" />
+                        <input type="hidden" name="delete_account_hidden" value="1" />
+                        <div class="button-holder-del">
+                            <button type="button" class="button cancel-account" >Cancel</button>
+                            <button type="button" class="del-account-fb button del-account<?php echo $row->account_id;?>" >Delete</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="account-wrapper">
+                <span class="account-username"><?php echo $row->username;?></span>
+                <span class="edit-account edit<?php echo $row->account_id;?>">Edit</span>
+                <span class="del-account del<?php echo $row->account_id;?>">Del</span>
+            </div>
+        <?php endforeach;?>    
         </div><!--end #social-network-accounts -->
         
         
@@ -2552,6 +2636,7 @@ function microblogposter_settings_output()
                         <option value="linkedin">Linkedin</option>
                         <option value="tumblr">Tumblr</option>
                         <option value="blogger">Blogger</option>
+                        <option value="instapaper">Instapaper</option>
                     </select> 
                     </div>
 
@@ -2765,7 +2850,7 @@ function microblogposter_settings_output()
                         </div>
                         <div class="input-div-large">
                             <input type="text" id="username" name="username" value="" />
-                            <span class="description">Easily identify it later, not used for posting.</span>
+                            <span class="description"><?php echo $description_mandatory_username;?></span>
                         </div>
                         <div class="input-div">
                             Facebook target type:
@@ -2903,7 +2988,7 @@ function microblogposter_settings_output()
                         </div>
                         <div class="input-div-large">
                             <input type="text" id="username" name="username" value="" />
-                            <span class="description">Easily identify it later, not used for posting.</span>
+                            <span class="description"><?php echo $description_mandatory_username;?></span>
                         </div>
                         <div class="input-div">
                             Linkedin target type:
@@ -3000,7 +3085,7 @@ function microblogposter_settings_output()
                         </div>
                         <div class="input-div-large">
                             <input type="text" id="username" name="username" />
-                            <span class="description">Easily identify it later, not used for posting.</span>
+                            <span class="description"><?php echo $description_mandatory_username;?></span>
                         </div>
                         <div class="input-div">
                             Blog Hostname:
@@ -3064,7 +3149,7 @@ function microblogposter_settings_output()
                         </div>
                         <div class="input-div-large">
                             <input type="text" id="username" name="username" />
-                            <span class="description">Easily identify it later, not used for posting.</span>
+                            <span class="description"><?php echo $description_mandatory_username;?></span>
                         </div>
                         <div class="input-div">
                             Blog Id:
@@ -3100,6 +3185,33 @@ function microblogposter_settings_output()
                         <div class="input-div-large">
                             <input type="text" id="" name="consumer_secret" value="" />
                             <span class="description">Your Blogger Client Secret.</span>
+                        </div>
+                    </div>
+                    <div id="instapaper-div" class="one-account">
+                        <div class="input-div">
+                            Instapaper Username:
+                        </div>
+                        <div class="input-div-large">
+                            <input type="text" id="username" name="username" value="" />
+                        </div>
+                        <div class="input-div">
+                            Instapaper Password:
+                        </div>
+                        <div class="input-div-large">
+                            <input type="text" id="" name="password" value="" />
+                        </div>
+                        <div class="input-div">
+                            Message Format:
+                        </div>
+                        <div class="input-div-large">
+                            <input type="text" id="message_format" name="message_format" />
+                            <span class="description">Message that's actually posted.</span>
+                        </div>
+                        <div class="input-div">
+
+                        </div>
+                        <div class="input-div-large">
+                            <span class="description-small"><?php echo $description_shortcodes_bookmark;?></span>
                         </div>
                     </div>
 
@@ -3596,7 +3708,7 @@ function microblogposter_settings_output()
                     'scrolling'	: 'auto',
                     'titleShow'	: false,
                     'onComplete'	: function() {
-                        $('div#fancybox-content #plurk-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div,div#fancybox-content #diigo-div,div#fancybox-content #linkedin-div,div#fancybox-content #tumblr-div,div#fancybox-content #blogger-div').hide().find('input,select').attr('disabled','disabled');
+                        $('div#fancybox-content #plurk-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div,div#fancybox-content #diigo-div,div#fancybox-content #linkedin-div,div#fancybox-content #tumblr-div,div#fancybox-content #blogger-div,div#fancybox-content #instapaper-div').hide().find('input,select').attr('disabled','disabled');
                         
                         $(".save-account").removeAttr('disabled');
                         
@@ -3636,7 +3748,7 @@ function microblogposter_settings_output()
             $("#account_type").live("change", function(){
                 var type = $(this).val();
                 //console.log(type);
-                $('div#fancybox-content #twitter-div,div#fancybox-content #plurk-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div,div#fancybox-content #diigo-div,div#fancybox-content #linkedin-div,div#fancybox-content #tumblr-div,div#fancybox-content #blogger-div').hide().find('input,select').attr('disabled','disabled');
+                $('div#fancybox-content #twitter-div,div#fancybox-content #plurk-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div,div#fancybox-content #diigo-div,div#fancybox-content #linkedin-div,div#fancybox-content #tumblr-div,div#fancybox-content #blogger-div,div#fancybox-content #instapaper-div').hide().find('input,select').attr('disabled','disabled');
                 $('div#fancybox-content #'+type+'-div').show().find('input,select').removeAttr('disabled');
                 $(".save-account").removeAttr('disabled');
                 if(type=='facebook')

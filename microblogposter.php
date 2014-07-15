@@ -4,7 +4,7 @@
  * Plugin Name: Microblog Poster
  * Plugin URI: http://efficientscripts.com/microblogposter
  * Description: Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Linkedin, Plurk, Diigo, Delicious..
- * Version: 1.4.0
+ * Version: 1.4.1
  * Author: Efficient Scripts
  * Author URI: http://efficientscripts.com/
  *
@@ -227,6 +227,7 @@ class MicroblogPoster_Poster
         MicroblogPoster_Poster::update_linkedin($update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_lkn, $featured_image_src_medium);
         MicroblogPoster_Poster::update_tumblr($update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_tmb);
         MicroblogPoster_Poster::update_blogger($update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_tmb);
+        MicroblogPoster_Poster::update_instapaper($post_title, $permalink, $post_content, $post_ID);
         
         MicroblogPoster_Poster::maintain_logs();
     }
@@ -1109,6 +1110,104 @@ class MicroblogPoster_Poster
                 }
             }
         }
+    }
+    
+    /**
+    * Updates status on instapaper.com
+    *
+    * @param   string  $title Text to be posted on microblogging site
+    * @param   string  $link
+    * @param   string  $tags
+    * @param array $post_content 
+    * @return  void
+    */
+    public static function update_instapaper($title, $link, $post_content, $post_ID)
+    {
+	
+        $curl = new MicroblogPoster_Curl();
+        $instapaper_accounts = MicroblogPoster_Poster::get_accounts('instapaper');
+        
+        if(!empty($instapaper_accounts))
+        {
+            foreach($instapaper_accounts as $instapaper_account)
+            {
+                if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account'))
+                {
+                    $active = MicroblogPoster_Poster_Pro::filter_single_account($instapaper_account['account_id']);
+                    if($active === false)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        if(isset($active['message_format']) && $active['message_format'])
+                        {
+                            $instapaper_account['message_format'] = $active['message_format'];
+                        }
+                    }
+                }
+                
+                if($instapaper_account['message_format'])
+                {
+                    $instapaper_account['message_format'] = str_ireplace('{site_url}', '', $instapaper_account['message_format']);
+                    $instapaper_account['message_format'] = str_ireplace('{url}', '', $instapaper_account['message_format']);
+                    $instapaper_account['message_format'] = str_ireplace('{short_url}', '', $instapaper_account['message_format']);
+                    $descr = str_ireplace(MicroblogPoster_Poster::get_shortcodes(), $post_content, $instapaper_account['message_format']);
+                }
+                $is_raw = MicroblogPoster_SupportEnc::is_enc($instapaper_account['extra']);
+                if(!$is_raw)
+                {
+                    $instapaper_account['password'] = MicroblogPoster_SupportEnc::dec($instapaper_account['password']);
+                }
+                
+                $curl->set_credentials($instapaper_account['username'], $instapaper_account['password']);
+                $curl->set_user_agent("Mozilla/6.0 (Windows NT 6.2; WOW64; rv:16.0.1) Gecko/20121011 Firefox/16.0.1");
+
+                $update_message = $descr." - ".$link;
+
+                $url = "https://www.instapaper.com/api/add";
+                $post_args = array(
+                    'title' => $title,
+                    'selection' => $descr,
+                    'url' => $link
+                );
+                
+                $result = $curl->send_post_data($url, $post_args);
+                $action_result = 2;
+                if($result == 201)
+                {
+                    $action_result = 1;
+                    $result = "Success";
+                }
+                elseif($result == 400)
+                {
+                    $result = "Bad request or exceeded the rate limit.";
+                }
+                elseif($result == 403)
+                {
+                    $result = "Please recheck your username/password.";
+                }
+                elseif($result == 500)
+                {
+                    $result = "The service encountered an error. Please try again later.";
+                }
+                else
+                {
+                    $result = "Unknown error.";
+                }
+                
+                $log_data = array();
+                $log_data['account_id'] = $instapaper_account['account_id'];
+                $log_data['account_type'] = "instapaper";
+                $log_data['username'] = $instapaper_account['username'];
+                $log_data['post_id'] = $post_ID;
+                $log_data['action_result'] = $action_result;
+                $log_data['update_message'] = $update_message;
+                $log_data['log_message'] = $result;
+                MicroblogPoster_Poster::insert_log($log_data);
+            }
+        }
+        
     }
     
     /**
