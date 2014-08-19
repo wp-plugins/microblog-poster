@@ -4,7 +4,7 @@
  * Plugin Name: Microblog Poster
  * Plugin URI: http://efficientscripts.com/microblogposter
  * Description: Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Linkedin, Plurk, Diigo, Delicious..
- * Version: 1.4.1
+ * Version: 1.4.2
  * Author: Efficient Scripts
  * Author URI: http://efficientscripts.com/
  *
@@ -14,6 +14,7 @@
 require_once "microblogposter_curl.php";
 require_once "microblogposter_oauth.php";
 require_once "microblogposter_bitly.php";
+require_once "microblogposter_googl.php";
 
 
 
@@ -154,22 +155,40 @@ class MicroblogPoster_Poster
         $post_content[] = $post_title;
         $post_content[] = $permalink;
         
-        $bitly_api = new MicroblogPoster_Bitly();
-        $bitly_api_user_value = get_option("microblogposter_plg_bitly_api_user", "");
-        $bitly_api_key_value = get_option("microblogposter_plg_bitly_api_key", "");
-        $bitly_access_token_value = get_option("microblogposter_plg_bitly_access_token", "");
+        $url_shortener_name = "microblogposter_plg_url_shortener";
+        $url_shortener_value = get_option($url_shortener_name, "default");
         $shortened_permalink = '';
-        if( ($bitly_api_user_value and $bitly_api_key_value) or $bitly_access_token_value )
+        if($url_shortener_value == "default" || $url_shortener_value == "bitly")
         {
-            $bitly_api->setCredentials($bitly_api_user_value, $bitly_api_key_value, $bitly_access_token_value);
-            $shortened_permalink = $bitly_api->shorten($permalink);
+            $bitly_api = new MicroblogPoster_Bitly();
+            $bitly_api_user_value = get_option("microblogposter_plg_bitly_api_user", "");
+            $bitly_api_key_value = get_option("microblogposter_plg_bitly_api_key", "");
+            $bitly_access_token_value = get_option("microblogposter_plg_bitly_access_token", "");
+            if( ($bitly_api_user_value and $bitly_api_key_value) or $bitly_access_token_value )
+            {
+                $bitly_api->setCredentials($bitly_api_user_value, $bitly_api_key_value, $bitly_access_token_value);
+                $shortened_permalink = $bitly_api->shorten($permalink);
+                if($shortened_permalink)
+                {
+                    $update = $post_title . " $shortened_permalink";
+                    $permalink = $shortened_permalink;
+
+                }
+            }
+        }
+        elseif($url_shortener_value == "googl")
+        {
+            $googl_api = new MicroblogPoster_Googl();
+            $shortened_permalink = $googl_api->shorten($permalink);
             if($shortened_permalink)
             {
                 $update = $post_title . " $shortened_permalink";
                 $permalink = $shortened_permalink;
-                
+
             }
         }
+        
+        
 	$post_content[] = $shortened_permalink;
         
         $post_excerpt_manual = '';
@@ -216,18 +235,24 @@ class MicroblogPoster_Poster
 	}
 	$tags = rtrim($tags,',');
         
+        $dash = 0;
+        if(isset($_POST['mbp_control_dashboard_microblogposter']) && trim($_POST['mbp_control_dashboard_microblogposter']) == '1')
+        {
+            $dash = 1;
+        }
+        
         @ini_set('max_execution_time', '0');
         
-        MicroblogPoster_Poster::update_twitter($update, $post_content, $post_ID);
-        MicroblogPoster_Poster::update_plurk($update, $post_content, $post_ID);
-	MicroblogPoster_Poster::update_delicious($post_title, $permalink, $tags, $post_content, $post_ID);
-        MicroblogPoster_Poster::update_friendfeed($post_title, $permalink, $post_content, $post_ID);
-        MicroblogPoster_Poster::update_facebook($update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_lkn, $featured_image_src_thumbnail);
-        MicroblogPoster_Poster::update_diigo($post_title, $permalink, $tags, $post_content, $post_ID);
-        MicroblogPoster_Poster::update_linkedin($update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_lkn, $featured_image_src_medium);
-        MicroblogPoster_Poster::update_tumblr($update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_tmb);
-        MicroblogPoster_Poster::update_blogger($update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_tmb);
-        MicroblogPoster_Poster::update_instapaper($post_title, $permalink, $post_content, $post_ID);
+        MicroblogPoster_Poster::update_twitter($dash, $update, $post_content, $post_ID);
+        MicroblogPoster_Poster::update_plurk($dash, $update, $post_content, $post_ID);
+	MicroblogPoster_Poster::update_delicious($dash, $post_title, $permalink, $tags, $post_content, $post_ID);
+        MicroblogPoster_Poster::update_friendfeed($dash, $post_title, $permalink, $post_content, $post_ID);
+        MicroblogPoster_Poster::update_facebook($dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_lkn, $featured_image_src_thumbnail);
+        MicroblogPoster_Poster::update_diigo($dash, $post_title, $permalink, $tags, $post_content, $post_ID);
+        MicroblogPoster_Poster::update_linkedin($dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_lkn, $featured_image_src_medium);
+        MicroblogPoster_Poster::update_tumblr($dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_tmb);
+        MicroblogPoster_Poster::update_blogger($dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_tmb);
+        MicroblogPoster_Poster::update_instapaper($dash, $post_title, $permalink, $post_content, $post_ID);
         
         MicroblogPoster_Poster::maintain_logs();
     }
@@ -239,7 +264,7 @@ class MicroblogPoster_Poster
     * @param array $post_content
     * @return void
     */
-    public static function update_twitter($update, $post_content, $post_ID)
+    public static function update_twitter($dash, $update, $post_content, $post_ID)
     {   
         
         $twitter_accounts = MicroblogPoster_Poster::get_accounts('twitter');
@@ -248,7 +273,7 @@ class MicroblogPoster_Poster
         {
             foreach($twitter_accounts as $twitter_account)
             {
-                if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account'))
+                if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account') && $dash == 1)
                 {
                     $active = MicroblogPoster_Poster_Pro::filter_single_account($twitter_account['account_id']);
                     if($active === false)
@@ -308,7 +333,7 @@ class MicroblogPoster_Poster
     * @param array $post_content
     * @return void
     */
-    public static function update_plurk($update, $post_content, $post_ID)
+    public static function update_plurk($dash, $update, $post_content, $post_ID)
     {   
         
         $plurk_accounts = MicroblogPoster_Poster::get_accounts('plurk');
@@ -317,7 +342,7 @@ class MicroblogPoster_Poster
         {
             foreach($plurk_accounts as $plurk_account)
             {
-                if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account'))
+                if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account') && $dash == 1)
                 {
                     $active = MicroblogPoster_Poster_Pro::filter_single_account($plurk_account['account_id']);
                     if($active === false)
@@ -390,7 +415,7 @@ class MicroblogPoster_Poster
     * @param array $post_content 
     * @return  void
     */
-    public static function update_delicious($title, $link, $tags, $post_content, $post_ID)
+    public static function update_delicious($dash, $title, $link, $tags, $post_content, $post_ID)
     {
 	
         $curl = new MicroblogPoster_Curl();
@@ -400,7 +425,7 @@ class MicroblogPoster_Poster
         {
             foreach($delicious_accounts as $delicious_account)
             {
-                if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account'))
+                if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account') && $dash == 1)
                 {
                     $active = MicroblogPoster_Poster_Pro::filter_single_account($delicious_account['account_id']);
                     if($active === false)
@@ -479,7 +504,7 @@ class MicroblogPoster_Poster
     * @param   array $post_content
     * @return  void
     */
-    public static function update_friendfeed($title, $link, $post_content, $post_ID)
+    public static function update_friendfeed($dash, $title, $link, $post_content, $post_ID)
     {
 	
 	$curl = new MicroblogPoster_Curl();
@@ -489,7 +514,7 @@ class MicroblogPoster_Poster
         {
             foreach($friendfeed_accounts as $friendfeed_account)
             {
-                if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account'))
+                if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account') && $dash == 1)
                 {
                     $active = MicroblogPoster_Poster_Pro::filter_single_account($friendfeed_account['account_id']);
                     if($active === false)
@@ -561,7 +586,7 @@ class MicroblogPoster_Poster
     * @param array $post_content 
     * @return void
     */
-    public static function update_facebook($update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual, $featured_image_src)
+    public static function update_facebook($dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual, $featured_image_src)
     {
         
         $curl = new MicroblogPoster_Curl();
@@ -571,7 +596,7 @@ class MicroblogPoster_Poster
         {
             foreach($facebook_accounts as $facebook_account)
             {
-                if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account'))
+                if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account') && $dash == 1)
                 {
                     $active = MicroblogPoster_Poster_Pro::filter_single_account($facebook_account['account_id']);
                     if($active === false)
@@ -687,7 +712,7 @@ class MicroblogPoster_Poster
     * @param array $post_content 
     * @return  void
     */
-    public static function update_diigo($title, $link, $tags, $post_content, $post_ID)
+    public static function update_diigo($dash, $title, $link, $tags, $post_content, $post_ID)
     {
 	
         $curl = new MicroblogPoster_Curl();
@@ -697,7 +722,7 @@ class MicroblogPoster_Poster
         {
             foreach($diigo_accounts as $diigo_account)
             {
-                if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account'))
+                if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account') && $dash == 1)
                 {
                     $active = MicroblogPoster_Poster_Pro::filter_single_account($diigo_account['account_id']);
                     if($active === false)
@@ -784,7 +809,7 @@ class MicroblogPoster_Poster
     * @param array $post_content 
     * @return void
     */
-    public static function update_linkedin($update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual, $featured_image_src)
+    public static function update_linkedin($dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual, $featured_image_src)
     {
         
         $curl = new MicroblogPoster_Curl();
@@ -794,7 +819,7 @@ class MicroblogPoster_Poster
         {
             foreach($linkedin_accounts as $linkedin_account)
             {
-                if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account'))
+                if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account') && $dash == 1)
                 {
                     $active = MicroblogPoster_Poster_Pro::filter_single_account($linkedin_account['account_id']);
                     if($active === false)
@@ -925,7 +950,7 @@ class MicroblogPoster_Poster
     * @param array $post_content
     * @return void
     */
-    public static function update_tumblr($update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual)
+    public static function update_tumblr($dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual)
     {   
         
         $tumblr_accounts = MicroblogPoster_Poster::get_accounts('tumblr');
@@ -934,7 +959,7 @@ class MicroblogPoster_Poster
         {
             foreach($tumblr_accounts as $tumblr_account)
             {
-                if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account'))
+                if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account') && $dash == 1)
                 {
                     $active = MicroblogPoster_Poster_Pro::filter_single_account($tumblr_account['account_id']);
                     if($active === false)
@@ -1016,7 +1041,7 @@ class MicroblogPoster_Poster
     * @param array $post_content
     * @return void
     */
-    public static function update_blogger($update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual)
+    public static function update_blogger($dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual)
     {
         $blogger_accounts = MicroblogPoster_Poster::get_accounts('blogger');
         
@@ -1024,7 +1049,7 @@ class MicroblogPoster_Poster
         {
             foreach($blogger_accounts as $blogger_account)
             {
-                if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account'))
+                if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account') && $dash == 1)
                 {
                     $active = MicroblogPoster_Poster_Pro::filter_single_account($blogger_account['account_id']);
                     if($active === false)
@@ -1121,7 +1146,7 @@ class MicroblogPoster_Poster
     * @param array $post_content 
     * @return  void
     */
-    public static function update_instapaper($title, $link, $post_content, $post_ID)
+    public static function update_instapaper($dash, $title, $link, $post_content, $post_ID)
     {
 	
         $curl = new MicroblogPoster_Curl();
@@ -1131,7 +1156,7 @@ class MicroblogPoster_Poster
         {
             foreach($instapaper_accounts as $instapaper_account)
             {
-                if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account'))
+                if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account') && $dash == 1)
                 {
                     $active = MicroblogPoster_Poster_Pro::filter_single_account($instapaper_account['account_id']);
                     if($active === false)

@@ -3,7 +3,7 @@ Contributors: cybperic
 Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, blogger, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
 Requires at least: 3.0
 Tested up to: 3.9
-Stable tag: 1.4.1
+Stable tag: 1.4.2
 
 Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Linkedin, Tumblr, Diigo, Delicious..
 
@@ -63,6 +63,10 @@ Additional features are available with the [Pro Add-on](http://efficientscripts.
 3. MicroblogPoster Options page, Logs Section.
 
 == Changelog ==
+
+= 1.4.2 (19-08-2014) =
+- Added support for goo.gl url shortener.
+- Improved auto posting for scheduled items.
 
 = 1.4.1 (15-07-2014) =
 - Added support for instapaper auto publish.
@@ -178,12 +182,12 @@ No worries, it's rather a simple procedure.
     1. To auto post updates through the Twitter API you'll need
     to create your own Twitter App here: https://apps.twitter.com/
     
-    2. Once, you have created your Twitter App you have to change its Access Level
+    2. Once you have created your Twitter App you have to change its Access Level
     to be Read and Write. 
     Browse to the settings tab and click on 'Modify App Permissions'.
     Check the Access Level to be Read and Write. Save your Settings.
 
-    3. Once, this is done return to the API Keys tab, at the bottom you 
+    3. Once this is done return to the API Keys tab, at the bottom you 
     should have a button 'Create My Access token', please do it.
 
     4. Now, on the API Keys tab you have all what you need, 
@@ -198,7 +202,7 @@ No worries, it's rather a simple procedure.
 It's most likely the same as for twitter, you'll need some more effort in order to post updates through Plurk Api.
 
 
-    1. Please go at this url http://www.plurk.com/PlurkApp/ 
+    1. Please browse to this url http://www.plurk.com/PlurkApp/ 
     and click on 'Create a New Plurk App'.
     For App Type choose 'Third-party web site integration'. 
     For App Website you can put http://localhost
@@ -229,7 +233,7 @@ It's most likely the same as for twitter, you'll need some more effort in order 
 Please note that only real personal Facebook accounts have permissions to create an App.
 Business accounts can't manage Facebook Apps.
 
-    1. Please go at this url https://developers.facebook.com/apps 
+    1. Please browse to this url https://developers.facebook.com/apps 
     and click on 'Apps' -> 'Create new App'.
     Note: If you can not click on 'Create new App', you'll need first 
     to 'Register as a Developer'.
@@ -271,14 +275,14 @@ Instead of the password, the Friendfeed API requires the Remote Key to let you p
 
 In addition to your username and password you will need to create your own Diigo App and generate an API Key.
 
-    1. Browse to this Url: https://www.diigo.com/api_keys/new/
+    1. Please browse to this Url: https://www.diigo.com/api_keys/new/
     and generate your Diigo API Key. (You need to be logged in)
 
 
 **linkedin.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/linkedinhelp "Linkedin help with screenshots.")
 
 
-    1. Please go at this Url https://www.linkedin.com/secure/developer
+    1. Please browse to this Url https://www.linkedin.com/secure/developer
     and click on 'Add New Application'.
 
     2. Fill in the required informations.
@@ -299,10 +303,10 @@ Basically your tumblr username and password won't suffice in order to post autom
 No worries, it's rather a simple procedure.
 
 
-    1. In order to post updates through the tumblr Api you'll need first
+    1. To post updates through the tumblr Api you'll need first
     to create your own tumblr App here: http://www.tumblr.com/oauth/apps
     
-    2. Once you have created your tumblr App copy your 'OAuth Consumer key'.
+    2. Once, you have created your tumblr App copy your 'OAuth Consumer key'.
 
     3. Also click on 'Show Secret key' and copy your 'Secret key'.
 
@@ -314,7 +318,7 @@ Basically first you'll need to request the activation from Google of the Blogger
 Once it's activated you'll need to create your 'Client ID' (aka App) which will auto post on your behalf.
 
 
-    1. Browse to this url: https://console.developers.google.com/
+    1. Please browse to this url: https://console.developers.google.com/
     Select 'API Project', then on left side select 'APIs & auth'. The 'APIs' tab is selected by default.
     
     2. Scroll down and locate 'Blogger API v3'.
@@ -323,7 +327,7 @@ Once it's activated you'll need to create your 'Client ID' (aka App) which will 
     3. After few days you'll receive an email from Google asking to complete the activation.
     Please follow the steps provided.
 
-    4. Browse to this url again: https://console.developers.google.com/
+    4. Please browse to this url again: https://console.developers.google.com/
     Select 'API Project', then on left side select 'APIs & auth' -> 'Credentials'
 
     5. Click on 'Create new Client ID'
@@ -354,5 +358,4 @@ In order to avoid it, please limit the number of social accounts based on your e
 = The PHP cURL extension is required? =
 
 Yes, otherwise the plugin simply won't function at all.
-
 

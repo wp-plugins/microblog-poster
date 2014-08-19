@@ -25,9 +25,13 @@ function microblogposter_settings_output()
     $table_logs = $wpdb->prefix . 'microblogposter_logs';
     
     //Options names
+    $url_shortener_name = "microblogposter_plg_url_shortener";
     $bitly_api_user_name = "microblogposter_plg_bitly_api_user";
     $bitly_api_key_name = "microblogposter_plg_bitly_api_key";
     $bitly_access_token_name = "microblogposter_plg_bitly_access_token";
+    $googl_api_client_id_name = "microblogposter_plg_googl_api_client_id";
+    $googl_api_client_secret_name = "microblogposter_plg_googl_api_client_secret";
+    $googl_api_refresh_token_name = "microblogposter_plg_googl_api_refresh_token";//not used in same manner
     $default_behavior_name = "microblogposter_default_behavior";
     $default_behavior_update_name = "microblogposter_default_behavior_update";
     $default_pbehavior_name = "microblogposter_default_pbehavior";
@@ -43,9 +47,12 @@ function microblogposter_settings_output()
     $shortcode_excerpt_max_length_name = "microblogposter_plg_shortcode_excerpt_max_length";
     
     
+    $url_shortener_value = get_option($url_shortener_name, "");
     $bitly_api_user_value = get_option($bitly_api_user_name, "");
     $bitly_api_key_value = get_option($bitly_api_key_name, "");
     $bitly_access_token_value = get_option($bitly_access_token_name, "");
+    $googl_api_client_id_value = get_option($googl_api_client_id_name, "");
+    $googl_api_client_secret_value = get_option($googl_api_client_secret_name, "");
     $default_behavior_value = get_option($default_behavior_name, "");
     $default_behavior_update_value = get_option($default_behavior_update_name, "");
     $default_pbehavior_value = get_option($default_pbehavior_name, "");
@@ -91,9 +98,12 @@ function microblogposter_settings_output()
     
     if(isset($_POST["update_options"]))
     {
+        $url_shortener_value = $_POST[$url_shortener_name];
         $bitly_api_user_value = trim($_POST[$bitly_api_user_name]);
         $bitly_api_key_value = trim($_POST[$bitly_api_key_name]);
         $bitly_access_token_value = trim($_POST[$bitly_access_token_name]);
+        $googl_api_client_id_value = trim($_POST[$googl_api_client_id_name]);
+        $googl_api_client_secret_value = trim($_POST[$googl_api_client_secret_name]);
         $default_behavior_value = $_POST[$default_behavior_name];
         $default_behavior_update_value = $_POST[$default_behavior_update_name];
         $default_pbehavior_value = $_POST[$default_pbehavior_name];
@@ -125,9 +135,12 @@ function microblogposter_settings_output()
             $shortcode_excerpt_max_length_value = $shortcode_excerpt_max_length_value_temp;
         }
         
+        update_option($url_shortener_name, $url_shortener_value);
         update_option($bitly_api_user_name, $bitly_api_user_value);
         update_option($bitly_api_key_name, $bitly_api_key_value);
         update_option($bitly_access_token_name, $bitly_access_token_value);
+        update_option($googl_api_client_id_name, $googl_api_client_id_value);
+        update_option($googl_api_client_secret_name, $googl_api_client_secret_value);
         update_option($default_behavior_name, $default_behavior_value);
         update_option($default_behavior_update_name, $default_behavior_update_value);
         
@@ -539,6 +552,7 @@ function microblogposter_settings_output()
     $redirect_uri = $protocol.'://'.$server_name.$request_uri;
     $code = null;
     $redirect_after_auth = false;
+    $redirect_after_auth1 = false;
     if(isset($_GET['state']) && isset($_GET['code']))
     {
         $mbp_accounts_tab_selected = true;
@@ -840,6 +854,53 @@ function microblogposter_settings_output()
             }
             
         }
+        elseif(preg_match('|^googl_microblogposter_plg|i',trim($_GET['state'])))
+        {
+            $code = trim($_GET['code']);
+            
+            $googl_api_client_id_value = get_option($googl_api_client_id_name, "");
+            $googl_api_client_secret_value = get_option($googl_api_client_secret_name, "");
+
+            $log_data = array();
+            $log_data['account_id'] = 0;
+            $log_data['account_type'] = "goo.gl";
+            $log_data['username'] = 'None';
+            $log_data['post_id'] = 0;
+            $log_data['action_result'] = 0;
+            $log_data['update_message'] = 'Goo.gl Authorization';
+
+            if($code)
+            {
+                $url = "https://accounts.google.com/o/oauth2/token";
+                $post_args = array(
+                    'grant_type' => 'authorization_code',
+                    'code' => $code,
+                    'redirect_uri' => $redirect_uri,
+                    'client_id' => $googl_api_client_id_value,
+                    'client_secret' => $googl_api_client_secret_value
+                );
+
+                $curl = new MicroblogPoster_Curl();
+                $json_res = $curl->send_post_data($url, $post_args);
+                $response = json_decode($json_res, true);
+
+                if(isset($response['refresh_token']) && isset($response['token_type']) && $response['token_type'] == 'Bearer')
+                {
+                    update_option($googl_api_refresh_token_name, $response['refresh_token']);
+                }
+                elseif(isset($response['access_token']) && isset($response['token_type']) && $response['token_type'] == 'Bearer')
+                {
+                    
+                }
+                else
+                {
+                    $log_data['log_message'] = $json_res;
+                    MicroblogPoster_Poster::insert_log($log_data);
+                }
+
+                $redirect_after_auth1 = true;
+            }
+        }
     }
     if(isset($_GET['microblogposter_auth_tumblr']) && isset($_GET['account_id']))
     {
@@ -1108,7 +1169,16 @@ function microblogposter_settings_output()
                 <table class="form-table">
                     <tr>
                         <td colspan="2">
-                            <h3>Your <img src="../wp-content/plugins/microblog-poster/images/bitly_icon.png" /> Credentials: <span class="description"> <a href="http://efficientscripts.com/help/microblogposter/bitlyhelp" target="_blank">Help with screenshots</a></span></h3>
+                            <h3><span class="wp-blue-title">Url Shortener :</span></h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            
+                            <h3>
+                                <input type="radio" name="<?php echo $url_shortener_name;?>" value="bitly" <?php if($url_shortener_value == 'bitly') echo 'checked';?> />
+                                Your <img src="../wp-content/plugins/microblog-poster/images/bitly_icon.png" /> Credentials: <span class="description"> <a href="http://efficientscripts.com/help/microblogposter/bitlyhelp" target="_blank">Help with screenshots</a></span>
+                            </h3>
 
                         </td>
                     </tr>
@@ -1130,6 +1200,43 @@ function microblogposter_settings_output()
                     </tr>
                     <tr>
                         <td colspan="2" class="padding-top-bottom">The combination of username/API key for authenticating with Bitly is now <span class="mbp-deprecated">deprecated</span> (still works).<br /> Recommended way is the oauth access token only authentication.</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            
+                            <h3>
+                                <input type="radio" name="<?php echo $url_shortener_name;?>" value="googl" <?php if($url_shortener_value == 'googl') echo 'checked';?> />
+                                Your <img src="../wp-content/plugins/microblog-poster/images/googl_icon.png" /> Credentials: <span class="description"> <a href="http://efficientscripts.com/help/microblogposter/googlhelp" target="_blank">Help with screenshots</a></span>
+                            </h3>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-input padding-left">Goo.gl Client ID:</td>
+                        <td><input type="text" id="<?php echo $googl_api_client_id_name;?>" name="<?php echo $googl_api_client_id_name;?>" value="<?php echo $googl_api_client_id_value;?>" size="35" /></td>
+                    </tr>
+                    <tr>
+                        <td class="label-input padding-left">Goo.gl Client Secret:</td>
+                        <td><input type="text" id="<?php echo $googl_api_client_secret_name;?>" name="<?php echo $googl_api_client_secret_name;?>" value="<?php echo $googl_api_client_secret_value;?>" size="35" /></td>
+                    </tr>
+                    <tr>
+                        <?php
+                            $googl_api_refresh_token_value = get_option($googl_api_refresh_token_name, "");
+                            $googl_authorize_url = "https://accounts.google.com/o/oauth2/auth?response_type=code&client_id={$googl_api_client_id_value}&redirect_uri={$redirect_uri}&state=googl_microblogposter_plg&scope=https://www.googleapis.com/auth/urlshortener&access_type=offline";
+                        ?>
+                        <td colspan="2" class="padding-left padding-top1-bottom authorization">
+                            <?php if($googl_api_refresh_token_value && $googl_api_client_id_value && $googl_api_client_secret_value):?>
+                            <div>
+                                Authorization is valid permanently.&nbsp;Refresh only if you changed Client ID and Client Secret.<br />
+                                <a href="<?php echo $googl_authorize_url; ?>" >Refresh authorization now</a>
+                            </div>
+                            <?php elseif($googl_api_client_id_value && $googl_api_client_secret_value):?>
+                            <div><br />Please authorize before you can shorten urls.&nbsp;<a href="<?php echo $googl_authorize_url; ?>" >Authorize</a></div>
+                            <?php endif;?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="padding-top-bottom">Please <span class="mbp-deprecated">Save the Client ID and Client Secret first</span> then you can Authorize/Re-Authorize the goo.gl account.</td>
                     </tr>
                     <tr>
                         <td colspan="2">
@@ -3256,9 +3363,18 @@ function microblogposter_settings_output()
             padding-top: 25px;
             padding-bottom: 25px;
         }
+        .form-table td.padding-top1-bottom
+        {
+            padding-top: 10px;
+            padding-bottom: 25px;
+        }
         .form-table td.row-sep
         {
             padding-bottom: 25px;
+        }
+        .form-table td.authorization
+        {
+            font-size: 13px;
         }
         .button-holder
         {
@@ -3998,6 +4114,10 @@ function microblogposter_settings_output()
             
             <?php if($redirect_after_auth):?>
                 window.location = "<?php echo $redirect_uri.'&t=2';?>";
+            <?php endif;?>
+                
+            <?php if($redirect_after_auth1):?>
+                window.location = "<?php echo $redirect_uri;?>";
             <?php endif;?>
         });
         
