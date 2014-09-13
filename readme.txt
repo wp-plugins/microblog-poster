@@ -355,9 +355,11 @@ Warning about inherent php script execution time limitation that some Hosting Pr
 Since *MicroblogPoster* needs time to update all your social accounts when publishing a new blog post, this limit might be reached and script execution stopped.
 In order to avoid it, please limit the number of social accounts based on your environment script execution time limit.
 
-= The PHP cURL extension is required? =
+= My blog is hosted on shared hosting, can I use MicroblogPoster? =
 
-Yes, otherwise the plugin simply won't function at all.
+Warning about inherent php script execution time limitation that some Hosting Providers apply on shared accounts (max_execution_time PHP setting). 
+Since *MicroblogPoster* needs time to update all your social accounts when publishing a new blog post, this limit might be reached and script execution stopped.
+In order to avoid it, please limit the number of social accounts based on your environment script execution time limit.
 
 = The PHP cURL extension is required? =
 
