@@ -42,6 +42,7 @@ There's a general agreement in the SEO community that social signals strengthen 
 see "posted by MicroblogPoster" in your updates, you'll see "posted by your own App name" or simply "by API".
 
 Additional features are available with **MicroblogPoster**'s Add-ons:
+
 [Compare Versions](http://efficientscripts.com/microblogposteraddons "MicroblogPoster's Add-ons Page")
 
 
