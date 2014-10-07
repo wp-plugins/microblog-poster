@@ -41,8 +41,7 @@ There's a general agreement in the SEO community that social signals strengthen 
 **MicroblogPoster** is simply an intermediary between your blog and your own social network accounts. You'll never
 see "posted by MicroblogPoster" in your updates, you'll see "posted by your own App name" or simply "by API".
 
-Additional features are available with **MicroblogPoster**'s Add-ons:
-
+**MicroblogPoster**'s Add-ons bring Additional Features: 
 [Compare Versions](http://efficientscripts.com/microblogposteraddons "MicroblogPoster's Add-ons Page")
 
 
