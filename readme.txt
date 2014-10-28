@@ -3,7 +3,7 @@ Contributors: cybperic
 Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, blogger, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
 Requires at least: 3.0
 Tested up to: 4.0
-Stable tag: 1.4.3
+Stable tag: 1.4.4
 
 Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Linkedin, Tumblr, Diigo, Delicious..
 
@@ -41,7 +41,8 @@ There's a general agreement in the SEO community that social signals strengthen 
 **MicroblogPoster** is simply an intermediary between your blog and your own social network accounts. You'll never
 see "posted by MicroblogPoster" in your updates, you'll see "posted by your own App name" or simply "by API".
 
-Additional features are available with the [Pro / Enterprise Add-on](http://efficientscripts.com/microblogposteraddons "MicroblogPoster's Add-ons Page").
+**MicroblogPoster**'s Add-ons bring Additional Features: 
+[Compare Versions](http://efficientscripts.com/microblogposteraddons "MicroblogPoster's Add-ons Page")
 
 
 **MicroblogPoster** in few words:
@@ -63,6 +64,11 @@ Additional features are available with the [Pro / Enterprise Add-on](http://effi
 3. MicroblogPoster Options page, Logs Section.
 
 == Changelog ==
+
+= 1.4.4 (28-10-2014) =
+- Added support for new lines in message format field.
+- Fixed bug about tumblr.com accounts when edited.
+- Added more url shorteners in Enterprise version.
 
 = 1.4.3 (30-09-2014) =
 - Adapted the free version of the plugin to work together with the new Enterprise add-on. Additional features available.
@@ -357,10 +363,6 @@ Deactivate/Activate MicroblogPoster plugin.
 Warning about inherent php script execution time limitation that some Hosting Providers apply on shared accounts (max_execution_time PHP setting). 
 Since *MicroblogPoster* needs time to update all your social accounts when publishing a new blog post, this limit might be reached and script execution stopped.
 In order to avoid it, please limit the number of social accounts based on your environment script execution time limit.
-
-= The PHP cURL extension is required? =
-
-Yes, otherwise the plugin simply won't function at all.
 
 = The PHP cURL extension is required? =
 

@@ -4,7 +4,7 @@
  * Plugin Name: Microblog Poster
  * Plugin URI: http://efficientscripts.com/microblogposter
  * Description: Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Linkedin, Plurk, Diigo, Delicious..
- * Version: 1.4.3
+ * Version: 1.4.4
  * Author: Efficient Scripts
  * Author URI: http://efficientscripts.com/
  *
@@ -157,63 +157,19 @@ class MicroblogPoster_Poster
         $post_content[] = $post_title;
         $post_content[] = $permalink;
         
-        $url_shortener_name = "microblogposter_plg_url_shortener";
-        $url_shortener_value = get_option($url_shortener_name, "default");
         $shortened_permalink = '';
         $shortened_permalink_twitter = '';
-        if($url_shortener_value == "default" || $url_shortener_value == "bitly")
+        $short_url_results = MicroblogPoster_Poster::shorten_long_url($permalink);
+        if($short_url_results['shortened_permalink'])
         {
-            $bitly_api = new MicroblogPoster_Bitly();
-            $bitly_api_user_value = get_option("microblogposter_plg_bitly_api_user", "");
-            $bitly_api_key_value = get_option("microblogposter_plg_bitly_api_key", "");
-            $bitly_access_token_value = get_option("microblogposter_plg_bitly_access_token", "");
-            if( ($bitly_api_user_value and $bitly_api_key_value) or $bitly_access_token_value )
-            {
-                $bitly_api->setCredentials($bitly_api_user_value, $bitly_api_key_value, $bitly_access_token_value);
-                $shortened_permalink = $bitly_api->shorten($permalink);
-                if($shortened_permalink)
-                {
-                    $update = $post_title . " $shortened_permalink";
-                    $permalink = $shortened_permalink;
-                    $shortened_permalink_twitter = $shortened_permalink;
-                }
-            }
+            $shortened_permalink = $short_url_results['shortened_permalink'];
+            $update = $post_title . " $shortened_permalink";
+            $permalink = $shortened_permalink;
         }
-        elseif($url_shortener_value == "googl")
+        if($short_url_results['shortened_permalink_twitter'])
         {
-            $googl_api = new MicroblogPoster_Googl();
-            $shortened_permalink = $googl_api->shorten($permalink);
-            if($shortened_permalink)
-            {
-                $update = $post_title . " $shortened_permalink";
-                $permalink = $shortened_permalink;
-                $shortened_permalink_twitter = $shortened_permalink;
-            }
+            $shortened_permalink_twitter = $short_url_results['shortened_permalink_twitter'];
         }
-        elseif($url_shortener_value == "adfly")
-        {
-            if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Enterprise','shorten_with_adfly'))
-            {
-                $shortened_permalink = MicroblogPoster_Poster_Enterprise::shorten_with_adfly($permalink, false);
-                if($shortened_permalink)
-                {
-                    $adfly_api_domain_name = "microblogposter_plg_adfly_api_domain_type";
-                    $adfly_api_domain_value = get_option($adfly_api_domain_name, "");
-                    if($adfly_api_domain_value == 'adfly')
-                    {
-                        $shortened_permalink_twitter = MicroblogPoster_Poster_Enterprise::shorten_with_adfly($permalink, true);
-                    }
-                    else
-                    {
-                        $shortened_permalink_twitter = $shortened_permalink;
-                    }
-                    
-                    $update = $post_title . " $shortened_permalink";
-                    $permalink = $shortened_permalink;
-                }
-            }
-        }
-        
         
 	$post_content[] = $shortened_permalink;
         
@@ -1602,6 +1558,89 @@ class MicroblogPoster_Poster
         $result = $curl->send_post_data($url, $parameters);
         return $result;
     
+    }
+    
+    /**
+    * Shorten long url
+    *
+    * @param   string  $long_url
+    * @return  array
+    */
+    public static function shorten_long_url($long_url)
+    {
+        $url_shortener_name = "microblogposter_plg_url_shortener";
+        $url_shortener_value = get_option($url_shortener_name, "default");
+        $shortened_permalink = '';
+        $shortened_permalink_twitter = '';
+        if($url_shortener_value == "default" || $url_shortener_value == "bitly")
+        {
+            $bitly_api = new MicroblogPoster_Bitly();
+            $bitly_api_user_value = get_option("microblogposter_plg_bitly_api_user", "");
+            $bitly_api_key_value = get_option("microblogposter_plg_bitly_api_key", "");
+            $bitly_access_token_value = get_option("microblogposter_plg_bitly_access_token", "");
+            if( ($bitly_api_user_value and $bitly_api_key_value) or $bitly_access_token_value )
+            {
+                $bitly_api->setCredentials($bitly_api_user_value, $bitly_api_key_value, $bitly_access_token_value);
+                $shortened_permalink = $bitly_api->shorten($long_url);
+                if($shortened_permalink)
+                {
+                    $shortened_permalink_twitter = $shortened_permalink;
+                }
+            }
+        }
+        elseif($url_shortener_value == "googl")
+        {
+            $googl_api = new MicroblogPoster_Googl();
+            $shortened_permalink = $googl_api->shorten($long_url);
+            if($shortened_permalink)
+            {
+                $shortened_permalink_twitter = $shortened_permalink;
+            }
+        }
+        elseif($url_shortener_value == "adfly")
+        {
+            if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Enterprise','shorten_with_adfly'))
+            {
+                $shortened_permalink = MicroblogPoster_Poster_Enterprise::shorten_with_adfly($long_url, false);
+                if($shortened_permalink)
+                {
+                    $adfly_api_domain_name = "microblogposter_plg_adfly_api_domain_type";
+                    $adfly_api_domain_value = get_option($adfly_api_domain_name, "");
+                    if($adfly_api_domain_value == 'adfly')
+                    {
+                        $shortened_permalink_twitter = MicroblogPoster_Poster_Enterprise::shorten_with_adfly($long_url, true);
+                    }
+                    else
+                    {
+                        $shortened_permalink_twitter = $shortened_permalink;
+                    }
+                }
+            }
+        }
+        elseif($url_shortener_value == "adfocus")
+        {
+            if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Enterprise','shorten_with_adfocus'))
+            {
+                $shortened_permalink = MicroblogPoster_Poster_Enterprise::shorten_with_adfocus($long_url);
+                if($shortened_permalink)
+                {
+                    $shortened_permalink_twitter = $shortened_permalink;
+                }
+            }
+        }
+        elseif($url_shortener_value == "ppw")
+        {
+            if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Enterprise','shorten_with_ppw'))
+            {
+                $shortened_permalink = MicroblogPoster_Poster_Enterprise::shorten_with_ppw($long_url);
+                if($shortened_permalink)
+                {
+                    $shortened_permalink_twitter = $shortened_permalink;
+                }
+            }
+        }
+        return array('shortened_permalink' => $shortened_permalink,
+                    'shortened_permalink_twitter' => $shortened_permalink_twitter);
     }
     
     /**

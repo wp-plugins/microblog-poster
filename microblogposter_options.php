@@ -36,6 +36,8 @@ function microblogposter_settings_output()
     $adfly_api_user_id_name = "microblogposter_plg_adfly_api_user_id";
     $adfly_api_domain_name = "microblogposter_plg_adfly_api_domain_type";
     $adfly_api_custom_domain_name = "microblogposter_plg_adfly_api_custom_domain";
+    $adfocus_api_key_name = "microblogposter_plg_adfocus_api_key";
+    $ppw_user_id_name = "microblogposter_plg_ppw_user_id";
     $default_behavior_name = "microblogposter_default_behavior";
     $default_behavior_update_name = "microblogposter_default_behavior_update";
     $default_pbehavior_name = "microblogposter_default_pbehavior";
@@ -61,6 +63,8 @@ function microblogposter_settings_output()
     $adfly_api_user_id_value = get_option($adfly_api_user_id_name, "");
     $adfly_api_domain_value = get_option($adfly_api_domain_name, "");
     $adfly_api_custom_domain_value = get_option($adfly_api_custom_domain_name, "");
+    $adfocus_api_key_value = get_option($adfocus_api_key_name, "");
+    $ppw_user_id_value = get_option($ppw_user_id_name, "");
     $default_behavior_value = get_option($default_behavior_name, "");
     $default_behavior_update_value = get_option($default_behavior_update_name, "");
     $default_pbehavior_value = get_option($default_pbehavior_name, "");
@@ -126,6 +130,8 @@ function microblogposter_settings_output()
         $adfly_api_user_id_value = trim($_POST[$adfly_api_user_id_name]);
         $adfly_api_domain_value = trim($_POST[$adfly_api_domain_name]);
         $adfly_api_custom_domain_value = trim($_POST[$adfly_api_custom_domain_name]);
+        $adfocus_api_key_value = trim($_POST[$adfocus_api_key_name]);
+        $ppw_user_id_value = trim($_POST[$ppw_user_id_name]);
         $default_behavior_value = $_POST[$default_behavior_name];
         $default_behavior_update_value = $_POST[$default_behavior_update_name];
         $default_pbehavior_value = $_POST[$default_pbehavior_name];
@@ -167,6 +173,8 @@ function microblogposter_settings_output()
         update_option($adfly_api_user_id_name, $adfly_api_user_id_value);
         update_option($adfly_api_domain_name, $adfly_api_domain_value);
         update_option($adfly_api_custom_domain_name, $adfly_api_custom_domain_value);
+        update_option($adfocus_api_key_name, $adfocus_api_key_value);
+        update_option($ppw_user_id_name, $ppw_user_id_value);
         update_option($default_behavior_name, $default_behavior_value);
         update_option($default_behavior_update_name, $default_behavior_update_value);
         
@@ -1269,7 +1277,7 @@ function microblogposter_settings_output()
                     <tr>
                         <td colspan="2">
                             <h3>
-                                <a href="#" id="mbp_microblogposter_additional-shorteners_switch" onclick="mbp_microblogposter_additional_shorteners();return false;" >Show Additional Shortener...</a>
+                                <a href="#" id="mbp_microblogposter_additional-shorteners_switch" onclick="mbp_microblogposter_additional_shorteners();return false;" >Show Additional Shorteners...</a>
                                 
                             </h3>
                         </td>
@@ -1277,7 +1285,7 @@ function microblogposter_settings_output()
                     <tr class="mbp-additional-shorteners">
                         <td colspan="2">
                             <h3 class="mbp-additional-shorteners-upgrade">
-                                Additional Shortener is only available with the Enterprise Add-on.
+                                Additional Shorteners are only available with the Enterprise Add-on.
                                 <?php if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account')):?>
                                 <a href="http://efficientscripts.com/login" target="_blank">Upgrade Now</a>
                                 <?php else:?>
@@ -1328,6 +1336,41 @@ function microblogposter_settings_output()
                             <span class="mbp-deprecated"> Twitter only accepts ay.gy links</span> (auto replacement of adf.ly)<br />
                             We don't know if the custom domain will work with Facebook or Twitter.<br />
                             All the other social sites seem to accept adf.ly related links.
+                        </td>
+                    </tr>
+                    <tr class="mbp-additional-shorteners">
+                        <td colspan="2">
+                            <h3>
+                                <input type="radio" name="<?php echo $url_shortener_name;?>" value="adfocus" <?php if($url_shortener_value == 'adfocus') echo 'checked';?> />
+                                Your <img src="../wp-content/plugins/microblog-poster/images/adfocus_icon.png" /> Credentials: <span class="description"> <a href="http://efficientscripts.com/help/microblogposter/adfocushelp" target="_blank">Help with screenshots</a></span>
+                            </h3>
+                        </td>
+                    </tr>
+                    <tr class="mbp-additional-shorteners">
+                        <td class="label-input padding-left">Adfoc.us Api Key:</td>
+                        <td><input type="text" id="<?php echo $adfocus_api_key_name;?>" name="<?php echo $adfocus_api_key_name;?>" value="<?php echo $adfocus_api_key_value;?>" size="35" /></td>
+                    </tr>
+                    <tr class="mbp-additional-shorteners">
+                        <td colspan="2" class="padding-top-bottom">
+                            <span class="mbp-deprecated">Facebook blocks sharing adfoc.us related links.</span><br />
+                            All the other social sites seem to accept adfoc.us related links.
+                        </td>
+                    </tr>
+                    <tr class="mbp-additional-shorteners">
+                        <td colspan="2">
+                            <h3>
+                                <input type="radio" name="<?php echo $url_shortener_name;?>" value="ppw" <?php if($url_shortener_value == 'ppw') echo 'checked';?> />
+                                Your <img src="../wp-content/plugins/microblog-poster/images/ppw_icon.png" /> Credentials: <span class="description"> <a href="http://efficientscripts.com/help/microblogposter/ppwhelp" target="_blank">Help with screenshots</a></span>
+                            </h3>
+                        </td>
+                    </tr>
+                    <tr class="mbp-additional-shorteners">
+                        <td class="label-input padding-left">P.pw User ID:</td>
+                        <td><input type="text" id="<?php echo $ppw_user_id_name;?>" name="<?php echo $ppw_user_id_name;?>" value="<?php echo $ppw_user_id_value;?>" size="35" /></td>
+                    </tr>
+                    <tr class="mbp-additional-shorteners">
+                        <td colspan="2" class="padding-top-bottom">
+                            All the social sites seem to accept p.pw related links.
                         </td>
                     </tr>
                     <tr>
@@ -1580,7 +1623,7 @@ function microblogposter_settings_output()
                                 Message Format:
                             </div>
                             <div class="input-div-large">
-                                <input type="text" id="message_format" name="message_format" value="<?php echo $row->message_format;?>"/>
+                                <textarea id="message_format" name="message_format" rows="2"><?php echo $row->message_format;?></textarea>
                                 <span class="description">Message that's actually posted.</span>
                             </div>
                             <div class="input-div">
@@ -1740,7 +1783,7 @@ function microblogposter_settings_output()
                                 Message Format:
                             </div>
                             <div class="input-div-large">
-                                <input type="text" id="message_format" name="message_format" value="<?php echo $row->message_format;?>"/>
+                                <textarea id="message_format" name="message_format" rows="2"><?php echo $row->message_format;?></textarea>
                                 <span class="description">Message that's actually posted.</span>
                             </div>
                             <div class="input-div">
@@ -1851,7 +1894,7 @@ function microblogposter_settings_output()
                                 Message Format:
                             </div>
                             <div class="input-div-large">
-                                <input type="text" id="message_format" name="message_format" value="<?php echo $row->message_format;?>"/>
+                                <textarea id="message_format" name="message_format" rows="2"><?php echo $row->message_format;?></textarea>
                                 <span class="description">Message that's actually posted.</span>
                             </div>
                             <div class="input-div">
@@ -1937,7 +1980,7 @@ function microblogposter_settings_output()
                                 Message Format:
                             </div>
                             <div class="input-div-large">
-                                <input type="text" id="message_format" name="message_format" value="<?php echo $row->message_format;?>"/>
+                                <textarea id="message_format" name="message_format" rows="2"><?php echo $row->message_format;?></textarea>
                                 <span class="description">Message that's actually posted.</span>
                             </div>
                             <div class="input-div">
@@ -2080,7 +2123,7 @@ function microblogposter_settings_output()
                                 Message Format:
                             </div>
                             <div class="input-div-large">
-                                <input type="text" id="message_format" name="message_format" value="<?php echo $row->message_format;?>"/>
+                                <textarea id="message_format" name="message_format" rows="2"><?php echo $row->message_format;?></textarea>
                                 <span class="description">Message that's actually posted.</span>
                             </div>
                             <div class="input-div">
@@ -2227,7 +2270,7 @@ function microblogposter_settings_output()
                                 Message Format:
                             </div>
                             <div class="input-div-large">
-                                <input type="text" id="message_format" name="message_format" value="<?php echo $row->message_format;?>"/>
+                                <textarea id="message_format" name="message_format" rows="2"><?php echo $row->message_format;?></textarea>
                                 <span class="description">Message that's actually posted.</span>
                             </div>
                             <div class="input-div">
@@ -2360,7 +2403,7 @@ function microblogposter_settings_output()
                                 Message Format:
                             </div>
                             <div class="input-div-large">
-                                <input type="text" id="message_format" name="message_format" value="<?php echo $row->message_format;?>"/>
+                                <textarea id="message_format" name="message_format" rows="2"><?php echo $row->message_format;?></textarea>
                                 <span class="description">Message that's actually posted.</span>
                             </div>
                             <div class="input-div">
@@ -2517,7 +2560,7 @@ function microblogposter_settings_output()
                                 Message Format:
                             </div>
                             <div class="input-div-large">
-                                <input type="text" id="message_format" name="message_format" value="<?php echo $row->message_format;?>"/>
+                                <textarea id="message_format" name="message_format" rows="2"><?php echo $row->message_format;?></textarea>
                                 <span class="description">Message that's actually posted.</span>
                             </div>
                             <div class="input-div">
@@ -2563,6 +2606,8 @@ function microblogposter_settings_output()
                             </div>
                         </div>
 
+                        <input type="hidden" name="access_token" value="<?php echo $row->access_token;?>" />
+                        <input type="hidden" name="access_token_secret" value="<?php echo $row->access_token_secret;?>" />
                         <input type="hidden" name="account_id" value="<?php echo $row->account_id;?>" />
                         <input type="hidden" name="account_type" value="tumblr" />
                         <input type="hidden" name="update_account_hidden" value="1" />
@@ -2664,7 +2709,7 @@ function microblogposter_settings_output()
                                 Message Format:
                             </div>
                             <div class="input-div-large">
-                                <input type="text" id="message_format" name="message_format" value="<?php echo $row->message_format;?>"/>
+                                <textarea id="message_format" name="message_format" rows="2"><?php echo $row->message_format;?></textarea>
                                 <span class="description">Message that's actually posted.</span>
                             </div>
                             <div class="input-div">
@@ -2772,7 +2817,7 @@ function microblogposter_settings_output()
                                 Message Format:
                             </div>
                             <div class="input-div-large">
-                                <input type="text" id="message_format" name="message_format" value="<?php echo $row->message_format;?>"/>
+                                <textarea id="message_format" name="message_format" rows="2"><?php echo $row->message_format;?></textarea>
                                 <span class="description">Message that's actually posted.</span>
                             </div>
                             <div class="input-div">
@@ -2855,7 +2900,7 @@ function microblogposter_settings_output()
                             Message Format:
                         </div>
                         <div class="input-div-large">
-                            <input type="text" id="message_format" name="message_format" />
+                            <textarea id="message_format" name="message_format" rows="2"></textarea>
                             <span class="description">Message that's actually posted.</span>
                         </div>
                         <div class="input-div">
@@ -2944,7 +2989,7 @@ function microblogposter_settings_output()
                             Message Format:
                         </div>
                         <div class="input-div-large">
-                            <input type="text" id="message_format" name="message_format" />
+                            <textarea id="message_format" name="message_format" rows="2"></textarea>
                             <span class="description">Message that's actually posted.</span>
                         </div>
                         <div class="input-div">
@@ -3001,7 +3046,7 @@ function microblogposter_settings_output()
                             Message Format:
                         </div>
                         <div class="input-div-large">
-                            <input type="text" id="message_format" name="message_format" />
+                            <textarea id="message_format" name="message_format" rows="2"></textarea>
                             <span class="description">Message that's actually posted.</span>
                         </div>
                         <div class="input-div">
@@ -3028,7 +3073,7 @@ function microblogposter_settings_output()
                             Message Format:
                         </div>
                         <div class="input-div-large">
-                            <input type="text" id="message_format" name="message_format" />
+                            <textarea id="message_format" name="message_format" rows="2"></textarea>
                             <span class="description">Message that's actually posted.</span>
                         </div>
                         <div class="input-div">
@@ -3088,7 +3133,7 @@ function microblogposter_settings_output()
                                 Message Format:
                             </div>
                             <div class="input-div-large">
-                                <input type="text" id="message_format" name="message_format" />
+                                <textarea id="message_format" name="message_format" rows="2"></textarea>
                                 <span class="description">Message that's actually posted.</span>
                             </div>
                             <div class="input-div">
@@ -3166,7 +3211,7 @@ function microblogposter_settings_output()
                             Message Format:
                         </div>
                         <div class="input-div-large">
-                            <input type="text" id="message_format" name="message_format" />
+                            <textarea id="message_format" name="message_format" rows="2"></textarea>
                             <span class="description">Message that's actually posted.</span>
                         </div>
                         <div class="input-div">
@@ -3226,7 +3271,7 @@ function microblogposter_settings_output()
                                 Message Format:
                             </div>
                             <div class="input-div-large">
-                                <input type="text" id="message_format" name="message_format" />
+                                <textarea id="message_format" name="message_format" rows="2"></textarea>
                                 <span class="description">Message that's actually posted.</span>
                             </div>
                             <div class="input-div">
@@ -3300,7 +3345,7 @@ function microblogposter_settings_output()
                             Message Format:
                         </div>
                         <div class="input-div-large">
-                            <input type="text" id="message_format" name="message_format" />
+                            <textarea id="message_format" name="message_format" rows="2"></textarea>
                             <span class="description">Message that's actually posted.</span>
                         </div>
                         <div class="input-div">
@@ -3364,7 +3409,7 @@ function microblogposter_settings_output()
                             Message Format:
                         </div>
                         <div class="input-div-large">
-                            <input type="text" id="message_format" name="message_format" />
+                            <textarea id="message_format" name="message_format" rows="2"></textarea>
                             <span class="description">Message that's actually posted.</span>
                         </div>
                         <div class="input-div">
@@ -3406,7 +3451,7 @@ function microblogposter_settings_output()
                             Message Format:
                         </div>
                         <div class="input-div-large">
-                            <input type="text" id="message_format" name="message_format" />
+                            <textarea id="message_format" name="message_format" rows="2"></textarea>
                             <span class="description">Message that's actually posted.</span>
                         </div>
                         <div class="input-div">
@@ -3530,6 +3575,11 @@ function microblogposter_settings_output()
             border-radius: 10px;
             padding-top: 20px;
             padding-bottom: 10px;
+        }
+        textarea#message_format
+        {
+            resize: none;
+            width: 290px;
         }
         .button-holder
         {
@@ -4465,12 +4515,12 @@ function microblogposter_settings_output()
             if(jQuery(".mbp-additional-shorteners").is(':visible'))
             {
                 jQuery(".mbp-additional-shorteners").hide().find('input').attr('disabled','disabled');
-                jQuery("#mbp_microblogposter_additional-shorteners_switch").html('Show Additional Shortener...');
+                jQuery("#mbp_microblogposter_additional-shorteners_switch").html('Show Additional Shorteners...');
             }
             else
             {
                 jQuery(".mbp-additional-shorteners").show()//.find('input').removeAttr('disabled');
-                jQuery("#mbp_microblogposter_additional-shorteners_switch").html('Hide Additional Shortener');
+                jQuery("#mbp_microblogposter_additional-shorteners_switch").html('Hide Additional Shorteners');
             }    
         }
 
@@ -4555,7 +4605,8 @@ function microblogposter_show_mini_control_dashboard()
         }
         .mbp_social_account_microblogposter_msgc
         {
-            width: 230px;
+            width: 290px;
+            resize: none;
         }
     </style>
 
@@ -4727,7 +4778,7 @@ function microblogposter_show_common_account_dashboard($account, $site)
         <label for="mbp_social_account_microblogposter_<?php echo $account->account_id;?>"><?php echo $account->username;?></label>
         <br />
         <label for="mbp_social_account_microblogposter_msg_<?php echo $account->account_id;?>">Message Format for Manual Posting:</label>
-        <input type="text" class="mbp_social_account_microblogposter_msgc" id="mbp_social_account_microblogposter_msg_<?php echo $account->account_id;?>" name="mbp_social_account_microblogposter_msg_<?php echo $account->account_id;?>" value="<?php echo $message_format_mp;?>"/>
+        <textarea class="mbp_social_account_microblogposter_msgc" id="mbp_social_account_microblogposter_msg_<?php echo $account->account_id;?>" name="mbp_social_account_microblogposter_msg_<?php echo $account->account_id;?>" rows="2"><?php echo $message_format_mp;?></textarea>
         
     </div>
     <?php
