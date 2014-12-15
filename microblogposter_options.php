@@ -303,6 +303,10 @@ function microblogposter_settings_output()
         {
             $extra['post_type'] = trim($_POST['post_type_lkn']);
         }
+        if(isset($_POST['post_type_vk']))
+        {
+            $extra['post_type'] = trim($_POST['post_type_vk']);
+        }
         if(isset($_POST['default_image_url']))
         {
             $extra['default_image_url'] = trim($_POST['default_image_url']);
@@ -344,6 +348,12 @@ function microblogposter_settings_output()
             {
                 $extra['post_type'] = trim($_POST['mbp_post_type_tmb']);
             }
+            
+            if(isset($_POST['mbp_vkontakte_target_type']))
+            {
+                $extra['target_type'] = trim($_POST['mbp_vkontakte_target_type']);
+            }
+            
         }
         else
         {
@@ -359,8 +369,16 @@ function microblogposter_settings_output()
             {
                 $extra['post_type'] = 'text';
             }
+            if(isset($_POST['mbp_vkontakte_target_type']))
+            {
+                $extra['target_type'] = 'profile';
+            }
         }
         
+        if(isset($_POST['mbp_vkontakte_target_id']))
+        {
+            $extra['target_id'] = trim($_POST['mbp_vkontakte_target_id']);
+        }
         if(isset($_POST['mbp_tumblr_blog_hostname']))
         {
             $extra['blog_hostname'] = trim($_POST['mbp_tumblr_blog_hostname']);
@@ -474,6 +492,10 @@ function microblogposter_settings_output()
         {
             $extra['post_type'] = trim($_POST['post_type_lkn']);
         }
+        if(isset($_POST['post_type_vk']))
+        {
+            $extra['post_type'] = trim($_POST['post_type_vk']);
+        }
         if(isset($_POST['default_image_url']))
         {
             $extra['default_image_url'] = trim($_POST['default_image_url']);
@@ -508,6 +530,15 @@ function microblogposter_settings_output()
             }
         }
         
+        if(isset($_POST['mbp_vkontakte_target_id']))
+        {
+            $extra['target_id'] = trim($_POST['mbp_vkontakte_target_id']);
+        }
+        if(isset($_POST['access_token_vk']))
+        {
+            $extra['access_token'] = trim($_POST['access_token_vk']);
+            $extra['expires'] = '0';
+        }
         if(isset($_POST['mbp_tumblr_blog_hostname']))
         {
             $extra['blog_hostname'] = trim($_POST['mbp_tumblr_blog_hostname']);
@@ -582,7 +613,7 @@ function microblogposter_settings_output()
     $request_uri = $_SERVER['REQUEST_URI'];
     $request_uri_arr = explode('&', $request_uri, 2);
     $request_uri = $request_uri_arr[0];
-    $protocol = ($_SERVER['HTTPS'] && $_SERVER['HTTPS'] != 'off')?'https':'http';
+    $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] && $_SERVER['HTTPS'] != 'off')?'https':'http';
     $redirect_uri = $protocol.'://'.$server_name.$request_uri;
     $code = null;
     $redirect_after_auth = false;
@@ -1167,11 +1198,12 @@ function microblogposter_settings_output()
             and reach more people through social networks. <br />
             There's a general agreement in the SEO community that social signals strengthen your blog's page rank and authority.<br />
             <span class="microblogposter-name">MicroblogPoster</span> is simply an intermediary between your blog and your own social network accounts.<br /> 
-            You'll never see "posted by MicroblogPoster" in your updates, you'll see "posted by your own App name" or simply "by API".
+            You'll never see "posted by MicroblogPoster" in your updates, you'll see "posted by your own App name" or simply "by API".<br />
+            If you like <span class="microblogposter-name">MicroblogPoster</span> or just find it useful, please <a class="mbp-add-review-link" href="https://wordpress.org/support/view/plugin-reviews/microblog-poster" target="_blank">Add a review</a>
         </p>
             
         <?php if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account') && !$customer_license_key_value['key']):?>
-            <div class="error"><p><strong>In order to complete the MicroblogPoster's Pro Add-on installation, please Save your Customer License Key.</strong></p></div>
+            <div class="error"><p><strong>In order to complete the MicroblogPoster's Pro / Enterprise Add-on installation, please Save your Customer License Key.</strong></p></div>
         <?php elseif(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account') && $customer_license_key_value['key']):?>
             <div>
                 Customer License Key : <?php echo $customer_license_key_value['key'];?>
@@ -1545,28 +1577,9 @@ function microblogposter_settings_output()
         <div id="mbp-social-networks-accounts" class="mbp-single-tab-wrapper">
         <h3 id="network-accounts-header">Social Network Accounts Section:</h3>
         
-        <?php
-        $sql="SELECT count(*) as count FROM $table_accounts";
-        $rows = $wpdb->get_results($sql, ARRAY_A);
-        if($rows[0]['count'] > 10)
-        {
-            ?>
-            <div class="mbp-warning">
-                <p>
-                    <strong>Warning: </strong><br /> 
-                    If your blog is hosted on a shared hosting please take a look at our FAQ :&nbsp;
-                    <a href="http://wordpress.org/extend/plugins/microblog-poster/faq/" target="_blank">MicroblogPoster FAQ page</a><br />
-                    Wordpress blogs on VPS, Cloud, Dedicated or Managed servers are not impacted.
-                </p>
-            </div>
-            <?php
-        }
-        ?>
-        
         <span class="new-account" >Add New Account</span>
             
         <?php 
-        
         $update_accounts = array();
         ?>
         
@@ -2861,7 +2874,168 @@ function microblogposter_settings_output()
                 <span class="edit-account edit<?php echo $row->account_id;?>">Edit</span>
                 <span class="del-account del<?php echo $row->account_id;?>">Del</span>
             </div>
-        <?php endforeach;?>    
+        <?php endforeach;?>
+            
+        <div class="social-network-accounts-site">
+            <img src="../wp-content/plugins/microblog-poster/images/vkontakte_icon.png" />
+            <h4>VKontakte Accounts</h4>
+        </div>
+        <?php
+        $sql="SELECT * FROM $table_accounts WHERE type='vkontakte'";
+        $rows = $wpdb->get_results($sql);
+        foreach($rows as $row):
+            $update_accounts[] = $row->account_id;
+            
+            $vk_acc_extra = null;
+            $vk_scope = "wall,offline";
+            $post_type = "";
+            $target_type = "profile";
+            $target_id = '';
+            
+            if($row->extra)
+            {
+                $vk_acc_extra = json_decode($row->extra, true);
+                $post_type = $vk_acc_extra['post_type'];
+                if(isset($vk_acc_extra['target_type']))
+                {
+                    $target_type = $vk_acc_extra['target_type'];
+                }
+                if(isset($vk_acc_extra['target_id']))
+                {
+                    $target_id = $vk_acc_extra['target_id'];
+                }
+            }
+            
+            $redirect_uri_vk = 'http://api.vkontakte.ru/blank.html';
+            $authorize_url = "https://api.vkontakte.ru/oauth/authorize?client_id={$row->consumer_key}&redirect_uri={$redirect_uri_vk}&state=vkontakte_microblogposter_{$row->account_id}&scope={$vk_scope}&response_type=token";
+        ?>
+            <div style="display:none">
+                <div id="update_account<?php echo $row->account_id;?>">
+                    <form id="update_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
+                        
+                        <h3 class="new-account-header"><span class="microblogposter-name">MicroblogPoster</span> Plugin</h3>
+                        <div class="delete-wrapper">
+                            VKontakte Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span>
+                        </div>
+                        <div id="vkontakte-div" class="one-account">
+                            <div class="input-div">
+                                Username:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="username" name="username" value="<?php echo $row->username;?>"/>
+                            </div>
+                            <div class="input-div">
+                                VKontakte target type:
+                            </div>
+                            <div class="input-div-large">
+                                <span class="mbp-vkontakte-target-type-span"><?php echo ucfirst($target_type).' wall';?></span>
+                            </div>
+                            <div class="input-div">
+                                <?php echo ucfirst($target_type);?> ID:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="mbp_vkontakte_target_id" name="mbp_vkontakte_target_id" value="<?php echo $target_id;?>" />
+                                <span class="description">Your VKontakte <?php echo ucfirst($target_type);?> ID. (numeric)</span>
+                            </div>
+                            <div class="input-div">
+                                Message Format:
+                            </div>
+                            <div class="input-div-large">
+                                <textarea id="message_format" name="message_format" rows="2"><?php echo $row->message_format;?></textarea>
+                                <span class="description">Message that's actually posted.</span>
+                            </div>
+                            <div class="input-div">
+
+                            </div>
+                            <div class="input-div-large">
+                                <span class="description-small"><?php echo $description_shortcodes;?></span>
+                            </div>
+                            <div class="mbp-separator"></div>
+                            <div class="input-div input-div-radio">
+                                Post Type:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="radio" name="post_type_vk" value="text" <?php if($post_type=='text') echo 'checked'; ?>> Text - <span class="description">Text only status update.</span><br>
+                                <input type="radio" name="post_type_vk" value="link" <?php if($post_type=='link') echo 'checked'; ?>> Share a Link - <span class="description">Status update that contains (message + link box).</span>
+                            </div>
+                            <div class="input-div">
+
+                            </div>
+                            <div class="input-div-large">
+                                <span class="description-small">If you choose to post with link box you'll need a thumbnail for your link. 
+                                    
+                                </span>
+                            </div>
+                            <div class="mbp-separator"></div>
+                            <div class="input-div">
+                                Application ID/API Key:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="" name="consumer_key" value="<?php echo $row->consumer_key;?>" />
+                                <span class="description">Your VKontakte Application ID.</span>
+                            </div>
+                            <div class="input-div">
+                                Application Secret:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="" name="consumer_secret" value="<?php echo $row->consumer_secret;?>" />
+                                <span class="description">Your VKontakte Application Secret.</span>
+                            </div>
+                            <div class="input-div">
+                                Access Token:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="" name="access_token_vk" value="<?php echo $vk_acc_extra['access_token'];?>" />
+                                <span class="description">Your VKontakte Access Token.</span>
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="account_id" value="<?php echo $row->account_id;?>" />
+                        <input type="hidden" name="account_type" value="vkontakte" />
+                        <input type="hidden" name="update_account_hidden" value="1" />
+                        <div class="button-holder">
+                            <button type="button" class="button cancel-account" >Cancel</button>
+                            <button type="button" class="button-primary save-account<?php echo $row->account_id;?>" >Save</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <div style="display:none">
+                <div id="delete_account<?php echo $row->account_id;?>">
+                    <form id="delete_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
+                        <div class="delete-wrapper">
+                        VKontakte Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span><br />
+                        <span class="delete-wrapper-del">Delete?</span>
+                        </div>
+                        <input type="hidden" name="account_id" value="<?php echo $row->account_id;?>" />
+                        <input type="hidden" name="account_type" value="vkontakte" />
+                        <input type="hidden" name="delete_account_hidden" value="1" />
+                        <div class="button-holder-del">
+                            <button type="button" class="button cancel-account" >Cancel</button>
+                            <button type="button" class="del-account-fb button del-account<?php echo $row->account_id;?>" >Delete</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="account-wrapper">
+                <span class="account-username"><?php echo $row->username;?></span>
+                <span class="edit-account edit<?php echo $row->account_id;?>">Edit</span>
+                <span class="del-account del<?php echo $row->account_id;?>">Del</span>
+                <?php if(isset($vk_acc_extra['access_token']) && $vk_acc_extra['access_token']):?>
+                    <?php if($vk_acc_extra['expires'] == '0'):?>
+                        <div>Authorization is valid permanently</div>
+                        <div><a href="<?php echo $authorize_url; ?>" target="_blank">Re-Authorize this vkontakte account</a></div>
+                    <?php else:?>
+                        <div>Authorization is valid until <?php echo date('d-m-Y', $vk_acc_extra['expires']); ?></div>
+                        <div><a href="<?php echo $authorize_url; ?>" target="_blank">Refresh authorization now</a></div>
+                    <?php endif;?>
+                <?php else:?>
+                        <div><a href="<?php echo $authorize_url; ?>" target="_blank">Authorize this vkontakte account</a></div>
+                <?php endif;?>
+            </div>
+            
+        <?php endforeach;?>
         </div><!--end #social-network-accounts -->
         
         
@@ -2884,6 +3058,7 @@ function microblogposter_settings_output()
                         <option value="tumblr">Tumblr</option>
                         <option value="blogger">Blogger</option>
                         <option value="instapaper">Instapaper</option>
+                        <option value="vkontakte">VKontakte</option>
                     </select> 
                     </div>
 
@@ -3461,6 +3636,82 @@ function microblogposter_settings_output()
                             <span class="description-small"><?php echo $description_shortcodes_bookmark;?></span>
                         </div>
                     </div>
+                    <div id="vkontakte-div" class="one-account">
+                        <div class="help-div"><span class="description"><a href="http://efficientscripts.com/help/microblogposter/vkontaktehelp" target="_blank">VKontakte Help</a></span></div>
+                        <div class="input-div">
+                            Username:
+                        </div>
+                        <div class="input-div-large">
+                            <input type="text" id="username" name="username" value="" />
+                            <span class="description"><?php echo $description_mandatory_username;?></span>
+                        </div>
+                        <div class="input-div">
+                            VKontakte target type:
+                        </div>
+                        <div class="input-div-large">
+                            <select name="mbp_vkontakte_target_type" id="mbp_vkontakte_target_type">
+                                <option value="profile">Profile wall</option>
+                                <option value="page">Public Page wall</option>
+                                <option value="group">Group wall</option>
+                                <option value="event">Event wall</option>
+                            </select>
+                            <span class="description">Where you want to auto post.</span>
+                        </div>
+                        <div id="mbp-vkontakte-input-div">
+                            <div class="input-div">
+                                <span class="mbp_vkontakte_target_type_string"></span> ID:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="mbp_vkontakte_target_id" name="mbp_vkontakte_target_id" value="" />
+                                <span class="description">Your VKontakte <span class="mbp_vkontakte_target_type_string"></span> ID. (numeric)</span>
+                            </div>
+                            <div class="input-div">
+                                Message Format:
+                            </div>
+                            <div class="input-div-large">
+                                <textarea id="message_format" name="message_format" rows="2"></textarea>
+                                <span class="description">Message that's actually posted.</span>
+                            </div>
+                            <div class="input-div">
+
+                            </div>
+                            <div class="input-div-large">
+                                <span class="description-small"><?php echo $description_shortcodes;?></span>
+                            </div>
+                            <div class="mbp-separator"></div>
+                            <div class="input-div input-div-radio">
+                                Post Type:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="radio" name="post_type_vk" value="text" checked="checked"> Text - <span class="description">Text only status update.</span><br>
+                                <input type="radio" name="post_type_vk" value="link"> Share a Link - <span class="description">Status update that contains (message + link box).</span>
+                            </div>
+                            <div class="input-div">
+
+                            </div>
+                            <div class="input-div-large">
+                                <span class="description-small">
+                                    
+                                </span>
+                            </div>
+                            <div class="mbp-separator"></div>
+                            <div class="input-div">
+                                Application ID/API Key:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="" name="consumer_key" value="" />
+                                <span class="description">Your VKontakte Application ID.</span>
+                            </div>
+                            <div class="input-div">
+                                Application Secret:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="" name="consumer_secret" value="" />
+                                <span class="description">Your VKontakte Application Secret.</span>
+                            </div>
+                        </div>
+                        <div id="mbp-vkontakte-upgrade-now">Available with the Pro / Enterprise Add-on. <a href="http://efficientscripts.com/microblogposteraddons" target="_blank">Upgrade Now</a></div>
+                    </div>
 
                     <input type="hidden" name="new_account_hidden" value="1" />
                     <div class="button-holder">
@@ -3860,16 +4111,16 @@ function microblogposter_settings_output()
         {
             color: #ff0000;
         }
-        #mbp-facebook-upgrade-now, #mbp-linkedin-upgrade-now, #mbp-tumblr-upgrade-now
+        #mbp-facebook-upgrade-now, #mbp-linkedin-upgrade-now, #mbp-tumblr-upgrade-now, #mbp-vkontakte-upgrade-now
         {
             margin: 20px auto 20px auto;
             width: 340px;
         }
-        #mbp_facebook_target_type, #mbp_linkedin_target_type
+        #mbp_facebook_target_type, #mbp_linkedin_target_type, #mbp_vkontakte_target_type
         {
             width: 130px;
         }
-        .mbp-facebook-target-type-span, .mbp-linkedin-target-type-span
+        .mbp-facebook-target-type-span, .mbp-linkedin-target-type-span, .mbp-vkontakte-target-type-span
         {
             width: 130px;
             font-weight: bold;
@@ -3909,6 +4160,11 @@ function microblogposter_settings_output()
             display: inline-block;
         }
         #mbp-intro .mbp-intro-text
+        {
+            color: #001A66;
+            font-size: 13px;
+        }
+        .mbp-add-review-link
         {
             color: #001A66;
             font-size: 13px;
@@ -4139,7 +4395,7 @@ function microblogposter_settings_output()
                     'scrolling'	: 'auto',
                     'titleShow'	: false,
                     'onComplete'	: function() {
-                        $('div#fancybox-content #plurk-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div,div#fancybox-content #diigo-div,div#fancybox-content #linkedin-div,div#fancybox-content #tumblr-div,div#fancybox-content #blogger-div,div#fancybox-content #instapaper-div').hide().find('input,select').attr('disabled','disabled');
+                        $('div#fancybox-content #plurk-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div,div#fancybox-content #diigo-div,div#fancybox-content #linkedin-div,div#fancybox-content #tumblr-div,div#fancybox-content #blogger-div,div#fancybox-content #instapaper-div,div#fancybox-content #vkontakte-div').hide().find('input,select').attr('disabled','disabled');
                         
                         $(".save-account").removeAttr('disabled');
                         
@@ -4179,7 +4435,7 @@ function microblogposter_settings_output()
             $("#account_type").live("change", function(){
                 var type = $(this).val();
                 //console.log(type);
-                $('div#fancybox-content #twitter-div,div#fancybox-content #plurk-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div,div#fancybox-content #diigo-div,div#fancybox-content #linkedin-div,div#fancybox-content #tumblr-div,div#fancybox-content #blogger-div,div#fancybox-content #instapaper-div').hide().find('input,select').attr('disabled','disabled');
+                $('div#fancybox-content #twitter-div,div#fancybox-content #plurk-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div,div#fancybox-content #diigo-div,div#fancybox-content #linkedin-div,div#fancybox-content #tumblr-div,div#fancybox-content #blogger-div,div#fancybox-content #instapaper-div,div#fancybox-content #vkontakte-div').hide().find('input,select').attr('disabled','disabled');
                 $('div#fancybox-content #'+type+'-div').show().find('input,select').removeAttr('disabled');
                 $(".save-account").removeAttr('disabled');
                 if(type=='facebook')
@@ -4212,6 +4468,14 @@ function microblogposter_settings_output()
                         $(".save-account").removeAttr('disabled');
                     }
                     
+                }
+                if(type=='vkontakte')
+                {
+                    var target_type_selected_option = $('div#fancybox-content #mbp_vkontakte_target_type option:selected');
+                    target_type_selected_option.removeAttr('selected');
+                    $("div#fancybox-content #mbp-vkontakte-input-div").show().find('input').removeAttr('disabled');
+                    $("div#fancybox-content #mbp-vkontakte-upgrade-now").hide();
+                    $("div#fancybox-content .mbp_vkontakte_target_type_string").html('Profile');
                 }
             });
             
@@ -4307,6 +4571,44 @@ function microblogposter_settings_output()
                     {
                         $("div#fancybox-content #mbp-tumblr-input-div").show().find('input').removeAttr('disabled');
                         $("div#fancybox-content #mbp-tumblr-upgrade-now").hide();
+                        $(".save-account").removeAttr('disabled');
+                    }     
+                <?php endif;?>
+                
+                
+            });
+            
+            $("#mbp_vkontakte_target_type").live("change", function(){
+                var target_type = $(this).val();
+                
+                <?php if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account')):?>
+                    if(target_type == 'page')
+                    {
+                        $("div#fancybox-content .mbp_vkontakte_target_type_string").html('Page');
+                    }
+                    else if(target_type == 'group')
+                    {
+                        $("div#fancybox-content .mbp_vkontakte_target_type_string").html('Group');
+                    } 
+                    else if(target_type == 'event')
+                    {
+                        $("div#fancybox-content .mbp_vkontakte_target_type_string").html('Event');
+                    } 
+                    else if(target_type == 'profile')
+                    {
+                        $("div#fancybox-content .mbp_vkontakte_target_type_string").html('Profile');
+                    } 
+                <?php else:?>
+                    if(target_type == 'page' || target_type == 'group' || target_type == 'event')
+                    {
+                        $("div#fancybox-content #mbp-vkontakte-input-div").hide().find('input').attr('disabled','disabled');
+                        $("div#fancybox-content #mbp-vkontakte-upgrade-now").show();
+                        $(".save-account").attr('disabled','disabled');
+                    }
+                    else if(target_type == 'profile')
+                    {
+                        $("div#fancybox-content #mbp-vkontakte-input-div").show().find('input').removeAttr('disabled');
+                        $("div#fancybox-content #mbp-vkontakte-upgrade-now").hide();
                         $(".save-account").removeAttr('disabled');
                     }     
                 <?php endif;?>
@@ -4741,6 +5043,19 @@ function microblogposter_show_mini_control_dashboard()
             endforeach;
         endif;
     ?>
+    
+    <?php 
+        $vkontakte_accounts = MicroblogPoster_Poster::get_accounts_object('vkontakte');
+        if(!empty($vkontakte_accounts)):
+            microblogposter_show_common_account_dashboard_head('vkontakte'); 
+            foreach($vkontakte_accounts as $vkontakte_account):
+                microblogposter_show_common_account_dashboard($vkontakte_account, 'vkontakte');
+    ?>
+
+    <?php
+            endforeach;
+        endif;
+    ?>
 
 
     <?php
@@ -4751,7 +5066,11 @@ function microblogposter_show_common_account_dashboard_head($site)
     ?>
     <div class="mbp_social-network-accounts-site">
         <img src="../wp-content/plugins/microblog-poster/images/<?php echo $site;?>_icon.png" />
-        <h4><?php echo ucfirst($site);?> Accounts</h4>
+        <?php
+            $site_label = $site;
+            if($site == 'vkontakte'){$site_label = 'vKontakte';}
+        ?>
+        <h4><?php echo ucfirst($site_label);?> Accounts</h4>
         <div>
             <a href="#" onclick="mbp_social_accounts_microblogposter_uncheck_all('<?php echo $site;?>');return false;" >Uncheck All</a> <a href="#" onclick="mbp_social_accounts_microblogposter_check_all('<?php echo $site;?>');return false;" >Check All</a>
             <?php if(in_array($site, array('friendfeed','delicious', 'diigo', 'instapaper'))):?>

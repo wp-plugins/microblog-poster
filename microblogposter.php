@@ -4,7 +4,7 @@
  * Plugin Name: Microblog Poster
  * Plugin URI: http://efficientscripts.com/microblogposter
  * Description: Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Linkedin, Plurk, Diigo, Delicious..
- * Version: 1.4.4
+ * Version: 1.4.5
  * Author: Efficient Scripts
  * Author URI: http://efficientscripts.com/
  *
@@ -150,6 +150,7 @@ class MicroblogPoster_Poster
         $post_title = MicroblogPoster_Poster::shorten_title($post_title, $shortcode_title_max_length, ' ');
         
         $permalink = get_permalink($post_ID);
+        $permalink_actual = $permalink;
 	$update = $post_title . " $permalink";
         
         $post_content = array();
@@ -242,6 +243,7 @@ class MicroblogPoster_Poster
         MicroblogPoster_Poster::update_tumblr($mp, $dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_tmb);
         MicroblogPoster_Poster::update_blogger($mp, $dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_tmb);
         MicroblogPoster_Poster::update_instapaper($mp, $dash, $post_title, $permalink, $post_content, $post_ID);
+        MicroblogPoster_Poster::update_vkontakte($mp, $dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_lkn, $featured_image_src_thumbnail, $permalink_actual);
         
         MicroblogPoster_Poster::maintain_logs();
     }
@@ -1520,6 +1522,136 @@ class MicroblogPoster_Poster
             }
         }
         
+    }
+    
+    /**
+    * Updates status on vkontakte
+    *
+    * @param string  $update Text to be posted on microblogging site
+    * @param array $post_content 
+    * @return void
+    */
+    public static function update_vkontakte($mp, $dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual, $featured_image_src, $permalink_actual)
+    {
+        
+        $curl = new MicroblogPoster_Curl();
+        $vkontakte_accounts = MicroblogPoster_Poster::get_accounts('vkontakte');
+        
+        if(!empty($vkontakte_accounts))
+        {
+            foreach($vkontakte_accounts as $vkontakte_account)
+            {
+                if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account') && 
+                   $dash == 1 && $mp['val'] == 0)
+                {
+                    $active = MicroblogPoster_Poster_Pro::filter_single_account($vkontakte_account['account_id']);
+                    if($active === false)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        if(isset($active['message_format']) && $active['message_format'])
+                        {
+                            $vkontakte_account['message_format'] = $active['message_format'];
+                        }
+                    }
+                }
+                elseif(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Enterprise','filter_single_account_mp') && 
+                   $dash == 1 && $mp['val'] == 1)
+                {
+                    $active = MicroblogPoster_Poster_Enterprise::filter_single_account_mp($vkontakte_account['account_id']);
+                    if($active === false)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        if(isset($active['message_format']) && $active['message_format'])
+                        {
+                            $vkontakte_account['message_format'] = $active['message_format'];
+                        }
+                    }
+                }
+                
+                if(!$vkontakte_account['extra'])
+                {
+                    continue;
+                }
+                
+                if($vkontakte_account['message_format'] && $mp['val'] == 0)
+                {
+                    $update = str_ireplace(MicroblogPoster_Poster::get_shortcodes(), $post_content, $vkontakte_account['message_format']);
+                }
+                elseif($vkontakte_account['message_format'] && $mp['val'] == 1 && $mp['type'] == 'link')
+                {
+                    $update = str_ireplace(MicroblogPoster_Poster::get_shortcodes_mp(), $post_content, $vkontakte_account['message_format']);
+                }
+                
+                $extra = json_decode($vkontakte_account['extra'], true);
+                if($mp['val'] == 1 && $mp['type'] == 'text')
+                {
+                    $extra['post_type'] = 'text';
+                }
+                
+                if(isset($extra['target_id']) && isset($extra['access_token']))
+                {
+                    
+                    $post_data = array();
+                    $post_data['message'] = $update;
+                    $post_data['attachments'] = $permalink_actual;
+                    
+                    $acc_extra = $extra;
+                    
+                    if(isset($extra['target_type']) && in_array($extra['target_type'], array('group','page','event')) )
+                    {
+                        if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','update_vkontakte_community'))
+                        {
+                            $result = MicroblogPoster_Poster_Pro::update_vkontakte_community($curl, $acc_extra, $post_data);
+                        }
+                    }
+                    elseif(isset($extra['target_type']) && $extra['target_type']=='profile')
+                    {
+                        $url = "https://api.vk.com/method/wall.post";
+                        $post_args = array(
+                            'access_token' => $extra['access_token'],
+                            'owner_id' => $extra['target_id'],
+                            'message' => $update
+                        );
+
+                        if(isset($extra['post_type']) && $extra['post_type'] == 'link')
+                        {
+                            $post_args['attachments'] = $permalink_actual;
+                        }
+
+                        $result = $curl->send_post_data($url, $post_args);
+                    }
+                    
+                    $result_dec = json_decode($result, true);
+                    
+                    $action_result = 2;
+                    if($result_dec && isset($result_dec['response']['post_id']))
+                    {
+                        $action_result = 1;
+                        $result = "Success";
+                    }
+
+                    $log_data = array();
+                    $log_data['account_id'] = $vkontakte_account['account_id'];
+                    $log_data['account_type'] = "vkontakte";
+                    $log_data['username'] = $vkontakte_account['username'];
+                    $log_data['post_id'] = $post_ID;
+                    $log_data['action_result'] = $action_result;
+                    $log_data['update_message'] = $update;
+                    $log_data['log_message'] = $result;
+                    if($mp['val'] == 1)
+                    {
+                        $log_data['log_type'] = 'manual';
+                    }
+                    MicroblogPoster_Poster::insert_log($log_data);
+                }
+            }
+        }
     }
     
     /**
