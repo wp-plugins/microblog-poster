@@ -188,7 +188,7 @@ Your Twitter username and password won't suffice in order to post automatic upda
 No worries, it's rather a simple procedure.
 
 
-    1. To auto post updates through the Twitter API you'll need
+    1. In order to auto post updates through the Twitter API you'll need
     to create your own Twitter App here: https://apps.twitter.com/
     
     2. Once you have created your Twitter App you have to change its Access Level
@@ -312,7 +312,7 @@ Basically your tumblr username and password won't suffice in order to post autom
 No worries, it's rather a simple procedure.
 
 
-    1. To auto post updates through the tumblr Api you'll need first
+    1. In order to auto post updates through the tumblr Api you'll need first
     to create your own tumblr App here: http://www.tumblr.com/oauth/apps
     
     2. Once, you have created your tumblr App copy your 'OAuth Consumer key'.
@@ -363,6 +363,10 @@ Deactivate/Activate MicroblogPoster plugin.
 Warning about inherent php script execution time limitation that some Hosting Providers apply on shared accounts (max_execution_time PHP setting). 
 Since *MicroblogPoster* needs time to update all your social accounts when publishing a new blog post, this limit might be reached and script execution stopped.
 In order to avoid it, please limit the number of social accounts based on your environment script execution time limit.
+
+= The PHP cURL extension is required? =
+
+Yes, otherwise the plugin simply won't function at all.
 
 = The PHP cURL extension is required? =
 
