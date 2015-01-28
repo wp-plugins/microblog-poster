@@ -51,6 +51,13 @@ function microblogposter_settings_output()
     $shortcode_title_max_length_name = "microblogposter_plg_shortcode_title_max_length";
     $shortcode_firstwords_max_length_name = "microblogposter_plg_shortcode_firstwords_max_length";
     $shortcode_excerpt_max_length_name = "microblogposter_plg_shortcode_excerpt_max_length";
+    $microblogposter_plg_old_posts_active_name = "microblogposter_plg_old_posts_active";
+    $microblogposter_plg_old_posts_nb_posts_name = "microblogposter_plg_old_posts_nb_posts";
+    $microblogposter_plg_old_posts_min_age_name = "microblogposter_plg_old_posts_min_age";
+    $microblogposter_plg_old_posts_max_age_name = "microblogposter_plg_old_posts_max_age";
+    $microblogposter_plg_old_posts_interval_name = "microblogposter_plg_old_posts_interval";
+    $microblogposter_plg_old_posts_expire_age_name = "microblogposter_plg_old_posts_expire_age";
+    $excluded_categories_old_name = "microblogposter_excluded_categories_old";
     
     
     $url_shortener_value = get_option($url_shortener_name, "");
@@ -81,6 +88,14 @@ function microblogposter_settings_output()
     $shortcode_title_max_length_value = get_option($shortcode_title_max_length_name, "110");
     $shortcode_firstwords_max_length_value = get_option($shortcode_firstwords_max_length_name, "90");
     $shortcode_excerpt_max_length_value = get_option($shortcode_excerpt_max_length_name, "400");
+    $microblogposter_plg_old_posts_active_value = get_option($microblogposter_plg_old_posts_active_name, 0);
+    $microblogposter_plg_old_posts_nb_posts_value = get_option($microblogposter_plg_old_posts_nb_posts_name, 1);
+    $microblogposter_plg_old_posts_min_age_value = get_option($microblogposter_plg_old_posts_min_age_name, 30);
+    $microblogposter_plg_old_posts_max_age_value = get_option($microblogposter_plg_old_posts_max_age_name, 180);
+    $microblogposter_plg_old_posts_interval_value = get_option($microblogposter_plg_old_posts_interval_name, 24);
+    $microblogposter_plg_old_posts_expire_age_value = get_option($microblogposter_plg_old_posts_expire_age_name, 30);
+    $excluded_categories_old_value = get_option($excluded_categories_old_name, "");
+    $excluded_categories_old_value = json_decode($excluded_categories_old_value, true);
     
     
     $mbp_manual_share_tab_selected = false;
@@ -91,6 +106,102 @@ function microblogposter_settings_output()
             $manual_share_completed = MicroblogPoster_Poster_Enterprise_Options::handle_manual_post();
             $mbp_manual_share_tab_selected = true;
         }
+    }
+    
+    $mbp_old_posts_tab_selected = false;
+    if(isset($_POST["microblogposter_plg_old_posts_save"]))
+    {
+        $microblogposter_plg_old_posts_active_value = trim($_POST[$microblogposter_plg_old_posts_active_name]);
+        $microblogposter_plg_old_posts_interval_value_temp = round(trim($_POST[$microblogposter_plg_old_posts_interval_name]));
+        if(intval($microblogposter_plg_old_posts_interval_value_temp) && 
+           intval($microblogposter_plg_old_posts_interval_value_temp) >= 1 && intval($microblogposter_plg_old_posts_interval_value_temp) <= 4380)
+        {
+            $microblogposter_plg_old_posts_interval_value = $microblogposter_plg_old_posts_interval_value_temp;
+        }
+        $microblogposter_plg_old_posts_nb_posts_value_temp = round(trim($_POST[$microblogposter_plg_old_posts_nb_posts_name]));
+        if(intval($microblogposter_plg_old_posts_nb_posts_value_temp) && 
+           intval($microblogposter_plg_old_posts_nb_posts_value_temp) >= 1 && intval($microblogposter_plg_old_posts_nb_posts_value_temp) <= 3)
+        {
+            $microblogposter_plg_old_posts_nb_posts_value = $microblogposter_plg_old_posts_nb_posts_value_temp;
+        }
+        $microblogposter_plg_old_posts_min_age_value_temp = round(trim($_POST[$microblogposter_plg_old_posts_min_age_name]));
+        if(intval($microblogposter_plg_old_posts_min_age_value_temp) >= 0 && intval($microblogposter_plg_old_posts_min_age_value_temp) <= 3650)
+        {
+            $microblogposter_plg_old_posts_min_age_value = $microblogposter_plg_old_posts_min_age_value_temp;
+        }
+        $microblogposter_plg_old_posts_max_age_value_temp = round(trim($_POST[$microblogposter_plg_old_posts_max_age_name]));
+        if(intval($microblogposter_plg_old_posts_max_age_value_temp) >= 0 && intval($microblogposter_plg_old_posts_max_age_value_temp) <= 3650)
+        {
+            $microblogposter_plg_old_posts_max_age_value = $microblogposter_plg_old_posts_max_age_value_temp;
+        }
+        $microblogposter_plg_old_posts_expire_age_value_temp = round(trim($_POST[$microblogposter_plg_old_posts_expire_age_name]));
+        if(intval($microblogposter_plg_old_posts_expire_age_value_temp) >= 0 && intval($microblogposter_plg_old_posts_expire_age_value_temp) <= 3650)
+        {
+            $microblogposter_plg_old_posts_expire_age_value = $microblogposter_plg_old_posts_expire_age_value_temp;
+        }
+        $excluded_categories_old_value = $_POST[$excluded_categories_old_name];
+        $excluded_categories_old_value = json_encode($excluded_categories_old_value);
+        
+        update_option($microblogposter_plg_old_posts_active_name, $microblogposter_plg_old_posts_active_value);
+        update_option($microblogposter_plg_old_posts_nb_posts_name, $microblogposter_plg_old_posts_nb_posts_value);
+        update_option($microblogposter_plg_old_posts_min_age_name, $microblogposter_plg_old_posts_min_age_value);
+        update_option($microblogposter_plg_old_posts_max_age_name, $microblogposter_plg_old_posts_max_age_value);
+        update_option($microblogposter_plg_old_posts_interval_name, $microblogposter_plg_old_posts_interval_value);
+        update_option($microblogposter_plg_old_posts_expire_age_name, $microblogposter_plg_old_posts_expire_age_value);
+        update_option($excluded_categories_old_name, $excluded_categories_old_value);
+        $excluded_categories_old_value = json_decode($excluded_categories_old_value, true);
+        
+        $accounts_old = MicroblogPoster_Poster::get_accounts_all();
+        if(is_array($accounts_old) && !empty($accounts_old))
+        {
+            foreach($accounts_old as $account_old)
+            {
+                if(isset($account_old['extra']) && $account_old['extra'])
+                {
+                    $extra_old = json_decode($account_old['extra'], true);
+                }
+                else
+                {
+                    $extra_old = array();
+                }
+                $extra_old['old_posts_active'] = 0;
+                $extra_old['message_format_old'] = '';
+                $checkbox_name_old = 'mbp_social_account_microblogposter_old_'.$account_old['account_id'];
+                $message_format_name_old = 'mbp_social_account_microblogposter_msg_old_'.$account_old['account_id'];
+                if(isset($_POST[$checkbox_name_old]) && trim($_POST[$checkbox_name_old]) == '1')
+                {
+                    $extra_old['old_posts_active'] = 1;
+                }
+                $extra_old['message_format_old'] = trim($_POST[$message_format_name_old]);
+                $extra_old = json_encode($extra_old);
+                $wpdb->escape_by_ref($extra_old);
+                $account_id_old = $account_old['account_id'];
+                $sql = "UPDATE {$table_accounts}
+                    SET extra='{$extra_old}' 
+                    WHERE account_id={$account_id_old}";
+
+                $wpdb->query($sql);
+            }
+        }
+        
+        if($microblogposter_plg_old_posts_active_value == '1')
+        {
+            if( !wp_next_scheduled( 'microblogposter_plg_old_posts_publish' ) )
+            {
+                wp_schedule_event( time(), 'microblogposter_plg_cron_interval', 'microblogposter_plg_old_posts_publish' );
+            }
+        }
+        else
+        {
+            wp_clear_scheduled_hook('microblogposter_plg_old_posts_publish');
+        }
+        
+        $mbp_old_posts_tab_selected = true;
+    }
+    $excluded_categories_old = array();
+    if(is_array($excluded_categories_old_value))
+    {
+        $excluded_categories_old = $excluded_categories_old_value;
     }
     
     if(isset($_POST["update_license_key"]))
@@ -144,19 +255,19 @@ function microblogposter_settings_output()
         $enabled_custom_updates_value = $_POST[$enabled_custom_updates_name];
         $enabled_custom_updates_value = json_encode($enabled_custom_updates_value);
         $pro_control_dash_mode_value = $_POST[$pro_control_dash_mode_name];
-        $shortcode_title_max_length_value_temp = trim($_POST[$shortcode_title_max_length_name]);
+        $shortcode_title_max_length_value_temp = round(trim($_POST[$shortcode_title_max_length_name]));
         if(intval($shortcode_title_max_length_value_temp) && 
            intval($shortcode_title_max_length_value_temp) >= 30 && intval($shortcode_title_max_length_value_temp) <= 120)
         {
             $shortcode_title_max_length_value = $shortcode_title_max_length_value_temp;
         }
-        $shortcode_firstwords_max_length_value_temp = trim($_POST[$shortcode_firstwords_max_length_name]);
+        $shortcode_firstwords_max_length_value_temp = round(trim($_POST[$shortcode_firstwords_max_length_name]));
         if(intval($shortcode_firstwords_max_length_value_temp) && 
            intval($shortcode_firstwords_max_length_value_temp) >= 30 && intval($shortcode_firstwords_max_length_value_temp) <= 120)
         {
             $shortcode_firstwords_max_length_value = $shortcode_firstwords_max_length_value_temp;
         }
-        $shortcode_excerpt_max_length_value_temp = trim($_POST[$shortcode_excerpt_max_length_name]);
+        $shortcode_excerpt_max_length_value_temp = round(trim($_POST[$shortcode_excerpt_max_length_name]));
         if(intval($shortcode_excerpt_max_length_value_temp) && 
            intval($shortcode_excerpt_max_length_value_temp) >= 100 && intval($shortcode_excerpt_max_length_value_temp) <= 600)
         {
@@ -1224,6 +1335,7 @@ function microblogposter_settings_output()
             <ul id="mbp-menu">
                 <li id="mbp-general-tab" class="mbp-tab-background mbp-tab-first">General Options</li><!--
              --><li id="mbp-accounts-tab" class="mbp-tab-background">Social Networks Accounts</li><!--
+             --><li id="mbp-old-posts-publish-tab" class="mbp-tab-background"><span class="mbp-blue">New</span> **Auto Publish Old Posts**</li><!--                                                                                     
              --><li id="mbp-manual-post-tab" class="mbp-tab-background">Manual Auto Sharing</li><!--
              --><li id="mbp-logs-tab" class="mbp-tab-background mbp-tab-last">Logs/History</li>
             </ul> 
@@ -1236,7 +1348,7 @@ function microblogposter_settings_output()
                 <table class="form-table">
                     <tr>
                         <td colspan="2">
-                            <h3><span class="wp-blue-title">Url Shortener :</span></h3>
+                            <h3><span class="mbp-blue-title">Url Shortener :</span></h3>
                         </td>
                     </tr>
                     <tr>
@@ -1410,7 +1522,7 @@ function microblogposter_settings_output()
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <h3><span class="wp-blue-title">Posts :</span></h3>
+                            <h3><span class="mbp-blue-title">Posts :</span></h3>
                         </td>
                     </tr>
                     <tr>
@@ -1436,7 +1548,7 @@ function microblogposter_settings_output()
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <h3><span class="wp-blue-title">Pages :</span></h3>
+                            <h3><span class="mbp-blue-title">Pages :</span></h3>
                         </td>
                     </tr>
                     <tr>
@@ -1466,7 +1578,7 @@ function microblogposter_settings_output()
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <h3><span class="wp-blue-title">Custom Post Types :</span></h3>
+                            <h3><span class="mbp-blue-title">Custom Post Types :</span></h3>
                         </td>
                     </tr>
                     <tr>
@@ -1501,7 +1613,7 @@ function microblogposter_settings_output()
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <h3><span class="wp-blue-title">Categories to exclude posts from Cross Posting :</span></h3>
+                            <h3><span class="mbp-blue-title">Categories to exclude posts from Cross Posting :</span></h3>
                         </td>
                     </tr>
                     <tr>
@@ -1528,7 +1640,7 @@ function microblogposter_settings_output()
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <h3><span class="wp-blue-title">Shortcodes adjustments :</span></h3>
+                            <h3><span class="mbp-blue-title">Shortcodes adjustments :</span></h3>
                         </td>
                     </tr>
                     <tr>
@@ -1553,7 +1665,7 @@ function microblogposter_settings_output()
                 <table class="form-table">
                     <tr>
                         <td colspan="2">
-                            <h3><span class="wp-blue-title">MicroblogPoster's Control Dashboard :</span></h3>
+                            <h3><span class="mbp-blue-title">MicroblogPoster's Control Dashboard :</span></h3>
                         </td>
                     </tr>
                     <tr>
@@ -3292,7 +3404,7 @@ function microblogposter_settings_output()
                                 </div>
                                 <div class="input-div-large">
                                     <input type="text" id="mbp_facebook_page_id" name="mbp_facebook_page_id" value="" />
-                                    <span class="description">Your Facebook Page ID.</span>
+                                    <span class="description">Your Facebook Page ID. (numeric)</span>
                                 </div>
                             </div>
                             <div id="mbp-facebook-group-id-div">
@@ -3301,7 +3413,7 @@ function microblogposter_settings_output()
                                 </div>
                                 <div class="input-div-large">
                                     <input type="text" id="mbp_facebook_group_id" name="mbp_facebook_group_id" value="" />
-                                    <span class="description">Your Facebook Group ID.</span>
+                                    <span class="description">Your Facebook Group ID. (numeric)</span>
                                 </div>
                             </div>
                             <div class="input-div">
@@ -3940,6 +4052,13 @@ function microblogposter_settings_output()
             border-bottom: 3px solid #99E399;
             display: inline-block;
         }
+        #old-posts-header
+        {
+            margin-top: 0px;
+            width: 450px;
+            border-bottom: 3px solid #99E399;
+            display: inline-block;
+        }
         #social-network-accounts
         {
             margin-top: 35px;
@@ -4029,6 +4148,10 @@ function microblogposter_settings_output()
         {
             color: #5200A3;
         }
+        .logs-text-type-old
+        {
+            color: #00008A;
+        }
         #mbp-menu-wrapper
         {
             display: inline-block;
@@ -4086,7 +4209,7 @@ function microblogposter_settings_output()
         {
             margin-left: 10px;
         }
-        .wp-blue-title
+        .mbp-blue-title
         {
             color: #21759B;
             font-weight: bold;
@@ -4224,8 +4347,115 @@ function microblogposter_settings_output()
         {
             margin-bottom: 15px;
         }
+        #mbp-old-posts-status-area
+        {
+            margin-left: 85px;
+            display: inline-block;
+            width: 150px;
+        }
+        #mbp-old-posts-intro-area
+        {
+            margin-bottom: 40px;
+        }
     </style>
 
+    <div id="mbp-old-posts-publish-wrapper" class="mbp-single-tab-wrapper">
+        <h3 id="old-posts-header">Auto re-publish your old blog posts to social accounts :</h3>
+        
+        <p id="mbp-old-posts-intro-area">
+            <span class="microblogposter-name">MicroblogPoster</span> can now auto re-publish your <strong>old blog posts</strong> to social accounts in order to keep them alive.<br />
+            You need to specify the minimum and maximum of the post age and all posts, published on your blog in between, will be candidates.<br />
+            This feature utilizes the WP Cron functionality and will be run every x (specify it below) hours.<br />
+            <br />
+            <strong>How to activate:</strong><br />
+            1. Check the 'Activate old posts auto publishing'.<br />
+            2. Choose your settings.<br />
+            3. Select the social accounts you want to be active for old posts re-publishing.<br />
+            4. Hit Save button.<br />
+            5. Almost immediately you should see first old post(s) re-published in the Logs/History tab. They are labelled 'Old'.<br /> 
+            Next run will occur after approximately x hours.<br />
+        </p>
+        <form id="mbp_old_posts_form" name="mbp_old_posts_form" method="post" action="">
+            
+            
+            <table class="form-table">
+                
+                
+                <tr>
+                    <td class="label-input"><span class="mbp-blue-title">Activate old posts auto publishing:</span></td>
+                    <td>
+                        <input type="checkbox" id="<?php echo $microblogposter_plg_old_posts_active_name;?>" name="<?php echo $microblogposter_plg_old_posts_active_name;?>" value="1" <?php if($microblogposter_plg_old_posts_active_value=='1') echo 'checked';?>/>
+                        <div id="mbp-old-posts-status-area">Current Status : <?php if($microblogposter_plg_old_posts_active_value=='1') echo '<strong class=\'mbp-green\'>ACTIVE</strong>'; else echo '<strong class=\'mbp-red\'>INACTIVE</strong>';?></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="row-sep"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <span class="mbp-blue-title">General settings:</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label-input">WP Cron Interval:</td>
+                    <td><input type="text" id="<?php echo $microblogposter_plg_old_posts_interval_name;?>" name="<?php echo $microblogposter_plg_old_posts_interval_name;?>" value="<?php echo $microblogposter_plg_old_posts_interval_value;?>" size="10"/>&nbsp;<strong>hours</strong>.&nbsp;&nbsp;(default value=24, range between 1 and reasonably +&infin;)</td>
+                </tr>
+                <tr>
+                    <td class="label-input">Number of posts to auto publish each time:</td>
+                    <td><input type="text" id="<?php echo $microblogposter_plg_old_posts_nb_posts_name;?>" name="<?php echo $microblogposter_plg_old_posts_nb_posts_name;?>" value="<?php echo $microblogposter_plg_old_posts_nb_posts_value;?>" size="10"/>&nbsp;<strong>posts</strong>.&nbsp;&nbsp;(default value=1, range between 1 and 3)</td>
+                </tr>
+                <tr>
+                    <td class="label-input">Min age of published post to be eligible. (0 for no min limit):</td>
+                    <td><input type="text" id="<?php echo $microblogposter_plg_old_posts_min_age_name;?>" name="<?php echo $microblogposter_plg_old_posts_min_age_name;?>" value="<?php echo $microblogposter_plg_old_posts_min_age_value;?>" size="10"/>&nbsp;<strong>days</strong>.&nbsp;&nbsp;(default value=30, range between 0 and reasonably +&infin;)</td>
+                </tr>
+                <tr>
+                    <td class="label-input">Max age of published post to be eligible. (0 for no max limit):</td>
+                    <td><input type="text" id="<?php echo $microblogposter_plg_old_posts_max_age_name;?>" name="<?php echo $microblogposter_plg_old_posts_max_age_name;?>" value="<?php echo $microblogposter_plg_old_posts_max_age_value;?>" size="10"/>&nbsp;<strong>days</strong>.&nbsp;&nbsp;(default value=180, range between 0 and reasonably +&infin;)</td>
+                </tr>
+                <tr>
+                    <td class="label-input">Period after which the re-published old post is eligible again (0 for never):</td>
+                    <td><input type="text" id="<?php echo $microblogposter_plg_old_posts_expire_age_name;?>" name="<?php echo $microblogposter_plg_old_posts_expire_age_name;?>" value="<?php echo $microblogposter_plg_old_posts_expire_age_value;?>" size="10"/>&nbsp;<strong>days</strong>.&nbsp;&nbsp;(default value=30, range between 0 and reasonably +&infin;)</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="row-sep"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <span class="mbp-blue-title">Categories to exclude old posts from Cross Posting :</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" id="mbp-excluded-category-header">Check categories for which you want to disable old posts auto publishing.</td>
+                </tr>
+                <tr>
+                    <td colspan="2" id="mbp-excluded-category-td">
+                <?php
+                    $args = array(
+                        'orderby' => 'name',
+                        'parent' => 0,
+                        'hide_empty' => 0
+                    );
+                    $categories = get_categories($args);
+                    foreach ($categories as $category)
+                    {
+                        microblogposter_display_category_old($category, '<span class="mbp-separator-span"></span>', $excluded_categories_old);
+                    }
+                ?>
+                    </td>
+                </tr>
+            </table>
+            
+            <p class="submit">
+                <input type="submit" id="microblogposter_plg_old_posts_save" name="microblogposter_plg_old_posts_save" class="button-primary" value="Save" />
+            </p>
+            
+            <div id="mbp_manual_post_dash_head">
+                <strong>Select the social accounts to update:</strong>
+            </div>
+            <?php microblogposter_show_mini_control_dashboard_old();?>
+        </form>
+    </div>
+    
     <div id="mbp-manual-post-wrapper" class="mbp-single-tab-wrapper">
         
         <?php if(!MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Enterprise_Options','handle_manual_post')):?>
@@ -4367,6 +4597,7 @@ function microblogposter_settings_output()
         <td class="logs-username">
             <?php echo $row->username." "; ?><span class="logs-text-username">[<?php echo $row->account_type; ?>]</span>
             <?php if($row->log_type == 'manual'):?><span class="logs-text-type">[Manual]</span><?php endif;?>
+            <?php if($row->log_type == 'old'):?><span class="logs-text-type-old">[Old]</span><?php endif;?>
         </td>
         <td class="logs-message"><span class="<?php echo $color_class; ?>"><?php echo htmlentities($row->log_message); ?></span><?php if($row->action_result==1) echo " - ".htmlentities($row->update_message); ?></td>
         <td class="logs-post-id"><?php echo $row->post_id; ?></td>
@@ -4663,21 +4894,31 @@ function microblogposter_settings_output()
                 $('#mbp-general-section').hide();
                 $('#mbp-logs-wrapper').hide();
                 $('#mbp-manual-post-wrapper').hide();
+                $('#mbp-old-posts-publish-wrapper').hide();
                 $("#mbp-accounts-tab").addClass('mbp-selected-tab').removeClass('mbp-tab-background');
             <?php elseif($mbp_logs_tab_selected):?>
                 $('#mbp-social-networks-accounts').hide();
                 $('#mbp-general-section').hide();
                 $('#mbp-manual-post-wrapper').hide();
+                $('#mbp-old-posts-publish-wrapper').hide();
                 $("#mbp-logs-tab").addClass('mbp-selected-tab').removeClass('mbp-tab-background');
             <?php elseif($mbp_manual_share_tab_selected):?>
                 $('#mbp-social-networks-accounts').hide();
                 $('#mbp-general-section').hide();
                 $('#mbp-logs-wrapper').hide();
+                $('#mbp-old-posts-publish-wrapper').hide();
                 $("#mbp-manual-post-tab").addClass('mbp-selected-tab').removeClass('mbp-tab-background');
+            <?php elseif($mbp_old_posts_tab_selected):?>
+                $('#mbp-social-networks-accounts').hide();
+                $('#mbp-general-section').hide();
+                $('#mbp-logs-wrapper').hide();
+                $('#mbp-old-posts-publish-tab').addClass('mbp-selected-tab').removeClass('mbp-tab-background');
+                $('#mbp-manual-post-wrapper').hide();
             <?php else:?>
                 $('#mbp-social-networks-accounts').hide();
                 $('#mbp-logs-wrapper').hide();
                 $('#mbp-manual-post-wrapper').hide();
+                $('#mbp-old-posts-publish-wrapper').hide();
                 $("#mbp-general-tab").addClass('mbp-selected-tab').removeClass('mbp-tab-background');
             <?php endif;?>
             
@@ -4686,10 +4927,12 @@ function microblogposter_settings_output()
                 $('#mbp-social-networks-accounts').hide();
                 $('#mbp-logs-wrapper').hide();
                 $('#mbp-manual-post-wrapper').hide();
+                $('#mbp-old-posts-publish-wrapper').hide();
                 $('#mbp-general-section').show();
                 
                 $("#mbp-accounts-tab").removeClass('mbp-selected-tab').addClass('mbp-tab-background');
                 $("#mbp-logs-tab").removeClass('mbp-selected-tab').addClass('mbp-tab-background');
+                $("#mbp-old-posts-publish-tab").removeClass('mbp-selected-tab').addClass('mbp-tab-background');
                 $("#mbp-manual-post-tab").removeClass('mbp-selected-tab').addClass('mbp-tab-background');
                 $("#mbp-general-tab").addClass('mbp-selected-tab').removeClass('mbp-tab-background');
             });
@@ -4697,33 +4940,52 @@ function microblogposter_settings_output()
                 $('#mbp-logs-wrapper').hide();
                 $('#mbp-manual-post-wrapper').hide();
                 $('#mbp-general-section').hide();
+                $('#mbp-old-posts-publish-wrapper').hide();
                 $('#mbp-social-networks-accounts').show();
                 
                 $("#mbp-logs-tab").removeClass('mbp-selected-tab').addClass('mbp-tab-background');
                 $("#mbp-manual-post-tab").removeClass('mbp-selected-tab').addClass('mbp-tab-background');
                 $("#mbp-general-tab").removeClass('mbp-selected-tab').addClass('mbp-tab-background');
+                $("#mbp-old-posts-publish-tab").removeClass('mbp-selected-tab').addClass('mbp-tab-background');
                 $("#mbp-accounts-tab").addClass('mbp-selected-tab').removeClass('mbp-tab-background');
+            });
+            $("#mbp-old-posts-publish-tab").live("click", function(){
+                $('#mbp-logs-wrapper').hide();
+                $('#mbp-manual-post-wrapper').hide();
+                $('#mbp-general-section').hide();
+                $('#mbp-social-networks-accounts').hide();
+                $('#mbp-old-posts-publish-wrapper').show();
+                
+                $("#mbp-logs-tab").removeClass('mbp-selected-tab').addClass('mbp-tab-background');
+                $("#mbp-manual-post-tab").removeClass('mbp-selected-tab').addClass('mbp-tab-background');
+                $("#mbp-general-tab").removeClass('mbp-selected-tab').addClass('mbp-tab-background');
+                $("#mbp-accounts-tab").removeClass('mbp-selected-tab').addClass('mbp-tab-background');
+                $("#mbp-old-posts-publish-tab").addClass('mbp-selected-tab').removeClass('mbp-tab-background');
             });
             $("#mbp-manual-post-tab").live("click", function(){
                 $('#mbp-logs-wrapper').hide();
                 $('#mbp-general-section').hide();
                 $('#mbp-social-networks-accounts').hide();
+                $('#mbp-old-posts-publish-wrapper').hide();
                 $('#mbp-manual-post-wrapper').show();
                 
                 $("#mbp-logs-tab").removeClass('mbp-selected-tab').addClass('mbp-tab-background');
                 $("#mbp-general-tab").removeClass('mbp-selected-tab').addClass('mbp-tab-background');
                 $("#mbp-accounts-tab").removeClass('mbp-selected-tab').addClass('mbp-tab-background');
+                $("#mbp-old-posts-publish-tab").removeClass('mbp-selected-tab').addClass('mbp-tab-background');
                 $("#mbp-manual-post-tab").addClass('mbp-selected-tab').removeClass('mbp-tab-background');
             });
             $("#mbp-logs-tab").live("click", function(){
                 $('#mbp-social-networks-accounts').hide();
                 $('#mbp-general-section').hide();
                 $('#mbp-manual-post-wrapper').hide();
+                $('#mbp-old-posts-publish-wrapper').hide();
                 $('#mbp-logs-wrapper').show();
                 
                 $("#mbp-accounts-tab").removeClass('mbp-selected-tab').addClass('mbp-tab-background');
                 $("#mbp-general-tab").removeClass('mbp-selected-tab').addClass('mbp-tab-background');
                 $("#mbp-manual-post-tab").removeClass('mbp-selected-tab').addClass('mbp-tab-background');
+                $("#mbp-old-posts-publish-tab").removeClass('mbp-selected-tab').addClass('mbp-tab-background');
                 $("#mbp-logs-tab").addClass('mbp-selected-tab').removeClass('mbp-tab-background');
             });
             
@@ -4811,7 +5073,14 @@ function microblogposter_settings_output()
             }
             <?php endif;?>
         }
-        
+        function mbp_social_accounts_microblogposter_uncheck_all_old(type)
+        {
+            jQuery('.mbp_social_account_microblogposter_old_'+type).removeAttr('checked');
+        }
+        function mbp_social_accounts_microblogposter_check_all_old(type)
+        {
+            jQuery('.mbp_social_account_microblogposter_old_'+type).attr('checked','checked');
+        }
         function mbp_microblogposter_additional_shorteners()
         {
             if(jQuery(".mbp-additional-shorteners").is(':visible'))
@@ -4845,6 +5114,23 @@ function microblogposter_display_category($category, $sep, $excluded_categories)
         foreach($categories1 as $category1)
         {
             microblogposter_display_category($category1, $sep.'<span class="mbp-separator-span"></span>', $excluded_categories);
+        }
+    }
+}
+
+function microblogposter_display_category_old($category, $sep, $excluded_categories)
+{
+    
+    ?>
+    <?php echo $sep;?><input type="checkbox" class="mbp-excluded-category" id="microblogposter_category_old_<?php echo $category->term_id;?>" name="microblogposter_excluded_categories_old[]" value="<?php echo $category->term_id;?>" <?php if(in_array($category->term_id, $excluded_categories)) echo 'checked="checked"';?> /> <label for="microblogposter_category_old_<?php echo $category->term_id;?>" ><?php echo $category->name;?></label> <br/>
+    <?php
+    
+    $categories1 = get_categories(array('parent' => $category->term_id, 'hide_empty' => 0));
+    if($categories1)
+    {
+        foreach($categories1 as $category1)
+        {
+            microblogposter_display_category_old($category1, $sep.'<span class="mbp-separator-span"></span>', $excluded_categories);
         }
     }
 }
@@ -4897,7 +5183,7 @@ function microblogposter_show_mini_control_dashboard()
         {
             margin-left: 250px;
         }
-        .mbp_social-network-accounts-site div span.description
+        .mbp_social-network-accounts-site div span.description-small
         {
             margin-left: 5px;
         }
@@ -5074,9 +5360,9 @@ function microblogposter_show_common_account_dashboard_head($site)
         <div>
             <a href="#" onclick="mbp_social_accounts_microblogposter_uncheck_all('<?php echo $site;?>');return false;" >Uncheck All</a> <a href="#" onclick="mbp_social_accounts_microblogposter_check_all('<?php echo $site;?>');return false;" >Check All</a>
             <?php if(in_array($site, array('friendfeed','delicious', 'diigo', 'instapaper'))):?>
-                <span class="description">Available shortcodes: {TITLE}</span>
+                <span class="description-small">Available shortcodes: {TITLE}</span>
             <?php else:?>
-                <span class="description">Available shortcodes: {TITLE}, {URL}, {SHORT_URL}</span>
+                <span class="description-small">Available shortcodes: {TITLE}, {URL}, {SHORT_URL}</span>
             <?php endif;?>
         </div>
     </div>
@@ -5098,6 +5384,255 @@ function microblogposter_show_common_account_dashboard($account, $site)
         <br />
         <label for="mbp_social_account_microblogposter_msg_<?php echo $account->account_id;?>">Message Format for Manual Posting:</label>
         <textarea class="mbp_social_account_microblogposter_msgc" id="mbp_social_account_microblogposter_msg_<?php echo $account->account_id;?>" name="mbp_social_account_microblogposter_msg_<?php echo $account->account_id;?>" rows="2"><?php echo $message_format_mp;?></textarea>
+        
+    </div>
+    <?php
+}
+
+/**
+* Shows the MicroblogPoster's control dashboard
+*
+* @return string (html)
+*/
+function microblogposter_show_mini_control_dashboard_old()
+{
+    ?>
+    <br />
+    <style>
+        .mbp_social-network-accounts-site-old
+        {
+            margin-top: 10px;
+            margin-left: 20px;
+            width: 100%;
+        }
+        .mbp_social-network-accounts-site-old h4
+        {
+            background-color: #EBEBEB;
+            margin: 0px 0px;
+            padding: 3px 5px;
+            border-radius: 5px;
+            display: inline-block;
+            vertical-align: top;
+            font-size: 14px;
+            width: 90%;
+        }
+        .mbp_social-network-accounts-site-old a
+        {
+            font-size: 10px;
+        }
+        .mbp_social-network-accounts-site-old div
+        {
+            margin-left: 210px;
+        }
+        .mbp_social-network-accounts-site-old div span.description-small
+        {
+            margin-left: 5px;
+        }
+        .mbp_social-network-accounts-accounts
+        {
+            margin-left: 45px;
+        }
+        .mbp_social_account_microblogposter_msgcc
+        {
+            width: 290px;
+            resize: none;
+        }
+    </style>
+
+    <input type="hidden" name="mbp_control_dashboard_microblogposter" value="1" /> 
+    <?php 
+        $twitter_accounts = MicroblogPoster_Poster::get_accounts_object('twitter');
+        if(!empty($twitter_accounts)):
+            microblogposter_show_common_account_dashboard_head_old('twitter');
+            foreach($twitter_accounts as $twitter_account):
+                microblogposter_show_common_account_dashboard_old($twitter_account, 'twitter');
+    ?>
+
+    <?php
+            endforeach;
+        endif;
+    ?>
+
+
+    <?php 
+        $plurk_accounts = MicroblogPoster_Poster::get_accounts_object('plurk');
+        if(!empty($plurk_accounts)):
+            microblogposter_show_common_account_dashboard_head_old('plurk');
+            foreach($plurk_accounts as $plurk_account):
+                microblogposter_show_common_account_dashboard_old($plurk_account, 'plurk');
+    ?>
+
+    <?php
+            endforeach;
+        endif;
+    ?>
+
+    <?php 
+        $friendfeed_accounts = MicroblogPoster_Poster::get_accounts_object('friendfeed');
+        if(!empty($friendfeed_accounts)):
+            microblogposter_show_common_account_dashboard_head_old('friendfeed'); 
+            foreach($friendfeed_accounts as $friendfeed_account):
+                microblogposter_show_common_account_dashboard_old($friendfeed_account, 'friendfeed');
+    ?>
+
+    <?php
+            endforeach;
+        endif;
+    ?>
+
+    <?php 
+        $delicious_accounts = MicroblogPoster_Poster::get_accounts_object('delicious');
+        if(!empty($delicious_accounts)):
+            microblogposter_show_common_account_dashboard_head_old('delicious'); 
+            foreach($delicious_accounts as $delicious_account):
+                microblogposter_show_common_account_dashboard_old($delicious_account, 'delicious');
+    ?>
+
+    <?php
+            endforeach;
+        endif;
+    ?>
+
+    <?php 
+        $facebook_accounts = MicroblogPoster_Poster::get_accounts_object('facebook');
+        if(!empty($facebook_accounts)):
+            microblogposter_show_common_account_dashboard_head_old('facebook'); 
+            foreach($facebook_accounts as $facebook_account):
+                microblogposter_show_common_account_dashboard_old($facebook_account, 'facebook');
+    ?>
+
+    <?php
+            endforeach;
+        endif;
+    ?>
+
+    <?php 
+        $diigo_accounts = MicroblogPoster_Poster::get_accounts_object('diigo');
+        if(!empty($diigo_accounts)):
+            microblogposter_show_common_account_dashboard_head_old('diigo'); 
+            foreach($diigo_accounts as $diigo_account):
+                microblogposter_show_common_account_dashboard_old($diigo_account, 'diigo');
+    ?>
+
+    <?php
+            endforeach;
+        endif;
+    ?>
+
+    <?php 
+        $linkedin_accounts = MicroblogPoster_Poster::get_accounts_object('linkedin');
+        if(!empty($linkedin_accounts)):
+            microblogposter_show_common_account_dashboard_head_old('linkedin'); 
+            foreach($linkedin_accounts as $linkedin_account):
+                microblogposter_show_common_account_dashboard_old($linkedin_account, 'linkedin');
+    ?>
+
+    <?php
+            endforeach;
+        endif;
+    ?>
+
+    <?php 
+        $tumblr_accounts = MicroblogPoster_Poster::get_accounts_object('tumblr');
+        if(!empty($tumblr_accounts)):
+            microblogposter_show_common_account_dashboard_head_old('tumblr'); 
+            foreach($tumblr_accounts as $tumblr_account):
+                microblogposter_show_common_account_dashboard_old($tumblr_account, 'tumblr');
+    ?>
+
+    <?php
+            endforeach;
+        endif;
+    ?>
+
+    <?php 
+        $blogger_accounts = MicroblogPoster_Poster::get_accounts_object('blogger');
+        if(!empty($blogger_accounts)):
+            microblogposter_show_common_account_dashboard_head_old('blogger'); 
+            foreach($blogger_accounts as $blogger_account):
+                microblogposter_show_common_account_dashboard_old($blogger_account, 'blogger');
+    ?>
+
+    <?php
+            endforeach;
+        endif;
+    ?>
+
+    <?php 
+        $instapaper_accounts = MicroblogPoster_Poster::get_accounts_object('instapaper');
+        if(!empty($instapaper_accounts)):
+            microblogposter_show_common_account_dashboard_head_old('instapaper'); 
+            foreach($instapaper_accounts as $instapaper_account):
+                microblogposter_show_common_account_dashboard_old($instapaper_account, 'instapaper');
+    ?>
+
+    <?php
+            endforeach;
+        endif;
+    ?>
+    
+    <?php 
+        $vkontakte_accounts = MicroblogPoster_Poster::get_accounts_object('vkontakte');
+        if(!empty($vkontakte_accounts)):
+            microblogposter_show_common_account_dashboard_head_old('vkontakte'); 
+            foreach($vkontakte_accounts as $vkontakte_account):
+                microblogposter_show_common_account_dashboard_old($vkontakte_account, 'vkontakte');
+    ?>
+
+    <?php
+            endforeach;
+        endif;
+    ?>
+
+
+    <?php
+}
+
+function microblogposter_show_common_account_dashboard_head_old($site)
+{
+    ?>
+    <div class="mbp_social-network-accounts-site-old">
+        <img src="../wp-content/plugins/microblog-poster/images/<?php echo $site;?>_icon.png" />
+        <?php
+            $site_label = $site;
+            if($site == 'vkontakte'){$site_label = 'vKontakte';}
+        ?>
+        <h4><?php echo ucfirst($site_label);?> Accounts</h4>
+        <div>
+            <a href="#" onclick="mbp_social_accounts_microblogposter_uncheck_all_old('<?php echo $site;?>');return false;" >Uncheck All</a> <a href="#" onclick="mbp_social_accounts_microblogposter_check_all_old('<?php echo $site;?>');return false;" >Check All</a>
+            
+            <?php if(in_array($site, array('delicious', 'diigo', 'instapaper'))):?>
+                <span class="description-small">Available shortcodes: {TITLE}, {MANUAL_EXCERPT}, {EXCERPT}, {CONTENT_FIRST_WORDS}, {AUTHOR}</span>
+            <?php elseif(in_array($site, array('twitter','plurk'))):?>
+                <span class="description-small">Available shortcodes: {TITLE}, {URL}, {SHORT_URL}, {SITE_URL}, {CONTENT_FIRST_WORDS}, {AUTHOR}</span>
+            <?php elseif(in_array($site, array('friendfeed'))):?>
+                <span class="description-small">Available shortcodes: {TITLE}, {CONTENT_FIRST_WORDS}, {AUTHOR}</span>
+            <?php else:?>
+                <span class="description-small">Available shortcodes: {TITLE}, {URL}, {SHORT_URL}, {SITE_URL}, {MANUAL_EXCERPT}, {EXCERPT}, {CONTENT_FIRST_WORDS}, {AUTHOR}</span>
+            <?php endif;?>
+            
+        </div>
+    </div>
+    <?php
+}
+
+function microblogposter_show_common_account_dashboard_old($account, $site)
+{
+    $message_format_old = '';
+    $active = 0;
+    if(isset($account->extra) && $account->extra)
+    {
+        $extra = json_decode($account->extra, true);
+        $message_format_old = $extra['message_format_old'];
+        $active = $extra['old_posts_active'];
+    }
+    ?>
+    <div class="mbp_social-network-accounts-accounts">
+        <input type="checkbox" class="mbp_social_account_microblogposter_boxcc mbp_social_account_microblogposter_old_<?php echo $site;?>" id="mbp_social_account_microblogposter_old_<?php echo $account->account_id;?>" name="mbp_social_account_microblogposter_old_<?php echo $account->account_id;?>" value="1" <?php if($active==1) echo "checked=\"checked\""; ?> /> 
+        <label for="mbp_social_account_microblogposter_old_<?php echo $account->account_id;?>"><?php echo $account->username;?></label>
+        <br />
+        <label for="mbp_social_account_microblogposter_msg_old_<?php echo $account->account_id;?>">Message Format for Old Posts:</label>
+        <textarea class="mbp_social_account_microblogposter_msgcc" id="mbp_social_account_microblogposter_msg_old_<?php echo $account->account_id;?>" name="mbp_social_account_microblogposter_msg_old_<?php echo $account->account_id;?>" rows="2"><?php echo $message_format_old;?></textarea>
         
     </div>
     <?php
