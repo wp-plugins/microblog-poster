@@ -14,7 +14,9 @@ You only have to configure your social network accounts like Facebook, Twitter, 
 **Multiple Accounts per social site supported.**
 Possibility to nicely format the update message per account, **shortcodes supported**.
 
-**New** feature available in 1.4.6. **Auto re-publish old blog posts** to all your configured social accounts.
+**New** feature available in 1.4.6 
+
+**Auto re-publish old blog posts** to all your configured social accounts.
 
 **Logs are generated** on new blog post for each configured social network account.
 Easily follow the automated sharing process from **MicroblogPoster**'s logs section and debug your configuration if needed.
