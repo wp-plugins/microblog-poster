@@ -2,8 +2,8 @@
 Contributors: cybperic
 Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, blogger, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
 Requires at least: 3.0
-Tested up to: 4.0
-Stable tag: 1.4.4
+Tested up to: 4.1
+Stable tag: 1.4.6
 
 Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Linkedin, Tumblr, Diigo, Delicious..
 
@@ -13,6 +13,8 @@ Automatically publishes your new blog content to Social Networks. Auto-updates T
 You only have to configure your social network accounts like Facebook, Twitter, LinkedIn, Tumblr. 
 **Multiple Accounts per social site supported.**
 Possibility to nicely format the update message per account, **shortcodes supported**.
+
+**New** feature available in 1.4.6. **Auto re-publish old blog posts** to all your configured social accounts.
 
 **Logs are generated** on new blog post for each configured social network account.
 Easily follow the automated sharing process from **MicroblogPoster**'s logs section and debug your configuration if needed.
@@ -32,6 +34,7 @@ Easily follow the automated sharing process from **MicroblogPoster**'s logs sect
 * tumblr.com - Auto publish to your blog.
 * blogger.com (blogspot.com) - Auto publish to your blog.
 * instapaper.com - Auto submit bookmark of your new blogpost.
+* vk.com (vkontakte.com) - Auto publish to profile wall.
 
 Please visit **MicroblogPoster**'s [website](http://efficientscripts.com/microblogposter "MicroblogPoster's website").
 
@@ -64,6 +67,12 @@ see "posted by MicroblogPoster" in your updates, you'll see "posted by your own 
 3. MicroblogPoster Options page, Logs Section.
 
 == Changelog ==
+
+= 1.4.6 (28-01-2015) =
+- Added possibility to auto re-publish old posts to all social accounts configured.
+
+= 1.4.5 (15-12-2014) =
+- Added support for vkontakte auto publish.
 
 = 1.4.4 (28-10-2014) =
 - Added support for new lines in message format field.
@@ -188,7 +197,7 @@ Your Twitter username and password won't suffice in order to post automatic upda
 No worries, it's rather a simple procedure.
 
 
-    1. In order to auto post updates through the Twitter API you'll need
+    1. To auto post updates through the Twitter API you'll need
     to create your own Twitter App here: https://apps.twitter.com/
     
     2. Once you have created your Twitter App you have to change its Access Level
@@ -211,7 +220,7 @@ No worries, it's rather a simple procedure.
 It's most likely the same as for twitter, you'll need some more effort in order to post updates through Plurk Api.
 
 
-    1. Please go at this url http://www.plurk.com/PlurkApp/ 
+    1. Please browse to this url http://www.plurk.com/PlurkApp/ 
     and click on 'Create a New Plurk App'.
     For App Type choose 'Third-party web site integration'. 
     For App Website you can put http://localhost
@@ -242,7 +251,7 @@ It's most likely the same as for twitter, you'll need some more effort in order 
 Please note that only real personal Facebook accounts have permissions to create an App.
 Business accounts can't manage Facebook Apps.
 
-    1. Please go at this url https://developers.facebook.com/apps 
+    1. Please browse to this url https://developers.facebook.com/apps 
     and click on 'Apps' -> 'Create new App'.
     Note: If you can not click on 'Create new App', you'll need first 
     to 'Register as a Developer'.
@@ -284,14 +293,14 @@ Instead of the password, the Friendfeed API requires the Remote Key to let you p
 
 In addition to your username and password you will need to create your own Diigo App and generate an API Key.
 
-    1. Please go at this Url: https://www.diigo.com/api_keys/new/
+    1. Please browse to this Url: https://www.diigo.com/api_keys/new/
     and generate your Diigo API Key. (You need to be logged in)
 
 
 **linkedin.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/linkedinhelp "Linkedin help with screenshots.")
 
 
-    1. Please go at this Url https://www.linkedin.com/secure/developer
+    1. Please browse to this Url https://www.linkedin.com/secure/developer
     and click on 'Add New Application'.
 
     2. Fill in the required informations.
@@ -312,7 +321,7 @@ Basically your tumblr username and password won't suffice in order to post autom
 No worries, it's rather a simple procedure.
 
 
-    1. In order to post updates through the tumblr Api you'll need first
+    1. To auto post updates through the tumblr Api you'll need first
     to create your own tumblr App here: http://www.tumblr.com/oauth/apps
     
     2. Once, you have created your tumblr App copy your 'OAuth Consumer key'.
@@ -327,7 +336,7 @@ Basically first you'll need to request the activation from Google of the Blogger
 Once it's activated you'll need to create your 'Client ID' (aka App) which will auto post on your behalf.
 
 
-    1. Please go at this url: https://console.developers.google.com/
+    1. Please browse to this url: https://console.developers.google.com/
     Select 'API Project', then on left side select 'APIs & auth'. The 'APIs' tab is selected by default.
     
     2. Scroll down and locate 'Blogger API v3'.
@@ -336,7 +345,7 @@ Once it's activated you'll need to create your 'Client ID' (aka App) which will 
     3. After few days you'll receive an email from Google asking to complete the activation.
     Please follow the steps provided.
 
-    4. Please go at this url again: https://console.developers.google.com/
+    4. Please browse to this url again: https://console.developers.google.com/
     Select 'API Project', then on left side select 'APIs & auth' -> 'Credentials'
 
     5. Click on 'Create new Client ID'
@@ -350,6 +359,27 @@ Once it's activated you'll need to create your 'Client ID' (aka App) which will 
     7. Copy the Client ID and Client secret and configure your account under MicroblogPoster.
 
     8. MicroblogPoster will provide you a link in order to authorize the App posting on your behalf.
+
+**vk.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/vkontaktehelp "VKontakte help with screenshots.")
+
+Basically first you'll need to create a VKontakte APP in order to auto publish.
+
+
+    1. Please browse to this url: https://vk.com/dev
+    Select 'Standalone Application', then click 'Connect Application'.
+    
+    2. Get the code by SMS and then confirm it. Click 'Confirm'.
+
+    3. On the settings tab of your newly created Application
+    for 'Application Status' select 'Application on and visible to all'.
+    Click 'Save'.
+
+    4. Copy the Application ID and secure key and configure your account in MicroblogPoster.
+
+    5. Follow the link provided by MicroblogPoster to authorize your App 
+    posting on your behalf.
+
+    6. Last step is to save the 'Access Token' that you'll get when authorizing the account.
 
 
 == Upgrade Notice ==
