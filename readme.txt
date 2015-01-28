@@ -14,7 +14,7 @@ You only have to configure your social network accounts like Facebook, Twitter, 
 **Multiple Accounts per social site supported.**
 Possibility to nicely format the update message per account, **shortcodes supported**.
 
-**New** feature available in 1.4.6 
+**New** feature available in **1.4.6** 
 
 **Auto re-publish old blog posts** to all your configured social accounts.
 
@@ -395,6 +395,10 @@ Deactivate/Activate MicroblogPoster plugin.
 Warning about inherent php script execution time limitation that some Hosting Providers apply on shared accounts (max_execution_time PHP setting). 
 Since *MicroblogPoster* needs time to update all your social accounts when publishing a new blog post, this limit might be reached and script execution stopped.
 In order to avoid it, please limit the number of social accounts based on your environment script execution time limit.
+
+= The PHP cURL extension is required? =
+
+Yes, otherwise the plugin simply won't function at all.
 
 = The PHP cURL extension is required? =
 
