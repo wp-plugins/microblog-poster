@@ -5,11 +5,11 @@ Requires at least: 3.0
 Tested up to: 4.1
 Stable tag: 1.4.6
 
-Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Linkedin, Tumblr, Diigo, Delicious..
+Automatically publishes your new (and old) blog content to Social Networks. Auto-updates Twitter, Facebook, Linkedin, Tumblr, Blogger, Delicious..
 
 == Description ==
 
-**Auto updates your social media accounts/profiles** on each new blog post with a formatted message with backlink.
+**Auto publish to your social media accounts/profiles** on each new blog post with a formatted message with backlink.
 You only have to configure your social network accounts like Facebook, Twitter, LinkedIn, Tumblr. 
 **Multiple Accounts per social site supported.**
 Possibility to nicely format the update message per account, **shortcodes supported**.
