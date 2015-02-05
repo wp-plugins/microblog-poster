@@ -3,18 +3,20 @@ Contributors: cybperic
 Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, blogger, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
 Requires at least: 3.0
 Tested up to: 4.1
-Stable tag: 1.4.6
+Stable tag: 1.4.7
 
-Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Linkedin, Tumblr, Diigo, Delicious..
+Automatically publishes your new (and old) blog content to Social Networks. Auto-updates Twitter, Facebook, Linkedin, Tumblr, Blogger, Delicious..
 
 == Description ==
 
-**Auto updates your social media accounts/profiles** on each new blog post with a formatted message with backlink.
+**Auto publish to your social media accounts/profiles** on each new blog post with a formatted message with backlink.
 You only have to configure your social network accounts like Facebook, Twitter, LinkedIn, Tumblr. 
 **Multiple Accounts per social site supported.**
 Possibility to nicely format the update message per account, **shortcodes supported**.
 
-**New** feature available in 1.4.6. **Auto re-publish old blog posts** to all your configured social accounts.
+**New** feature available in **1.4.6** 
+
+**Auto re-publish old blog posts** to all your configured social accounts.
 
 **Logs are generated** on new blog post for each configured social network account.
 Easily follow the automated sharing process from **MicroblogPoster**'s logs section and debug your configuration if needed.
@@ -67,6 +69,9 @@ see "posted by MicroblogPoster" in your updates, you'll see "posted by your own 
 3. MicroblogPoster Options page, Logs Section.
 
 == Changelog ==
+
+= 1.4.7 (05-02-2015) =
+- Urgent linkedin api fix.
 
 = 1.4.6 (28-01-2015) =
 - Added possibility to auto re-publish old posts to all social accounts configured.
@@ -197,7 +202,7 @@ Your Twitter username and password won't suffice in order to post automatic upda
 No worries, it's rather a simple procedure.
 
 
-    1. To auto post updates through the Twitter API you'll need
+    1. In order to auto post updates through the Twitter API you'll need
     to create your own Twitter App here: https://apps.twitter.com/
     
     2. Once you have created your Twitter App you have to change its Access Level
@@ -321,7 +326,7 @@ Basically your tumblr username and password won't suffice in order to post autom
 No worries, it's rather a simple procedure.
 
 
-    1. To auto post updates through the tumblr Api you'll need first
+    1. In order to auto post updates through the tumblr Api you'll need first
     to create your own tumblr App here: http://www.tumblr.com/oauth/apps
     
     2. Once, you have created your tumblr App copy your 'OAuth Consumer key'.
@@ -397,4 +402,8 @@ In order to avoid it, please limit the number of social accounts based on your e
 = The PHP cURL extension is required? =
 
 Yes, otherwise the plugin simply won't function at all.
+
+= More FAQs .. =
+
+[MicroblogPoster's FAQ](http://efficientscripts.com/support/microblogposter/faq "MicroblogPoster's FAQ")
 
