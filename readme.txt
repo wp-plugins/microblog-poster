@@ -194,6 +194,7 @@ see "posted by MicroblogPoster" in your updates, you'll see "posted by your own 
 * Activate the Plugin through the 'Plugins' menu in WordPress
 * Settings->MicroblogPoster, configure your social network accounts.
 * The plugin is ready, it will automatically cross posts to social networks whenever you publish a new blog post.
+* You can also configure the old posts auto publishing, that way you'll keep alive old posts.
 
 
 **twitter.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/twitterhelp "Twitter help with screenshots.")
@@ -202,7 +203,7 @@ Your Twitter username and password won't suffice in order to post automatic upda
 No worries, it's rather a simple procedure.
 
 
-    1. In order to auto post updates through the Twitter API you'll need
+    1. To auto post updates through the Twitter API you'll need
     to create your own Twitter App here: https://apps.twitter.com/
     
     2. Once you have created your Twitter App you have to change its Access Level
@@ -326,7 +327,7 @@ Basically your tumblr username and password won't suffice in order to post autom
 No worries, it's rather a simple procedure.
 
 
-    1. In order to auto post updates through the tumblr Api you'll need first
+    1. To auto post updates through the tumblr Api you'll need first
     to create your own tumblr App here: http://www.tumblr.com/oauth/apps
     
     2. Once, you have created your tumblr App copy your 'OAuth Consumer key'.
