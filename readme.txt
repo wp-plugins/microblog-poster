@@ -53,7 +53,7 @@ see "posted by MicroblogPoster" in your updates, you'll see "posted by your own 
 **MicroblogPoster** in few words:
 
 - Auto publish to social media networks your new blog content
-- Auto publish old posts
+- Auto publish old posts, tweet old posts
 - Sends out social signals and auto share to social media networks
 - Social signals and backlinks auto generator
 - Cross post to facebook , twitter and more
@@ -204,7 +204,7 @@ Your Twitter username and password won't suffice in order to post automatic upda
 No worries, it's rather a simple procedure.
 
 
-    1. To auto post updates through the Twitter API you'll need
+    1. In order to auto publish through the Twitter API you'll need
     to create your own Twitter App here: https://apps.twitter.com/
     
     2. Once you have created your Twitter App you have to change its Access Level
@@ -328,7 +328,7 @@ Basically your tumblr username and password won't suffice in order to post autom
 No worries, it's rather a simple procedure.
 
 
-    1. To auto post updates through the tumblr Api you'll need first
+    1. In order to auto publish through the tumblr Api you'll need first
     to create your own tumblr App here: http://www.tumblr.com/oauth/apps
     
     2. Once, you have created your tumblr App copy your 'OAuth Consumer key'.
