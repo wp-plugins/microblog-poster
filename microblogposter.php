@@ -4,7 +4,7 @@
  * Plugin Name: Microblog Poster
  * Plugin URI: http://efficientscripts.com/microblogposter
  * Description: Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Linkedin, Plurk, Diigo, Delicious..
- * Version: 1.4.7
+ * Version: 1.4.8
  * Author: Efficient Scripts
  * Author URI: http://efficientscripts.com/
  *
@@ -148,6 +148,7 @@ class MicroblogPoster_Poster
         if($post_excerpt_tmp)
         {
             $post_excerpt_manual = $post_excerpt_tmp;
+            $post_content_actual_lkn = $post_excerpt_tmp;
         }
         $post_content[] = $post_excerpt_manual;
 	
@@ -194,7 +195,7 @@ class MicroblogPoster_Poster
         MicroblogPoster_Poster::update_diigo($old, $mp, $dash, $post_title, $permalink, $tags, $post_content, $post_ID);
         MicroblogPoster_Poster::update_linkedin($old, $mp, $dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_lkn, $featured_image_src_medium);
         MicroblogPoster_Poster::update_tumblr($old, $mp, $dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_tmb);
-        MicroblogPoster_Poster::update_blogger($old, $mp, $dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_tmb);
+        MicroblogPoster_Poster::update_blogger($old, $mp, $dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_tmb, $featured_image_src_full);
         MicroblogPoster_Poster::update_instapaper($old, $mp, $dash, $post_title, $permalink, $post_content, $post_ID);
         MicroblogPoster_Poster::update_vkontakte($old, $mp, $dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_lkn, $featured_image_src_thumbnail, $permalink_actual);
         
@@ -380,6 +381,7 @@ class MicroblogPoster_Poster
         if($post_excerpt_tmp)
         {
             $post_excerpt_manual = $post_excerpt_tmp;
+            $post_content_actual_lkn = $post_excerpt_tmp;
         }
         $post_content[] = $post_excerpt_manual;
 	
@@ -422,7 +424,7 @@ class MicroblogPoster_Poster
         MicroblogPoster_Poster::update_diigo($old, $mp, $dash, $post_title, $permalink, $tags, $post_content, $post_ID);
         MicroblogPoster_Poster::update_linkedin($old, $mp, $dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_lkn, $featured_image_src_medium);
         MicroblogPoster_Poster::update_tumblr($old, $mp, $dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_tmb);
-        MicroblogPoster_Poster::update_blogger($old, $mp, $dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_tmb);
+        MicroblogPoster_Poster::update_blogger($old, $mp, $dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_tmb, $featured_image_src_full);
         MicroblogPoster_Poster::update_instapaper($old, $mp, $dash, $post_title, $permalink, $post_content, $post_ID);
         MicroblogPoster_Poster::update_vkontakte($old, $mp, $dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_lkn, $featured_image_src_thumbnail, $permalink_actual);
         
@@ -1608,7 +1610,7 @@ class MicroblogPoster_Poster
     * @param array $post_content
     * @return void
     */
-    public static function update_blogger($old, $mp, $dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual)
+    public static function update_blogger($old, $mp, $dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual, $featured_image_src_full)
     {
         $blogger_accounts = MicroblogPoster_Poster::get_accounts('blogger');
         
@@ -1665,6 +1667,18 @@ class MicroblogPoster_Poster
                     }
                 }
                 
+                if($mp['val'] == 0)
+                {
+                    $post_content[2] = '<a href="'.$post_content[2].'">'.$post_content[2].'</a>';
+                    $post_content[3] = '<a href="'.$post_content[3].'">'.$post_content[3].'</a>';
+                }
+                elseif($mp['val'] == 1 && $mp['type'] == 'link')
+                {
+                    $post_content[1] = '<a href="'.$post_content[1].'">'.$post_content[1].'</a>';
+                    $post_content[2] = '<a href="'.$post_content[2].'">'.$post_content[2].'</a>';
+                }
+                
+                
                 if($blogger_account['message_format'] && $mp['val'] == 0)
                 {
                     $update = str_ireplace(MicroblogPoster_Poster::get_shortcodes(), $post_content, $blogger_account['message_format']);
@@ -1679,6 +1693,12 @@ class MicroblogPoster_Poster
                 {
                     continue;
                 }
+                if(isset($extra['include_featured_image']) && $extra['include_featured_image'] == 1 && $featured_image_src_full)
+                {
+                    $featured_image_html = '<div style="margin-bottom:15px;"><a href="'.$featured_image_src_full.'"><img src="'.$featured_image_src_full.'"/></a></div>';
+                    $update = $featured_image_html . $update;
+                }
+                
                 
                 $url = "https://accounts.google.com/o/oauth2/token";
                 $post_args = array(
@@ -1728,6 +1748,10 @@ class MicroblogPoster_Poster
                     if($mp['val'] == 1)
                     {
                         $log_data['log_type'] = 'manual';
+                    }
+                    elseif($old == 1)
+                    {
+                        $log_data['log_type'] = 'old';
                     }
                     MicroblogPoster_Poster::insert_log($log_data);
                 }

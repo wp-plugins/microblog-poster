@@ -3,7 +3,9 @@ Contributors: cybperic
 Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, blogger, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
 Requires at least: 3.0
 Tested up to: 4.1
-Stable tag: 1.4.7
+Stable tag: 1.4.8
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Automatically publishes your new (and old) blog content to Social Networks. Auto-updates Twitter, Facebook, Linkedin, Tumblr, Blogger, Delicious..
 
@@ -69,6 +71,10 @@ see "posted by MicroblogPoster" in your updates, you'll see "posted by your own 
 3. MicroblogPoster Options page, Logs Section.
 
 == Changelog ==
+
+= 1.4.8 (16-03-2015) =
+- Blogger auto publish improvements.
+- Linkedin auto publish improvements.
 
 = 1.4.7 (05-02-2015) =
 - Urgent linkedin api fix.

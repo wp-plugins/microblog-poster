@@ -337,6 +337,7 @@ function microblogposter_settings_output()
     
     $http_auth_sites = array('friendfeed','delicious','diigo','instapaper');
     $tags_sites = array('delicious','diigo');
+    $featured_image_sites = array('blogger');
     
     $mbp_accounts_tab_selected = false;
     if(isset($_GET["t"]) && $_GET["t"]==2)
@@ -359,6 +360,14 @@ function microblogposter_settings_output()
             if(isset($_POST['include_tags']) && trim($_POST['include_tags']) == '1')
             {
                 $extra['include_tags'] = 1;
+            }
+        }
+        if(in_array($account_type, $featured_image_sites))
+        {
+            $extra['include_featured_image'] = 0;
+            if(isset($_POST['include_featured_image']) && trim($_POST['include_featured_image']) == '1')
+            {
+                $extra['include_featured_image'] = 1;
             }
         }
         if($account_type=='diigo')
@@ -550,6 +559,14 @@ function microblogposter_settings_output()
             if(isset($_POST['include_tags']) && trim($_POST['include_tags']) == '1')
             {
                 $extra['include_tags'] = 1;
+            }
+        }
+        if(in_array($account_type, $featured_image_sites))
+        {
+            $extra['include_featured_image'] = 0;
+            if(isset($_POST['include_featured_image']) && trim($_POST['include_featured_image']) == '1')
+            {
+                $extra['include_featured_image'] = 1;
             }
         }
         if($account_type=='diigo')
@@ -2803,6 +2820,7 @@ function microblogposter_settings_output()
                 {
                     $blogg_blog_id = $blogg_acc_extra['blog_id'];
                 }
+                $include_featured_image = (isset($blogg_acc_extra['include_featured_image']) && $blogg_acc_extra['include_featured_image'] == 1)?true:false;
             }
             
             $authorize_url = "https://accounts.google.com/o/oauth2/auth?response_type=code&client_id={$row->consumer_key}&redirect_uri={$redirect_uri}&state=blogger_microblogposter_{$row->account_id}&scope=http://www.blogger.com/feeds/&access_type=offline";
@@ -2842,6 +2860,14 @@ function microblogposter_settings_output()
                             </div>
                             <div class="input-div-large">
                                 <span class="description-small"><?php echo $description_shortcodes;?></span>
+                            </div>
+                            <div class="mbp-separator"></div>
+                            <div class="input-div">
+                                Include featured image:
+                            </div>
+                            <div class="input-div-large">
+                                <input type="checkbox" id="include_featured_image" name="include_featured_image" value="1" <?php if ($include_featured_image) echo "checked";?>/>
+                                <span class="description">Do you want to include featured image in your updates?</span>
                             </div>
                             <div class="mbp-separator"></div>
                             <div class="input-div">
@@ -3689,7 +3715,7 @@ function microblogposter_settings_output()
                             Blog Id:
                         </div>
                         <div class="input-div-large">
-                            <input type="text" id="mbp_tumblr_blog_hostname" name="mbp_blogger_blog_id" />
+                            <input type="text" id="mbp_blogger_blog_id" name="mbp_blogger_blog_id" />
                             <span class="description">Ex: '1237342953579224633'</span>
                         </div>
                         <div class="input-div">
@@ -3704,6 +3730,14 @@ function microblogposter_settings_output()
                         </div>
                         <div class="input-div-large">
                             <span class="description-small"><?php echo $description_shortcodes;?></span>
+                        </div>
+                        <div class="mbp-separator"></div>
+                        <div class="input-div">
+                            Include featured image:
+                        </div>
+                        <div class="input-div-large">
+                            <input type="checkbox" id="include_featured_image" name="include_featured_image" value="1" />
+                            <span class="description">Do you want to include featured image in your updates?</span>
                         </div>
                         <div class="mbp-separator"></div>
                         <div class="input-div">
@@ -4626,7 +4660,7 @@ function microblogposter_settings_output()
                     'scrolling'	: 'auto',
                     'titleShow'	: false,
                     'onComplete'	: function() {
-                        $('div#fancybox-content #plurk-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div,div#fancybox-content #diigo-div,div#fancybox-content #linkedin-div,div#fancybox-content #tumblr-div,div#fancybox-content #blogger-div,div#fancybox-content #instapaper-div,div#fancybox-content #vkontakte-div').hide().find('input,select').attr('disabled','disabled');
+                        $('div#fancybox-content #plurk-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div,div#fancybox-content #diigo-div,div#fancybox-content #linkedin-div,div#fancybox-content #tumblr-div,div#fancybox-content #blogger-div,div#fancybox-content #instapaper-div,div#fancybox-content #vkontakte-div').hide().find('input,select,textarea').attr('disabled','disabled');
                         
                         $(".save-account").removeAttr('disabled');
                         
@@ -4666,8 +4700,8 @@ function microblogposter_settings_output()
             $("#account_type").live("change", function(){
                 var type = $(this).val();
                 //console.log(type);
-                $('div#fancybox-content #twitter-div,div#fancybox-content #plurk-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div,div#fancybox-content #diigo-div,div#fancybox-content #linkedin-div,div#fancybox-content #tumblr-div,div#fancybox-content #blogger-div,div#fancybox-content #instapaper-div,div#fancybox-content #vkontakte-div').hide().find('input,select').attr('disabled','disabled');
-                $('div#fancybox-content #'+type+'-div').show().find('input,select').removeAttr('disabled');
+                $('div#fancybox-content #twitter-div,div#fancybox-content #plurk-div,div#fancybox-content #friendfeed-div,div#fancybox-content #delicious-div,div#fancybox-content #facebook-div,div#fancybox-content #diigo-div,div#fancybox-content #linkedin-div,div#fancybox-content #tumblr-div,div#fancybox-content #blogger-div,div#fancybox-content #instapaper-div,div#fancybox-content #vkontakte-div').hide().find('input,select,textarea').attr('disabled','disabled');
+                $('div#fancybox-content #'+type+'-div').show().find('input,select,textarea').removeAttr('disabled');
                 $(".save-account").removeAttr('disabled');
                 if(type=='facebook')
                 {
