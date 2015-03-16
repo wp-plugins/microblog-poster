@@ -55,6 +55,7 @@ see "posted by MicroblogPoster" in your updates, you'll see "posted by your own 
 **MicroblogPoster** in few words:
 
 - Auto publish to social media networks your new blog content
+- Auto publish old posts, tweet old posts
 - Sends out social signals and auto share to social media networks
 - Social signals and backlinks auto generator
 - Cross post to facebook , twitter and more
