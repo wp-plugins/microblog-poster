@@ -2212,11 +2212,11 @@ function microblogposter_settings_output()
             
             if($target_type == "page")
             {
-                $fb_scope = "publish_actions,manage_pages,status_update";
+                $fb_scope = "publish_actions,publish_pages,manage_pages,status_update";
             }
             elseif($target_type == "group")
             {
-                $fb_scope = "publish_actions,manage_pages,user_groups,status_update";
+                $fb_scope = "publish_actions,publish_pages,manage_pages,user_groups,status_update";
             }
             $fb_scope = urlencode($fb_scope);
             
