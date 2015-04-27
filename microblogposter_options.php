@@ -314,7 +314,7 @@ function microblogposter_settings_output()
         update_option($shortcode_excerpt_max_length_name, $shortcode_excerpt_max_length_value);
         
         ?>
-        <div class="updated"><p><strong>Options saved.</strong></p></div>
+        <div class="updated"><p><strong><?php _e('Options saved.', 'microblog-poster');?></strong></p></div>
         <?php
         
     }
@@ -527,7 +527,7 @@ function microblogposter_settings_output()
         
         
         ?>
-        <div class="updated"><p><strong>Account added successfully.</strong></p></div>
+        <div class="updated"><p><strong><?php _e('Account added successfully.', 'microblog-poster');?></strong></p></div>
         <?php
     }
     
@@ -707,7 +707,7 @@ function microblogposter_settings_output()
         
         
         ?>
-        <div class="updated"><p><strong>Account updated successfully.</strong></p></div>
+        <div class="updated"><p><strong><?php _e('Account updated successfully.', 'microblog-poster');?></strong></p></div>
         <?php
     }
     
@@ -727,7 +727,7 @@ function microblogposter_settings_output()
         $wpdb->query($sql);
         
         ?>
-        <div class="updated"><p><strong>Account deleted successfully.</strong></p></div>
+        <div class="updated"><p><strong><?php _e('Account deleted successfully.', 'microblog-poster');?></strong></p></div>
         <?php
     }
     
@@ -1291,81 +1291,88 @@ function microblogposter_settings_output()
         }
     }
     
-    $description_shortcodes = "You can use shortcodes: {TITLE} = Title of the new blog post. {URL} = The blog post url.";
-    $description_shortcodes .= " {SHORT_URL} = The blog post shortened url. {SITE_URL} = Your blog/site url.";
-    $description_shortcodes .= " {MANUAL_EXCERPT} = Manually entered post excerpt, otherwise empty string. {EXCERPT} - If provided equals to manual excerpt, otherwise auto generated.";
-    $description_shortcodes .= " {CONTENT_FIRST_WORDS} = First few words of your content, suitable for twitter-like sites. {AUTHOR} - The author's name.";
+    $shortcodes_intro = __( 'You can use shortcodes:', 'microblog-poster' );
+    $title_shortcode = "{TITLE} = " . __( 'Title of the blog post.', 'microblog-poster' );
+    $url_shortcode = "{URL} = " . __( 'Url of the blog post.', 'microblog-poster' );
+    $short_url_shortcode = "{SHORT_URL} = " . __( 'The blog post shortened url.', 'microblog-poster' );
+    $site_url_shortcode = "{SITE_URL} = " . __( 'Your blog/site url.', 'microblog-poster' );
+    $manual_excerpt_shortcode = "{MANUAL_EXCERPT} = " . __( 'Manually entered post excerpt, otherwise empty string.', 'microblog-poster' );
+    $excerpt_shortcode = "{EXCERPT} = " . __( 'If provided equals to manual excerpt, otherwise auto generated.', 'microblog-poster' );
+    $content_first_words_shortcode = "{CONTENT_FIRST_WORDS} = " . __( 'First few words of your content, suitable for twitter-like sites.', 'microblog-poster' );
+    $author_shortcode = "{AUTHOR} = " . __( "The author's name.", 'microblog-poster' );
     
-    $description_shortcodes_m = "You can use shortcodes: {TITLE} = Title of the new blog post. {URL} = The blog post url.";
-    $description_shortcodes_m .= " {SHORT_URL} = The blog post shortened url. {SITE_URL} = Your blog/site url.";
-    $description_shortcodes_m .= " {CONTENT_FIRST_WORDS} = First few words of your content, suitable for twitter-like sites. {AUTHOR} - The author's name.";
+    $description_shortcodes = $shortcodes_intro . ' ' . $title_shortcode . ' ' . $url_shortcode . ' ' . $short_url_shortcode;
+    $description_shortcodes .= ' ' . $site_url_shortcode . ' ' . $manual_excerpt_shortcode . ' ' . $excerpt_shortcode;
+    $description_shortcodes .= ' ' . $content_first_words_shortcode . ' ' . $author_shortcode;
     
-    $description_shortcodes_m_ff = "You can use shortcodes: {TITLE} = Title of the new blog post.";
-    $description_shortcodes_m_ff .= " {CONTENT_FIRST_WORDS} = First few words of your content, suitable for twitter-like sites. {AUTHOR} - The author's name.";
+    $description_shortcodes_m = $shortcodes_intro . ' ' . $title_shortcode . ' ' . $url_shortcode . ' ' . $short_url_shortcode;
+    $description_shortcodes_m .= ' ' . $site_url_shortcode . ' ' . $content_first_words_shortcode . ' ' . $author_shortcode;
     
-    $description_shortcodes_bookmark = "You can use shortcodes: {TITLE} = Title of the new blog post.";
-    $description_shortcodes_bookmark .= " {MANUAL_EXCERPT} = Manually entered post excerpt, otherwise empty string. {EXCERPT} - If provided equals to manual excerpt, otherwise auto generated.";
-    $description_shortcodes_bookmark .= " {CONTENT_FIRST_WORDS} = First few words of your content, suitable for twitter-like sites. {AUTHOR} - The author's name.";
+    $description_shortcodes_m_ff = $shortcodes_intro . ' ' . $title_shortcode;
+    $description_shortcodes_m_ff .= ' ' . $content_first_words_shortcode . ' ' . $author_shortcode;
     
-    $description_mandatory_username = "Mandatory. Easily identify it, not used for posting.";
+    $description_shortcodes_bookmark = $shortcodes_intro . ' ' . $title_shortcode;
+    $description_shortcodes_bookmark .= ' ' . $manual_excerpt_shortcode . ' ' . $excerpt_shortcode;
+    $description_shortcodes_bookmark .= ' ' . $content_first_words_shortcode . ' ' . $author_shortcode;
+    
+    $description_mandatory_username = __('Mandatory. Easily identify it, not used for posting.', 'microblog-poster');
     ?>
     
    
     <div class="wrap">
         <div id="icon-plugins" class="icon32"><br /></div>
         <h2 id="mbp-intro">
-            <span class="microblogposter-name">MicroblogPoster</span> Settings
+            <?php _e('<span class="microblogposter-name">MicroblogPoster</span> Settings', 'microblog-poster');?>
             <?php if(!MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account')):?>
-                <span class="mbp-intro-text">Advanced features are available with the Pro / Enterprise Add-on</span>
-                <a class="mbp-intro-text" href="http://efficientscripts.com/microblogposteraddons" target="_blank">Upgrade Now</a>
+                <span class="mbp-intro-text"><?php _e('Advanced features are available with the Pro / Enterprise Add-on', 'microblog-poster');?></span>
+                <a class="mbp-intro-text" href="http://efficientscripts.com/microblogposteraddons" target="_blank"><?php _e('Upgrade Now', 'microblog-poster');?></a>
             <?php endif;?>
         </h2>
         
         <p>
-            The idea behind <span class="microblogposter-name">MicroblogPoster</span> is to promote your wordpress blog
-            and reach more people through social networks. <br />
-            There's a general agreement in the SEO community that social signals strengthen your blog's page rank and authority.<br />
-            <span class="microblogposter-name">MicroblogPoster</span> is simply an intermediary between your blog and your own social network accounts.<br /> 
-            You'll never see "posted by MicroblogPoster" in your updates, you'll see "posted by your own App name" or simply "by API".<br />
-            If you like <span class="microblogposter-name">MicroblogPoster</span> or just find it useful, please <a class="mbp-add-review-link" href="https://wordpress.org/support/view/plugin-reviews/microblog-poster" target="_blank">Add a review</a>
+            <?php _e('The idea behind <span class="microblogposter-name">MicroblogPoster</span> is to promote your wordpress blog and reach more people through social networks.', 'microblog-poster');?> <br />
+            <?php _e('There\'s a general agreement in the SEO community that social signals strengthen your blog\'s page rank and authority.', 'microblog-poster');?><br />
+            <?php _e('<span class="microblogposter-name">MicroblogPoster</span> is simply an intermediary between your blog and your own social network accounts.', 'microblog-poster');?><br /> 
+            <?php _e('You\'ll never see "posted by MicroblogPoster" in your updates, you\'ll see "posted by your own App name" or simply "by API".', 'microblog-poster');?><br />
+            <?php _e('If you like <span class="microblogposter-name">MicroblogPoster</span> or just find it useful, please <a class="mbp-add-review-link" href="https://wordpress.org/support/view/plugin-reviews/microblog-poster" target="_blank">Add a review</a>', 'microblog-poster');?>
         </p>
             
         <?php if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account') && !$customer_license_key_value['key']):?>
-            <div class="error"><p><strong>In order to complete the MicroblogPoster's Pro / Enterprise Add-on installation, please Save your Customer License Key.</strong></p></div>
+            <div class="error"><p><strong><?php _e('In order to complete the MicroblogPoster\'s Pro / Enterprise Add-on installation, please Save your Customer License Key.', 'microblog-poster');?></strong></p></div>
         <?php elseif(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account') && $customer_license_key_value['key']):?>
             <div>
-                Customer License Key : <?php echo $customer_license_key_value['key'];?>
-                <?php if($customer_license_key_value['verified']):?><span class="mbp-green">(Valid)</span><?php else:?><span class="mbp-red">(Not Valid)</span><?php endif;?>
-                <a href="#" id="mbp_microblogposter_edit_switch" onclick="mbp_microblogposter_edit_license_key();return false;" >Edit</a>
+                <?php _e('Customer License Key', 'microblog-poster');?> : <?php echo $customer_license_key_value['key'];?>
+                <?php if($customer_license_key_value['verified']):?><span class="mbp-green">(<?php _e('Valid', 'microblog-poster');?>)</span><?php else:?><span class="mbp-red">(<?php _e('Not Valid', 'microblog-poster');?>)</span><?php endif;?>
+                <a href="#" id="mbp_microblogposter_edit_switch" onclick="mbp_microblogposter_edit_license_key();return false;" ><?php _e('Edit', 'microblog-poster');?></a>
             </div>
         <?php endif;?>
             
         <?php if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account')):?>    
             <form id="license_key_form" name="license_key_form" method="post" action="">
                 <input type="text" id="<?php echo $customer_license_key_name;?>" name="<?php echo $customer_license_key_name;?>" value="<?php echo $customer_license_key_value['key'];?>" size="35" />
-                <input type="submit" name="update_license_key" class="button" value="Save License Key" />
+                <input type="submit" name="update_license_key" class="button" value="<?php _e('Save License Key', 'microblog-poster');?>" />
             </form>
         <?php endif;?>
         
         
         <div id="mbp-menu-wrapper">
             <ul id="mbp-menu">
-                <li id="mbp-general-tab" class="mbp-tab-background mbp-tab-first">General Options</li><!--
-             --><li id="mbp-accounts-tab" class="mbp-tab-background">Social Networks Accounts</li><!--
-             --><li id="mbp-old-posts-publish-tab" class="mbp-tab-background"><span class="mbp-blue">New</span> **Auto Publish Old Posts**</li><!--                                                                                     
-             --><li id="mbp-manual-post-tab" class="mbp-tab-background">Manual Auto Sharing</li><!--
-             --><li id="mbp-logs-tab" class="mbp-tab-background mbp-tab-last">Logs/History</li>
+                <li id="mbp-general-tab" class="mbp-tab-background mbp-tab-first"><?php _e('General Options', 'microblog-poster');?></li><!--
+             --><li id="mbp-accounts-tab" class="mbp-tab-background"><?php _e('Social Networks Accounts', 'microblog-poster');?></li><!--
+             --><li id="mbp-old-posts-publish-tab" class="mbp-tab-background"><?php _e('**Auto Publish Old Posts**', 'microblog-poster');?></li><!--                                                                                     
+             --><li id="mbp-manual-post-tab" class="mbp-tab-background"><?php _e('Manual Auto Publishing', 'microblog-poster');?></li><!--
+             --><li id="mbp-logs-tab" class="mbp-tab-background mbp-tab-last"><?php _e('Logs/History', 'microblog-poster');?></li>
             </ul> 
         </div>
         
         
         <div id="mbp-general-section" class="mbp-single-tab-wrapper">
-            <h3 id="general-header">General Section:</h3>
+            <h3 id="general-header"><?php _e('Choose your general options', 'microblog-poster');?> :</h3>
             <form name="options_form" method="post" action="">
                 <table class="form-table">
                     <tr>
                         <td colspan="2">
-                            <h3><span class="mbp-blue-title">Url Shortener :</span></h3>
+                            <h3><span class="mbp-blue-title"><?php _e('Url Shortener', 'microblog-poster');?> :</span></h3>
                         </td>
                     </tr>
                     <tr>
@@ -1373,47 +1380,65 @@ function microblogposter_settings_output()
                             
                             <h3>
                                 <input type="radio" name="<?php echo $url_shortener_name;?>" value="bitly" <?php if($url_shortener_value == 'bitly') echo 'checked';?> />
-                                Your <img src="../wp-content/plugins/microblog-poster/images/bitly_icon.png" /> Credentials: <span class="description"> <a href="http://efficientscripts.com/help/microblogposter/bitlyhelp" target="_blank">Help with screenshots</a></span>
+                                <img src="../wp-content/plugins/microblog-poster/images/bitly_icon.png" /> : <span class="description"> <a href="http://efficientscripts.com/help/microblogposter/bitlyhelp" target="_blank"><?php _e('Help with screenshots in english', 'microblog-poster');?></a></span>
                             </h3>
 
                         </td>
                     </tr>
                     <tr>
-                        <td class="label-input padding-left">Bitly API User:</td>
-                        <td><input type="text" id="<?php echo $bitly_api_user_name;?>" name="<?php echo $bitly_api_user_name;?>" value="<?php echo $bitly_api_user_value;?>" size="35" /></td>
+                        <td class="label-input padding-left"><?php _e('Bitly API Username :', 'microblog-poster');?></td>
+                        <td>
+                            <input type="text" id="<?php echo $bitly_api_user_name;?>" name="<?php echo $bitly_api_user_name;?>" value="<?php echo $bitly_api_user_value;?>" size="35" />
+                            <span class="description">(Bitly API Username)</span>
+                        </td>
                     </tr>
                     <tr>
-                        <td class="label-input padding-left">Bitly API Key:</td>
-                        <td><input type="text" id="<?php echo $bitly_api_key_name;?>" name="<?php echo $bitly_api_key_name;?>" value="<?php echo $bitly_api_key_value;?>" size="35" /></td>
+                        <td class="label-input padding-left"><?php _e('Bitly API Key :', 'microblog-poster');?></td>
+                        <td>
+                            <input type="text" id="<?php echo $bitly_api_key_name;?>" name="<?php echo $bitly_api_key_name;?>" value="<?php echo $bitly_api_key_value;?>" size="35" />
+                            <span class="description">(Bitly API Key)</span>
+                        </td>
                     </tr>
                     <tr>
                         <td class="label-input padding-left">&nbsp;</td>
-                        <td>OR</td>
+                        <td><?php _e('OR', 'microblog-poster');?></td>
                     </tr>
                     <tr>
-                        <td class="label-input padding-left">Bitly Access Token:</td>
-                        <td><input type="text" id="<?php echo $bitly_access_token_name;?>" name="<?php echo $bitly_access_token_name;?>" value="<?php echo $bitly_access_token_value;?>" size="35" /></td>
+                        <td class="label-input padding-left"><?php _e('Bitly Access Token :', 'microblog-poster');?></td>
+                        <td>
+                            <input type="text" id="<?php echo $bitly_access_token_name;?>" name="<?php echo $bitly_access_token_name;?>" value="<?php echo $bitly_access_token_value;?>" size="35" />
+                            <span class="description">(Bitly Access Token)</span>
+                        </td>
                     </tr>
                     <tr>
-                        <td colspan="2" class="padding-top-bottom">The combination of username/API key for authenticating with Bitly is now <span class="mbp-deprecated">deprecated</span> (still works).<br /> Recommended way is the oauth access token only authentication.</td>
+                        <td colspan="2" class="padding-top-bottom">
+                            <?php _e('The combination of username/API key for authenticating with Bitly is now <span class="mbp-deprecated">deprecated</span> (still works).', 'microblog-poster');?><br /> 
+                            <?php _e('Recommended way is the oauth access token only authentication.', 'microblog-poster');?>
+                        </td>
                     </tr>
                     <tr>
                         <td colspan="2">
                             
                             <h3>
                                 <input type="radio" name="<?php echo $url_shortener_name;?>" value="googl" <?php if($url_shortener_value == 'googl') echo 'checked';?> />
-                                Your <img src="../wp-content/plugins/microblog-poster/images/googl_icon.png" /> Credentials: <span class="description"> <a href="http://efficientscripts.com/help/microblogposter/googlhelp" target="_blank">Help with screenshots</a></span>
+                                <img src="../wp-content/plugins/microblog-poster/images/googl_icon.png" /> : <span class="description"> <a href="http://efficientscripts.com/help/microblogposter/googlhelp" target="_blank"><?php _e('Help with screenshots in english', 'microblog-poster');?></a></span>
                             </h3>
 
                         </td>
                     </tr>
                     <tr>
-                        <td class="label-input padding-left">Goo.gl Client ID:</td>
-                        <td><input type="text" id="<?php echo $googl_api_client_id_name;?>" name="<?php echo $googl_api_client_id_name;?>" value="<?php echo $googl_api_client_id_value;?>" size="35" /></td>
+                        <td class="label-input padding-left"><?php _e('Goo.gl Client ID :', 'microblog-poster');?></td>
+                        <td>
+                            <input type="text" id="<?php echo $googl_api_client_id_name;?>" name="<?php echo $googl_api_client_id_name;?>" value="<?php echo $googl_api_client_id_value;?>" size="35" />
+                            <span class="description">(Goo.gl Client ID)</span>
+                        </td>
                     </tr>
                     <tr>
-                        <td class="label-input padding-left">Goo.gl Client Secret:</td>
-                        <td><input type="text" id="<?php echo $googl_api_client_secret_name;?>" name="<?php echo $googl_api_client_secret_name;?>" value="<?php echo $googl_api_client_secret_value;?>" size="35" /></td>
+                        <td class="label-input padding-left"><?php _e('Goo.gl Client Secret :', 'microblog-poster');?></td>
+                        <td>
+                            <input type="text" id="<?php echo $googl_api_client_secret_name;?>" name="<?php echo $googl_api_client_secret_name;?>" value="<?php echo $googl_api_client_secret_value;?>" size="35" />
+                            <span class="description">(Goo.gl Client Secret)</span>
+                        </td>
                     </tr>
                     <tr>
                         <?php
@@ -1423,22 +1448,24 @@ function microblogposter_settings_output()
                         <td colspan="2" class="padding-left padding-top1-bottom authorization">
                             <?php if($googl_api_refresh_token_value && $googl_api_client_id_value && $googl_api_client_secret_value):?>
                             <div>
-                                Authorization is valid permanently.&nbsp;Refresh only if you changed Client ID and Client Secret.<br />
-                                <a href="<?php echo $googl_authorize_url; ?>" >Refresh authorization now</a>
+                                <?php _e('Authorization is valid permanently. Refresh only if you changed Client ID and Client Secret.', 'microblog-poster');?><br />
+                                <a href="<?php echo $googl_authorize_url; ?>" ><?php _e('Refresh authorization now', 'microblog-poster');?></a>
                             </div>
                             <?php elseif($googl_api_client_id_value && $googl_api_client_secret_value):?>
-                            <div><br />Please authorize before you can shorten urls.&nbsp;<a href="<?php echo $googl_authorize_url; ?>" >Authorize</a></div>
+                            <div><br /><?php _e('Please authorize before you can shorten urls.', 'microblog-poster');?>&nbsp;<a href="<?php echo $googl_authorize_url; ?>" ><?php _e('Authorize', 'microblog-poster');?></a></div>
                             <?php endif;?>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2" class="padding-top-bottom">Please <span class="mbp-deprecated">Save the Client ID and Client Secret first</span> then you can Authorize/Re-Authorize the goo.gl account.</td>
+                        <td colspan="2" class="padding-top-bottom">
+                            <?php _e('Please <span class="mbp-deprecated">Save the Client ID and Client Secret first</span> then you can Authorize/Re-Authorize the goo.gl account.', 'microblog-poster');?>
+                        </td>
                     </tr>
                     <?php if(!MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Enterprise_Options','handle_manual_post')):?>
                     <tr>
                         <td colspan="2">
                             <h3>
-                                <a href="#" id="mbp_microblogposter_additional-shorteners_switch" onclick="mbp_microblogposter_additional_shorteners();return false;" >Show Additional Shorteners...</a>
+                                <a href="#" id="mbp_microblogposter_additional-shorteners_switch" onclick="mbp_microblogposter_additional_shorteners();return false;" ><?php _e('Show Additional Shorteners...', 'microblog-poster');?></a>
                                 
                             </h3>
                         </td>
@@ -1446,11 +1473,11 @@ function microblogposter_settings_output()
                     <tr class="mbp-additional-shorteners">
                         <td colspan="2">
                             <h3 class="mbp-additional-shorteners-upgrade">
-                                Additional Shorteners are only available with the Enterprise Add-on.
+                                <?php _e('Additional Shorteners are only available with the Enterprise Add-on.', 'microblog-poster');?>
                                 <?php if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account')):?>
-                                <a href="http://efficientscripts.com/login" target="_blank">Upgrade Now</a>
+                                <a href="http://efficientscripts.com/login" target="_blank"><?php _e('Upgrade Now', 'microblog-poster');?></a>
                                 <?php else:?>
-                                <a href="http://efficientscripts.com/microblogposteraddons" target="_blank">Upgrade Now</a>
+                                <a href="http://efficientscripts.com/microblogposteraddons" target="_blank"><?php _e('Upgrade Now', 'microblog-poster');?></a>
                                 <?php endif;?>
                             </h3>
                         </td>
@@ -1460,22 +1487,28 @@ function microblogposter_settings_output()
                         <td colspan="2">
                             <h3>
                                 <input type="radio" name="<?php echo $url_shortener_name;?>" value="adfly" <?php if($url_shortener_value == 'adfly') echo 'checked';?> />
-                                Your <img src="../wp-content/plugins/microblog-poster/images/adfly_icon.png" /> Credentials: <span class="description"> <a href="http://efficientscripts.com/help/microblogposter/adflyhelp" target="_blank">Help with screenshots</a></span>
+                                <img src="../wp-content/plugins/microblog-poster/images/adfly_icon.png" /> : <span class="description"> <a href="http://efficientscripts.com/help/microblogposter/adflyhelp" target="_blank"><?php _e('Help with screenshots in english', 'microblog-poster');?></a></span>
                             </h3>
                         </td>
                     </tr>
                     <tr class="mbp-additional-shorteners">
-                        <td class="label-input padding-left">Adf.ly Api Key:</td>
-                        <td><input type="text" id="<?php echo $adfly_api_key_name;?>" name="<?php echo $adfly_api_key_name;?>" value="<?php echo $adfly_api_key_value;?>" size="35" /></td>
-                    </tr>
-                    <tr class="mbp-additional-shorteners">
-                        <td class="label-input padding-left">Adf.ly User Id:</td>
-                        <td><input type="text" id="<?php echo $adfly_api_user_id_name;?>" name="<?php echo $adfly_api_user_id_name;?>" value="<?php echo $adfly_api_user_id_value;?>" size="35" /></td>
-                    </tr>
-                    <tr class="mbp-additional-shorteners">
-                        <td class="label-input padding-left">Adf.ly Domain:</td>
+                        <td class="label-input padding-left"><?php _e('Adf.ly Api Key :', 'microblog-poster');?></td>
                         <td>
-                            <input type="radio" name="<?php echo $adfly_api_domain_name;?>" value="adfly" <?php if($adfly_api_domain_value == 'adfly') echo 'checked';?> />adf.ly (ay.gy will be used for twitter)
+                            <input type="text" id="<?php echo $adfly_api_key_name;?>" name="<?php echo $adfly_api_key_name;?>" value="<?php echo $adfly_api_key_value;?>" size="35" />
+                            <span class="description">(Adf.ly Api Key)</span>
+                        </td>
+                    </tr>
+                    <tr class="mbp-additional-shorteners">
+                        <td class="label-input padding-left"><?php _e('Adf.ly User Id :', 'microblog-poster');?></td>
+                        <td>
+                            <input type="text" id="<?php echo $adfly_api_user_id_name;?>" name="<?php echo $adfly_api_user_id_name;?>" value="<?php echo $adfly_api_user_id_value;?>" size="35" />
+                            <span class="description">(Adf.ly User Id)</span>
+                        </td>
+                    </tr>
+                    <tr class="mbp-additional-shorteners">
+                        <td class="label-input padding-left"><?php _e('Adf.ly Domain :', 'microblog-poster');?></td>
+                        <td>
+                            <input type="radio" name="<?php echo $adfly_api_domain_name;?>" value="adfly" <?php if($adfly_api_domain_value == 'adfly') echo 'checked';?> />adf.ly <?php _e('(ay.gy will be used for twitter)', 'microblog-poster');?>
                         </td>
                     </tr>
                     <tr class="mbp-additional-shorteners">
@@ -1487,51 +1520,57 @@ function microblogposter_settings_output()
                     <tr class="mbp-additional-shorteners">
                         <td class="label-input padding-left"></td>
                         <td>
-                            <input type="radio" name="<?php echo $adfly_api_domain_name;?>" value="custom" <?php if($adfly_api_domain_value == 'custom') echo 'checked';?> />custom
+                            <input type="radio" name="<?php echo $adfly_api_domain_name;?>" value="custom" <?php if($adfly_api_domain_value == 'custom') echo 'checked';?> /><?php _e('custom', 'microblog-poster');?> (custom)
                             <input type="text" id="<?php echo $adfly_api_custom_domain_name;?>" name="<?php echo $adfly_api_custom_domain_name;?>" value="<?php echo $adfly_api_custom_domain_value;?>" size="28" />
                         </td>
                     </tr>
                     <tr class="mbp-additional-shorteners">
                         <td colspan="2" class="padding-top-bottom">
-                            <span class="mbp-deprecated">Facebook blocks sharing adf.ly related links.</span>
-                            <span class="mbp-deprecated"> Twitter only accepts ay.gy links</span> (auto replacement of adf.ly)<br />
-                            We don't know if the custom domain will work with Facebook or Twitter.<br />
-                            All the other social sites seem to accept adf.ly related links.
+                            <?php _e('<span class="mbp-deprecated">Facebook blocks sharing adf.ly related links.</span>', 'microblog-poster');?>
+                            <?php _e('<span class="mbp-deprecated"> Twitter only accepts ay.gy links</span> (auto replacement of adf.ly)', 'microblog-poster');?><br />
+                            <?php _e('We don\'t know if the custom domain will work with Facebook or Twitter.', 'microblog-poster');?><br />
+                            <?php _e('All the other social sites seem to accept adf.ly related links.', 'microblog-poster');?>
                         </td>
                     </tr>
                     <tr class="mbp-additional-shorteners">
                         <td colspan="2">
                             <h3>
                                 <input type="radio" name="<?php echo $url_shortener_name;?>" value="adfocus" <?php if($url_shortener_value == 'adfocus') echo 'checked';?> />
-                                Your <img src="../wp-content/plugins/microblog-poster/images/adfocus_icon.png" /> Credentials: <span class="description"> <a href="http://efficientscripts.com/help/microblogposter/adfocushelp" target="_blank">Help with screenshots</a></span>
+                                <img src="../wp-content/plugins/microblog-poster/images/adfocus_icon.png" /> : <span class="description"> <a href="http://efficientscripts.com/help/microblogposter/adfocushelp" target="_blank"><?php _e('Help with screenshots in english', 'microblog-poster');?></a></span>
                             </h3>
                         </td>
                     </tr>
                     <tr class="mbp-additional-shorteners">
-                        <td class="label-input padding-left">Adfoc.us Api Key:</td>
-                        <td><input type="text" id="<?php echo $adfocus_api_key_name;?>" name="<?php echo $adfocus_api_key_name;?>" value="<?php echo $adfocus_api_key_value;?>" size="35" /></td>
+                        <td class="label-input padding-left"><?php _e('Adfoc.us Api Key :', 'microblog-poster');?></td>
+                        <td>
+                            <input type="text" id="<?php echo $adfocus_api_key_name;?>" name="<?php echo $adfocus_api_key_name;?>" value="<?php echo $adfocus_api_key_value;?>" size="35" />
+                            <span class="description">(Adfoc.us Api Key)</span>
+                        </td>
                     </tr>
                     <tr class="mbp-additional-shorteners">
                         <td colspan="2" class="padding-top-bottom">
-                            <span class="mbp-deprecated">Facebook blocks sharing adfoc.us related links.</span><br />
-                            All the other social sites seem to accept adfoc.us related links.
+                            <?php _e('<span class="mbp-deprecated">Facebook blocks sharing adfoc.us related links.</span>', 'microblog-poster');?><br />
+                            <?php _e('All the other social sites seem to accept adfoc.us related links.', 'microblog-poster');?>
                         </td>
                     </tr>
                     <tr class="mbp-additional-shorteners">
                         <td colspan="2">
                             <h3>
                                 <input type="radio" name="<?php echo $url_shortener_name;?>" value="ppw" <?php if($url_shortener_value == 'ppw') echo 'checked';?> />
-                                Your <img src="../wp-content/plugins/microblog-poster/images/ppw_icon.png" /> Credentials: <span class="description"> <a href="http://efficientscripts.com/help/microblogposter/ppwhelp" target="_blank">Help with screenshots</a></span>
+                                <img src="../wp-content/plugins/microblog-poster/images/ppw_icon.png" /> : <span class="description"> <a href="http://efficientscripts.com/help/microblogposter/ppwhelp" target="_blank"><?php _e('Help with screenshots in english', 'microblog-poster');?></a></span>
                             </h3>
                         </td>
                     </tr>
                     <tr class="mbp-additional-shorteners">
-                        <td class="label-input padding-left">P.pw User ID:</td>
-                        <td><input type="text" id="<?php echo $ppw_user_id_name;?>" name="<?php echo $ppw_user_id_name;?>" value="<?php echo $ppw_user_id_value;?>" size="35" /></td>
+                        <td class="label-input padding-left"><?php _e('P.pw User ID :', 'microblog-poster');?></td>
+                        <td>
+                            <input type="text" id="<?php echo $ppw_user_id_name;?>" name="<?php echo $ppw_user_id_name;?>" value="<?php echo $ppw_user_id_value;?>" size="35" />
+                            <span class="description">(P.pw User ID)</span>
+                        </td>
                     </tr>
                     <tr class="mbp-additional-shorteners">
                         <td colspan="2" class="padding-top-bottom">
-                            All the social sites seem to accept p.pw related links.
+                            <?php _e('All the social sites seem to accept p.pw related links.', 'microblog-poster');?>
                         </td>
                     </tr>
                     <tr>
@@ -1539,67 +1578,69 @@ function microblogposter_settings_output()
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <h3><span class="mbp-blue-title">Posts :</span></h3>
+                            <h3><span class="mbp-blue-title"><?php _e('Posts :', 'microblog-poster');?></span></h3>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="2" class="padding-left">
-                            <h3>Default per NEW POST behavior (changeable on a per post basis):</h3>
+                            <h3><?php _e('Default per NEW POST behavior :', 'microblog-poster');?></h3>
                         </td>
                     </tr>
                     <tr>
-                        <td class="label-input padding-left1">Don't cross-post automatically:</td>
+                        <td class="label-input padding-left1"><?php _e('Don\'t cross-post automatically :', 'microblog-poster');?></td>
                         <td><input type="checkbox" id="microblogposter_default_behavior" name="microblogposter_default_behavior" value="1" <?php if($default_behavior_value) echo 'checked="checked"';?> /></td>
                     </tr>
                     <tr>
                         <td colspan="2" class="padding-left">
-                            <h3>Default per POST UPDATE behavior (changeable on a per post basis):</h3>
+                            <h3><?php _e('Default per POST UPDATE behavior :', 'microblog-poster');?></h3>
                         </td>
                     </tr>
                     <tr>
-                        <td class="label-input padding-left1">Don't cross-post automatically:</td>
-                        <td><input type="checkbox" id="microblogposter_default_behavior_update" name="microblogposter_default_behavior_update" value="1" <?php if($default_behavior_update_value) echo 'checked="checked"';?> />&nbsp;&nbsp;(This is most likely to be checked.)</td>
+                        <td class="label-input padding-left1"><?php _e('Don\'t cross-post automatically :', 'microblog-poster');?></td>
+                        <td><input type="checkbox" id="microblogposter_default_behavior_update" name="microblogposter_default_behavior_update" value="1" <?php if($default_behavior_update_value) echo 'checked="checked"';?> />&nbsp;&nbsp;<?php _e('(This is most likely to be checked.)', 'microblog-poster');?></td>
                     </tr>
                     <tr>
                         <td colspan="2" class="row-sep"></td>
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <h3><span class="mbp-blue-title">Pages :</span></h3>
+                            <h3><span class="mbp-blue-title"><?php _e('Pages :', 'microblog-poster');?></span></h3>
                         </td>
                     </tr>
                     <tr>
-                        <td class="label-input">Enable <span class="microblogposter-name">MicroblogPoster</span> for pages:</td>
+                        <td class="label-input"><?php _e('Enable <span class="microblogposter-name">MicroblogPoster</span> for pages :', 'microblog-poster');?></td>
                         <td><input type="checkbox" id="microblogposter_page_mode" name="microblogposter_page_mode" value="1" <?php if($page_mode_value) echo 'checked="checked"';?> /></td>
                     </tr>
                     <tr>
                         <td colspan="2" class="padding-left">
-                            <h3>Default per NEW PAGE behavior (changeable on a per page basis):</h3>
+                            <h3><?php _e('Default per NEW PAGE behavior :', 'microblog-poster');?></h3>
                         </td>
                     </tr>
                     <tr>
-                        <td class="label-input padding-left1">Don't cross-post automatically:</td>
+                        <td class="label-input padding-left1"><?php _e('Don\'t cross-post automatically :', 'microblog-poster');?></td>
                         <td><input type="checkbox" id="microblogposter_default_pbehavior" name="microblogposter_default_pbehavior" value="1" <?php if($default_pbehavior_value) echo 'checked="checked"';?> /></td>
                     </tr>
                     <tr>
                         <td colspan="2" class="padding-left">
-                            <h3>Default per PAGE UPDATE behavior (changeable on a per page basis):</h3>
+                            <h3><?php _e('Default per PAGE UPDATE behavior :', 'microblog-poster');?></h3>
                         </td>
                     </tr>
                     <tr>
-                        <td class="label-input padding-left1">Don't cross-post automatically:</td>
-                        <td><input type="checkbox" id="microblogposter_default_pbehavior_update" name="microblogposter_default_pbehavior_update" value="1" <?php if($default_pbehavior_update_value) echo 'checked="checked"';?> />&nbsp;&nbsp;(This is most likely to be checked.)</td>
+                        <td class="label-input padding-left1"><?php _e('Don\'t cross-post automatically :', 'microblog-poster');?></td>
+                        <td><input type="checkbox" id="microblogposter_default_pbehavior_update" name="microblogposter_default_pbehavior_update" value="1" <?php if($default_pbehavior_update_value) echo 'checked="checked"';?> />&nbsp;&nbsp;<?php _e('(This is most likely to be checked.)', 'microblog-poster');?></td>
                     </tr>
                     <tr>
                         <td colspan="2" class="row-sep"></td>
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <h3><span class="mbp-blue-title">Custom Post Types :</span></h3>
+                            <h3><span class="mbp-blue-title"><?php _e('Custom Post Types :', 'microblog-poster');?></span></h3>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2" id="mbp-excluded-category-header">Check Custom Post Types for which you want to enable <span class="microblogposter-name">MicroblogPoster</span>.</td>
+                        <td colspan="2" id="mbp-excluded-category-header">
+                            <?php _e('Check Custom Post Types for which you want to enable <span class="microblogposter-name">MicroblogPoster</span>.', 'microblog-poster');?>
+                        </td>
                     </tr>
                     <tr>
                         <td colspan="2" id="mbp-excluded-category-td">
@@ -1619,7 +1660,7 @@ function microblogposter_settings_output()
                         else
                         {
                             ?>
-                            Currently, no custom types are active.
+                            <?php _e('Currently, no custom types are active.', 'microblog-poster');?>
                             <?php        
                         }
                     ?>
@@ -1630,11 +1671,13 @@ function microblogposter_settings_output()
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <h3><span class="mbp-blue-title">Categories to exclude posts from Cross Posting :</span></h3>
+                            <h3><span class="mbp-blue-title"><?php _e('Categories to exclude posts from Cross Posting :', 'microblog-poster');?></span></h3>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2" id="mbp-excluded-category-header">Check categories for which you want to disable automatically <span class="microblogposter-name">MicroblogPoster</span> from cross-posting.</td>
+                        <td colspan="2" id="mbp-excluded-category-header">
+                            <?php _e('Check categories for which you want to disable automatically <span class="microblogposter-name">MicroblogPoster</span> from cross-posting.', 'microblog-poster');?>
+                        </td>
                     </tr>
                     <tr>
                         <td colspan="2" id="mbp-excluded-category-td">
@@ -1657,56 +1700,56 @@ function microblogposter_settings_output()
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <h3><span class="mbp-blue-title">Shortcodes adjustments :</span></h3>
+                            <h3><span class="mbp-blue-title"><?php _e('Shortcodes adjustments :', 'microblog-poster');?></span></h3>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2" id="mbp-excluded-category-header">Change only if you know what you're doing, otherwise default values are just fine.</td>
+                        <td colspan="2" id="mbp-excluded-category-header"><?php _e('Change only if you know what you\'re doing, otherwise default values are just fine.', 'microblog-poster');?></td>
                     </tr>
                     <tr>
-                        <td class="label-input padding-left">{TITLE} max length:</td>
-                        <td><input type="text" id="<?php echo $shortcode_title_max_length_name;?>" name="<?php echo $shortcode_title_max_length_name;?>" value="<?php echo $shortcode_title_max_length_value;?>" size="10" />&nbsp;characters.&nbsp;&nbsp;(default value=110, range between 30 and 120)</td>
+                        <td class="label-input padding-left">{TITLE} <?php _e('max length:', 'microblog-poster');?></td>
+                        <td><input type="text" id="<?php echo $shortcode_title_max_length_name;?>" name="<?php echo $shortcode_title_max_length_name;?>" value="<?php echo $shortcode_title_max_length_value;?>" size="10" />&nbsp;<?php _e('characters', 'microblog-poster');?>.&nbsp;&nbsp;(<?php _e('default value', 'microblog-poster');?>=110, <?php _e('range between', 'microblog-poster');?> 30 <?php _e('and', 'microblog-poster');?> 120)</td>
                     </tr>
                     <tr>
-                        <td class="label-input padding-left">{CONTENT_FIRST_WORDS} length:</td>
-                        <td><input type="text" id="<?php echo $shortcode_firstwords_max_length_name;?>" name="<?php echo $shortcode_firstwords_max_length_name;?>" value="<?php echo $shortcode_firstwords_max_length_value;?>" size="10" />&nbsp;characters.&nbsp;&nbsp;(default value=90, range between 30 and 120)</td>
+                        <td class="label-input padding-left">{CONTENT_FIRST_WORDS} <?php _e('length:', 'microblog-poster');?></td>
+                        <td><input type="text" id="<?php echo $shortcode_firstwords_max_length_name;?>" name="<?php echo $shortcode_firstwords_max_length_name;?>" value="<?php echo $shortcode_firstwords_max_length_value;?>" size="10" />&nbsp;<?php _e('characters', 'microblog-poster');?>.&nbsp;&nbsp;(<?php _e('default value', 'microblog-poster');?>=90, <?php _e('range between', 'microblog-poster');?> 30 <?php _e('and', 'microblog-poster');?> 120)</td>
                     </tr>
                     <tr>
-                        <td class="label-input padding-left">{EXCERPT} length:<br />(Used when auto generated)</td>
-                        <td><input type="text" id="<?php echo $shortcode_excerpt_max_length_name;?>" name="<?php echo $shortcode_excerpt_max_length_name;?>" value="<?php echo $shortcode_excerpt_max_length_value;?>" size="10" />&nbsp;characters.&nbsp;&nbsp;(default value=400, range between 100 and 600)</td>
+                        <td class="label-input padding-left">{EXCERPT} <?php _e('length:', 'microblog-poster');?><br /><?php _e('(Used when auto generated)', 'microblog-poster');?></td>
+                        <td><input type="text" id="<?php echo $shortcode_excerpt_max_length_name;?>" name="<?php echo $shortcode_excerpt_max_length_name;?>" value="<?php echo $shortcode_excerpt_max_length_value;?>" size="10" />&nbsp;<?php _e('characters', 'microblog-poster');?>.&nbsp;&nbsp;(<?php _e('default value', 'microblog-poster');?>=400, <?php _e('range between', 'microblog-poster');?> 100 <?php _e('and', 'microblog-poster');?> 600)</td>
                     </tr>
                     
                 </table>
                 <?php if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account')):?>
-                <h3 id="pro-addon-header">Pro / Enterprise Add-on Section:</h3>
+                <h3 id="pro-addon-header"><?php _e('Pro / Enterprise Add-on Section:', 'microblog-poster');?></h3>
                 <table class="form-table">
                     <tr>
                         <td colspan="2">
-                            <h3><span class="mbp-blue-title">MicroblogPoster's Control Dashboard :</span></h3>
+                            <h3><span class="mbp-blue-title"><?php _e('MicroblogPoster\'s Control Dashboard :', 'microblog-poster');?></span></h3>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="2" id="mbp-excluded-category-header">
-                            If you're posting to your blog by email,<br /> 
-                            you'll need to disable the MicroblogPoster's Control Dashboard in order to cross-post successfully.
+                            <?php _e('If you\'re posting to your blog by email,', 'microblog-poster');?><br /> 
+                            <?php _e('you\'ll need to disable the MicroblogPoster\'s Control Dashboard in order to cross-post successfully.', 'microblog-poster');?>
                         </td>
                     </tr>
                     <tr>
-                        <td class="label-input">Disable the control dashboard:</td>
+                        <td class="label-input"><?php _e('Disable the control dashboard:', 'microblog-poster');?></td>
                         <td><input type="checkbox" id="microblogposter_plg_control_dash_mode" name="microblogposter_plg_control_dash_mode" value="1" <?php if($pro_control_dash_mode_value) echo 'checked="checked"';?> /></td>
                     </tr>
                 </table>
                 <?php endif;?>
                 <p class="submit">
-                    <input type="submit" name="update_options" class="update-options button" value="Update Options" />
+                    <input type="submit" name="update_options" class="update-options button-primary" value="<?php _e('Update Options', 'microblog-poster');?>" />
                 </p>
             </form>
         </div>
         
         <div id="mbp-social-networks-accounts" class="mbp-single-tab-wrapper">
-        <h3 id="network-accounts-header">Social Network Accounts Section:</h3>
+        <h3 id="network-accounts-header"><?php _e('Configure Your Social Networks Accounts :', 'microblog-poster');?></h3>
         
-        <span class="new-account" >Add New Account</span>
+        <span class="new-account" ><?php _e('Add New Account', 'microblog-poster');?></span>
             
         <?php 
         $update_accounts = array();
@@ -1715,7 +1758,7 @@ function microblogposter_settings_output()
         <div id="social-network-accounts">
         <div class="social-network-accounts-site">
             <img src="../wp-content/plugins/microblog-poster/images/twitter_icon.png" />
-            <h4>Twitter Accounts</h4>
+            <h4><?php _e('Twitter Accounts', 'microblog-poster');?></h4>
         </div>
         <?php
         $sql="SELECT * FROM $table_accounts WHERE type='twitter'";
@@ -1750,23 +1793,24 @@ function microblogposter_settings_output()
                 <div id="update_account<?php echo $row->account_id;?>">
                     <form id="update_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
                         
-                        <h3 class="new-account-header"><span class="microblogposter-name">MicroblogPoster</span> Plugin</h3>
+                        <h3 class="new-account-header"><?php _e('<span class="microblogposter-name">MicroblogPoster</span> Plugin', 'microblog-poster');?></h3>
                         <div class="delete-wrapper">
-                            Twitter Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span>
+                            <?php _e('Twitter Account:', 'microblog-poster');?> <span class="delete-wrapper-user"><?php echo $row->username;?></span>
                         </div>
                         <div id="twitter-div" class="one-account">
+                            <div class="help-div"><span class="description"> Twitter&nbsp;:&nbsp;<a href="http://efficientscripts.com/help/microblogposter/twitterhelp" target="_blank"><?php _e('Help with screenshots in english', 'microblog-poster');?></a></span></div>
                             <div class="input-div">
-                                Username:
+                                <?php _e('Username:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="username" name="username" value="<?php echo $row->username;?>"/>
                             </div>
                             <div class="input-div">
-                                Message Format:
+                                <?php _e('Message Format:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <textarea id="message_format" name="message_format" rows="2"><?php echo $row->message_format;?></textarea>
-                                <span class="description">Message that's actually posted.</span>
+                                <span class="description"><?php _e('Message that\'s actually posted.', 'microblog-poster');?></span>
                             </div>
                             <div class="input-div">
 
@@ -1775,42 +1819,41 @@ function microblogposter_settings_output()
                                 <span class="description-small"><?php echo $description_shortcodes_m;?></span>
                             </div>
                             <div class="input-div">
-                                Consumer Key:
+                                <?php _e('Consumer Key:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="consumer_key" value="<?php echo $row->consumer_key;?>" />
-                                <span class="description">Your Twitter Application Consumer Key.</span>
+                                <span class="description">(Application Consumer Key)</span>
                             </div>
                             <div class="input-div">
-                                Consumer Secret:
+                                <?php _e('Consumer Secret:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="consumer_secret" value="<?php echo $row->consumer_secret;?>" />
-                                <span class="description">Your Twitter Application Consumer Secret.</span>
+                                <span class="description">(Application Consumer Secret)</span>
                             </div>
                             <div class="input-div">
 
                             </div>
                             <div class="input-div-large">
                                 <span class="description-small">
-                                    The two fields below 'Access Token' and 'Access Token Secret' are either generated interactively
-                                    or you provided them manually. In any case these two fields are MANDATORY in order to 
-                                    successfully post to twitter.
+                                    <?php _e('The two fields below \'Access Token\' and \'Access Token Secret\' are either generated interactively or you provided them manually.', 'microblog-poster');?>&nbsp;
+                                    <?php _e('In any case these two fields are MANDATORY in order to successfully post to twitter.', 'microblog-poster');?>
                                 </span>
                             </div>
                             <div class="input-div">
-                                Access Token:
+                                <?php _e('Access Token:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="access_token" value="<?php echo $row->access_token;?>" />
-                                <span class="description">Your Twitter Account Access Token</span>
+                                <span class="description">(Access Token)</span>
                             </div>
                             <div class="input-div">
-                                Access Token Secret:
+                                <?php _e('Access Token Secret:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="access_token_secret" value="<?php echo $row->access_token_secret;?>" />
-                                <span class="description">Your Twitter Account Access Token Secret</span>
+                                <span class="description">(Access Token Secret)</span>
                             </div>
                         </div>
 
@@ -1818,8 +1861,8 @@ function microblogposter_settings_output()
                         <input type="hidden" name="account_type" value="twitter" />
                         <input type="hidden" name="update_account_hidden" value="1" />
                         <div class="button-holder">
-                            <button type="button" class="button cancel-account" >Cancel</button>
-                            <button type="button" class="button-primary save-account<?php echo $row->account_id;?>" >Save</button>
+                            <button type="button" class="button cancel-account" ><?php _e('Cancel', 'microblog-poster');?></button>
+                            <button type="button" class="button-primary save-account<?php echo $row->account_id;?>" ><?php _e('Save', 'microblog-poster');?></button>
                         </div>
 
                     </form>
@@ -1829,32 +1872,32 @@ function microblogposter_settings_output()
                 <div id="delete_account<?php echo $row->account_id;?>">
                     <form id="delete_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
                         <div class="delete-wrapper">
-                        Twitter Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span><br />
-                        <span class="delete-wrapper-del">Delete?</span>
+                        <?php _e('Twitter Account:', 'microblog-poster');?> <span class="delete-wrapper-user"><?php echo $row->username;?></span><br />
+                        <span class="delete-wrapper-del"><?php _e('Delete?', 'microblog-poster');?></span>
                         </div>
                         <input type="hidden" name="account_id" value="<?php echo $row->account_id;?>" />
                         <input type="hidden" name="account_type" value="twitter" />
                         <input type="hidden" name="delete_account_hidden" value="1" />
                         <div class="button-holder-del">
-                            <button type="button" class="button cancel-account" >Cancel</button>
-                            <button type="button" class="del-account-fb button del-account<?php echo $row->account_id;?>" >Delete</button>
+                            <button type="button" class="button cancel-account" ><?php _e('Cancel', 'microblog-poster');?></button>
+                            <button type="button" class="del-account-fb button-primary del-account<?php echo $row->account_id;?>" ><?php _e('Delete', 'microblog-poster');?></button>
                         </div>
                     </form>
                 </div>
             </div>
             <div class="account-wrapper">
                 <span class="account-username"><?php echo $row->username;?></span>
-                <span class="edit-account edit<?php echo $row->account_id;?>">Edit</span>
-                <span class="del-account del<?php echo $row->account_id;?>">Del</span>
+                <span class="edit-account edit<?php echo $row->account_id;?>"><?php _e('Edit', 'microblog-poster');?></span>
+                <span class="del-account del<?php echo $row->account_id;?>"><?php _e('Del', 'microblog-poster');?></span>
                 <div>
                     <?php if($authorized): ?>
-                        <div>Authorization is valid permanently</div>
-                        <a href="<?php echo $authorize_url; ?>" >Refresh authorization now</a>
-                        (2 steps required)
+                        <div><?php _e('Authorization is valid permanently', 'microblog-poster');?></div>
+                        <a href="<?php echo $authorize_url; ?>" ><?php _e('Refresh authorization now', 'microblog-poster');?></a>
+                        <?php _e('(2 steps required)', 'microblog-poster');?>
                     <?php else:?>
-                        <a href="<?php echo $authorize_url; ?>" >Authorize this Twitter account</a>
-                        <?php if($authorize_step==1) echo '2 steps required, after first click and page reload, please click again.'?>
-                        <?php if($authorize_step==2) echo 'Final step, click once again.'?>
+                        <a href="<?php echo $authorize_url; ?>" ><?php _e('Authorize this Twitter account', 'microblog-poster');?></a>
+                        <?php if($authorize_step==1) _e('(2 steps required)', 'microblog-poster');?>
+                        <?php if($authorize_step==2) _e('Final step, click once again.', 'microblog-poster');?>
                     <?php endif;?>
                 </div>
             </div>
@@ -1863,7 +1906,7 @@ function microblogposter_settings_output()
         
         <div class="social-network-accounts-site">
             <img src="../wp-content/plugins/microblog-poster/images/plurk_icon.png" />
-            <h4>Plurk Accounts</h4>
+            <h4><?php _e('Plurk Accounts', 'microblog-poster');?></h4>
         </div>
         <?php
         $sql="SELECT * FROM $table_accounts WHERE type='plurk'";
@@ -1883,19 +1926,20 @@ function microblogposter_settings_output()
             <div style="display:none">
                 <div id="update_account<?php echo $row->account_id;?>">
                     <form id="update_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
-                        <h3 class="new-account-header"><span class="microblogposter-name">MicroblogPoster</span> Plugin</h3>
+                        <h3 class="new-account-header"><?php _e('<span class="microblogposter-name">MicroblogPoster</span> Plugin', 'microblog-poster');?></h3>
                         <div class="delete-wrapper">
-                            Plurk Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span>
+                            <?php _e('Plurk Account:', 'microblog-poster');?> <span class="delete-wrapper-user"><?php echo $row->username;?></span>
                         </div>
                         <div id="plurk-div" class="one-account">
+                            <div class="help-div"><span class="description">Plurk&nbsp;:&nbsp;<a href="http://efficientscripts.com/help/microblogposter/plurkhelp" target="_blank"><?php _e('Help with screenshots in english', 'microblog-poster');?></a></span></div>
                             <div class="input-div">
-                                Username:
+                                <?php _e('Username:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="username" name="username" value="<?php echo $row->username;?>"/>
                             </div>
                             <div class="input-div">
-                                Qualifier:
+                                <?php _e('Qualifier:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <select name="mbp_plurk_qualifier">
@@ -1922,11 +1966,11 @@ function microblogposter_settings_output()
                                 </select>
                             </div>
                             <div class="input-div">
-                                Message Format:
+                                <?php _e('Message Format:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <textarea id="message_format" name="message_format" rows="2"><?php echo $row->message_format;?></textarea>
-                                <span class="description">Message that's actually posted.</span>
+                                <span class="description"><?php _e('Message that\'s actually posted.', 'microblog-poster');?></span>
                             </div>
                             <div class="input-div">
 
@@ -1935,32 +1979,32 @@ function microblogposter_settings_output()
                                 <span class="description-small"><?php echo $description_shortcodes_m;?></span>
                             </div>
                             <div class="input-div">
-                                Consumer Key:
+                                <?php _e('Consumer Key:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="consumer_key" value="<?php echo $row->consumer_key;?>" />
-                                <span class="description">Your Plurk Application Consumer Key.</span>
+                                <span class="description">(Application Consumer Key)</span>
                             </div>
                             <div class="input-div">
-                                Consumer Secret:
+                                <?php _e('Consumer Secret:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="consumer_secret" value="<?php echo $row->consumer_secret;?>" />
-                                <span class="description">Your Plurk Application Consumer Secret.</span>
+                                <span class="description">(Application Consumer Secret)</span>
                             </div>
                             <div class="input-div">
-                                Access Token:
+                                <?php _e('Access Token:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="access_token" value="<?php echo $row->access_token;?>" />
-                                <span class="description">Your Plurk Account Access Token</span>
+                                <span class="description">(Access Token)</span>
                             </div>
                             <div class="input-div">
-                                Access Token Secret:
+                                <?php _e('Access Token Secret:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="access_token_secret" value="<?php echo $row->access_token_secret;?>" />
-                                <span class="description">Your Plurk Account Access Token Secret</span>
+                                <span class="description">(Access Token Secret)</span>
                             </div>
                         </div>
 
@@ -1968,8 +2012,8 @@ function microblogposter_settings_output()
                         <input type="hidden" name="account_type" value="plurk" />
                         <input type="hidden" name="update_account_hidden" value="1" />
                         <div class="button-holder">
-                            <button type="button" class="button cancel-account" >Cancel</button>
-                            <button type="button" class="button-primary save-account<?php echo $row->account_id;?>" >Save</button>
+                            <button type="button" class="button cancel-account" ><?php _e('Cancel', 'microblog-poster');?></button>
+                            <button type="button" class="button-primary save-account<?php echo $row->account_id;?>" ><?php _e('Save', 'microblog-poster');?></button>
                         </div>
 
                     </form>
@@ -1979,23 +2023,23 @@ function microblogposter_settings_output()
                 <div id="delete_account<?php echo $row->account_id;?>">
                     <form id="delete_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
                         <div class="delete-wrapper">
-                        Plurk Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span><br />
-                        <span class="delete-wrapper-del">Delete?</span>
+                        <?php _e('Plurk Account:', 'microblog-poster');?> <span class="delete-wrapper-user"><?php echo $row->username;?></span><br />
+                        <span class="delete-wrapper-del"><?php _e('Delete?', 'microblog-poster');?></span>
                         </div>
                         <input type="hidden" name="account_id" value="<?php echo $row->account_id;?>" />
                         <input type="hidden" name="account_type" value="plurk" />
                         <input type="hidden" name="delete_account_hidden" value="1" />
                         <div class="button-holder-del">
-                            <button type="button" class="button cancel-account" >Cancel</button>
-                            <button type="button" class="del-account-fb button del-account<?php echo $row->account_id;?>" >Delete</button>
+                            <button type="button" class="button cancel-account" ><?php _e('Cancel', 'microblog-poster');?></button>
+                            <button type="button" class="del-account-fb button-primary del-account<?php echo $row->account_id;?>" ><?php _e('Delete', 'microblog-poster');?></button>
                         </div>
                     </form>
                 </div>
             </div>
             <div class="account-wrapper">
                 <span class="account-username"><?php echo $row->username;?></span>
-                <span class="edit-account edit<?php echo $row->account_id;?>">Edit</span>
-                <span class="del-account del<?php echo $row->account_id;?>">Del</span>
+                <span class="edit-account edit<?php echo $row->account_id;?>"><?php _e('Edit', 'microblog-poster');?></span>
+                <span class="del-account del<?php echo $row->account_id;?>"><?php _e('Del', 'microblog-poster');?></span>
             </div>
             
         <?php endforeach;?>
@@ -2003,7 +2047,7 @@ function microblogposter_settings_output()
         
         <div class="social-network-accounts-site">
             <img src="../wp-content/plugins/microblog-poster/images/friendfeed_icon.png" />
-            <h4>FriendFeed Accounts</h4>
+            <h4><?php _e('FriendFeed Accounts', 'microblog-poster');?></h4>
         </div>    
         <?php
         $sql="SELECT * FROM $table_accounts WHERE type='friendfeed'";
@@ -2015,29 +2059,31 @@ function microblogposter_settings_output()
             <div style="display:none">
                 <div id="update_account<?php echo $row->account_id;?>">
                     <form id="update_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
-                        <h3 class="new-account-header"><span class="microblogposter-name">MicroblogPoster</span> Plugin</h3>
+                        <h3 class="new-account-header"><?php _e('<span class="microblogposter-name">MicroblogPoster</span> Plugin', 'microblog-poster');?></h3>
                         <div class="delete-wrapper">
-                            FriendFeed Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span>
+                            <?php _e('FriendFeed Account:', 'microblog-poster');?> <span class="delete-wrapper-user"><?php echo $row->username;?></span>
                         </div>
                         <div id="friendfeed-div" class="one-account">
+                            <div class="help-div"><span class="description">FriendFeed&nbsp;:&nbsp;<a href="http://efficientscripts.com/help/microblogposter/friendfeedhelp" target="_blank"><?php _e('Help with screenshots in english', 'microblog-poster');?></a></span></div>
                             <div class="input-div">
-                                FriendFeed Username:
+                                <?php _e('Username:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="username" value="<?php echo $row->username;?>" />
                             </div>
                             <div class="input-div">
-                                FriendFeed Remote Key:
+                                <?php _e('Remote Key:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="password" value="<?php echo ($is_raw)? $row->password : MicroblogPoster_SupportEnc::dec($row->password);?>" />
+                                <span class="description">(Remote Key)</span>
                             </div>
                             <div class="input-div">
-                                Message Format:
+                                <?php _e('Message Format:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <textarea id="message_format" name="message_format" rows="2"><?php echo $row->message_format;?></textarea>
-                                <span class="description">Message that's actually posted.</span>
+                                <span class="description"><?php _e('Message that\'s actually posted.', 'microblog-poster');?></span>
                             </div>
                             <div class="input-div">
 
@@ -2051,8 +2097,8 @@ function microblogposter_settings_output()
                         <input type="hidden" name="account_type" value="friendfeed" />
                         <input type="hidden" name="update_account_hidden" value="1" />
                         <div class="button-holder">
-                            <button type="button" class="button cancel-account" >Cancel</button>
-                            <button type="button" class="button-primary save-account<?php echo $row->account_id;?>" >Save</button>
+                            <button type="button" class="button cancel-account" ><?php _e('Cancel', 'microblog-poster');?></button>
+                            <button type="button" class="button-primary save-account<?php echo $row->account_id;?>" ><?php _e('Save', 'microblog-poster');?></button>
                         </div>
 
                     </form>
@@ -2062,29 +2108,29 @@ function microblogposter_settings_output()
                 <div id="delete_account<?php echo $row->account_id;?>">
                     <form id="delete_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
                         <div class="delete-wrapper">
-                        FriendFeed Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span><br />
-                        <span class="delete-wrapper-del">Delete?</span>
+                        <?php _e('FriendFeed Account:', 'microblog-poster');?> <span class="delete-wrapper-user"><?php echo $row->username;?></span><br />
+                        <span class="delete-wrapper-del"><?php _e('Delete?', 'microblog-poster');?></span>
                         </div>
                         <input type="hidden" name="account_id" value="<?php echo $row->account_id;?>" />
                         <input type="hidden" name="account_type" value="friendfeed" />
                         <input type="hidden" name="delete_account_hidden" value="1" />
                         <div class="button-holder-del">
-                            <button type="button" class="button cancel-account" >Cancel</button>
-                            <button type="button" class="del-account-fb button del-account<?php echo $row->account_id;?>" >Delete</button>
+                            <button type="button" class="button cancel-account" ><?php _e('Cancel', 'microblog-poster');?></button>
+                            <button type="button" class="del-account-fb button-primary del-account<?php echo $row->account_id;?>" ><?php _e('Delete', 'microblog-poster');?></button>
                         </div>
                     </form>
                 </div>
             </div>
             <div class="account-wrapper">
                 <span class="account-username"><?php echo $row->username;?></span>
-                <span class="edit-account edit<?php echo $row->account_id;?>">Edit</span>
-                <span class="del-account del<?php echo $row->account_id;?>">Del</span>
+                <span class="edit-account edit<?php echo $row->account_id;?>"><?php _e('Edit', 'microblog-poster');?></span>
+                <span class="del-account del<?php echo $row->account_id;?>"><?php _e('Del', 'microblog-poster');?></span>
             </div>
         <?php endforeach;?>
         
         <div class="social-network-accounts-site">
             <img src="../wp-content/plugins/microblog-poster/images/delicious_icon.png" />
-            <h4>Delicious Accounts</h4>
+            <h4><?php _e('Delicious Accounts', 'microblog-poster');?></h4>
         </div>  
         <?php
         $sql="SELECT * FROM $table_accounts WHERE type='delicious'";
@@ -2101,29 +2147,29 @@ function microblogposter_settings_output()
             <div style="display:none">
                 <div id="update_account<?php echo $row->account_id;?>">
                     <form id="update_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
-                        <h3 class="new-account-header"><span class="microblogposter-name">MicroblogPoster</span> Plugin</h3>
+                        <h3 class="new-account-header"><?php _e('<span class="microblogposter-name">MicroblogPoster</span> Plugin', 'microblog-poster');?></h3>
                         <div class="delete-wrapper">
-                            Delicious Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span>
+                            <?php _e('Delicious Account:', 'microblog-poster');?> <span class="delete-wrapper-user"><?php echo $row->username;?></span>
                         </div>
                         <div id="delicious-div" class="one-account">
                             <div class="input-div">
-                                Delicious Username:
+                                <?php _e('Username:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="username" value="<?php echo $row->username;?>" />
                             </div>
                             <div class="input-div">
-                                Delicious Password:
+                                <?php _e('Password:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="password" value="<?php echo ($is_raw)? $row->password : MicroblogPoster_SupportEnc::dec($row->password);?>" />
                             </div>
                             <div class="input-div">
-                                Message Format:
+                                <?php _e('Message Format:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <textarea id="message_format" name="message_format" rows="2"><?php echo $row->message_format;?></textarea>
-                                <span class="description">Message that's actually posted.</span>
+                                <span class="description"><?php _e('Message that\'s actually posted.', 'microblog-poster');?></span>
                             </div>
                             <div class="input-div">
 
@@ -2132,11 +2178,11 @@ function microblogposter_settings_output()
                                 <span class="description-small"><?php echo $description_shortcodes_bookmark;?></span>
                             </div>
                             <div class="input-div">
-                                Include tags:
+                                <?php _e('Include tags:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="checkbox" id="include_tags" name="include_tags" value="1" <?php if ($include_tags) echo "checked";?>/>
-                                <span class="description">Do you want to include tags in the bookmarks?</span>
+                                <span class="description"><?php _e('Do you want to include tags in the bookmarks?', 'microblog-poster');?></span>
                             </div>
                         </div>
 
@@ -2144,8 +2190,8 @@ function microblogposter_settings_output()
                         <input type="hidden" name="account_type" value="delicious" />
                         <input type="hidden" name="update_account_hidden" value="1" />
                         <div class="button-holder">
-                            <button type="button" class="button cancel-account" >Cancel</button>
-                            <button type="button" class="button-primary save-account<?php echo $row->account_id;?>" >Save</button>
+                            <button type="button" class="button cancel-account" ><?php _e('Cancel', 'microblog-poster');?></button>
+                            <button type="button" class="button-primary save-account<?php echo $row->account_id;?>" ><?php _e('Save', 'microblog-poster');?></button>
                         </div>
 
                     </form>
@@ -2155,29 +2201,29 @@ function microblogposter_settings_output()
                 <div id="delete_account<?php echo $row->account_id;?>">
                     <form id="delete_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
                         <div class="delete-wrapper">
-                        Delicious Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span><br />
-                        <span class="delete-wrapper-del">Delete?</span>
+                        <?php _e('Delicious Account:', 'microblog-poster');?> <span class="delete-wrapper-user"><?php echo $row->username;?></span><br />
+                        <span class="delete-wrapper-del"><?php _e('Delete?', 'microblog-poster');?></span>
                         </div>
                         <input type="hidden" name="account_id" value="<?php echo $row->account_id;?>" />
                         <input type="hidden" name="account_type" value="delicious" />
                         <input type="hidden" name="delete_account_hidden" value="1" />
                         <div class="button-holder-del">
-                            <button type="button" class="button cancel-account" >Cancel</button>
-                            <button type="button" class="del-account-fb button del-account<?php echo $row->account_id;?>" >Delete</button>
+                            <button type="button" class="button cancel-account" ><?php _e('Cancel', 'microblog-poster');?></button>
+                            <button type="button" class="del-account-fb button-primary del-account<?php echo $row->account_id;?>" ><?php _e('Delete', 'microblog-poster');?></button>
                         </div>
                     </form>
                 </div>
             </div>
             <div class="account-wrapper">
                 <span class="account-username"><?php echo $row->username;?></span>
-                <span class="edit-account edit<?php echo $row->account_id;?>">Edit</span>
-                <span class="del-account del<?php echo $row->account_id;?>">Del</span>
+                <span class="edit-account edit<?php echo $row->account_id;?>"><?php _e('Edit', 'microblog-poster');?></span>
+                <span class="del-account del<?php echo $row->account_id;?>"><?php _e('Del', 'microblog-poster');?></span>
             </div>
         <?php endforeach;?>
         
         <div class="social-network-accounts-site">
             <img src="../wp-content/plugins/microblog-poster/images/facebook_icon.png" />
-            <h4>Facebook Accounts</h4>
+            <h4><?php _e('Facebook Accounts', 'microblog-poster');?></h4>
         </div>
         <?php
         $sql="SELECT * FROM $table_accounts WHERE type='facebook'";
@@ -2227,46 +2273,54 @@ function microblogposter_settings_output()
                 <div id="update_account<?php echo $row->account_id;?>">
                     <form id="update_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
                         
-                        <h3 class="new-account-header"><span class="microblogposter-name">MicroblogPoster</span> Plugin</h3>
+                        <h3 class="new-account-header"><?php _e('<span class="microblogposter-name">MicroblogPoster</span> Plugin', 'microblog-poster');?></h3>
                         <div class="delete-wrapper">
-                            Facebook Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span>
+                            <?php _e('Facebook Account:', 'microblog-poster');?> <span class="delete-wrapper-user"><?php echo $row->username;?></span>
                         </div>
                         <div id="facebook-div" class="one-account">
+                            <div class="help-div"><span class="description">Facebook&nbsp;:&nbsp;<a href="http://efficientscripts.com/help/microblogposter/facebookhelp" target="_blank"><?php _e('Help with screenshots in english', 'microblog-poster');?></a></span></div>
                             <div class="input-div">
-                                Username:
+                                <?php _e('Username:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="username" name="username" value="<?php echo $row->username;?>"/>
                             </div>
                             <div class="input-div">
-                                Facebook target type:
+                                <?php _e('Facebook target type:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
-                                <span class="mbp-facebook-target-type-span"><?php echo ucfirst($target_type).' timeline';?></span>
+                                
+                                <?php if($target_type=='page'):?>
+                                    <span class="mbp-facebook-target-type-span"><?php _e('Page timeline', 'microblog-poster');?></span>
+                                <?php elseif($target_type=='group'):?>
+                                    <span class="mbp-facebook-target-type-span"><?php _e('Group timeline', 'microblog-poster');?></span>
+                                <?php else:?>
+                                    <span class="mbp-facebook-target-type-span"><?php _e('Profile timeline', 'microblog-poster');?></span>
+                                <?php endif;?>
                             </div>
                             <?php if($target_type=='page'):?>
                                 <div class="input-div">
-                                    Page ID:
+                                    <?php _e('Page ID:', 'microblog-poster');?>
                                 </div>
                                 <div class="input-div-large">
                                     <input type="text" id="mbp_facebook_page_id" name="mbp_facebook_page_id" value="<?php echo $page_id;?>" />
-                                    <span class="description">Your Facebook Page ID.</span>
+                                    <span class="description"><?php _e('Your Facebook Page ID. (numeric)', 'microblog-poster');?></span>
                                 </div>
                             <?php elseif($target_type=='group'):?>
                                 <div class="input-div">
-                                    Group ID:
+                                    <?php _e('Group ID:', 'microblog-poster');?>
                                 </div>
                                 <div class="input-div-large">
                                     <input type="text" id="mbp_facebook_group_id" name="mbp_facebook_group_id" value="<?php echo $group_id;?>" />
-                                    <span class="description">Your Facebook Group ID.</span>
+                                    <span class="description"><?php _e('Your Facebook Group ID. (numeric)', 'microblog-poster');?></span>
                                 </div>
                             <?php endif;?>
                             <div class="input-div">
-                                Message Format:
+                                <?php _e('Message Format:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <textarea id="message_format" name="message_format" rows="2"><?php echo $row->message_format;?></textarea>
-                                <span class="description">Message that's actually posted.</span>
+                                <span class="description"><?php _e('Message that\'s actually posted.', 'microblog-poster');?></span>
                             </div>
                             <div class="input-div">
 
@@ -2276,45 +2330,44 @@ function microblogposter_settings_output()
                             </div>
                             <div class="mbp-separator"></div>
                             <div class="input-div input-div-radio">
-                                Post Type:
+                                <?php _e('Post Type:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
-                                <input type="radio" name="post_type_fb" value="text" <?php if($post_type=='text') echo 'checked'; ?>> Text <span class="description">Text only status update.</span><br>
-                                <input type="radio" name="post_type_fb" value="link" <?php if($post_type=='link') echo 'checked'; ?>> Share a Link <span class="description">Status update that contains comment + facebook link box.</span>
+                                <input type="radio" name="post_type_fb" value="text" <?php if($post_type=='text') echo 'checked'; ?>> <?php _e('Text', 'microblog-poster');?> <span class="description"><?php _e('(Text only status update.)', 'microblog-poster');?></span><br>
+                                <input type="radio" name="post_type_fb" value="link" <?php if($post_type=='link') echo 'checked'; ?>> <?php _e('Link', 'microblog-poster');?> <span class="description"><?php _e('(Text message + Facebook link box.)', 'microblog-poster');?></span>
                             </div>
                             <div class="input-div">
 
                             </div>
                             <div class="input-div-large">
-                                <span class="description-small">If you choose to post with link box you'll need a thumbnail for your link. 
-                                    If your new post contains a featured image, MicroblogPoster will take that one.
-                                    If not, no explicit image url will be submitted and facebook will try to fetch appropriate thumbnail for your post.
-                                    If there is no image, your link will appear without thumbnail.
-                                    Otherwise if you don't like image/thumbnail facebook is auto fetching then specify a default image url just below.
-                                    This default thumbnail url will be posted for each new post that doesn't have featured image.
+                                <span class="description-small">
+                                    <?php _e('If you choose to post with link box you\'ll need a thumbnail for your link. If your new post contains a featured image, MicroblogPoster will take that one.', 'microblog-poster');?>
+                                    <?php _e('If not, no explicit image url will be submitted and facebook will try to fetch appropriate thumbnail for your post. If there is no image, your link will appear without thumbnail.', 'microblog-poster');?>
+                                    <?php _e('Otherwise if you don\'t like image/thumbnail facebook is auto fetching then specify a default image url just below. This default thumbnail url will be posted for each new post that doesn\'t have featured image.', 'microblog-poster');?>
+
                                 </span>
                             </div>
                             <div class="input-div">
-                                Default Image Url:
+                                <?php _e('Default Image Url:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="default_image_url" name="default_image_url" value="<?php if(isset($default_image_url)) echo $default_image_url;?>"/>
-                                <span class="description">Default Thumbnail for link box. <a href="http://efficientscripts.com/help/microblogposter/generalhelp#def_img_url" target="_blank">Help</a></span>
+                                <span class="description"><?php _e('Default Thumbnail for link box.', 'microblog-poster');?> <a href="http://efficientscripts.com/help/microblogposter/generalhelp#def_img_url" target="_blank"><?php _e('Help', 'microblog-poster');?></a></span>
                             </div>
                             <div class="mbp-separator"></div>
                             <div class="input-div">
-                                Application ID/API Key:
+                                <?php _e('Application ID/API Key:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="consumer_key" value="<?php echo $row->consumer_key;?>" />
-                                <span class="description">Your Facebook Application ID/API Key.</span>
+                                <span class="description">(Application ID / API Key)</span>
                             </div>
                             <div class="input-div">
-                                Application Secret:
+                                <?php _e('Application Secret:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="consumer_secret" value="<?php echo $row->consumer_secret;?>" />
-                                <span class="description">Your Facebook Application Secret.</span>
+                                <span class="description">(Application Secret)</span>
                             </div>
                         </div>
 
@@ -2322,8 +2375,8 @@ function microblogposter_settings_output()
                         <input type="hidden" name="account_type" value="facebook" />
                         <input type="hidden" name="update_account_hidden" value="1" />
                         <div class="button-holder">
-                            <button type="button" class="button cancel-account" >Cancel</button>
-                            <button type="button" class="button-primary save-account<?php echo $row->account_id;?>" >Save</button>
+                            <button type="button" class="button cancel-account" ><?php _e('Cancel', 'microblog-poster');?></button>
+                            <button type="button" class="button-primary save-account<?php echo $row->account_id;?>" ><?php _e('Save', 'microblog-poster');?></button>
                         </div>
 
                     </form>
@@ -2333,33 +2386,33 @@ function microblogposter_settings_output()
                 <div id="delete_account<?php echo $row->account_id;?>">
                     <form id="delete_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
                         <div class="delete-wrapper">
-                        Facebook Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span><br />
-                        <span class="delete-wrapper-del">Delete?</span>
+                        <?php _e('Facebook Account:', 'microblog-poster');?> <span class="delete-wrapper-user"><?php echo $row->username;?></span><br />
+                        <span class="delete-wrapper-del"><?php _e('Delete?', 'microblog-poster');?></span>
                         </div>
                         <input type="hidden" name="account_id" value="<?php echo $row->account_id;?>" />
                         <input type="hidden" name="account_type" value="facebook" />
                         <input type="hidden" name="delete_account_hidden" value="1" />
                         <div class="button-holder-del">
-                            <button type="button" class="button cancel-account" >Cancel</button>
-                            <button type="button" class="del-account-fb button del-account<?php echo $row->account_id;?>" >Delete</button>
+                            <button type="button" class="button cancel-account" ><?php _e('Cancel', 'microblog-poster');?></button>
+                            <button type="button" class="del-account-fb button-primary del-account<?php echo $row->account_id;?>" ><?php _e('Delete', 'microblog-poster');?></button>
                         </div>
                     </form>
                 </div>
             </div>
             <div class="account-wrapper">
                 <span class="account-username"><?php echo $row->username;?></span>
-                <span class="edit-account edit<?php echo $row->account_id;?>">Edit</span>
-                <span class="del-account del<?php echo $row->account_id;?>">Del</span>
+                <span class="edit-account edit<?php echo $row->account_id;?>"><?php _e('Edit', 'microblog-poster');?></span>
+                <span class="del-account del<?php echo $row->account_id;?>"><?php _e('Del', 'microblog-poster');?></span>
                 <?php if(isset($fb_acc_extra['access_token']) && $fb_acc_extra['access_token']):?>
                     <?php if($fb_acc_extra['expires'] == '0'):?>
-                        <div>Authorization is valid permanently</div>
-                        <div><a href="<?php echo $authorize_url; ?>" >Re-Authorize this facebook account</a></div>
+                        <div><?php _e('Authorization is valid permanently', 'microblog-poster');?></div>
+                        <div><a href="<?php echo $authorize_url; ?>" ><?php _e('Re-Authorize this facebook account', 'microblog-poster');?></a></div>
                     <?php else:?>
-                        <div>Authorization is valid until <?php echo date('d-m-Y', $fb_acc_extra['expires']); ?></div>
-                        <div><a href="<?php echo $authorize_url; ?>" >Refresh authorization now</a></div>
+                        <div><?php _e('Authorization is valid until', 'microblog-poster');?> <?php echo date('d-m-Y', $fb_acc_extra['expires']); ?></div>
+                        <div><a href="<?php echo $authorize_url; ?>" ><?php _e('Refresh authorization now', 'microblog-poster');?></a></div>
                     <?php endif;?>
                 <?php else:?>
-                        <div><a href="<?php echo $authorize_url; ?>" >Authorize this facebook account</a></div>
+                        <div><a href="<?php echo $authorize_url; ?>" ><?php _e('Authorize this facebook account', 'microblog-poster');?></a></div>
                 <?php endif;?>
             </div>
             
@@ -2367,7 +2420,7 @@ function microblogposter_settings_output()
             
         <div class="social-network-accounts-site">
             <img src="../wp-content/plugins/microblog-poster/images/diigo_icon.png" />
-            <h4>Diigo Accounts</h4>
+            <h4><?php _e('Diigo Accounts', 'microblog-poster');?></h4>
         </div>  
         <?php
         $sql="SELECT * FROM $table_accounts WHERE type='diigo'";
@@ -2385,35 +2438,37 @@ function microblogposter_settings_output()
             <div style="display:none">
                 <div id="update_account<?php echo $row->account_id;?>">
                     <form id="update_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
-                        <h3 class="new-account-header"><span class="microblogposter-name">MicroblogPoster</span> Plugin</h3>
+                        <h3 class="new-account-header"><?php _e('<span class="microblogposter-name">MicroblogPoster</span> Plugin', 'microblog-poster');?></h3>
                         <div class="delete-wrapper">
-                            Diigo Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span>
+                            <?php _e('Diigo Account:', 'microblog-poster');?> <span class="delete-wrapper-user"><?php echo $row->username;?></span>
                         </div>
                         <div id="diigo-div" class="one-account">
+                            <div class="help-div"><span class="description">Diigo&nbsp;:&nbsp;<a href="http://efficientscripts.com/help/microblogposter/diigohelp" target="_blank"><?php _e('Help with screenshots in english', 'microblog-poster');?></a></span></div>
                             <div class="input-div">
-                                Diigo Username:
+                                <?php _e('Username:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="username" value="<?php echo $row->username;?>" />
                             </div>
                             <div class="input-div">
-                                Diigo Password:
+                                <?php _e('Password:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="password" value="<?php echo ($is_raw)? $row->password : MicroblogPoster_SupportEnc::dec($row->password);?>" />
                             </div>
                             <div class="input-div">
-                                Diigo API Key:
+                                <?php _e('API Key:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="api_key" value="<?php echo $api_key;?>" />
+                                <span class="description">(API Key)</span>
                             </div>
                             <div class="input-div">
-                                Message Format:
+                                <?php _e('Message Format:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <textarea id="message_format" name="message_format" rows="2"><?php echo $row->message_format;?></textarea>
-                                <span class="description">Message that's actually posted.</span>
+                                <span class="description"><?php _e('Message that\'s actually posted.', 'microblog-poster');?></span>
                             </div>
                             <div class="input-div">
 
@@ -2422,11 +2477,11 @@ function microblogposter_settings_output()
                                 <span class="description-small"><?php echo $description_shortcodes_bookmark;?></span>
                             </div>
                             <div class="input-div">
-                                Include tags:
+                                <?php _e('Include tags:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="checkbox" id="include_tags" name="include_tags" value="1" <?php if ($include_tags) echo "checked";?>/>
-                                <span class="description">Do you want to include tags in the bookmarks?</span>
+                                <span class="description"><?php _e('Do you want to include tags in the bookmarks?', 'microblog-poster');?></span>
                             </div>
                         </div>
 
@@ -2434,8 +2489,8 @@ function microblogposter_settings_output()
                         <input type="hidden" name="account_type" value="diigo" />
                         <input type="hidden" name="update_account_hidden" value="1" />
                         <div class="button-holder">
-                            <button type="button" class="button cancel-account" >Cancel</button>
-                            <button type="button" class="button-primary save-account<?php echo $row->account_id;?>" >Save</button>
+                            <button type="button" class="button cancel-account" ><?php _e('Cancel', 'microblog-poster');?></button>
+                            <button type="button" class="button-primary save-account<?php echo $row->account_id;?>" ><?php _e('Save', 'microblog-poster');?></button>
                         </div>
 
                     </form>
@@ -2445,29 +2500,29 @@ function microblogposter_settings_output()
                 <div id="delete_account<?php echo $row->account_id;?>">
                     <form id="delete_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
                         <div class="delete-wrapper">
-                        Diigo Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span><br />
-                        <span class="delete-wrapper-del">Delete?</span>
+                        <?php _e('Diigo Account:', 'microblog-poster');?> <span class="delete-wrapper-user"><?php echo $row->username;?></span><br />
+                        <span class="delete-wrapper-del"><?php _e('Delete?', 'microblog-poster');?></span>
                         </div>
                         <input type="hidden" name="account_id" value="<?php echo $row->account_id;?>" />
                         <input type="hidden" name="account_type" value="diigo" />
                         <input type="hidden" name="delete_account_hidden" value="1" />
                         <div class="button-holder-del">
-                            <button type="button" class="button cancel-account" >Cancel</button>
-                            <button type="button" class="del-account-fb button del-account<?php echo $row->account_id;?>" >Delete</button>
+                            <button type="button" class="button cancel-account" ><?php _e('Cancel', 'microblog-poster');?></button>
+                            <button type="button" class="del-account-fb button-primary del-account<?php echo $row->account_id;?>" ><?php _e('Delete', 'microblog-poster');?></button>
                         </div>
                     </form>
                 </div>
             </div>
             <div class="account-wrapper">
                 <span class="account-username"><?php echo $row->username;?></span>
-                <span class="edit-account edit<?php echo $row->account_id;?>">Edit</span>
-                <span class="del-account del<?php echo $row->account_id;?>">Del</span>
+                <span class="edit-account edit<?php echo $row->account_id;?>"><?php _e('Edit', 'microblog-poster');?></span>
+                <span class="del-account del<?php echo $row->account_id;?>"><?php _e('Del', 'microblog-poster');?></span>
             </div>
         <?php endforeach;?>
             
         <div class="social-network-accounts-site">
             <img src="../wp-content/plugins/microblog-poster/images/linkedin_icon.png" />
-            <h4>Linkedin Accounts</h4>
+            <h4><?php _e('Linkedin Accounts', 'microblog-poster');?></h4>
         </div>
         <?php
         $sql="SELECT * FROM $table_accounts WHERE type='linkedin'";
@@ -2507,46 +2562,54 @@ function microblogposter_settings_output()
                 <div id="update_account<?php echo $row->account_id;?>">
                     <form id="update_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
                         
-                        <h3 class="new-account-header"><span class="microblogposter-name">MicroblogPoster</span> Plugin</h3>
+                        <h3 class="new-account-header"><?php _e('<span class="microblogposter-name">MicroblogPoster</span> Plugin', 'microblog-poster');?></h3>
                         <div class="delete-wrapper">
-                            Linkedin Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span>
+                            <?php _e('Linkedin Account:', 'microblog-poster');?> <span class="delete-wrapper-user"><?php echo $row->username;?></span>
                         </div>
                         <div id="facebook-div" class="one-account">
+                            <div class="help-div"><span class="description">Linkedin&nbsp;:&nbsp;<a href="http://efficientscripts.com/help/microblogposter/linkedinhelp" target="_blank"><?php _e('Help with screenshots in english', 'microblog-poster');?></a></span></div>
                             <div class="input-div">
-                                Username:
+                                <?php _e('Username:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="username" name="username" value="<?php echo $row->username;?>"/>
                             </div>
                             <div class="input-div">
-                                Linkedin target type:
+                                <?php _e('Linkedin target type:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <span class="mbp-linkedin-target-type-span"><?php echo ucfirst($target_type).' timeline';?></span>
+                                <?php if($target_type=='company'):?>
+                                    <span class="mbp-linkedin-target-type-span"><?php _e('Company timeline', 'microblog-poster');?></span>
+                                <?php elseif($target_type=='group'):?>
+                                    <span class="mbp-linkedin-target-type-span"><?php _e('Group timeline', 'microblog-poster');?></span>
+                                <?php else:?>
+                                    <span class="mbp-linkedin-target-type-span"><?php _e('Profile timeline', 'microblog-poster');?></span>
+                                <?php endif;?>
                             </div>
                             <?php if($target_type=='group'):?>
                                 <div class="input-div">
-                                    Group ID:
+                                    <?php _e('Group ID:', 'microblog-poster');?>
                                 </div>
                                 <div class="input-div-large">
                                     <input type="text" id="mbp_linkedin_group_id" name="mbp_linkedin_group_id" value="<?php echo $group_id;?>" />
-                                    <span class="description">Your Linkedin Group ID.</span>
+                                    <span class="description"><?php _e('Your Linkedin Group ID.', 'microblog-poster');?></span>
                                 </div>
                             <?php elseif($target_type=='company'):?>
                                 <div class="input-div">
-                                    Company ID:
+                                    <?php _e('Company ID:', 'microblog-poster');?>
                                 </div>
                                 <div class="input-div-large">
                                     <input type="text" id="mbp_linkedin_company_id" name="mbp_linkedin_company_id" value="<?php echo $company_id;?>" />
-                                    <span class="description">Your Linkedin Company ID.</span>
+                                    <span class="description"><?php _e('Your Linkedin Company ID.', 'microblog-poster');?></span>
                                 </div>
                             <?php endif;?>
                             <div class="input-div">
-                                Message Format:
+                                <?php _e('Message Format:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <textarea id="message_format" name="message_format" rows="2"><?php echo $row->message_format;?></textarea>
-                                <span class="description">Message that's actually posted.</span>
+                                <span class="description"><?php _e('Message that\'s actually posted.', 'microblog-poster');?></span>
                             </div>
                             <div class="input-div">
 
@@ -2556,45 +2619,44 @@ function microblogposter_settings_output()
                             </div>
                             <div class="mbp-separator"></div>
                             <div class="input-div input-div-radio">
-                                Post Type:
+                                <?php _e('Post Type:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <!--input type="radio" name="post_type_lkn" value="text" <?php if($post_type=='text') echo 'checked'; ?>> Text <span class="description">Text only status update.</span><br-->
-                                <input type="radio" name="post_type_lkn" value="link" <?php if($post_type=='link') echo 'checked'; ?>> Share a Link <span class="description">Status update that contains comment + linkedin link box.</span>
+                                <input type="radio" name="post_type_lkn" value="link" <?php if($post_type=='link') echo 'checked'; ?>> <?php _e('Link', 'microblog-poster');?> <span class="description"><?php _e('(Text message + Linkedin link box.)', 'microblog-poster');?></span>
                             </div>
                             <div class="input-div">
 
                             </div>
                             <div class="input-div-large">
                                 <span class="description-small">
-                                    Posting with link box you'll need a thumbnail for your link. 
-                                    If your new post contains a featured image, MicroblogPoster will take that one.
-                                    If not, no explicit image url will be submitted and your update will appear without a thumbnail.
-                                    If you want always to have an image going with your link then specify a default image url just below.
-                                    This default thumbnail url will be posted for each new post that doesn't have featured image.
+                                    <?php _e('Posting with link box you\'ll need a thumbnail for your link. If your post contains a featured image, MicroblogPoster will take that one.', 'microblog-poster');?>
+                                    <?php _e('If not, no explicit image url will be submitted and your update will appear without a thumbnail.', 'microblog-poster');?>
+                                    <?php _e('If you want always to have an image going with your link then specify a default image url just below.', 'microblog-poster');?>
+                                    <?php _e('This default thumbnail url will be posted for each new post that doesn\'t have featured image.', 'microblog-poster');?>
                                 </span>
                             </div>
                             <div class="input-div">
-                                Default Image Url:
+                                <?php _e('Default Image Url:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="default_image_url" name="default_image_url" value="<?php if(isset($default_image_url)) echo $default_image_url;?>"/>
-                                <span class="description">Default Thumbnail for link box. <a href="http://efficientscripts.com/help/microblogposter/generalhelp#def_img_url" target="_blank">Help</a></span>
+                                <span class="description"><?php _e('Default Thumbnail for link box.', 'microblog-poster');?> <a href="http://efficientscripts.com/help/microblogposter/generalhelp#def_img_url" target="_blank"><?php _e('Help', 'microblog-poster');?></a></span>
                             </div>
                             <div class="mbp-separator"></div>
                             <div class="input-div">
-                                Application ID/API Key:
+                                <?php _e('Application ID/API Key:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="consumer_key" value="<?php echo $row->consumer_key;?>" />
-                                <span class="description">Your Linkedin Application ID/API Key.</span>
+                                <span class="description">(Application ID / API Key)</span>
                             </div>
                             <div class="input-div">
-                                Application Secret:
+                                <?php _e('Application Secret:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="consumer_secret" value="<?php echo $row->consumer_secret;?>" />
-                                <span class="description">Your Linkedin Application Secret.</span>
+                                <span class="description">(Application Secret)</span>
                             </div>
                         </div>
 
@@ -2602,8 +2664,8 @@ function microblogposter_settings_output()
                         <input type="hidden" name="account_type" value="linkedin" />
                         <input type="hidden" name="update_account_hidden" value="1" />
                         <div class="button-holder">
-                            <button type="button" class="button cancel-account" >Cancel</button>
-                            <button type="button" class="button-primary save-account<?php echo $row->account_id;?>" >Save</button>
+                            <button type="button" class="button cancel-account" ><?php _e('Cancel', 'microblog-poster');?></button>
+                            <button type="button" class="button-primary save-account<?php echo $row->account_id;?>" ><?php _e('Save', 'microblog-poster');?></button>
                         </div>
 
                     </form>
@@ -2613,28 +2675,28 @@ function microblogposter_settings_output()
                 <div id="delete_account<?php echo $row->account_id;?>">
                     <form id="delete_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
                         <div class="delete-wrapper">
-                        Linkedin Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span><br />
-                        <span class="delete-wrapper-del">Delete?</span>
+                        <?php _e('Linkedin Account:', 'microblog-poster');?> <span class="delete-wrapper-user"><?php echo $row->username;?></span><br />
+                        <span class="delete-wrapper-del"><?php _e('Delete?', 'microblog-poster');?></span>
                         </div>
                         <input type="hidden" name="account_id" value="<?php echo $row->account_id;?>" />
                         <input type="hidden" name="account_type" value="linkedin" />
                         <input type="hidden" name="delete_account_hidden" value="1" />
                         <div class="button-holder-del">
-                            <button type="button" class="button cancel-account" >Cancel</button>
-                            <button type="button" class="del-account-fb button del-account<?php echo $row->account_id;?>" >Delete</button>
+                            <button type="button" class="button cancel-account" ><?php _e('Cancel', 'microblog-poster');?></button>
+                            <button type="button" class="del-account-fb button-primary del-account<?php echo $row->account_id;?>" ><?php _e('Delete', 'microblog-poster');?></button>
                         </div>
                     </form>
                 </div>
             </div>
             <div class="account-wrapper">
                 <span class="account-username"><?php echo $row->username;?></span>
-                <span class="edit-account edit<?php echo $row->account_id;?>">Edit</span>
-                <span class="del-account del<?php echo $row->account_id;?>">Del</span>
+                <span class="edit-account edit<?php echo $row->account_id;?>"><?php _e('Edit', 'microblog-poster');?></span>
+                <span class="del-account del<?php echo $row->account_id;?>"><?php _e('Del', 'microblog-poster');?></span>
                 <?php if(isset($lkn_acc_extra['access_token']) && $lkn_acc_extra['access_token']):?>
-                <div>Authorization is valid until <?php echo date('d-m-Y', $lkn_acc_extra['expires']); ?></div>
-                <div><a href="<?php echo $authorize_url; ?>" >Refresh authorization now</a></div>
+                <div><?php _e('Authorization is valid until', 'microblog-poster');?> <?php echo date('d-m-Y', $lkn_acc_extra['expires']); ?></div>
+                <div><a href="<?php echo $authorize_url; ?>" ><?php _e('Refresh authorization now', 'microblog-poster');?></a></div>
                 <?php else:?>
-                <div><a href="<?php echo $authorize_url; ?>" >Authorize this linkedin account</a></div>
+                <div><a href="<?php echo $authorize_url; ?>" ><?php _e('Authorize this linkedin account', 'microblog-poster');?></a></div>
                 <?php endif;?>
             </div>
             
@@ -2642,7 +2704,7 @@ function microblogposter_settings_output()
             
         <div class="social-network-accounts-site">
             <img src="../wp-content/plugins/microblog-poster/images/tumblr_icon.png" />
-            <h4>Tumblr Accounts</h4>
+            <h4><?php _e('Tumblr Accounts', 'microblog-poster');?></h4>
         </div>
         <?php
         $sql="SELECT * FROM $table_accounts WHERE type='tumblr'";
@@ -2679,31 +2741,32 @@ function microblogposter_settings_output()
                 <div id="update_account<?php echo $row->account_id;?>">
                     <form id="update_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
                         
-                        <h3 class="new-account-header"><span class="microblogposter-name">MicroblogPoster</span> Plugin</h3>
+                        <h3 class="new-account-header"><?php _e('<span class="microblogposter-name">MicroblogPoster</span> Plugin', 'microblog-poster');?></h3>
                         <div class="delete-wrapper">
-                            Tumblr Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span>
+                            <?php _e('Tumblr Account:', 'microblog-poster');?> <span class="delete-wrapper-user"><?php echo $row->username;?></span>
                         </div>
                         <div id="tumblr-div" class="one-account">
+                            <div class="help-div"><span class="description">Tumblr&nbsp;:&nbsp;<a href="http://efficientscripts.com/help/microblogposter/tumblrhelp" target="_blank"><?php _e('Help with screenshots in english', 'microblog-poster');?></a></span></div>
                             <div class="input-div">
-                                Username:
+                                <?php _e('Username:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="username" name="username" value="<?php echo $row->username;?>"/>
-                                <span class="description">Easily identify it later, not used for posting.</span>
+                                <span class="description"><?php _e('Easily identify it later, not used for posting.', 'microblog-poster');?></span>
                             </div>
                             <div class="input-div">
-                                Blog Hostname:
+                                <?php _e('Blog Hostname:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="mbp_tumblr_blog_hostname" name="mbp_tumblr_blog_hostname" value="<?php echo $tmb_blog_hostname;?>"/>
-                                <span class="description">Ex: 'blogname.tumblr.com'</span>
+                                <span class="description"><?php _e('Example:', 'microblog-poster');?> 'blogname.tumblr.com'</span>
                             </div>
                             <div class="input-div">
-                                Message Format:
+                                <?php _e('Message Format:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <textarea id="message_format" name="message_format" rows="2"><?php echo $row->message_format;?></textarea>
-                                <span class="description">Message that's actually posted.</span>
+                                <span class="description"><?php _e('Message that\'s actually posted.', 'microblog-poster');?></span>
                             </div>
                             <div class="input-div">
 
@@ -2713,12 +2776,12 @@ function microblogposter_settings_output()
                             </div>
                             <div class="mbp-separator"></div>
                             <div class="input-div input-div-radio">
-                                Post Type:
+                                <?php _e('Post Type:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
-                                <input type="radio" name="mbp_post_type_tmb" value="text" <?php if($tmb_post_type=='text') echo 'checked="checked"';?> > Text <span class="description">Text status update.</span><br>
+                                <input type="radio" name="mbp_post_type_tmb" value="text" <?php if($tmb_post_type=='text') echo 'checked="checked"';?> > <?php _e('Text', 'microblog-poster');?> <span class="description"><?php _e('(Text status update.)', 'microblog-poster');?></span><br>
                                 <?php if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account')):?>
-                                <input type="radio" name="mbp_post_type_tmb" value="link" <?php if($tmb_post_type=='link') echo 'checked="checked"';?> > Share a Link <span class="description">Tumblr link box status update.</span>
+                                <input type="radio" name="mbp_post_type_tmb" value="link" <?php if($tmb_post_type=='link') echo 'checked="checked"';?> > <?php _e('Link', 'microblog-poster');?> <span class="description"><?php _e('Tumblr link box status update.', 'microblog-poster');?></span>
                                 <?php endif;?>
                             </div>
                             <?php if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account')):?>
@@ -2727,24 +2790,23 @@ function microblogposter_settings_output()
                             </div>
                             <div class="input-div-large">
                                 <span class="description-small">
-                                    Link box + description of your post.
-                                    Message Format field above isn't used.
+                                    <?php _e('Link box + description of your post. Message Format field above isn\'t used.', 'microblog-poster');?>
                                 </span>
                             </div>
                             <?php endif;?>
                             <div class="input-div">
-                                Consumer Key:
+                                <?php _e('Consumer Key:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="consumer_key" value="<?php echo $row->consumer_key;?>" />
-                                <span class="description">Your Tumblr Application Consumer Key.</span>
+                                <span class="description">(Application Consumer Key)</span>
                             </div>
                             <div class="input-div">
-                                Consumer Secret:
+                                <?php _e('Consumer Secret:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="consumer_secret" value="<?php echo $row->consumer_secret;?>" />
-                                <span class="description">Your Tumblr Application Consumer Secret.</span>
+                                <span class="description">(Application Consumer Secret)</span>
                             </div>
                         </div>
 
@@ -2754,8 +2816,8 @@ function microblogposter_settings_output()
                         <input type="hidden" name="account_type" value="tumblr" />
                         <input type="hidden" name="update_account_hidden" value="1" />
                         <div class="button-holder">
-                            <button type="button" class="button cancel-account" >Cancel</button>
-                            <button type="button" class="button-primary save-account<?php echo $row->account_id;?>" >Save</button>
+                            <button type="button" class="button cancel-account" ><?php _e('Cancel', 'microblog-poster');?></button>
+                            <button type="button" class="button-primary save-account<?php echo $row->account_id;?>" ><?php _e('Save', 'microblog-poster');?></button>
                         </div>
 
                     </form>
@@ -2765,33 +2827,33 @@ function microblogposter_settings_output()
                 <div id="delete_account<?php echo $row->account_id;?>">
                     <form id="delete_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
                         <div class="delete-wrapper">
-                        Tumblr Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span><br />
-                        <span class="delete-wrapper-del">Delete?</span>
+                        <?php _e('Tumblr Account:', 'microblog-poster');?> <span class="delete-wrapper-user"><?php echo $row->username;?></span><br />
+                        <span class="delete-wrapper-del"><?php _e('Delete?', 'microblog-poster');?></span>
                         </div>
                         <input type="hidden" name="account_id" value="<?php echo $row->account_id;?>" />
                         <input type="hidden" name="account_type" value="tumblr" />
                         <input type="hidden" name="delete_account_hidden" value="1" />
                         <div class="button-holder-del">
-                            <button type="button" class="button cancel-account" >Cancel</button>
-                            <button type="button" class="del-account-fb button del-account<?php echo $row->account_id;?>" >Delete</button>
+                            <button type="button" class="button cancel-account" ><?php _e('Cancel', 'microblog-poster');?></button>
+                            <button type="button" class="del-account-fb button-primary del-account<?php echo $row->account_id;?>" ><?php _e('Delete', 'microblog-poster');?></button>
                         </div>
                     </form>
                 </div>
             </div>
             <div class="account-wrapper">
                 <span class="account-username"><?php echo $row->username;?></span>
-                <span class="edit-account edit<?php echo $row->account_id;?>">Edit</span>
-                <span class="del-account del<?php echo $row->account_id;?>">Del</span>
+                <span class="edit-account edit<?php echo $row->account_id;?>"><?php _e('Edit', 'microblog-poster');?></span>
+                <span class="del-account del<?php echo $row->account_id;?>"><?php _e('Del', 'microblog-poster');?></span>
                 <div>
                     
                     <?php if($authorized): ?>
-                        <div>Authorization is valid permanently</div>
-                        <a href="<?php echo $authorize_url; ?>" >Refresh authorization now</a>
-                        (2 steps required)
+                        <div><?php _e('Authorization is valid permanently', 'microblog-poster');?></div>
+                        <a href="<?php echo $authorize_url; ?>" ><?php _e('Refresh authorization now', 'microblog-poster');?></a>
+                        <?php _e('(2 steps required)', 'microblog-poster');?>
                     <?php else:?>
-                        <a href="<?php echo $authorize_url; ?>" >Authorize this Tumblr account</a>
-                        <?php if($authorize_step==1) echo '2 steps required, after first click and page reload, please click again.'?>
-                        <?php if($authorize_step==2) echo 'Final step, click once again.'?>
+                        <a href="<?php echo $authorize_url; ?>" ><?php _e('Authorize this Tumblr account', 'microblog-poster');?></a>
+                        <?php if($authorize_step==1) _e('(2 steps required)', 'microblog-poster');?>
+                        <?php if($authorize_step==2) _e('Final step, click once again.', 'microblog-poster');?>
                     <?php endif;?>
                     
                 </div>
@@ -2800,7 +2862,7 @@ function microblogposter_settings_output()
         <?php endforeach;?>
         <div class="social-network-accounts-site">
             <img src="../wp-content/plugins/microblog-poster/images/blogger_icon.png" />
-            <h4>Blogger Accounts</h4>
+            <h4><?php _e('Blogger Accounts', 'microblog-poster');?></h4>
         </div>
         <?php
         $sql="SELECT * FROM $table_accounts WHERE type='blogger'";
@@ -2829,31 +2891,32 @@ function microblogposter_settings_output()
                 <div id="update_account<?php echo $row->account_id;?>">
                     <form id="update_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
                         
-                        <h3 class="new-account-header"><span class="microblogposter-name">MicroblogPoster</span> Plugin</h3>
+                        <h3 class="new-account-header"><?php _e('<span class="microblogposter-name">MicroblogPoster</span> Plugin', 'microblog-poster');?></h3>
                         <div class="delete-wrapper">
-                            Blogger Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span>
+                            <?php _e('Blogger Account:', 'microblog-poster');?> <span class="delete-wrapper-user"><?php echo $row->username;?></span>
                         </div>
                         <div id="blogger-div" class="one-account">
+                            <div class="help-div"><span class="description">Blogger/Blogspot&nbsp;:&nbsp;<a href="http://efficientscripts.com/help/microblogposter/bloggerhelp" target="_blank"><?php _e('Help with screenshots in english', 'microblog-poster');?></a></span></div>
                             <div class="input-div">
-                                Username:
+                                <?php _e('Username:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="username" name="username" value="<?php echo $row->username;?>"/>
-                                <span class="description">Easily identify it later, not used for posting.</span>
+                                <span class="description"><?php _e('Easily identify it later, not used for posting.', 'microblog-poster');?></span>
                             </div>
                             <div class="input-div">
-                                Blog Id:
+                                <?php _e('Blog Id:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="mbp_blogger_blog_id" name="mbp_blogger_blog_id" value="<?php echo $blogg_blog_id;?>"/>
-                                <span class="description">Ex: '1237342953579224633'</span>
+                                <span class="description"><?php _e('Example:', 'microblog-poster');?> '1237342953579224633'</span>
                             </div>
                             <div class="input-div">
-                                Message Format:
+                                <?php _e('Message Format:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <textarea id="message_format" name="message_format" rows="2"><?php echo $row->message_format;?></textarea>
-                                <span class="description">Message that's actually posted.</span>
+                                <span class="description"><?php _e('Message that\'s actually posted.', 'microblog-poster');?></span>
                             </div>
                             <div class="input-div">
 
@@ -2863,26 +2926,26 @@ function microblogposter_settings_output()
                             </div>
                             <div class="mbp-separator"></div>
                             <div class="input-div">
-                                Include featured image:
+                                <?php _e('Include featured image:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="checkbox" id="include_featured_image" name="include_featured_image" value="1" <?php if ($include_featured_image) echo "checked";?>/>
-                                <span class="description">Do you want to include featured image in your updates?</span>
+                                <span class="description"><?php _e('Do you want to include featured image in your updates?', 'microblog-poster');?></span>
                             </div>
                             <div class="mbp-separator"></div>
                             <div class="input-div">
-                                Client Id:
+                                <?php _e('Client Id:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="consumer_key" value="<?php echo $row->consumer_key;?>" />
-                                <span class="description">Your Blogger Client Id.</span>
+                                <span class="description">(Client Id)</span>
                             </div>
                             <div class="input-div">
-                                Client Secret:
+                                <?php _e('Client Secret:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="consumer_secret" value="<?php echo $row->consumer_secret;?>" />
-                                <span class="description">Your Blogger Client Secret.</span>
+                                <span class="description">(Client Secret)</span>
                             </div>
                         </div>
 
@@ -2890,8 +2953,8 @@ function microblogposter_settings_output()
                         <input type="hidden" name="account_type" value="blogger" />
                         <input type="hidden" name="update_account_hidden" value="1" />
                         <div class="button-holder">
-                            <button type="button" class="button cancel-account" >Cancel</button>
-                            <button type="button" class="button-primary save-account<?php echo $row->account_id;?>" >Save</button>
+                            <button type="button" class="button cancel-account" ><?php _e('Cancel', 'microblog-poster');?></button>
+                            <button type="button" class="button-primary save-account<?php echo $row->account_id;?>" ><?php _e('Save', 'microblog-poster');?></button>
                         </div>
 
                     </form>
@@ -2901,30 +2964,30 @@ function microblogposter_settings_output()
                 <div id="delete_account<?php echo $row->account_id;?>">
                     <form id="delete_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
                         <div class="delete-wrapper">
-                        Blogger Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span><br />
-                        <span class="delete-wrapper-del">Delete?</span>
+                        <?php _e('Blogger Account:', 'microblog-poster');?> <span class="delete-wrapper-user"><?php echo $row->username;?></span><br />
+                        <span class="delete-wrapper-del"><?php _e('Delete?', 'microblog-poster');?></span>
                         </div>
                         <input type="hidden" name="account_id" value="<?php echo $row->account_id;?>" />
                         <input type="hidden" name="account_type" value="blogger" />
                         <input type="hidden" name="delete_account_hidden" value="1" />
                         <div class="button-holder-del">
-                            <button type="button" class="button cancel-account" >Cancel</button>
-                            <button type="button" class="del-account-fb button del-account<?php echo $row->account_id;?>" >Delete</button>
+                            <button type="button" class="button cancel-account" ><?php _e('Cancel', 'microblog-poster');?></button>
+                            <button type="button" class="del-account-fb button-primary del-account<?php echo $row->account_id;?>" ><?php _e('Delete', 'microblog-poster');?></button>
                         </div>
                     </form>
                 </div>
             </div>
             <div class="account-wrapper">
                 <span class="account-username"><?php echo $row->username;?></span>
-                <span class="edit-account edit<?php echo $row->account_id;?>">Edit</span>
-                <span class="del-account del<?php echo $row->account_id;?>">Del</span>
+                <span class="edit-account edit<?php echo $row->account_id;?>"><?php _e('Edit', 'microblog-poster');?></span>
+                <span class="del-account del<?php echo $row->account_id;?>"><?php _e('Del', 'microblog-poster');?></span>
                 <div>
                     
                     <?php if($authorized): ?>
-                        <div>Authorization is valid permanently</div>
-                        <a href="<?php echo $authorize_url; ?>" >Refresh authorization now</a>
+                        <div><?php _e('Authorization is valid permanently', 'microblog-poster');?></div>
+                        <a href="<?php echo $authorize_url; ?>" ><?php _e('Refresh authorization now', 'microblog-poster');?></a>
                     <?php else:?>
-                        <a href="<?php echo $authorize_url; ?>" >Authorize this Blogger account</a>
+                        <a href="<?php echo $authorize_url; ?>" ><?php _e('Authorize this Blogger account', 'microblog-poster');?></a>
                     <?php endif;?>
                     
                 </div>
@@ -2934,7 +2997,7 @@ function microblogposter_settings_output()
             
         <div class="social-network-accounts-site">
             <img src="../wp-content/plugins/microblog-poster/images/instapaper_icon.png" />
-            <h4>Instapaper Accounts</h4>
+            <h4><?php _e('Instapaper Accounts', 'microblog-poster');?></h4>
         </div>  
         <?php
         $sql="SELECT * FROM $table_accounts WHERE type='instapaper'";
@@ -2947,29 +3010,29 @@ function microblogposter_settings_output()
             <div style="display:none">
                 <div id="update_account<?php echo $row->account_id;?>">
                     <form id="update_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
-                        <h3 class="new-account-header"><span class="microblogposter-name">MicroblogPoster</span> Plugin</h3>
+                        <h3 class="new-account-header"><?php _e('<span class="microblogposter-name">MicroblogPoster</span> Plugin', 'microblog-poster');?></h3>
                         <div class="delete-wrapper">
-                            Instapaper Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span>
+                            <?php _e('Instapaper Account:', 'microblog-poster');?> <span class="delete-wrapper-user"><?php echo $row->username;?></span>
                         </div>
                         <div id="delicious-div" class="one-account">
                             <div class="input-div">
-                                Instapaper Username:
+                                <?php _e('Username:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="username" value="<?php echo $row->username;?>" />
                             </div>
                             <div class="input-div">
-                                Instapaper Password:
+                                <?php _e('Password:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="password" value="<?php echo ($is_raw)? $row->password : MicroblogPoster_SupportEnc::dec($row->password);?>" />
                             </div>
                             <div class="input-div">
-                                Message Format:
+                                <?php _e('Message Format:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <textarea id="message_format" name="message_format" rows="2"><?php echo $row->message_format;?></textarea>
-                                <span class="description">Message that's actually posted.</span>
+                                <span class="description"><?php _e('Message that\'s actually posted.', 'microblog-poster');?></span>
                             </div>
                             <div class="input-div">
 
@@ -2983,8 +3046,8 @@ function microblogposter_settings_output()
                         <input type="hidden" name="account_type" value="instapaper" />
                         <input type="hidden" name="update_account_hidden" value="1" />
                         <div class="button-holder">
-                            <button type="button" class="button cancel-account" >Cancel</button>
-                            <button type="button" class="button-primary save-account<?php echo $row->account_id;?>" >Save</button>
+                            <button type="button" class="button cancel-account" ><?php _e('Cancel', 'microblog-poster');?></button>
+                            <button type="button" class="button-primary save-account<?php echo $row->account_id;?>" ><?php _e('Save', 'microblog-poster');?></button>
                         </div>
 
                     </form>
@@ -2994,29 +3057,29 @@ function microblogposter_settings_output()
                 <div id="delete_account<?php echo $row->account_id;?>">
                     <form id="delete_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
                         <div class="delete-wrapper">
-                        Instapaper Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span><br />
-                        <span class="delete-wrapper-del">Delete?</span>
+                        <?php _e('Instapaper Account:', 'microblog-poster');?> <span class="delete-wrapper-user"><?php echo $row->username;?></span><br />
+                        <span class="delete-wrapper-del"><?php _e('Delete?', 'microblog-poster');?></span>
                         </div>
                         <input type="hidden" name="account_id" value="<?php echo $row->account_id;?>" />
                         <input type="hidden" name="account_type" value="instapaper" />
                         <input type="hidden" name="delete_account_hidden" value="1" />
                         <div class="button-holder-del">
-                            <button type="button" class="button cancel-account" >Cancel</button>
-                            <button type="button" class="del-account-fb button del-account<?php echo $row->account_id;?>" >Delete</button>
+                            <button type="button" class="button cancel-account" ><?php _e('Cancel', 'microblog-poster');?></button>
+                            <button type="button" class="del-account-fb button-primary del-account<?php echo $row->account_id;?>" ><?php _e('Delete', 'microblog-poster');?></button>
                         </div>
                     </form>
                 </div>
             </div>
             <div class="account-wrapper">
                 <span class="account-username"><?php echo $row->username;?></span>
-                <span class="edit-account edit<?php echo $row->account_id;?>">Edit</span>
-                <span class="del-account del<?php echo $row->account_id;?>">Del</span>
+                <span class="edit-account edit<?php echo $row->account_id;?>"><?php _e('Edit', 'microblog-poster');?></span>
+                <span class="del-account del<?php echo $row->account_id;?>"><?php _e('Del', 'microblog-poster');?></span>
             </div>
         <?php endforeach;?>
             
         <div class="social-network-accounts-site">
             <img src="../wp-content/plugins/microblog-poster/images/vkontakte_icon.png" />
-            <h4>VKontakte Accounts</h4>
+            <h4><?php _e('VKontakte Accounts', 'microblog-poster');?></h4>
         </div>
         <?php
         $sql="SELECT * FROM $table_accounts WHERE type='vkontakte'";
@@ -3051,36 +3114,55 @@ function microblogposter_settings_output()
                 <div id="update_account<?php echo $row->account_id;?>">
                     <form id="update_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
                         
-                        <h3 class="new-account-header"><span class="microblogposter-name">MicroblogPoster</span> Plugin</h3>
+                        <h3 class="new-account-header"><?php _e('<span class="microblogposter-name">MicroblogPoster</span> Plugin', 'microblog-poster');?></h3>
                         <div class="delete-wrapper">
-                            VKontakte Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span>
+                            <?php _e('VKontakte Account:', 'microblog-poster');?> <span class="delete-wrapper-user"><?php echo $row->username;?></span>
                         </div>
                         <div id="vkontakte-div" class="one-account">
+                            <div class="help-div"><span class="description">VKontakte&nbsp;:&nbsp;<a href="http://efficientscripts.com/help/microblogposter/vkontaktehelp" target="_blank"><?php _e('Help with screenshots in english', 'microblog-poster');?></a></span></div>
                             <div class="input-div">
-                                Username:
+                                <?php _e('Username:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="username" name="username" value="<?php echo $row->username;?>"/>
                             </div>
                             <div class="input-div">
-                                VKontakte target type:
+                                <?php _e('VKontakte target type:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
-                                <span class="mbp-vkontakte-target-type-span"><?php echo ucfirst($target_type).' wall';?></span>
+                                
+                                <?php if($target_type=='page'):?>
+                                    <span class="mbp-vkontakte-target-type-span"><?php _e('Public Page wall', 'microblog-poster');?></span>
+                                <?php elseif($target_type=='group'):?>
+                                    <span class="mbp-vkontakte-target-type-span"><?php _e('Group wall', 'microblog-poster');?></span>
+                                <?php elseif($target_type=='event'):?>
+                                    <span class="mbp-vkontakte-target-type-span"><?php _e('Event wall', 'microblog-poster');?></span>
+                                <?php else:?>
+                                    <span class="mbp-vkontakte-target-type-span"><?php _e('Profile wall', 'microblog-poster');?></span>
+                                <?php endif;?>
                             </div>
                             <div class="input-div">
-                                <?php echo ucfirst($target_type);?> ID:
+                                
+                                <?php if($target_type=='page'):?>
+                                    <?php _e('Page ID', 'microblog-poster');?>
+                                <?php elseif($target_type=='group'):?>
+                                    <?php _e('Group ID', 'microblog-poster');?>
+                                <?php elseif($target_type=='event'):?>
+                                    <?php _e('Event ID', 'microblog-poster');?>
+                                <?php else:?>
+                                    <?php _e('Profile ID', 'microblog-poster');?>
+                                <?php endif;?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="mbp_vkontakte_target_id" name="mbp_vkontakte_target_id" value="<?php echo $target_id;?>" />
-                                <span class="description">Your VKontakte <?php echo ucfirst($target_type);?> ID. (numeric)</span>
+                                <span class="description"> <?php echo ucfirst($target_type);?> ID. (<?php _e('numeric', 'microblog-poster');?>)</span>
                             </div>
                             <div class="input-div">
-                                Message Format:
+                                <?php _e('Message Format:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <textarea id="message_format" name="message_format" rows="2"><?php echo $row->message_format;?></textarea>
-                                <span class="description">Message that's actually posted.</span>
+                                <span class="description"><?php _e('Message that\'s actually posted.', 'microblog-poster');?></span>
                             </div>
                             <div class="input-div">
 
@@ -3090,41 +3172,41 @@ function microblogposter_settings_output()
                             </div>
                             <div class="mbp-separator"></div>
                             <div class="input-div input-div-radio">
-                                Post Type:
+                                <?php _e('Post Type:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
-                                <input type="radio" name="post_type_vk" value="text" <?php if($post_type=='text') echo 'checked'; ?>> Text - <span class="description">Text only status update.</span><br>
-                                <input type="radio" name="post_type_vk" value="link" <?php if($post_type=='link') echo 'checked'; ?>> Share a Link - <span class="description">Status update that contains (message + link box).</span>
+                                <input type="radio" name="post_type_vk" value="text" <?php if($post_type=='text') echo 'checked'; ?>> <?php _e('Text', 'microblog-poster');?> - <span class="description"><?php _e('Text only status update.', 'microblog-poster');?></span><br>
+                                <input type="radio" name="post_type_vk" value="link" <?php if($post_type=='link') echo 'checked'; ?>> <?php _e('Link', 'microblog-poster');?> - <span class="description"><?php _e('(Text message + VKontakte link box.)', 'microblog-poster');?></span>
                             </div>
                             <div class="input-div">
 
                             </div>
                             <div class="input-div-large">
-                                <span class="description-small">If you choose to post with link box you'll need a thumbnail for your link. 
-                                    
+                                <span class="description-small">
+                                    <?php _e('If you choose to post with link box, VKontakte is auto fetching an image from your post and add it to the link box.', 'microblog-poster');?>
                                 </span>
                             </div>
                             <div class="mbp-separator"></div>
                             <div class="input-div">
-                                Application ID/API Key:
+                                <?php _e('Application ID/API Key:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="consumer_key" value="<?php echo $row->consumer_key;?>" />
-                                <span class="description">Your VKontakte Application ID.</span>
+                                <span class="description">(Application ID)</span>
                             </div>
                             <div class="input-div">
-                                Application Secret:
+                                <?php _e('Application Secret:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="consumer_secret" value="<?php echo $row->consumer_secret;?>" />
-                                <span class="description">Your VKontakte Application Secret.</span>
+                                <span class="description">(Application Secret)</span>
                             </div>
                             <div class="input-div">
-                                Access Token:
+                                <?php _e('Access Token:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="access_token_vk" value="<?php echo $vk_acc_extra['access_token'];?>" />
-                                <span class="description">Your VKontakte Access Token.</span>
+                                <span class="description">(Access Token)</span>
                             </div>
                         </div>
 
@@ -3132,8 +3214,8 @@ function microblogposter_settings_output()
                         <input type="hidden" name="account_type" value="vkontakte" />
                         <input type="hidden" name="update_account_hidden" value="1" />
                         <div class="button-holder">
-                            <button type="button" class="button cancel-account" >Cancel</button>
-                            <button type="button" class="button-primary save-account<?php echo $row->account_id;?>" >Save</button>
+                            <button type="button" class="button cancel-account" ><?php _e('Cancel', 'microblog-poster');?></button>
+                            <button type="button" class="button-primary save-account<?php echo $row->account_id;?>" ><?php _e('Save', 'microblog-poster');?></button>
                         </div>
 
                     </form>
@@ -3143,33 +3225,33 @@ function microblogposter_settings_output()
                 <div id="delete_account<?php echo $row->account_id;?>">
                     <form id="delete_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
                         <div class="delete-wrapper">
-                        VKontakte Account: <span class="delete-wrapper-user"><?php echo $row->username;?></span><br />
-                        <span class="delete-wrapper-del">Delete?</span>
+                        <?php _e('VKontakte Account:', 'microblog-poster');?> <span class="delete-wrapper-user"><?php echo $row->username;?></span><br />
+                        <span class="delete-wrapper-del"><?php _e('Delete?', 'microblog-poster');?></span>
                         </div>
                         <input type="hidden" name="account_id" value="<?php echo $row->account_id;?>" />
                         <input type="hidden" name="account_type" value="vkontakte" />
                         <input type="hidden" name="delete_account_hidden" value="1" />
                         <div class="button-holder-del">
-                            <button type="button" class="button cancel-account" >Cancel</button>
-                            <button type="button" class="del-account-fb button del-account<?php echo $row->account_id;?>" >Delete</button>
+                            <button type="button" class="button cancel-account" ><?php _e('Cancel', 'microblog-poster');?></button>
+                            <button type="button" class="del-account-fb button-primary del-account<?php echo $row->account_id;?>" ><?php _e('Delete', 'microblog-poster');?></button>
                         </div>
                     </form>
                 </div>
             </div>
             <div class="account-wrapper">
                 <span class="account-username"><?php echo $row->username;?></span>
-                <span class="edit-account edit<?php echo $row->account_id;?>">Edit</span>
-                <span class="del-account del<?php echo $row->account_id;?>">Del</span>
+                <span class="edit-account edit<?php echo $row->account_id;?>"><?php _e('Edit', 'microblog-poster');?></span>
+                <span class="del-account del<?php echo $row->account_id;?>"><?php _e('Del', 'microblog-poster');?></span>
                 <?php if(isset($vk_acc_extra['access_token']) && $vk_acc_extra['access_token']):?>
                     <?php if($vk_acc_extra['expires'] == '0'):?>
-                        <div>Authorization is valid permanently</div>
-                        <div><a href="<?php echo $authorize_url; ?>" target="_blank">Re-Authorize this vkontakte account</a></div>
+                        <div><?php _e('Authorization is valid permanently', 'microblog-poster');?></div>
+                        <div><a href="<?php echo $authorize_url; ?>" target="_blank"><?php _e('Re-Authorize this vkontakte account', 'microblog-poster');?></a></div>
                     <?php else:?>
-                        <div>Authorization is valid until <?php echo date('d-m-Y', $vk_acc_extra['expires']); ?></div>
-                        <div><a href="<?php echo $authorize_url; ?>" target="_blank">Refresh authorization now</a></div>
+                        <div><?php _e('Authorization is valid until', 'microblog-poster');?> <?php echo date('d-m-Y', $vk_acc_extra['expires']); ?></div>
+                        <div><a href="<?php echo $authorize_url; ?>" target="_blank"><?php _e('Refresh authorization now', 'microblog-poster');?></a></div>
                     <?php endif;?>
                 <?php else:?>
-                        <div><a href="<?php echo $authorize_url; ?>" target="_blank">Authorize this vkontakte account</a></div>
+                        <div><a href="<?php echo $authorize_url; ?>" target="_blank"><?php _e('Authorize this vkontakte account', 'microblog-poster');?></a></div>
                 <?php endif;?>
             </div>
             
@@ -3182,9 +3264,9 @@ function microblogposter_settings_output()
             <div id="new_account">
                 <form id="new_account_form" method="post" action="" enctype="multipart/form-data" >
 
-                    <h3 class="new-account-header"><span class="microblogposter-name">MicroblogPoster</span> Plugin</h3>
+                    <h3 class="new-account-header"><?php _e('<span class="microblogposter-name">MicroblogPoster</span> Plugin', 'microblog-poster');?></h3>
                     <div id="account_type_wrapper">
-                    <label for="account_type" class="label-account-type">Account type:</label>
+                    <label for="account_type" class="label-account-type"><?php _e('Account type:', 'microblog-poster');?></label>
                     <select id="account_type" name="account_type">
                         <option value="twitter">Twitter</option>
                         <option value="plurk">Plurk</option>
@@ -3202,19 +3284,19 @@ function microblogposter_settings_output()
 
 
                     <div id="twitter-div" class="one-account">
-                        <div class="help-div"><span class="description"> <a href="http://efficientscripts.com/help/microblogposter/twitterhelp" target="_blank">Twitter Help</a></span></div>
+                        <div class="help-div"><span class="description"> Twitter&nbsp;:&nbsp;<a href="http://efficientscripts.com/help/microblogposter/twitterhelp" target="_blank"><?php _e('Help with screenshots in english', 'microblog-poster');?></a></span></div>
                         <div class="input-div">
-                            Username:
+                            <?php _e('Username:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <input type="text" id="username" name="username" />
                         </div>
                         <div class="input-div">
-                            Message Format:
+                            <?php _e('Message Format:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <textarea id="message_format" name="message_format" rows="2"></textarea>
-                            <span class="description">Message that's actually posted.</span>
+                            <span class="description"><?php _e('Message that\'s actually posted.', 'microblog-poster');?></span>
                         </div>
                         <div class="input-div">
 
@@ -3223,56 +3305,55 @@ function microblogposter_settings_output()
                             <span class="description-small"><?php echo $description_shortcodes_m;?></span>
                         </div>
                         <div class="input-div">
-                            Consumer Key:
+                            <?php _e('Consumer Key:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <input type="text" id="" name="consumer_key" value="" />
-                            <span class="description">Your Twitter Application Consumer Key.</span>
+                            <span class="description">(Application Consumer Key)</span>
                         </div>
                         <div class="input-div">
-                            Consumer Secret:
+                            <?php _e('Consumer Secret:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <input type="text" id="" name="consumer_secret" value="" />
-                            <span class="description">Your Twitter Application Consumer Secret.</span>
+                            <span class="description">(Application Consumer Secret)</span>
                         </div>
                         <div class="input-div">
 
                         </div>
                         <div class="input-div-large">
                             <span class="description-small">
-                                Leave the fields 'Access Token' and 'Access Token Secret' below blank if you want to authorize
-                                your account interactively. If you provide them, your account will be ready to post immediately
-                                and you won't have to authorize interactively. Not providing these two fields is meant to allow
-                                you posting to multiple twitter accounts with a single twitter App. You then authorize each one
-                                interactively against your App.
+                                <?php _e('Leave the fields \'Access Token\' and \'Access Token Secret\' below blank if you want to authorize your account interactively.', 'microblog-poster');?>
+                                <?php _e('If you provide them, your account will be ready to post immediately and you won\'t have to authorize interactively.', 'microblog-poster');?>
+                                <?php _e('Not providing these two fields is meant to allow you posting to multiple twitter accounts with a single twitter App. ', 'microblog-poster');?>
+                                <?php _e('You then authorize each account interactively against your App.', 'microblog-poster');?>
                             </span>
                         </div>
                         <div class="input-div">
-                            Access Token:
+                            <?php _e('Access Token:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <input type="text" id="" name="access_token" value="" />
-                            <span class="description">Optional. Your Twitter Account Access Token</span>
+                            <span class="description"><?php _e('Optional.', 'microblog-poster');?> (Access Token)</span>
                         </div>
                         <div class="input-div">
-                            Access Token Secret:
+                            <?php _e('Access Token Secret:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <input type="text" id="" name="access_token_secret" value="" />
-                            <span class="description">Optional. Your Twitter Account Access Token Secret</span>
+                            <span class="description"><?php _e('Optional.', 'microblog-poster');?> (Access Token Secret)</span>
                         </div>
                     </div>
                     <div id="plurk-div" class="one-account">
-                        <div class="help-div"><span class="description"><a href="http://efficientscripts.com/help/microblogposter/plurkhelp" target="_blank">Plurk Help</a></span></div>
+                        <div class="help-div"><span class="description">Plurk&nbsp;:&nbsp;<a href="http://efficientscripts.com/help/microblogposter/plurkhelp" target="_blank"><?php _e('Help with screenshots in english', 'microblog-poster');?></a></span></div>
                         <div class="input-div">
-                            Username:
+                            <?php _e('Username:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <input type="text" id="username" name="username" value="" />
                         </div>
                         <div class="input-div">
-                            Qualifier:
+                            <?php _e('Qualifier:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <select name="mbp_plurk_qualifier">
@@ -3299,11 +3380,11 @@ function microblogposter_settings_output()
                             </select>
                         </div>
                         <div class="input-div">
-                            Message Format:
+                            <?php _e('Message Format:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <textarea id="message_format" name="message_format" rows="2"></textarea>
-                            <span class="description">Message that's actually posted.</span>
+                            <span class="description"><?php _e('Message that\'s actually posted.', 'microblog-poster');?></span>
                         </div>
                         <div class="input-div">
 
@@ -3312,55 +3393,55 @@ function microblogposter_settings_output()
                             <span class="description-small"><?php echo $description_shortcodes_m;?></span>
                         </div>
                         <div class="input-div">
-                            Consumer Key:
+                            <?php _e('Consumer Key:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <input type="text" id="" name="consumer_key" value="" />
-                            <span class="description">Your Plurk Application Consumer Key.</span>
+                            <span class="description">(Application Consumer Key)</span>
                         </div>
                         <div class="input-div">
-                            Consumer Secret:
+                            <?php _e('Consumer Secret:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <input type="text" id="" name="consumer_secret" value="" />
-                            <span class="description">Your Plurk Application Consumer Secret.</span>
+                            <span class="description">(Application Consumer Secret)</span>
                         </div>
                         <div class="input-div">
-                            Access Token:
+                            <?php _e('Access Token:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <input type="text" id="" name="access_token" value="" />
-                            <span class="description">Your Plurk Account Access Token</span>
+                            <span class="description">(Access Token)</span>
                         </div>
                         <div class="input-div">
-                            Access Token Secret:
+                            <?php _e('Access Token Secret:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <input type="text" id="" name="access_token_secret" value="" />
-                            <span class="description">Your Plurk Account Access Token Secret</span>
+                            <span class="description">(Access Token Secret)</span>
                         </div>
                     </div>
                     <div id="friendfeed-div" class="one-account">
-                        <div class="help-div"><span class="description"><a href="http://efficientscripts.com/help/microblogposter/friendfeedhelp" target="_blank">FriendFeed Help</a></span></div>
+                        <div class="help-div"><span class="description">FriendFeed&nbsp;:&nbsp;<a href="http://efficientscripts.com/help/microblogposter/friendfeedhelp" target="_blank"><?php _e('Help with screenshots in english', 'microblog-poster');?></a></span></div>
                         <div class="input-div">
-                            FriendFeed Username:
+                            <?php _e('Username:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <input type="text" id="username" name="username" value="" />
                         </div>
                         <div class="input-div">
-                            FriendFeed Remote Key:
+                            <?php _e('Remote Key:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <input type="text" id="" name="password" value="" />
-                            <span class="description">Your FriendFeed Remote Key not password.</span>
+                            <span class="description">(Remote Key)</span>
                         </div>
                         <div class="input-div">
-                            Message Format:
+                            <?php _e('Message Format:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <textarea id="message_format" name="message_format" rows="2"></textarea>
-                            <span class="description">Message that's actually posted.</span>
+                            <span class="description"><?php _e('Message that\'s actually posted.', 'microblog-poster');?></span>
                         </div>
                         <div class="input-div">
 
@@ -3371,23 +3452,23 @@ function microblogposter_settings_output()
                     </div>
                     <div id="delicious-div" class="one-account">
                         <div class="input-div">
-                            Delicious Username:
+                            <?php _e('Username:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <input type="text" id="username" name="username" value="" />
                         </div>
                         <div class="input-div">
-                            Delicious Password:
+                            <?php _e('Password:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <input type="text" id="" name="password" value="" />
                         </div>
                         <div class="input-div">
-                            Message Format:
+                            <?php _e('Message Format:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <textarea id="message_format" name="message_format" rows="2"></textarea>
-                            <span class="description">Message that's actually posted.</span>
+                            <span class="description"><?php _e('Message that\'s actually posted.', 'microblog-poster');?></span>
                         </div>
                         <div class="input-div">
 
@@ -3396,58 +3477,58 @@ function microblogposter_settings_output()
                             <span class="description-small"><?php echo $description_shortcodes_bookmark;?></span>
                         </div>
                         <div class="input-div">
-                            Include tags:
+                            <?php _e('Include tags:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <input type="checkbox" id="include_tags" name="include_tags" value="1"/>
-                            <span class="description">Do you want to include tags in the bookmarks?</span>
+                            <span class="description"><?php _e('Do you want to include tags in the bookmarks?', 'microblog-poster');?></span>
                         </div>
                     </div>
                     <div id="facebook-div" class="one-account">
-                        <div class="help-div"><span class="description"><a href="http://efficientscripts.com/help/microblogposter/facebookhelp" target="_blank">Facebook Help</a></span></div>
+                        <div class="help-div"><span class="description">Facebook&nbsp;:&nbsp;<a href="http://efficientscripts.com/help/microblogposter/facebookhelp" target="_blank"><?php _e('Help with screenshots in english', 'microblog-poster');?></a></span></div>
                         <div class="input-div">
-                            Username:
+                            <?php _e('Username:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <input type="text" id="username" name="username" value="" />
                             <span class="description"><?php echo $description_mandatory_username;?></span>
                         </div>
                         <div class="input-div">
-                            Facebook target type:
+                            <?php _e('Facebook target type:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <select name="mbp_facebook_target_type" id="mbp_facebook_target_type">
-                                <option value="profile">Profile timeline</option>
-                                <option value="page">Page timeline</option>
-                                <option value="group">Group timeline</option>
+                                <option value="profile"><?php _e('Profile timeline', 'microblog-poster');?></option>
+                                <option value="page"><?php _e('Page timeline', 'microblog-poster');?></option>
+                                <option value="group"><?php _e('Group timeline', 'microblog-poster');?></option>
                             </select>
-                            <span class="description">Where you want to auto post.</span>
+                            <span class="description"><?php _e('Where you want to auto post.', 'microblog-poster');?></span>
                         </div>
                         <div id="mbp-facebook-input-div">
                             <div id="mbp-facebook-page-id-div">
                                 <div class="input-div">
-                                    Page ID:
+                                    <?php _e('Page ID:', 'microblog-poster');?>
                                 </div>
                                 <div class="input-div-large">
                                     <input type="text" id="mbp_facebook_page_id" name="mbp_facebook_page_id" value="" />
-                                    <span class="description">Your Facebook Page ID. (numeric)</span>
+                                    <span class="description"><?php _e('Your Facebook Page ID. (numeric)', 'microblog-poster');?></span>
                                 </div>
                             </div>
                             <div id="mbp-facebook-group-id-div">
                                 <div class="input-div">
-                                    Group ID:
+                                    <?php _e('Group ID:', 'microblog-poster');?>
                                 </div>
                                 <div class="input-div-large">
                                     <input type="text" id="mbp_facebook_group_id" name="mbp_facebook_group_id" value="" />
-                                    <span class="description">Your Facebook Group ID. (numeric)</span>
+                                    <span class="description"><?php _e('Your Facebook Group ID. (numeric)', 'microblog-poster');?></span>
                                 </div>
                             </div>
                             <div class="input-div">
-                                Message Format:
+                                <?php _e('Message Format:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <textarea id="message_format" name="message_format" rows="2"></textarea>
-                                <span class="description">Message that's actually posted.</span>
+                                <span class="description"><?php _e('Message that\'s actually posted.', 'microblog-poster');?></span>
                             </div>
                             <div class="input-div">
 
@@ -3457,209 +3538,208 @@ function microblogposter_settings_output()
                             </div>
                             <div class="mbp-separator"></div>
                             <div class="input-div input-div-radio">
-                                Post Type:
+                                <?php _e('Post Type:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
-                                <input type="radio" name="post_type_fb" value="text" checked="checked"> Text <span class="description">Text only status update.</span><br>
-                                <input type="radio" name="post_type_fb" value="link"> Share a Link <span class="description">Status update that contains comment + facebook link box.</span>
-                            </div>
-                            <div class="input-div">
-
-                            </div>
-                            <div class="input-div-large">
-                                <span class="description-small">If you choose to post with link box you'll need a thumbnail for your link. 
-                                    If your new post contains a featured image, MicroblogPoster will take that one.
-                                    If not, no explicit image url will be submitted and facebook will try to fetch appropriate thumbnail for your post.
-                                    If there is no image, your link will appear without thumbnail.
-                                    Otherwise if you don't like image/thumbnail facebook is auto fetching then specify a default image url just below.
-                                    This default thumbnail url will be posted for each new post that doesn't have featured image.
-                                </span>
-                            </div>
-                            <div class="input-div">
-                                Default Image Url:
-                            </div>
-                            <div class="input-div-large">
-                                <input type="text" id="default_image_url" name="default_image_url" />
-                                <span class="description">Default Thumbnail for link box. <a href="http://efficientscripts.com/help/microblogposter/generalhelp#def_img_url" target="_blank">Help</a></span>
-                            </div>
-                            <div class="mbp-separator"></div>
-                            <div class="input-div">
-                                Application ID/API Key:
-                            </div>
-                            <div class="input-div-large">
-                                <input type="text" id="" name="consumer_key" value="" />
-                                <span class="description">Your Facebook Application ID/API Key.</span>
-                            </div>
-                            <div class="input-div">
-                                Application Secret:
-                            </div>
-                            <div class="input-div-large">
-                                <input type="text" id="" name="consumer_secret" value="" />
-                                <span class="description">Your Facebook Application Secret.</span>
-                            </div>
-                        </div>
-                        <div id="mbp-facebook-upgrade-now">Available with the Pro / Enterprise Add-on. <a href="http://efficientscripts.com/microblogposteraddons" target="_blank">Upgrade Now</a></div>
-                    </div>
-                    <div id="diigo-div" class="one-account">
-                        <div class="help-div"><span class="description"><a href="http://efficientscripts.com/help/microblogposter/diigohelp" target="_blank">Diigo Help</a></span></div>
-                        <div class="input-div">
-                            Diigo Username:
-                        </div>
-                        <div class="input-div-large">
-                            <input type="text" id="username" name="username" value="" />
-                        </div>
-                        <div class="input-div">
-                            Diigo Password:
-                        </div>
-                        <div class="input-div-large">
-                            <input type="text" id="" name="password" value="" />
-                        </div>
-                        <div class="input-div">
-                            Diigo API Key:
-                        </div>
-                        <div class="input-div-large">
-                            <input type="text" id="" name="api_key" value="" />
-                        </div>
-                        <div class="input-div">
-                            Message Format:
-                        </div>
-                        <div class="input-div-large">
-                            <textarea id="message_format" name="message_format" rows="2"></textarea>
-                            <span class="description">Message that's actually posted.</span>
-                        </div>
-                        <div class="input-div">
-
-                        </div>
-                        <div class="input-div-large">
-                            <span class="description-small"><?php echo $description_shortcodes_bookmark;?></span>
-                        </div>
-                        <div class="input-div">
-                            Include tags:
-                        </div>
-                        <div class="input-div-large">
-                            <input type="checkbox" id="include_tags" name="include_tags" value="1"/>
-                            <span class="description">Do you want to include tags in the bookmarks?</span>
-                        </div>
-                    </div>
-                    <div id="linkedin-div" class="one-account">
-                        <div class="help-div"><span class="description"><a href="http://efficientscripts.com/help/microblogposter/linkedinhelp" target="_blank">Linkedin Help</a></span></div>
-                        <div class="input-div">
-                            Username:
-                        </div>
-                        <div class="input-div-large">
-                            <input type="text" id="username" name="username" value="" />
-                            <span class="description"><?php echo $description_mandatory_username;?></span>
-                        </div>
-                        <div class="input-div">
-                            Linkedin target type:
-                        </div>
-                        <div class="input-div-large">
-                            <select name="mbp_linkedin_target_type" id="mbp_linkedin_target_type">
-                                <option value="profile">Profile timeline</option>
-                                <option value="group">Group timeline</option>
-                                <option value="company">Company timeline</option>
-                            </select>
-                            <span class="description">Where you want to auto post.</span>
-                        </div>
-                        <div id="mbp-linkedin-input-div">
-                            <div id="mbp-linkedin-group-id-div">
-                                <div class="input-div">
-                                    Group ID:
-                                </div>
-                                <div class="input-div-large">
-                                    <input type="text" id="mbp_linkedin_group_id" name="mbp_linkedin_group_id" value="" />
-                                    <span class="description">Your Linkedin Group ID.</span>
-                                </div>
-                            </div>
-                            <div id="mbp-linkedin-company-id-div">
-                                <div class="input-div">
-                                    Company ID:
-                                </div>
-                                <div class="input-div-large">
-                                    <input type="text" id="mbp_linkedin_company_id" name="mbp_linkedin_company_id" value="" />
-                                    <span class="description">Your Linkedin Company ID.</span>
-                                </div>
-                            </div>
-                            <div class="input-div">
-                                Message Format:
-                            </div>
-                            <div class="input-div-large">
-                                <textarea id="message_format" name="message_format" rows="2"></textarea>
-                                <span class="description">Message that's actually posted.</span>
-                            </div>
-                            <div class="input-div">
-
-                            </div>
-                            <div class="input-div-large">
-                                <span class="description-small"><?php echo $description_shortcodes;?></span>
-                            </div>
-                            <div class="mbp-separator"></div>
-                            <div class="input-div input-div-radio">
-                                Post Type:
-                            </div>
-                            <div class="input-div-large">
-                                <!--input type="radio" name="post_type_lkn" value="text" checked="checked"> Text <span class="description">Text only status update.</span><br-->
-                                <input type="radio" name="post_type_lkn" value="link" checked="checked"> Share a Link <span class="description">Status update that contains comment + linkedin link box.</span>
+                                <input type="radio" name="post_type_fb" value="text" checked="checked"> <?php _e('Text', 'microblog-poster');?> <span class="description"><?php _e('(Text only status update.)', 'microblog-poster');?></span><br>
+                                <input type="radio" name="post_type_fb" value="link"> <?php _e('Link', 'microblog-poster');?> <span class="description"><?php _e('(Text message + Facebook link box.)', 'microblog-poster');?></span>
                             </div>
                             <div class="input-div">
 
                             </div>
                             <div class="input-div-large">
                                 <span class="description-small">
-                                    Posting with link box you'll need a thumbnail for your link. 
-                                    If your new post contains a featured image, MicroblogPoster will take that one.
-                                    If not, no explicit image url will be submitted and your update will appear without a thumbnail.
-                                    If you want always to have an image going with your link then specify a default image url just below.
-                                    This default thumbnail url will be posted for each new post that doesn't have featured image.
+                                    <?php _e('If you choose to post with link box you\'ll need a thumbnail for your link. If your new post contains a featured image, MicroblogPoster will take that one.', 'microblog-poster');?>
+                                    <?php _e('If not, no explicit image url will be submitted and facebook will try to fetch appropriate thumbnail for your post. If there is no image, your link will appear without thumbnail.', 'microblog-poster');?>
+                                    <?php _e('Otherwise if you don\'t like image/thumbnail facebook is auto fetching then specify a default image url just below. This default thumbnail url will be posted for each new post that doesn\'t have featured image.', 'microblog-poster');?>
+
                                 </span>
                             </div>
                             <div class="input-div">
-                                Default Image Url:
+                                <?php _e('Default Image Url:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="default_image_url" name="default_image_url" />
-                                <span class="description">Default Thumbnail for link box. <a href="http://efficientscripts.com/help/microblogposter/generalhelp#def_img_url" target="_blank">Help</a></span>
+                                <span class="description"><?php _e('Default Thumbnail for link box.', 'microblog-poster');?> <a href="http://efficientscripts.com/help/microblogposter/generalhelp#def_img_url" target="_blank"><?php _e('Help', 'microblog-poster');?></a></span>
                             </div>
                             <div class="mbp-separator"></div>
                             <div class="input-div">
-                                Application ID/API Key:
+                                <?php _e('Application ID/API Key:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="consumer_key" value="" />
-                                <span class="description">Your Linkedin Application ID/API Key.</span>
+                                <span class="description">(Application ID / API Key)</span>
                             </div>
                             <div class="input-div">
-                                Application Secret:
+                                <?php _e('Application Secret:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="consumer_secret" value="" />
-                                <span class="description">Your Linkedin Application Secret.</span>
+                                <span class="description">(Application Secret)</span>
                             </div>
                         </div>
-                        <div id="mbp-linkedin-upgrade-now">Available with the Pro / Enterprise Add-on. <a href="http://efficientscripts.com/microblogposteraddons" target="_blank">Upgrade Now</a></div>
+                        <div id="mbp-facebook-upgrade-now"><?php _e('Available with the Pro / Enterprise Add-on.', 'microblog-poster');?> <a href="http://efficientscripts.com/microblogposteraddons" target="_blank"><?php _e('Upgrade Now', 'microblog-poster');?></a></div>
+                    </div>
+                    <div id="diigo-div" class="one-account">
+                        <div class="help-div"><span class="description">Diigo&nbsp;:&nbsp;<a href="http://efficientscripts.com/help/microblogposter/diigohelp" target="_blank"><?php _e('Help with screenshots in english', 'microblog-poster');?></a></span></div>
+                        <div class="input-div">
+                            <?php _e('Username:', 'microblog-poster');?>
+                        </div>
+                        <div class="input-div-large">
+                            <input type="text" id="username" name="username" value="" />
+                        </div>
+                        <div class="input-div">
+                            <?php _e('Password:', 'microblog-poster');?>
+                        </div>
+                        <div class="input-div-large">
+                            <input type="text" id="" name="password" value="" />
+                        </div>
+                        <div class="input-div">
+                            <?php _e('API Key:', 'microblog-poster');?>
+                        </div>
+                        <div class="input-div-large">
+                            <input type="text" id="" name="api_key" value="" />
+                            <span class="description">(API Key)</span>
+                        </div>
+                        <div class="input-div">
+                            <?php _e('Message Format:', 'microblog-poster');?>
+                        </div>
+                        <div class="input-div-large">
+                            <textarea id="message_format" name="message_format" rows="2"></textarea>
+                            <span class="description"><?php _e('Message that\'s actually posted.', 'microblog-poster');?></span>
+                        </div>
+                        <div class="input-div">
+
+                        </div>
+                        <div class="input-div-large">
+                            <span class="description-small"><?php echo $description_shortcodes_bookmark;?></span>
+                        </div>
+                        <div class="input-div">
+                            <?php _e('Include tags:', 'microblog-poster');?>
+                        </div>
+                        <div class="input-div-large">
+                            <input type="checkbox" id="include_tags" name="include_tags" value="1"/>
+                            <span class="description"><?php _e('Do you want to include tags in the bookmarks?', 'microblog-poster');?></span>
+                        </div>
+                    </div>
+                    <div id="linkedin-div" class="one-account">
+                        <div class="help-div"><span class="description">Linkedin&nbsp;:&nbsp;<a href="http://efficientscripts.com/help/microblogposter/linkedinhelp" target="_blank"><?php _e('Help with screenshots in english', 'microblog-poster');?></a></span></div>
+                        <div class="input-div">
+                            <?php _e('Username:', 'microblog-poster');?>
+                        </div>
+                        <div class="input-div-large">
+                            <input type="text" id="username" name="username" value="" />
+                            <span class="description"><?php echo $description_mandatory_username;?></span>
+                        </div>
+                        <div class="input-div">
+                            <?php _e('Linkedin target type:', 'microblog-poster');?>
+                        </div>
+                        <div class="input-div-large">
+                            <select name="mbp_linkedin_target_type" id="mbp_linkedin_target_type">
+                                <option value="profile"><?php _e('Profile timeline', 'microblog-poster');?></option>
+                                <option value="group"><?php _e('Group timeline', 'microblog-poster');?></option>
+                                <option value="company"><?php _e('Company timeline', 'microblog-poster');?></option>
+                            </select>
+                            <span class="description"><?php _e('Where you want to auto post.', 'microblog-poster');?></span>
+                        </div>
+                        <div id="mbp-linkedin-input-div">
+                            <div id="mbp-linkedin-group-id-div">
+                                <div class="input-div">
+                                    <?php _e('Group ID:', 'microblog-poster');?>
+                                </div>
+                                <div class="input-div-large">
+                                    <input type="text" id="mbp_linkedin_group_id" name="mbp_linkedin_group_id" value="" />
+                                    <span class="description"><?php _e('Your Linkedin Group ID.', 'microblog-poster');?></span>
+                                </div>
+                            </div>
+                            <div id="mbp-linkedin-company-id-div">
+                                <div class="input-div">
+                                    <?php _e('Company ID:', 'microblog-poster');?>
+                                </div>
+                                <div class="input-div-large">
+                                    <input type="text" id="mbp_linkedin_company_id" name="mbp_linkedin_company_id" value="" />
+                                    <span class="description"><?php _e('Your Linkedin Company ID.', 'microblog-poster');?></span>
+                                </div>
+                            </div>
+                            <div class="input-div">
+                                <?php _e('Message Format:', 'microblog-poster');?>
+                            </div>
+                            <div class="input-div-large">
+                                <textarea id="message_format" name="message_format" rows="2"></textarea>
+                                <span class="description"><?php _e('Message that\'s actually posted.', 'microblog-poster');?></span>
+                            </div>
+                            <div class="input-div">
+
+                            </div>
+                            <div class="input-div-large">
+                                <span class="description-small"><?php echo $description_shortcodes;?></span>
+                            </div>
+                            <div class="mbp-separator"></div>
+                            <div class="input-div input-div-radio">
+                                <?php _e('Post Type:', 'microblog-poster');?>
+                            </div>
+                            <div class="input-div-large">
+                                <!--input type="radio" name="post_type_lkn" value="text" checked="checked"> Text <span class="description">Text only status update.</span><br-->
+                                <input type="radio" name="post_type_lkn" value="link" checked="checked"> <?php _e('Link', 'microblog-poster');?> <span class="description"><?php _e('(Text message + Linkedin link box.)', 'microblog-poster');?></span>
+                            </div>
+                            <div class="input-div">
+
+                            </div>
+                            <div class="input-div-large">
+                                <span class="description-small">
+                                    <?php _e('Posting with link box you\'ll need a thumbnail for your link. If your post contains a featured image, MicroblogPoster will take that one.', 'microblog-poster');?>
+                                    <?php _e('If not, no explicit image url will be submitted and your update will appear without a thumbnail.', 'microblog-poster');?>
+                                    <?php _e('If you want always to have an image going with your link then specify a default image url just below.', 'microblog-poster');?>
+                                    <?php _e('This default thumbnail url will be posted for each new post that doesn\'t have featured image.', 'microblog-poster');?>
+                                </span>
+                            </div>
+                            <div class="input-div">
+                                <?php _e('Default Image Url:', 'microblog-poster');?>
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="default_image_url" name="default_image_url" />
+                                <span class="description"><?php _e('Default Thumbnail for link box.', 'microblog-poster');?> <a href="http://efficientscripts.com/help/microblogposter/generalhelp#def_img_url" target="_blank"><?php _e('Help', 'microblog-poster');?></a></span>
+                            </div>
+                            <div class="mbp-separator"></div>
+                            <div class="input-div">
+                                <?php _e('Application ID/API Key:', 'microblog-poster');?>
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="" name="consumer_key" value="" />
+                                <span class="description">(Application ID / API Key)</span>
+                            </div>
+                            <div class="input-div">
+                                <?php _e('Application Secret:', 'microblog-poster');?>
+                            </div>
+                            <div class="input-div-large">
+                                <input type="text" id="" name="consumer_secret" value="" />
+                                <span class="description">(Application Secret)</span>
+                            </div>
+                        </div>
+                        <div id="mbp-linkedin-upgrade-now"><?php _e('Available with the Pro / Enterprise Add-on.', 'microblog-poster');?> <a href="http://efficientscripts.com/microblogposteraddons" target="_blank"><?php _e('Upgrade Now', 'microblog-poster');?></a></div>
                     </div>
                     <div id="tumblr-div" class="one-account">
-                        <div class="help-div"><span class="description"> <a href="http://efficientscripts.com/help/microblogposter/tumblrhelp" target="_blank">Tumblr Help</a></span></div>
+                        <div class="help-div"><span class="description">Tumblr&nbsp;:&nbsp;<a href="http://efficientscripts.com/help/microblogposter/tumblrhelp" target="_blank"><?php _e('Help with screenshots in english', 'microblog-poster');?></a></span></div>
                         <div class="input-div">
-                            Username:
+                            <?php _e('Username:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <input type="text" id="username" name="username" />
                             <span class="description"><?php echo $description_mandatory_username;?></span>
                         </div>
                         <div class="input-div">
-                            Blog Hostname:
+                            <?php _e('Blog Hostname:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <input type="text" id="mbp_tumblr_blog_hostname" name="mbp_tumblr_blog_hostname" />
-                            <span class="description">Ex: 'blogname.tumblr.com'</span>
+                            <span class="description"><?php _e('Example:', 'microblog-poster');?> 'blogname.tumblr.com'</span>
                         </div>
                         <div class="input-div">
-                            Message Format:
+                            <?php _e('Message Format:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <textarea id="message_format" name="message_format" rows="2"></textarea>
-                            <span class="description">Message that's actually posted.</span>
+                            <span class="description"><?php _e('Message that\'s actually posted.', 'microblog-poster');?></span>
                         </div>
                         <div class="input-div">
 
@@ -3669,61 +3749,60 @@ function microblogposter_settings_output()
                         </div>
                         <div class="mbp-separator"></div>
                         <div class="input-div input-div-radio">
-                            Post Type:
+                            <?php _e('Post Type:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
-                            <input type="radio" class="post_type_tmb_class" name="mbp_post_type_tmb" id="post_type_tmb_text" value="text" checked="checked"> Text <span class="description">Text status update.</span><br>
-                            <input type="radio" class="post_type_tmb_class" name="mbp_post_type_tmb" value="link"> Share a Link <span class="description">Tumblr link box status update.</span>
+                            <input type="radio" class="post_type_tmb_class" name="mbp_post_type_tmb" id="post_type_tmb_text" value="text" checked="checked"> <?php _e('Text', 'microblog-poster');?> <span class="description"><?php _e('(Text status update.)', 'microblog-poster');?></span><br>
+                            <input type="radio" class="post_type_tmb_class" name="mbp_post_type_tmb" value="link"> <?php _e('Link', 'microblog-poster');?> <span class="description"><?php _e('Tumblr link box status update.', 'microblog-poster');?></span>
                         </div>
                         <div class="input-div">
 
                         </div>
                         <div class="input-div-large">
                             <span class="description-small">
-                                Link box + description of your post.
-                                Message Format field above isn't used.
+                                <?php _e('Link box + description of your post. Message Format field above isn\'t used.', 'microblog-poster');?>
                             </span>
                         </div>
                         <div id="mbp-tumblr-input-div">
                             <div class="input-div">
-                                Consumer Key:
+                                <?php _e('Consumer Key:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="consumer_key" value="" />
-                                <span class="description">Your Tumblr Application Consumer Key.</span>
+                                <span class="description">(Application Consumer Key)</span>
                             </div>
                             <div class="input-div">
-                                Consumer Secret:
+                                <?php _e('Consumer Secret:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="consumer_secret" value="" />
-                                <span class="description">Your Tumblr Application Consumer Secret.</span>
+                                <span class="description">(Application Consumer Secret)</span>
                             </div>
                         </div>
-                        <div id="mbp-tumblr-upgrade-now">Available with the Pro / Enterprise Add-on. <a href="http://efficientscripts.com/microblogposteraddons" target="_blank">Upgrade Now</a></div>
+                        <div id="mbp-tumblr-upgrade-now"><?php _e('Available with the Pro / Enterprise Add-on.', 'microblog-poster');?> <a href="http://efficientscripts.com/microblogposteraddons" target="_blank"><?php _e('Upgrade Now', 'microblog-poster');?></a></div>
                     </div>
                     <div id="blogger-div" class="one-account">
-                        <div class="help-div"><span class="description"> <a href="http://efficientscripts.com/help/microblogposter/bloggerhelp" target="_blank">Blogger/Blogspot Help</a></span></div>
+                        <div class="help-div"><span class="description">Blogger/Blogspot&nbsp;:&nbsp;<a href="http://efficientscripts.com/help/microblogposter/bloggerhelp" target="_blank"><?php _e('Help with screenshots in english', 'microblog-poster');?></a></span></div>
                         <div class="input-div">
-                            Username:
+                            <?php _e('Username:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <input type="text" id="username" name="username" />
                             <span class="description"><?php echo $description_mandatory_username;?></span>
                         </div>
                         <div class="input-div">
-                            Blog Id:
+                            <?php _e('Blog Id:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <input type="text" id="mbp_blogger_blog_id" name="mbp_blogger_blog_id" />
-                            <span class="description">Ex: '1237342953579224633'</span>
+                            <span class="description"><?php _e('Example:', 'microblog-poster');?> '1237342953579224633'</span>
                         </div>
                         <div class="input-div">
-                            Message Format:
+                            <?php _e('Message Format:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <textarea id="message_format" name="message_format" rows="2"></textarea>
-                            <span class="description">Message that's actually posted.</span>
+                            <span class="description"><?php _e('Message that\'s actually posted.', 'microblog-poster');?></span>
                         </div>
                         <div class="input-div">
 
@@ -3733,47 +3812,47 @@ function microblogposter_settings_output()
                         </div>
                         <div class="mbp-separator"></div>
                         <div class="input-div">
-                            Include featured image:
+                            <?php _e('Include featured image:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <input type="checkbox" id="include_featured_image" name="include_featured_image" value="1" />
-                            <span class="description">Do you want to include featured image in your updates?</span>
+                            <span class="description"><?php _e('Do you want to include featured image in your updates?', 'microblog-poster');?></span>
                         </div>
                         <div class="mbp-separator"></div>
                         <div class="input-div">
-                            Client Id:
+                            <?php _e('Client Id:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <input type="text" id="" name="consumer_key" value="" />
-                            <span class="description">Your Blogger Client Id.</span>
+                            <span class="description">(Client Id)</span>
                         </div>
                         <div class="input-div">
-                            Client Secret:
+                            <?php _e('Client Secret:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <input type="text" id="" name="consumer_secret" value="" />
-                            <span class="description">Your Blogger Client Secret.</span>
+                            <span class="description">(Client Secret)</span>
                         </div>
                     </div>
                     <div id="instapaper-div" class="one-account">
                         <div class="input-div">
-                            Instapaper Username:
+                            <?php _e('Username:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <input type="text" id="username" name="username" value="" />
                         </div>
                         <div class="input-div">
-                            Instapaper Password:
+                            <?php _e('Password:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <input type="text" id="" name="password" value="" />
                         </div>
                         <div class="input-div">
-                            Message Format:
+                            <?php _e('Message Format:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <textarea id="message_format" name="message_format" rows="2"></textarea>
-                            <span class="description">Message that's actually posted.</span>
+                            <span class="description"><?php _e('Message that\'s actually posted.', 'microblog-poster');?></span>
                         </div>
                         <div class="input-div">
 
@@ -3783,40 +3862,40 @@ function microblogposter_settings_output()
                         </div>
                     </div>
                     <div id="vkontakte-div" class="one-account">
-                        <div class="help-div"><span class="description"><a href="http://efficientscripts.com/help/microblogposter/vkontaktehelp" target="_blank">VKontakte Help</a></span></div>
+                        <div class="help-div"><span class="description">VKontakte&nbsp;:&nbsp;<a href="http://efficientscripts.com/help/microblogposter/vkontaktehelp" target="_blank"><?php _e('Help with screenshots in english', 'microblog-poster');?></a></span></div>
                         <div class="input-div">
-                            Username:
+                            <?php _e('Username:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <input type="text" id="username" name="username" value="" />
                             <span class="description"><?php echo $description_mandatory_username;?></span>
                         </div>
                         <div class="input-div">
-                            VKontakte target type:
+                            <?php _e('VKontakte target type:', 'microblog-poster');?>
                         </div>
                         <div class="input-div-large">
                             <select name="mbp_vkontakte_target_type" id="mbp_vkontakte_target_type">
-                                <option value="profile">Profile wall</option>
-                                <option value="page">Public Page wall</option>
-                                <option value="group">Group wall</option>
-                                <option value="event">Event wall</option>
+                                <option value="profile"><?php _e('Profile wall', 'microblog-poster');?></option>
+                                <option value="page"><?php _e('Public Page wall', 'microblog-poster');?></option>
+                                <option value="group"><?php _e('Group wall', 'microblog-poster');?></option>
+                                <option value="event"><?php _e('Event wall', 'microblog-poster');?></option>
                             </select>
-                            <span class="description">Where you want to auto post.</span>
+                            <span class="description"><?php _e('Where you want to auto post.', 'microblog-poster');?></span>
                         </div>
                         <div id="mbp-vkontakte-input-div">
                             <div class="input-div">
-                                <span class="mbp_vkontakte_target_type_string"></span> ID:
+                                <span class="mbp_vkontakte_target_type_string"></span> 
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="mbp_vkontakte_target_id" name="mbp_vkontakte_target_id" value="" />
-                                <span class="description">Your VKontakte <span class="mbp_vkontakte_target_type_string"></span> ID. (numeric)</span>
+                                <span class="description"> <span class="mbp_vkontakte_target_type_string"></span>. (<?php _e('numeric', 'microblog-poster');?>)</span>
                             </div>
                             <div class="input-div">
-                                Message Format:
+                                <?php _e('Message Format:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <textarea id="message_format" name="message_format" rows="2"></textarea>
-                                <span class="description">Message that's actually posted.</span>
+                                <span class="description"><?php _e('Message that\'s actually posted.', 'microblog-poster');?></span>
                             </div>
                             <div class="input-div">
 
@@ -3826,43 +3905,43 @@ function microblogposter_settings_output()
                             </div>
                             <div class="mbp-separator"></div>
                             <div class="input-div input-div-radio">
-                                Post Type:
+                                <?php _e('Post Type:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
-                                <input type="radio" name="post_type_vk" value="text" checked="checked"> Text - <span class="description">Text only status update.</span><br>
-                                <input type="radio" name="post_type_vk" value="link"> Share a Link - <span class="description">Status update that contains (message + link box).</span>
+                                <input type="radio" name="post_type_vk" value="text" checked="checked"> <?php _e('Text', 'microblog-poster');?> - <span class="description"><?php _e('Text only status update.', 'microblog-poster');?></span><br>
+                                <input type="radio" name="post_type_vk" value="link"> <?php _e('Link', 'microblog-poster');?> - <span class="description"><?php _e('(Text message + VKontakte link box.)', 'microblog-poster');?></span>
                             </div>
                             <div class="input-div">
 
                             </div>
                             <div class="input-div-large">
                                 <span class="description-small">
-                                    
+                                    <?php _e('If you choose to post with link box, VKontakte is auto fetching an image from your post and add it to the link box.', 'microblog-poster');?>
                                 </span>
                             </div>
                             <div class="mbp-separator"></div>
                             <div class="input-div">
-                                Application ID/API Key:
+                                <?php _e('Application ID/API Key:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="consumer_key" value="" />
-                                <span class="description">Your VKontakte Application ID.</span>
+                                <span class="description">(Application ID)</span>
                             </div>
                             <div class="input-div">
-                                Application Secret:
+                                <?php _e('Application Secret:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
                                 <input type="text" id="" name="consumer_secret" value="" />
-                                <span class="description">Your VKontakte Application Secret.</span>
+                                <span class="description">(Application Secret)</span>
                             </div>
                         </div>
-                        <div id="mbp-vkontakte-upgrade-now">Available with the Pro / Enterprise Add-on. <a href="http://efficientscripts.com/microblogposteraddons" target="_blank">Upgrade Now</a></div>
+                        <div id="mbp-vkontakte-upgrade-now"><?php _e('Available with the Pro / Enterprise Add-on.', 'microblog-poster');?> <a href="http://efficientscripts.com/microblogposteraddons" target="_blank"><?php _e('Upgrade Now', 'microblog-poster');?></a></div>
                     </div>
 
                     <input type="hidden" name="new_account_hidden" value="1" />
                     <div class="button-holder">
-                        <button type="button" class="button cancel-account" >Cancel</button>
-                        <button type="button" class="button-primary save-account" >Save</button>
+                        <button type="button" class="button cancel-account" ><?php _e('Cancel', 'microblog-poster');?></button>
+                        <button type="button" class="button-primary save-account" ><?php _e('Save', 'microblog-poster');?></button>
                     </div>
 
                 </form>
@@ -3937,7 +4016,7 @@ function microblogposter_settings_output()
         {
             margin-bottom: 5px;
             display: inline-block;
-            width: 480px;
+            width: 610px;
         }
         .input-div input
         {
@@ -3958,7 +4037,7 @@ function microblogposter_settings_output()
         }
         #account_type_wrapper
         {
-            width: 275px;
+            width: 285px;
             height: 30px;
             margin: 0 auto;
             padding-top: 5px;
@@ -3975,17 +4054,17 @@ function microblogposter_settings_output()
         }
         textarea#message_format
         {
-            resize: none;
+            /*resize: none;*/
             width: 290px;
         }
         .button-holder
         {
-            width: 130px;
+            width: 170px;
             margin: 30px auto;
         }
         .button-holder-del
         {
-            width: 130px;
+            width: 170px;
             margin: 30px auto;
         }
         .edit-account
@@ -4057,41 +4136,47 @@ function microblogposter_settings_output()
         {
             margin-top: 0px;
             margin-bottom: 20px;
-            width: 275px;
-            border-bottom: 3px solid #99E399;
+            /*width: 275px;
+            border-bottom: 3px solid #99E399;*/
+            font-size: 14px;
         }
         #general-header
         {
             margin-top: 0px;
-            width: 140px;
-            border-bottom: 3px solid #99E399;
+            /*width: 140px;
+            border-bottom: 3px solid #99E399;*/
+            font-size: 14px;
         }
         #pro-addon-header
         {
             margin-top: 20px;
-            width: 265px;
-            border-bottom: 3px solid #99E399;
+            /*width: 265px;
+            border-bottom: 3px solid #99E399;*/
+            font-size: 14px;
         }
         #logs-header
         {
             margin-top: 0px;
-            width: 120px;
-            border-bottom: 3px solid #99E399;
+            /*width: 120px;
+            border-bottom: 3px solid #99E399;*/
             display: inline-block;
+            font-size: 14px;
         }
         #manual-post-header
         {
             margin-top: 0px;
-            width: 465px;
+            /*width: 465px;
             border-bottom: 3px solid #99E399;
-            display: inline-block;
+            display: inline-block;*/
+            font-size: 14px;
         }
         #old-posts-header
         {
             margin-top: 0px;
-            width: 450px;
+            /*width: 450px;
             border-bottom: 3px solid #99E399;
-            display: inline-block;
+            display: inline-block;*/
+            font-size: 14px;
         }
         #social-network-accounts
         {
@@ -4202,8 +4287,8 @@ function microblogposter_settings_output()
             display: inline;
             /*margin-right: 1px;*/
             color: #222222;
-            padding: 3px 6px;
-            font-size: 16px;
+            padding: 5px 10px;
+            font-size: 14px;
             border-top: 1px solid #222222;
             border-right: 1px solid #a8a8a8;
         }
@@ -4366,7 +4451,7 @@ function microblogposter_settings_output()
         #mbp-manual-post-wrapper .mbp-manual-post-text
         {
             color: #001A66;
-            font-size: 13px;
+            font-size: 14px;
         }
         #mbp-manual-post-wrapper .mbp-manual-post-text-red
         {
@@ -4385,7 +4470,7 @@ function microblogposter_settings_output()
         {
             margin-left: 85px;
             display: inline-block;
-            width: 150px;
+            width: 180px;
         }
         #mbp-old-posts-intro-area
         {
@@ -4394,20 +4479,20 @@ function microblogposter_settings_output()
     </style>
 
     <div id="mbp-old-posts-publish-wrapper" class="mbp-single-tab-wrapper">
-        <h3 id="old-posts-header">Auto re-publish your old blog posts to social accounts :</h3>
+        <h3 id="old-posts-header"><?php _e('Auto re-publish your old blog posts to social accounts :', 'microblog-poster');?></h3>
         
         <p id="mbp-old-posts-intro-area">
-            <span class="microblogposter-name">MicroblogPoster</span> can now auto re-publish your <strong>old blog posts</strong> to social accounts in order to keep them alive.<br />
-            You need to specify the minimum and maximum of the post age and all posts, published on your blog in between, will be candidates.<br />
-            This feature utilizes the WP Cron functionality and will be run every x (specify it below) hours.<br />
+            <?php _e('<span class="microblogposter-name">MicroblogPoster</span> can now auto re-publish your <strong>old blog posts</strong> to social accounts in order to keep them alive.', 'microblog-poster');?><br />
+            <?php _e('You need to specify the minimum and maximum of the post age and all posts, published on your blog in between, will be candidates.', 'microblog-poster');?><br />
+            <?php _e('This feature utilizes the WP Cron functionality and will be run every x (specify it below) hours.', 'microblog-poster');?><br />
             <br />
-            <strong>How to activate:</strong><br />
-            1. Check the 'Activate old posts auto publishing'.<br />
-            2. Choose your settings.<br />
-            3. Select the social accounts you want to be active for old posts re-publishing.<br />
-            4. Hit Save button.<br />
-            5. Almost immediately you should see first old post(s) re-published in the Logs/History tab. They are labelled 'Old'.<br /> 
-            Next run will occur after approximately x hours.<br />
+            <strong><?php _e('How to activate :', 'microblog-poster');?></strong><br />
+            1. <?php _e('Check the \'Activate old posts auto publishing\'.', 'microblog-poster');?><br />
+            2. <?php _e('Choose your settings.', 'microblog-poster');?><br />
+            3. <?php _e('Select the social accounts you want to be active for old posts re-publishing.', 'microblog-poster');?><br />
+            4. <?php _e('Hit Save button.', 'microblog-poster');?><br />
+            5. <?php _e('Almost immediately you should see first old post(s) re-published in the Logs/History tab. They are labelled \'Old\'.', 'microblog-poster');?><br /> 
+            <?php _e('Next run will occur after approximately x hours.', 'microblog-poster');?><br />
         </p>
         <form id="mbp_old_posts_form" name="mbp_old_posts_form" method="post" action="">
             
@@ -4416,10 +4501,10 @@ function microblogposter_settings_output()
                 
                 
                 <tr>
-                    <td class="label-input"><span class="mbp-blue-title">Activate old posts auto publishing:</span></td>
+                    <td class="label-input"><span class="mbp-blue-title"><?php _e('Activate old posts auto publishing :', 'microblog-poster');?></span></td>
                     <td>
                         <input type="checkbox" id="<?php echo $microblogposter_plg_old_posts_active_name;?>" name="<?php echo $microblogposter_plg_old_posts_active_name;?>" value="1" <?php if($microblogposter_plg_old_posts_active_value=='1') echo 'checked';?>/>
-                        <div id="mbp-old-posts-status-area">Current Status : <?php if($microblogposter_plg_old_posts_active_value=='1') echo '<strong class=\'mbp-green\'>ACTIVE</strong>'; else echo '<strong class=\'mbp-red\'>INACTIVE</strong>';?></div>
+                        <div id="mbp-old-posts-status-area"><?php _e('Current Status :', 'microblog-poster');?> <?php if($microblogposter_plg_old_posts_active_value=='1') _e( '<strong class=\'mbp-green\'>ACTIVATED</strong>', 'microblog-poster' ); else _e( '<strong class=\'mbp-red\'>DEACTIVATED</strong>', 'microblog-poster' );?></div>
                     </td>
                 </tr>
                 <tr>
@@ -4427,39 +4512,39 @@ function microblogposter_settings_output()
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <span class="mbp-blue-title">General settings:</span>
+                        <span class="mbp-blue-title"><?php _e('General settings :', 'microblog-poster');?></span>
                     </td>
                 </tr>
                 <tr>
-                    <td class="label-input">WP Cron Interval:</td>
-                    <td><input type="text" id="<?php echo $microblogposter_plg_old_posts_interval_name;?>" name="<?php echo $microblogposter_plg_old_posts_interval_name;?>" value="<?php echo $microblogposter_plg_old_posts_interval_value;?>" size="10"/>&nbsp;<strong>hours</strong>.&nbsp;&nbsp;(default value=24, range between 1 and reasonably +&infin;)</td>
+                    <td class="label-input"><?php _e('WP Cron Interval:', 'microblog-poster');?></td>
+                    <td><input type="text" id="<?php echo $microblogposter_plg_old_posts_interval_name;?>" name="<?php echo $microblogposter_plg_old_posts_interval_name;?>" value="<?php echo $microblogposter_plg_old_posts_interval_value;?>" size="10"/>&nbsp;<strong><?php _e('hours', 'microblog-poster');?></strong>.&nbsp;&nbsp;(<?php _e('default value', 'microblog-poster');?>=24, <?php _e('range between', 'microblog-poster');?> 1 <?php _e('and reasonably', 'microblog-poster');?> +&infin;)</td>
                 </tr>
                 <tr>
-                    <td class="label-input">Number of posts to auto publish each time:</td>
-                    <td><input type="text" id="<?php echo $microblogposter_plg_old_posts_nb_posts_name;?>" name="<?php echo $microblogposter_plg_old_posts_nb_posts_name;?>" value="<?php echo $microblogposter_plg_old_posts_nb_posts_value;?>" size="10"/>&nbsp;<strong>posts</strong>.&nbsp;&nbsp;(default value=1, range between 1 and 3)</td>
+                    <td class="label-input"><?php _e('Number of posts to auto publish each time:', 'microblog-poster');?></td>
+                    <td><input type="text" id="<?php echo $microblogposter_plg_old_posts_nb_posts_name;?>" name="<?php echo $microblogposter_plg_old_posts_nb_posts_name;?>" value="<?php echo $microblogposter_plg_old_posts_nb_posts_value;?>" size="10"/>&nbsp;<strong><?php _e('posts', 'microblog-poster');?></strong>.&nbsp;&nbsp;(<?php _e('default value', 'microblog-poster');?>=1, <?php _e('range between', 'microblog-poster');?> 1 <?php _e('and', 'microblog-poster');?> 3)</td>
                 </tr>
                 <tr>
-                    <td class="label-input">Min age of published post to be eligible. (0 for no min limit):</td>
-                    <td><input type="text" id="<?php echo $microblogposter_plg_old_posts_min_age_name;?>" name="<?php echo $microblogposter_plg_old_posts_min_age_name;?>" value="<?php echo $microblogposter_plg_old_posts_min_age_value;?>" size="10"/>&nbsp;<strong>days</strong>.&nbsp;&nbsp;(default value=30, range between 0 and reasonably +&infin;)</td>
+                    <td class="label-input"><?php _e('Min age of published post to be eligible. (0 for no min limit):', 'microblog-poster');?></td>
+                    <td><input type="text" id="<?php echo $microblogposter_plg_old_posts_min_age_name;?>" name="<?php echo $microblogposter_plg_old_posts_min_age_name;?>" value="<?php echo $microblogposter_plg_old_posts_min_age_value;?>" size="10"/>&nbsp;<strong><?php _e('days', 'microblog-poster');?></strong>.&nbsp;&nbsp;(<?php _e('default value', 'microblog-poster');?>=30, <?php _e('range between', 'microblog-poster');?> 0 <?php _e('and reasonably', 'microblog-poster');?> +&infin;)</td>
                 </tr>
                 <tr>
-                    <td class="label-input">Max age of published post to be eligible. (0 for no max limit):</td>
-                    <td><input type="text" id="<?php echo $microblogposter_plg_old_posts_max_age_name;?>" name="<?php echo $microblogposter_plg_old_posts_max_age_name;?>" value="<?php echo $microblogposter_plg_old_posts_max_age_value;?>" size="10"/>&nbsp;<strong>days</strong>.&nbsp;&nbsp;(default value=180, range between 0 and reasonably +&infin;)</td>
+                    <td class="label-input"><?php _e('Max age of published post to be eligible. (0 for no max limit):', 'microblog-poster');?></td>
+                    <td><input type="text" id="<?php echo $microblogposter_plg_old_posts_max_age_name;?>" name="<?php echo $microblogposter_plg_old_posts_max_age_name;?>" value="<?php echo $microblogposter_plg_old_posts_max_age_value;?>" size="10"/>&nbsp;<strong><?php _e('days', 'microblog-poster');?></strong>.&nbsp;&nbsp;(<?php _e('default value', 'microblog-poster');?>=180, <?php _e('range between', 'microblog-poster');?> 0 <?php _e('and reasonably', 'microblog-poster');?> +&infin;)</td>
                 </tr>
                 <tr>
-                    <td class="label-input">Period after which the re-published old post is eligible again (0 for never):</td>
-                    <td><input type="text" id="<?php echo $microblogposter_plg_old_posts_expire_age_name;?>" name="<?php echo $microblogposter_plg_old_posts_expire_age_name;?>" value="<?php echo $microblogposter_plg_old_posts_expire_age_value;?>" size="10"/>&nbsp;<strong>days</strong>.&nbsp;&nbsp;(default value=30, range between 0 and reasonably +&infin;)</td>
+                    <td class="label-input"><?php _e('Period after which the re-published old post is eligible again (0 for never):', 'microblog-poster');?></td>
+                    <td><input type="text" id="<?php echo $microblogposter_plg_old_posts_expire_age_name;?>" name="<?php echo $microblogposter_plg_old_posts_expire_age_name;?>" value="<?php echo $microblogposter_plg_old_posts_expire_age_value;?>" size="10"/>&nbsp;<strong><?php _e('days', 'microblog-poster');?></strong>.&nbsp;&nbsp;(<?php _e('default value', 'microblog-poster');?>=30, <?php _e('range between', 'microblog-poster');?> 0 <?php _e('and reasonably', 'microblog-poster');?> +&infin;)</td>
                 </tr>
                 <tr>
                     <td colspan="2" class="row-sep"></td>
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <span class="mbp-blue-title">Categories to exclude old posts from Cross Posting :</span>
+                        <span class="mbp-blue-title"><?php _e('Categories to exclude old posts from Cross Posting:', 'microblog-poster');?></span>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2" id="mbp-excluded-category-header">Check categories for which you want to disable old posts auto publishing.</td>
+                    <td colspan="2" id="mbp-excluded-category-header"><?php _e('Check categories for which you want to disable old posts auto publishing.', 'microblog-poster');?></td>
                 </tr>
                 <tr>
                     <td colspan="2" id="mbp-excluded-category-td">
@@ -4480,11 +4565,11 @@ function microblogposter_settings_output()
             </table>
             
             <p class="submit">
-                <input type="submit" id="microblogposter_plg_old_posts_save" name="microblogposter_plg_old_posts_save" class="button-primary" value="Save" />
+                <input type="submit" id="microblogposter_plg_old_posts_save" name="microblogposter_plg_old_posts_save" class="button-primary" value="<?php _e('Save', 'microblog-poster');?>" />
             </p>
             
             <div id="mbp_manual_post_dash_head">
-                <strong>Select the social accounts to update:</strong>
+                <strong><?php _e('Select the social accounts to update:', 'microblog-poster');?></strong>
             </div>
             <?php microblogposter_show_mini_control_dashboard_old();?>
         </form>
@@ -4494,100 +4579,100 @@ function microblogposter_settings_output()
         
         <?php if(!MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Enterprise_Options','handle_manual_post')):?>
             <div id="mbp-manual-post-intro">
-                <span class="mbp-manual-post-text">Sharing manually to your social accounts is available with the Enterprise Add-on</span>
+                <span class="mbp-manual-post-text"><?php _e('Sharing manually to your social accounts is available with the Enterprise Add-on', 'microblog-poster');?></span>
                 <?php if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account')):?>
-                <a class="mbp-manual-post-text" href="http://efficientscripts.com/login" target="_blank">Upgrade Now</a>
+                <a class="mbp-manual-post-text" href="http://efficientscripts.com/login" target="_blank"><?php _e('Upgrade Now', 'microblog-poster');?></a>
                 <?php else:?>
-                <a class="mbp-manual-post-text" href="http://efficientscripts.com/microblogposteraddons" target="_blank">Upgrade Now</a>
+                <a class="mbp-manual-post-text" href="http://efficientscripts.com/microblogposteraddons" target="_blank"><?php _e('Upgrade Now', 'microblog-poster');?></a>
                 <?php endif;?>
             </div>
         <?php elseif(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Enterprise_Options','handle_manual_post') && !$customer_license_key_value['verified']):?>
             <div id="mbp-manual-post-intro">
-                <span class="mbp-manual-post-text-red">Please verify your License Key before you can manually auto share.</span>
+                <span class="mbp-manual-post-text-red"><?php _e('Please verify your License Key before you can manually auto share.', 'microblog-poster');?></span>
             </div>
         <?php endif;?>
-        <h3 id="manual-post-header">Manually auto share to your configured social accounts:</h3>
+        <h3 id="manual-post-header"><?php _e('Manually auto share to your configured social accounts:', 'microblog-poster');?></h3>
         <p>
-            You can share an <strong>url</strong> or a simple <strong>text status update</strong> to all your configured social accounts.<br />
-            This is totally independent from your blog, by auto sharing you don't create any new item in your blog.<br />
-            Manual auto posting will appear in Logs/History, as usual, only labelled 'Manual'. 
+            <?php _e('You can share an <strong>url</strong> or a simple <strong>text status update</strong> to all your configured social accounts.', 'microblog-poster');?><br />
+            <?php _e('This is totally independent from your blog, by auto sharing you don\'t create any new item in your blog.', 'microblog-poster');?><br />
+            <?php _e('Manual auto posting will appear in Logs/History, as usual, only labelled \'Manual\'. ', 'microblog-poster');?> 
         </p>
         <?php
             if(isset($manual_share_completed) && $manual_share_completed === true)
             {
                 ?>
-                <div class="updated"><p><strong>Successfully posted to social accounts.</strong></p></div>
+                <div class="updated"><p><strong><?php _e('Successfully posted to social accounts.', 'microblog-poster');?></strong></p></div>
                 <?php
             }
             elseif(isset($manual_share_completed) && $manual_share_completed === false)
             {
                 ?>
-                <div class="error"><p><strong>Please fill in the required fields.</strong></p></div>
+                <div class="error"><p><strong><?php _e('Please fill in the required fields.', 'microblog-poster');?></strong></p></div>
                 <?php
             }
             elseif(isset($manual_share_completed) && $manual_share_completed == 'License Invalid')
             {
                 ?>
-                <div class="error"><p><strong>Please validate your Customer License Key.</strong></p></div>
+                <div class="error"><p><strong><?php _e('Please validate your Customer License Key.', 'microblog-poster');?></strong></p></div>
                 <?php
             }
         ?>
         <form id="mbp_manual_post_form" name="mbp_manual_post_form" method="post" action="">
             
             <div id="mbp_manual_post_post_type">
-                <strong>Post Type:</strong>
+                <strong><?php _e('Post Type:', 'microblog-poster');?></strong>
             </div>
             
             <div>
                 <input type="radio" id="mbp_mp_post_type_link" name="mbp_mp_post_type" class="mbp_mp_post_type" value="link" checked />
-                <label for="mbp_mp_post_type_link"><span class="mbp-blue">Link</span></label>
+                <label for="mbp_mp_post_type_link"><span class="mbp-blue"><?php _e('Link', 'microblog-poster');?></span></label>
             </div>
             <div class="mbp_manual_post_link_wrapper">
                 <div class="">
-                    Title <small>*</small>:
+                    <?php _e('Title', 'microblog-poster');?> <small>*</small>:
                 </div>
                 <div class="">
                     <input type="text" id="mbp_mp_title" name="mbp_mp_title" value="" size="65" />
                 </div>
                 <div class="">
-                    Url <small>*</small>:
+                    <?php _e('Url', 'microblog-poster');?> <small>*</small>:
                 </div>
                 <div class="">
                     <input type="text" id="mbp_mp_url" name="mbp_mp_url" value="" size="65" />
                 </div>
                 <div class="">
-                    Description:
+                    <?php _e('Description', 'microblog-poster');?>:
                 </div>
                 <div class="">
                     <textarea id="mbp_mp_description" name="mbp_mp_description" rows="4" cols="65"></textarea><br />
-                    <span class="mbp_mp_description_text">Optional. Description/Excerpt of the Url, used with Facebook, Linkedin, Tumblr.</span>
+                    <span class="mbp_mp_description_text"><?php _e('Optional. Description/Excerpt of the Url, used with Facebook, Linkedin, Tumblr.', 'microblog-poster');?></span>
                 </div>
             </div>
             
             
             <div>
                 <input type="radio" id="mbp_mp_post_type_text" name="mbp_mp_post_type" class="mbp_mp_post_type" value="text" />
-                <label for="mbp_mp_post_type_text"><span class="mbp-blue">Text</span></label>
+                <label for="mbp_mp_post_type_text"><span class="mbp-blue"><?php _e('Text', 'microblog-poster');?></span></label>
             </div>
             <div class="mbp_manual_post_link_wrapper">
                 <div class="">
-                    Message <small>*</small>:
+                    <?php _e('Message', 'microblog-poster');?> <small>*</small>:
                 </div>
                 <div class="">
                     <textarea id="mbp_mp_message" name="mbp_mp_message" rows="4" cols="65"></textarea><br />
                     <span class="mbp_mp_description_text">
-                        Text message as it will be shared. Message formats below aren't used for 'text' type.<br />
-                        Currently doesn't work with Linkedin. And Diigo, Delicious and Instapaper don't support sharing text.
+                        <?php _e('Text message as it will be shared. Message formats below aren\'t used for \'text\' type.', 'microblog-poster');?><br />
+                        <?php _e('Currently doesn\'t work with Linkedin. And Diigo, Delicious and Instapaper don\'t support sharing text.', 'microblog-poster');?>
                     </span>
                 </div>
             </div>
 
             <p class="submit">
-                <input type="submit" id="submit_manual_post" name="submit_manual_post" class="button-primary" value="Share" />
+                <input type="submit" id="submit_manual_post" name="submit_manual_post" class="button-primary" value="<?php _e('Share', 'microblog-poster');?>" />
             </p>
             
             <div id="mbp_manual_post_dash_head">
-                <strong>Select the social accounts to update:</strong>
+                <strong><?php _e('Select the social accounts to update:', 'microblog-poster');?></strong>
             </div>
             <?php microblogposter_show_mini_control_dashboard();?>
 
@@ -4597,20 +4682,20 @@ function microblogposter_settings_output()
     
     <div id="mbp-logs-wrapper" class="mbp-single-tab-wrapper">
         
-        <h3 id="logs-header">Logs Section:</h3>
+        <h3 id="logs-header"><?php _e('Logs Section:', 'microblog-poster');?></h3>
         
         <div id="mbp_empty_logs_form_wrapper">
             <form id="mbp_empty_logs_form" name="mbp_empty_logs_form" method="post" action="">
-                <input type="submit" name="empty_logs" class="button" value="Empty Logs" />
+                <input type="submit" name="empty_logs" class="button-primary" value="<?php _e('Empty Logs', 'microblog-poster');?>" />
             </form>
         </div>
         
         <table>
         <tr>
-        <th class="logs-dt">Date time</th>
-        <th class="logs-username">Username</th>
-        <th class="logs-message">Log message</th>
-        <th class="logs-post-id">Post ID</th>
+        <th class="logs-dt"><?php _e('DateTime', 'microblog-poster');?></th>
+        <th class="logs-username"><?php _e('Username', 'microblog-poster');?></th>
+        <th class="logs-message"><?php _e('Log message', 'microblog-poster');?></th>
+        <th class="logs-post-id"><?php _e('Post ID', 'microblog-poster');?></th>
         </tr>
     <?php
         $sql="SELECT * FROM $table_logs ORDER BY log_id DESC LIMIT 200";
@@ -4630,8 +4715,8 @@ function microblogposter_settings_output()
         <td class="logs-dt"><?php echo $row->log_datetime; ?></td>
         <td class="logs-username">
             <?php echo $row->username." "; ?><span class="logs-text-username">[<?php echo $row->account_type; ?>]</span>
-            <?php if($row->log_type == 'manual'):?><span class="logs-text-type">[Manual]</span><?php endif;?>
-            <?php if($row->log_type == 'old'):?><span class="logs-text-type-old">[Old]</span><?php endif;?>
+            <?php if($row->log_type == 'manual'):?><span class="logs-text-type">[<?php _e('Manual', 'microblog-poster');?>]</span><?php endif;?>
+            <?php if($row->log_type == 'old'):?><span class="logs-text-type-old">[<?php _e('Old', 'microblog-poster');?>]</span><?php endif;?>
         </td>
         <td class="logs-message"><span class="<?php echo $color_class; ?>"><?php echo htmlentities($row->log_message); ?></span><?php if($row->action_result==1) echo " - ".htmlentities($row->update_message); ?></td>
         <td class="logs-post-id"><?php echo $row->post_id; ?></td>
@@ -4655,8 +4740,8 @@ function microblogposter_settings_output()
                     'transitionIn'	: 'none',
                     'transitionOut'	: 'none',
                     'autoDimensions': false,
-                    'width'		: 700,
-                    'height'	: 400,
+                    'width'		: 850,
+                    'height'	: 500,
                     'scrolling'	: 'auto',
                     'titleShow'	: false,
                     'onComplete'	: function() {
@@ -4740,7 +4825,7 @@ function microblogposter_settings_output()
                     target_type_selected_option.removeAttr('selected');
                     $("div#fancybox-content #mbp-vkontakte-input-div").show().find('input').removeAttr('disabled');
                     $("div#fancybox-content #mbp-vkontakte-upgrade-now").hide();
-                    $("div#fancybox-content .mbp_vkontakte_target_type_string").html('Profile');
+                    $("div#fancybox-content .mbp_vkontakte_target_type_string").html('<?php _e('Profile ID', 'microblog-poster');?>');
                 }
             });
             
@@ -4849,19 +4934,19 @@ function microblogposter_settings_output()
                 <?php if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account')):?>
                     if(target_type == 'page')
                     {
-                        $("div#fancybox-content .mbp_vkontakte_target_type_string").html('Page');
+                        $("div#fancybox-content .mbp_vkontakte_target_type_string").html('<?php _e('Page ID', 'microblog-poster');?>');
                     }
                     else if(target_type == 'group')
                     {
-                        $("div#fancybox-content .mbp_vkontakte_target_type_string").html('Group');
+                        $("div#fancybox-content .mbp_vkontakte_target_type_string").html('<?php _e('Group ID', 'microblog-poster');?>');
                     } 
                     else if(target_type == 'event')
                     {
-                        $("div#fancybox-content .mbp_vkontakte_target_type_string").html('Event');
+                        $("div#fancybox-content .mbp_vkontakte_target_type_string").html('<?php _e('Event ID', 'microblog-poster');?>');
                     } 
                     else if(target_type == 'profile')
                     {
-                        $("div#fancybox-content .mbp_vkontakte_target_type_string").html('Profile');
+                        $("div#fancybox-content .mbp_vkontakte_target_type_string").html('<?php _e('Profile ID', 'microblog-poster');?>');
                     } 
                 <?php else:?>
                     if(target_type == 'page' || target_type == 'group' || target_type == 'event')
@@ -4889,8 +4974,8 @@ function microblogposter_settings_output()
                         'transitionIn'	: 'none',
                         'transitionOut'	: 'none',
                         'autoDimensions': false,
-                        'width'		: 700,
-                        'height'	: 400,
+                        'width'		: 850,
+                        'height'	: 500,
                         'scrolling'	: 'auto',
                         'titleShow'	: false,
                         'onComplete'	: function() {
@@ -5042,7 +5127,7 @@ function microblogposter_settings_output()
             });
             
             $('#mbp_empty_logs_form').submit(function() {
-                return confirm("Delete permanently all your logs?");
+                return confirm("<?php _e('Delete permanently all your logs?', 'microblog-poster');?>");
             });
             
             <?php if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account') && $customer_license_key_value['key']):?>
@@ -5077,12 +5162,12 @@ function microblogposter_settings_output()
             if(jQuery("#license_key_form").is(':visible'))
             {
                 jQuery("#license_key_form").hide().find('input').attr('disabled','disabled');
-                jQuery("#mbp_microblogposter_edit_switch").html('Edit');
+                jQuery("#mbp_microblogposter_edit_switch").html('<?php _e('Edit', 'microblog-poster');?>');
             }
             else
             {
                 jQuery("#license_key_form").show().find('input').removeAttr('disabled');
-                jQuery("#mbp_microblogposter_edit_switch").html('Hide');
+                jQuery("#mbp_microblogposter_edit_switch").html('<?php _e('Hide', 'microblog-poster');?>');
             }    
             
             
@@ -5120,12 +5205,12 @@ function microblogposter_settings_output()
             if(jQuery(".mbp-additional-shorteners").is(':visible'))
             {
                 jQuery(".mbp-additional-shorteners").hide().find('input').attr('disabled','disabled');
-                jQuery("#mbp_microblogposter_additional-shorteners_switch").html('Show Additional Shorteners...');
+                jQuery("#mbp_microblogposter_additional-shorteners_switch").html('<?php _e('Show Additional Shorteners...', 'microblog-poster');?>');
             }
             else
             {
                 jQuery(".mbp-additional-shorteners").show()//.find('input').removeAttr('disabled');
-                jQuery("#mbp_microblogposter_additional-shorteners_switch").html('Hide Additional Shorteners');
+                jQuery("#mbp_microblogposter_additional-shorteners_switch").html('<?php _e('Hide Additional Shorteners', 'microblog-poster');?>');
             }    
         }
 
@@ -5176,8 +5261,8 @@ function microblogposter_display_custom_type($custom_type, $sep, $enabled_custom
     <?php echo $sep;?>
     <input type="checkbox" class="mbp-excluded-category" id="microblogposter_enabled_custom_types_<?php echo $custom_type;?>" name="microblogposter_enabled_custom_types[]" value="<?php echo $custom_type;?>" <?php if(in_array($custom_type, $enabled_custom_types)) echo 'checked="checked"';?> /> 
     <label for="microblogposter_enabled_custom_types_<?php echo $custom_type;?>" ><?php echo $custom_type;?></label> 
-    &nbsp;&nbsp;-&nbsp;&nbsp;Don't cross-post automatically on Update&nbsp;<input type="checkbox" class="mbp-excluded-category" id="microblogposter_enabled_custom_updates_<?php echo $custom_type;?>" name="microblogposter_enabled_custom_updates[]" value="<?php echo $custom_type;?>" <?php if(in_array($custom_type, $enabled_custom_updates)) echo 'checked="checked"';?> /> 
-    &nbsp;(This is most likely to be checked.)<br/>
+    &nbsp;&nbsp;-&nbsp;&nbsp;<?php _e('Don\'t cross-post automatically on Update', 'microblog-poster');?>&nbsp;<input type="checkbox" class="mbp-excluded-category" id="microblogposter_enabled_custom_updates_<?php echo $custom_type;?>" name="microblogposter_enabled_custom_updates[]" value="<?php echo $custom_type;?>" <?php if(in_array($custom_type, $enabled_custom_updates)) echo 'checked="checked"';?> /> 
+    &nbsp;(<?php _e('This is most likely to be checked.', 'microblog-poster');?>)<br/>
     <?php
     
 }
@@ -5228,7 +5313,7 @@ function microblogposter_show_mini_control_dashboard()
         .mbp_social_account_microblogposter_msgc
         {
             width: 290px;
-            resize: none;
+            /*resize: none;*/
         }
     </style>
 
@@ -5390,13 +5475,17 @@ function microblogposter_show_common_account_dashboard_head($site)
             $site_label = $site;
             if($site == 'vkontakte'){$site_label = 'vKontakte';}
         ?>
-        <h4><?php echo ucfirst($site_label);?> Accounts</h4>
+        <?php if(get_locale() == 'fr_FR'):?>
+            <h4><?php _e('Accounts', 'microblog-poster');?> <?php echo ucfirst($site_label);?></h4>
+        <?php else:?>
+            <h4><?php echo ucfirst($site_label);?> <?php _e('Accounts', 'microblog-poster');?></h4>
+        <?php endif;?>
         <div>
-            <a href="#" onclick="mbp_social_accounts_microblogposter_uncheck_all('<?php echo $site;?>');return false;" >Uncheck All</a> <a href="#" onclick="mbp_social_accounts_microblogposter_check_all('<?php echo $site;?>');return false;" >Check All</a>
+            <a href="#" onclick="mbp_social_accounts_microblogposter_uncheck_all('<?php echo $site;?>');return false;" ><?php _e('Uncheck All', 'microblog-poster');?></a> <a href="#" onclick="mbp_social_accounts_microblogposter_check_all('<?php echo $site;?>');return false;" ><?php _e('Check All', 'microblog-poster');?></a>
             <?php if(in_array($site, array('friendfeed','delicious', 'diigo', 'instapaper'))):?>
-                <span class="description-small">Available shortcodes: {TITLE}</span>
+                <span class="description-small"><?php _e('Available shortcodes:', 'microblog-poster');?> {TITLE}</span>
             <?php else:?>
-                <span class="description-small">Available shortcodes: {TITLE}, {URL}, {SHORT_URL}</span>
+                <span class="description-small"><?php _e('Available shortcodes:', 'microblog-poster');?> {TITLE}, {URL}, {SHORT_URL}</span>
             <?php endif;?>
         </div>
     </div>
@@ -5416,7 +5505,7 @@ function microblogposter_show_common_account_dashboard($account, $site)
         <input type="checkbox" class="mbp_social_account_microblogposter_boxc mbp_social_account_microblogposter_<?php echo $site;?>" id="mbp_social_account_microblogposter_<?php echo $account->account_id;?>" name="mbp_social_account_microblogposter_<?php echo $account->account_id;?>" value="1" checked="checked" /> 
         <label for="mbp_social_account_microblogposter_<?php echo $account->account_id;?>"><?php echo $account->username;?></label>
         <br />
-        <label for="mbp_social_account_microblogposter_msg_<?php echo $account->account_id;?>">Message Format for Manual Posting:</label>
+        <label for="mbp_social_account_microblogposter_msg_<?php echo $account->account_id;?>"><?php _e('Message Format for Manual Posting:', 'microblog-poster');?></label>
         <textarea class="mbp_social_account_microblogposter_msgc" id="mbp_social_account_microblogposter_msg_<?php echo $account->account_id;?>" name="mbp_social_account_microblogposter_msg_<?php echo $account->account_id;?>" rows="2"><?php echo $message_format_mp;?></textarea>
         
     </div>
@@ -5469,7 +5558,7 @@ function microblogposter_show_mini_control_dashboard_old()
         .mbp_social_account_microblogposter_msgcc
         {
             width: 290px;
-            resize: none;
+            /*resize: none;*/
         }
     </style>
 
@@ -5631,18 +5720,22 @@ function microblogposter_show_common_account_dashboard_head_old($site)
             $site_label = $site;
             if($site == 'vkontakte'){$site_label = 'vKontakte';}
         ?>
-        <h4><?php echo ucfirst($site_label);?> Accounts</h4>
+        <?php if(get_locale() == 'fr_FR'):?>
+            <h4><?php _e('Accounts', 'microblog-poster');?> <?php echo ucfirst($site_label);?></h4>
+        <?php else:?>
+            <h4><?php echo ucfirst($site_label);?> <?php _e('Accounts', 'microblog-poster');?></h4>
+        <?php endif;?>
         <div>
-            <a href="#" onclick="mbp_social_accounts_microblogposter_uncheck_all_old('<?php echo $site;?>');return false;" >Uncheck All</a> <a href="#" onclick="mbp_social_accounts_microblogposter_check_all_old('<?php echo $site;?>');return false;" >Check All</a>
+            <a href="#" onclick="mbp_social_accounts_microblogposter_uncheck_all_old('<?php echo $site;?>');return false;" ><?php _e('Uncheck All', 'microblog-poster');?></a> <a href="#" onclick="mbp_social_accounts_microblogposter_check_all_old('<?php echo $site;?>');return false;" ><?php _e('Check All', 'microblog-poster');?></a>
             
             <?php if(in_array($site, array('delicious', 'diigo', 'instapaper'))):?>
-                <span class="description-small">Available shortcodes: {TITLE}, {MANUAL_EXCERPT}, {EXCERPT}, {CONTENT_FIRST_WORDS}, {AUTHOR}</span>
+                <span class="description-small"><?php _e('Available shortcodes:', 'microblog-poster');?> {TITLE}, {MANUAL_EXCERPT}, {EXCERPT}, {CONTENT_FIRST_WORDS}, {AUTHOR}</span>
             <?php elseif(in_array($site, array('twitter','plurk'))):?>
-                <span class="description-small">Available shortcodes: {TITLE}, {URL}, {SHORT_URL}, {SITE_URL}, {CONTENT_FIRST_WORDS}, {AUTHOR}</span>
+                <span class="description-small"><?php _e('Available shortcodes:', 'microblog-poster');?> {TITLE}, {URL}, {SHORT_URL}, {SITE_URL}, {CONTENT_FIRST_WORDS}, {AUTHOR}</span>
             <?php elseif(in_array($site, array('friendfeed'))):?>
-                <span class="description-small">Available shortcodes: {TITLE}, {CONTENT_FIRST_WORDS}, {AUTHOR}</span>
+                <span class="description-small"><?php _e('Available shortcodes:', 'microblog-poster');?> {TITLE}, {CONTENT_FIRST_WORDS}, {AUTHOR}</span>
             <?php else:?>
-                <span class="description-small">Available shortcodes: {TITLE}, {URL}, {SHORT_URL}, {SITE_URL}, {MANUAL_EXCERPT}, {EXCERPT}, {CONTENT_FIRST_WORDS}, {AUTHOR}</span>
+                <span class="description-small"><?php _e('Available shortcodes:', 'microblog-poster');?> {TITLE}, {URL}, {SHORT_URL}, {SITE_URL}, {MANUAL_EXCERPT}, {EXCERPT}, {CONTENT_FIRST_WORDS}, {AUTHOR}</span>
             <?php endif;?>
             
         </div>
@@ -5665,7 +5758,7 @@ function microblogposter_show_common_account_dashboard_old($account, $site)
         <input type="checkbox" class="mbp_social_account_microblogposter_boxcc mbp_social_account_microblogposter_old_<?php echo $site;?>" id="mbp_social_account_microblogposter_old_<?php echo $account->account_id;?>" name="mbp_social_account_microblogposter_old_<?php echo $account->account_id;?>" value="1" <?php if($active==1) echo "checked=\"checked\""; ?> /> 
         <label for="mbp_social_account_microblogposter_old_<?php echo $account->account_id;?>"><?php echo $account->username;?></label>
         <br />
-        <label for="mbp_social_account_microblogposter_msg_old_<?php echo $account->account_id;?>">Message Format for Old Posts:</label>
+        <label for="mbp_social_account_microblogposter_msg_old_<?php echo $account->account_id;?>"><?php _e('Message Format for Old Posts:', 'microblog-poster');?></label>
         <textarea class="mbp_social_account_microblogposter_msgcc" id="mbp_social_account_microblogposter_msg_old_<?php echo $account->account_id;?>" name="mbp_social_account_microblogposter_msg_old_<?php echo $account->account_id;?>" rows="2"><?php echo $message_format_old;?></textarea>
         
     </div>
