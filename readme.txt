@@ -2,8 +2,8 @@
 Contributors: cybperic
 Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, blogger, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
 Requires at least: 3.0
-Tested up to: 4.1
-Stable tag: 1.4.9
+Tested up to: 4.2
+Stable tag: 1.5.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -16,9 +16,8 @@ You only have to configure your social network accounts like Facebook, Twitter, 
 **Multiple Accounts per social site supported.**
 Possibility to nicely format the update message per account, **shortcodes supported**.
 
-**New** feature available in **1.4.6** 
-
-**Auto re-publish old blog posts** to all your configured social accounts.
+**Auto re-publish old blog posts** to all your configured social accounts. 
+By auto sharing your old blog posts you keep them alive and increase traffic to your blog!
 
 **Logs are generated** on new blog post for each configured social network account.
 Easily follow the automated sharing process from **MicroblogPoster**'s logs section and debug your configuration if needed.
@@ -41,6 +40,9 @@ Easily follow the automated sharing process from **MicroblogPoster**'s logs sect
 * vk.com (vkontakte.com) - Auto publish to profile wall.
 
 Please visit **MicroblogPoster**'s [website](http://efficientscripts.com/microblogposter "MicroblogPoster's website").
+
+[Contact us](http://efficientscripts.com/contact "Contact us") , we're providing support in the following languages:
+* We speak english ; Причамо српски ; Nous parlons français
 
 
 The idea behind **MicroblogPoster** is to promote your wordpress blog and reach more people through social networks like Facebook, Twitter, LinkedIn, Tumblr.. 
@@ -72,6 +74,13 @@ see "posted by MicroblogPoster" in your updates, you'll see "posted by your own 
 3. MicroblogPoster Options page, Logs Section.
 
 == Changelog ==
+
+= 1.5.0 (27-04-2015) =
+- Added serbian translation (sr_RS).
+- Added french translation (fr_FR).
+- Fixed bug, if the field 'Message Format' is empty don't post anything instead.
+- Fixed blogger multiple links bug when used on multiple blogs.
+- Sending full image to facebook instead of thumbnail.
 
 = 1.4.9 (01-04-2015) =
 - Facebook API 2.3 fix for auto publish to pages.
