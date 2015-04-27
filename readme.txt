@@ -43,7 +43,9 @@ Please visit **MicroblogPoster**'s [website](http://efficientscripts.com/microbl
 
 [Contact us](http://efficientscripts.com/contact "Contact us") , we're providing support in the following languages:
 
-* We speak english ; Причамо српски ; Nous parlons français
+* We speak english ; 
+* Причамо српски ; 
+* Nous parlons français ;
 
 
 The idea behind **MicroblogPoster** is to promote your wordpress blog and reach more people through social networks like Facebook, Twitter, LinkedIn, Tumblr.. 
