@@ -25,6 +25,17 @@ Easily follow the automated sharing process from **MicroblogPoster**'s logs sect
 **Custom Post Types** supported, additionally **Filter posts** to be published/cross posted to social networks based on categories. 
 (General section settings)
 
+Please visit **MicroblogPoster**'s [website](http://efficientscripts.com/microblogposter "MicroblogPoster's website") , or
+
+[Contact us](http://efficientscripts.com/contact "Contact us") , we're providing support in the following languages:
+
+* We speak english ; 
+* Причамо српски ; 
+* Nous parlons français ;
+
+**MicroblogPoster**'s Add-ons bring Additional Features: 
+[Compare Versions](http://efficientscripts.com/microblogposteraddons "MicroblogPoster's Add-ons Page")
+
 **Currently supported social media sites**
 
 * twitter.com - Auto tweet backlink of new blogpost.
@@ -39,22 +50,11 @@ Easily follow the automated sharing process from **MicroblogPoster**'s logs sect
 * instapaper.com - Auto submit bookmark of your new blogpost.
 * vk.com (vkontakte.com) - Auto publish to profile wall.
 
-Please visit **MicroblogPoster**'s [website](http://efficientscripts.com/microblogposter "MicroblogPoster's website").
-
-[Contact us](http://efficientscripts.com/contact "Contact us") , we're providing support in the following languages:
-
-* We speak english ; 
-* Причамо српски ; 
-* Nous parlons français ;
-
 
 The idea behind **MicroblogPoster** is to promote your wordpress blog and reach more people through social networks like Facebook, Twitter, LinkedIn, Tumblr.. 
 There's a general agreement in the SEO community that social signals strengthen your blog's page rank and authority.
 **MicroblogPoster** is simply an intermediary between your blog and your own social network accounts. You'll never
 see "posted by MicroblogPoster" in your updates, you'll see "posted by your own App name" or simply "by API".
-
-**MicroblogPoster**'s Add-ons bring Additional Features: 
-[Compare Versions](http://efficientscripts.com/microblogposteraddons "MicroblogPoster's Add-ons Page")
 
 
 **MicroblogPoster** in few words:
