@@ -224,7 +224,7 @@ Your Twitter username and password won't suffice in order to post automatic upda
 No worries, it's rather a simple procedure.
 
 
-    1. To auto publish through the Twitter API you'll need
+    1. In order to auto post updates through the Twitter API you'll need
     to create your own Twitter App here: https://apps.twitter.com/
     
     2. Once you have created your Twitter App you have to change its Access Level
@@ -348,7 +348,7 @@ Basically your tumblr username and password won't suffice in order to post autom
 No worries, it's rather a simple procedure.
 
 
-    1. To auto publish through the tumblr Api you'll need first
+    1. In order to auto post updates through the tumblr Api you'll need first
     to create your own tumblr App here: http://www.tumblr.com/oauth/apps
     
     2. Once, you have created your tumblr App copy your 'OAuth Consumer key'.
