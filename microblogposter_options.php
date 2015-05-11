@@ -2232,7 +2232,7 @@ function microblogposter_settings_output()
             $update_accounts[] = $row->account_id;
             
             $fb_acc_extra = null;
-            $fb_scope = "publish_actions,status_update";
+            $fb_scope = "publish_actions";
             $post_type = "";
             $target_type = "profile";
             $page_id = '';
@@ -2258,11 +2258,11 @@ function microblogposter_settings_output()
             
             if($target_type == "page")
             {
-                $fb_scope = "publish_actions,publish_pages,manage_pages,status_update";
+                $fb_scope = "publish_actions,publish_pages,manage_pages";
             }
             elseif($target_type == "group")
             {
-                $fb_scope = "publish_actions,publish_pages,manage_pages,user_groups,status_update";
+                $fb_scope = "publish_actions,publish_pages,manage_pages,user_groups";
             }
             $fb_scope = urlencode($fb_scope);
             
