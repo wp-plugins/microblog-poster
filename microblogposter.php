@@ -4,10 +4,10 @@
  * Plugin Name: Microblog Poster
  * Plugin URI: http://efficientscripts.com/microblogposter
  * Description: Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Linkedin, Plurk, Diigo, Delicious..
- * Version: 1.4.9
+ * Version: 1.5.1
  * Author: Efficient Scripts
  * Author URI: http://efficientscripts.com/
- *
+ * Text Domain: microblog-poster
  *
  */
 
@@ -191,7 +191,7 @@ class MicroblogPoster_Poster
         MicroblogPoster_Poster::update_plurk($old, $mp, $dash, $update, $post_content, $post_ID);
 	MicroblogPoster_Poster::update_delicious($old, $mp, $dash, $post_title, $permalink, $tags, $post_content, $post_ID);
         MicroblogPoster_Poster::update_friendfeed($old, $mp, $dash, $post_title, $permalink, $post_content, $post_ID);
-        MicroblogPoster_Poster::update_facebook($old, $mp, $dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_lkn, $featured_image_src_thumbnail);
+        MicroblogPoster_Poster::update_facebook($old, $mp, $dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_lkn, $featured_image_src_full);
         MicroblogPoster_Poster::update_diigo($old, $mp, $dash, $post_title, $permalink, $tags, $post_content, $post_ID);
         MicroblogPoster_Poster::update_linkedin($old, $mp, $dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_lkn, $featured_image_src_medium);
         MicroblogPoster_Poster::update_tumblr($old, $mp, $dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_tmb);
@@ -420,7 +420,7 @@ class MicroblogPoster_Poster
         MicroblogPoster_Poster::update_plurk($old, $mp, $dash, $update, $post_content, $post_ID);
 	MicroblogPoster_Poster::update_delicious($old, $mp, $dash, $post_title, $permalink, $tags, $post_content, $post_ID);
         MicroblogPoster_Poster::update_friendfeed($old, $mp, $dash, $post_title, $permalink, $post_content, $post_ID);
-        MicroblogPoster_Poster::update_facebook($old, $mp, $dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_lkn, $featured_image_src_thumbnail);
+        MicroblogPoster_Poster::update_facebook($old, $mp, $dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_lkn, $featured_image_src_full);
         MicroblogPoster_Poster::update_diigo($old, $mp, $dash, $post_title, $permalink, $tags, $post_content, $post_ID);
         MicroblogPoster_Poster::update_linkedin($old, $mp, $dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_lkn, $featured_image_src_medium);
         MicroblogPoster_Poster::update_tumblr($old, $mp, $dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_tmb);
@@ -1025,6 +1025,14 @@ class MicroblogPoster_Poster
                 {
                     $update = str_ireplace(MicroblogPoster_Poster::get_shortcodes_mp(), $post_content, $facebook_account['message_format']);
                 }
+                elseif($mp['val'] == 1 && $mp['type'] == 'text')
+                {
+                    
+                }
+                else
+                {
+                    $update = "";
+                }
                 
                 $extra = json_decode($facebook_account['extra'], true);
                 if($mp['val'] == 1 && $mp['type'] == 'text')
@@ -1354,6 +1362,14 @@ class MicroblogPoster_Poster
                 {
                     $update = str_ireplace(MicroblogPoster_Poster::get_shortcodes_mp(), $post_content, $linkedin_account['message_format']);
                 }
+                elseif($mp['val'] == 1 && $mp['type'] == 'text')
+                {
+                    
+                }
+                else
+                {
+                    $update = "";
+                }
                 
                 $extra = json_decode($linkedin_account['extra'], true);
                 
@@ -1616,6 +1632,17 @@ class MicroblogPoster_Poster
         
         if(!empty($blogger_accounts))
         {
+            if($mp['val'] == 0)
+            {
+                $post_content[2] = '<a href="'.$post_content[2].'">'.$post_content[2].'</a>';
+                $post_content[3] = '<a href="'.$post_content[3].'">'.$post_content[3].'</a>';
+            }
+            elseif($mp['val'] == 1 && $mp['type'] == 'link')
+            {
+                $post_content[1] = '<a href="'.$post_content[1].'">'.$post_content[1].'</a>';
+                $post_content[2] = '<a href="'.$post_content[2].'">'.$post_content[2].'</a>';
+            }
+            
             foreach($blogger_accounts as $blogger_account)
             {
                 if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account') && 
@@ -1666,18 +1693,6 @@ class MicroblogPoster_Poster
                         }
                     }
                 }
-                
-                if($mp['val'] == 0)
-                {
-                    $post_content[2] = '<a href="'.$post_content[2].'">'.$post_content[2].'</a>';
-                    $post_content[3] = '<a href="'.$post_content[3].'">'.$post_content[3].'</a>';
-                }
-                elseif($mp['val'] == 1 && $mp['type'] == 'link')
-                {
-                    $post_content[1] = '<a href="'.$post_content[1].'">'.$post_content[1].'</a>';
-                    $post_content[2] = '<a href="'.$post_content[2].'">'.$post_content[2].'</a>';
-                }
-                
                 
                 if($blogger_account['message_format'] && $mp['val'] == 0)
                 {
@@ -2007,6 +2022,14 @@ class MicroblogPoster_Poster
                 elseif($vkontakte_account['message_format'] && $mp['val'] == 1 && $mp['type'] == 'link')
                 {
                     $update = str_ireplace(MicroblogPoster_Poster::get_shortcodes_mp(), $post_content, $vkontakte_account['message_format']);
+                }
+                elseif($mp['val'] == 1 && $mp['type'] == 'text')
+                {
+                    
+                }
+                else
+                {
+                    $update = "";
                 }
                 
                 $extra = json_decode($vkontakte_account['extra'], true);
@@ -2661,6 +2684,18 @@ class MicroblogPoster_Poster
         return $content;
     }
     
+    /**
+    * Shorten long url
+    *
+    * @param   string  $long_url
+    * @return  array
+    */
+    public static function load_languages()
+    {
+        $plugin_dir = basename(dirname(__FILE__));
+        load_plugin_textdomain('microblog-poster', false, $plugin_dir . '/languages');
+    }
+    
 }
 
 class MicroblogPoster_SupportEnc
@@ -2711,6 +2746,8 @@ class MicroblogPoster_SupportEnc
 
 register_activation_hook(__FILE__, array('MicroblogPoster_Poster', 'activate'));
 
+add_action('plugins_loaded', array('MicroblogPoster_Poster', 'load_languages'));
+
 add_action('publish_post', array('MicroblogPoster_Poster', 'update'));
 
 $page_mode_name = "microblogposter_page_mode";
@@ -2752,7 +2789,7 @@ function microblogposter_meta()
     }
     ?>
     <input type="checkbox" id="microblogposteroff" name="microblogposteroff" <?php if($default_behavior_value) echo 'checked="checked"';?> /> 
-    <label for="microblogposteroff">Disable Microblog Poster this time?</label>
+    <label for="microblogposteroff"><?php _e('Disable Microblog Poster this time?', 'microblog-poster');?></label>
     
     <?php
     if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','show_control_dashboard') && !$pro_control_dash_mode_value)
@@ -2779,18 +2816,18 @@ function microblogposter_meta()
                 if(jQuery('#mbp_upgrade_notice_div_microblogposter').is(':visible'))
                 {
                     jQuery('#mbp_upgrade_notice_div_microblogposter').hide();
-                    jQuery('#mbp_upgrade_notice_lnk_microblogposter').html('Show complete Control Dashboard');
+                    jQuery('#mbp_upgrade_notice_lnk_microblogposter').html('<?php _e('Show complete Control Dashboard', 'microblog-poster');?>');
                 }
                 else
                 {
                     jQuery('#mbp_upgrade_notice_div_microblogposter').show();
-                    jQuery('#mbp_upgrade_notice_lnk_microblogposter').html('Hide complete Control Dashboard');
+                    jQuery('#mbp_upgrade_notice_lnk_microblogposter').html('<?php _e('Hide complete Control Dashboard', 'microblog-poster');?>');
                 }    
                 
             }
         </script>
-        &nbsp;<a href="#" id="mbp_upgrade_notice_lnk_microblogposter" onclick="mbp_show_upgrade_notice_microblogposter();return false;" >Show complete Control Dashboard</a>
-        <div id="mbp_upgrade_notice_div_microblogposter" style="display:none;">Available with the Pro Add-on. <a href="http://efficientscripts.com/microblogposterpro" target="_blank">Upgrade Now</a></div>
+        &nbsp;<a href="#" id="mbp_upgrade_notice_lnk_microblogposter" onclick="mbp_show_upgrade_notice_microblogposter();return false;" ><?php _e('Show complete Control Dashboard', 'microblog-poster');?></a>
+        <div id="mbp_upgrade_notice_div_microblogposter" style="display:none;"><?php _e('Available with the Pro / Enterprise Add-on.', 'microblog-poster');?> <a href="http://efficientscripts.com/microblogposterpro" target="_blank"><?php _e('Upgrade Now', 'microblog-poster');?></a></div>
         <?php
     }
     
@@ -2813,7 +2850,7 @@ function microblogposter_pmeta()
     }
     ?>
     <input type="checkbox" id="microblogposteroff" name="microblogposteroff" <?php if($default_pbehavior_value) echo 'checked="checked"';?> /> 
-    <label for="microblogposteroff">Disable Microblog Poster this time?</label>
+    <label for="microblogposteroff"><?php _e('Disable Microblog Poster this time?', 'microblog-poster');?></label>
     <?php
     if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','show_control_dashboard')  && !$pro_control_dash_mode_value)
     {
@@ -2839,18 +2876,18 @@ function microblogposter_pmeta()
                 if(jQuery('#mbp_upgrade_notice_div_microblogposter').is(':visible'))
                 {
                     jQuery('#mbp_upgrade_notice_div_microblogposter').hide();
-                    jQuery('#mbp_upgrade_notice_lnk_microblogposter').html('Show complete Control Dashboard');
+                    jQuery('#mbp_upgrade_notice_lnk_microblogposter').html('<?php _e('Show complete Control Dashboard', 'microblog-poster');?>');
                 }
                 else
                 {
                     jQuery('#mbp_upgrade_notice_div_microblogposter').show();
-                    jQuery('#mbp_upgrade_notice_lnk_microblogposter').html('Hide complete Control Dashboard');
+                    jQuery('#mbp_upgrade_notice_lnk_microblogposter').html('<?php _e('Hide complete Control Dashboard', 'microblog-poster');?>');
                 }    
                 
             }
         </script>
-        &nbsp;<a href="#" id="mbp_upgrade_notice_lnk_microblogposter" onclick="mbp_show_upgrade_notice_microblogposter();return false;" >Show complete Control Dashboard</a>
-        <div id="mbp_upgrade_notice_div_microblogposter" style="display:none;">Available with the Pro Add-on. <a href="http://efficientscripts.com/microblogposterpro" target="_blank">Upgrade Now</a></div>
+        &nbsp;<a href="#" id="mbp_upgrade_notice_lnk_microblogposter" onclick="mbp_show_upgrade_notice_microblogposter();return false;" ><?php _e('Show complete Control Dashboard', 'microblog-poster');?></a>
+        <div id="mbp_upgrade_notice_div_microblogposter" style="display:none;"><?php _e('Available with the Pro / Enterprise Add-on.', 'microblog-poster');?> <a href="http://efficientscripts.com/microblogposterpro" target="_blank"><?php _e('Upgrade Now', 'microblog-poster');?></a></div>
         <?php
     }
 }
@@ -2879,7 +2916,7 @@ function microblogposter_custom_meta($post, $metabox)
     }
     ?>
     <input type="checkbox" id="microblogposteroff" name="microblogposteroff" <?php if($default_pbehavior_value) echo 'checked="checked"';?> /> 
-    <label for="microblogposteroff">Disable Microblog Poster this time?</label>
+    <label for="microblogposteroff"><?php _e('Disable Microblog Poster this time?', 'microblog-poster');?></label>
     <?php
     if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','show_control_dashboard')  && !$pro_control_dash_mode_value)
     {
@@ -2905,18 +2942,18 @@ function microblogposter_custom_meta($post, $metabox)
                 if(jQuery('#mbp_upgrade_notice_div_microblogposter').is(':visible'))
                 {
                     jQuery('#mbp_upgrade_notice_div_microblogposter').hide();
-                    jQuery('#mbp_upgrade_notice_lnk_microblogposter').html('Show complete Control Dashboard');
+                    jQuery('#mbp_upgrade_notice_lnk_microblogposter').html('<?php _e('Show complete Control Dashboard', 'microblog-poster');?>');
                 }
                 else
                 {
                     jQuery('#mbp_upgrade_notice_div_microblogposter').show();
-                    jQuery('#mbp_upgrade_notice_lnk_microblogposter').html('Hide complete Control Dashboard');
+                    jQuery('#mbp_upgrade_notice_lnk_microblogposter').html('<?php _e('Hide complete Control Dashboard', 'microblog-poster');?>');
                 }    
                 
             }
         </script>
-        &nbsp;<a href="#" id="mbp_upgrade_notice_lnk_microblogposter" onclick="mbp_show_upgrade_notice_microblogposter();return false;" >Show complete Control Dashboard</a>
-        <div id="mbp_upgrade_notice_div_microblogposter" style="display:none;">Available with the Pro Add-on. <a href="http://efficientscripts.com/microblogposterpro" target="_blank">Upgrade Now</a></div>
+        &nbsp;<a href="#" id="mbp_upgrade_notice_lnk_microblogposter" onclick="mbp_show_upgrade_notice_microblogposter();return false;" ><?php _e('Show complete Control Dashboard', 'microblog-poster');?></a>
+        <div id="mbp_upgrade_notice_div_microblogposter" style="display:none;"><?php _e('Available with the Pro / Enterprise Add-on.', 'microblog-poster');?> <a href="http://efficientscripts.com/microblogposterpro" target="_blank"><?php _e('Upgrade Now', 'microblog-poster');?></a></div>
         <?php
     }
 }

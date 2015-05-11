@@ -2,8 +2,8 @@
 Contributors: cybperic
 Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, blogger, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
 Requires at least: 3.0
-Tested up to: 4.1
-Stable tag: 1.4.9
+Tested up to: 4.2
+Stable tag: 1.5.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -16,15 +16,25 @@ You only have to configure your social network accounts like Facebook, Twitter, 
 **Multiple Accounts per social site supported.**
 Possibility to nicely format the update message per account, **shortcodes supported**.
 
-**New** feature available in **1.4.6** 
-
-**Auto re-publish old blog posts** to all your configured social accounts.
+**Auto re-publish old blog posts** to all your configured social accounts. 
+By auto sharing your old blog posts you keep them alive and increase traffic to your blog!
 
 **Logs are generated** on new blog post for each configured social network account.
 Easily follow the automated sharing process from **MicroblogPoster**'s logs section and debug your configuration if needed.
 
 **Custom Post Types** supported, additionally **Filter posts** to be published/cross posted to social networks based on categories. 
 (General section settings)
+
+Please visit **MicroblogPoster**'s [website](http://efficientscripts.com/microblogposter "MicroblogPoster's website") , or
+
+[Contact us](http://efficientscripts.com/contact "Contact us") , we're providing support in the following languages:
+
+* We speak english ; 
+* Причамо српски ; 
+* Nous parlons français ;
+
+**MicroblogPoster**'s Add-ons bring Additional Features: 
+[Compare Versions](http://efficientscripts.com/microblogposteraddons "MicroblogPoster's Add-ons Page")
 
 **Currently supported social media sites**
 
@@ -40,16 +50,11 @@ Easily follow the automated sharing process from **MicroblogPoster**'s logs sect
 * instapaper.com - Auto submit bookmark of your new blogpost.
 * vk.com (vkontakte.com) - Auto publish to profile wall.
 
-Please visit **MicroblogPoster**'s [website](http://efficientscripts.com/microblogposter "MicroblogPoster's website").
-
 
 The idea behind **MicroblogPoster** is to promote your wordpress blog and reach more people through social networks like Facebook, Twitter, LinkedIn, Tumblr.. 
 There's a general agreement in the SEO community that social signals strengthen your blog's page rank and authority.
 **MicroblogPoster** is simply an intermediary between your blog and your own social network accounts. You'll never
 see "posted by MicroblogPoster" in your updates, you'll see "posted by your own App name" or simply "by API".
-
-**MicroblogPoster**'s Add-ons bring Additional Features: 
-[Compare Versions](http://efficientscripts.com/microblogposteraddons "MicroblogPoster's Add-ons Page")
 
 
 **MicroblogPoster** in few words:
@@ -72,6 +77,16 @@ see "posted by MicroblogPoster" in your updates, you'll see "posted by your own 
 3. MicroblogPoster Options page, Logs Section.
 
 == Changelog ==
+
+= 1.5.1 (11-05-2015) =
+- Removed obsolete scope parameter for facebook authorization.
+
+= 1.5.0 (27-04-2015) =
+- Added serbian translation (sr_RS).
+- Added french translation (fr_FR).
+- Fixed bug, if the field 'Message Format' is empty don't post anything instead.
+- Fixed blogger multiple links bug when used on multiple blogs.
+- Sending full image to facebook instead of thumbnail.
 
 = 1.4.9 (01-04-2015) =
 - Facebook API 2.3 fix for auto publish to pages.
@@ -235,7 +250,7 @@ No worries, it's rather a simple procedure.
 It's most likely the same as for twitter, you'll need some more effort in order to post updates through Plurk Api.
 
 
-    1. Please browse to this url http://www.plurk.com/PlurkApp/ 
+    1. Please go at this url http://www.plurk.com/PlurkApp/ 
     and click on 'Create a New Plurk App'.
     For App Type choose 'Third-party web site integration'. 
     For App Website you can put http://localhost
@@ -266,7 +281,7 @@ It's most likely the same as for twitter, you'll need some more effort in order 
 Please note that only real personal Facebook accounts have permissions to create an App.
 Business accounts can't manage Facebook Apps.
 
-    1. Please browse to this url https://developers.facebook.com/apps 
+    1. Please go at this url https://developers.facebook.com/apps 
     and click on 'Apps' -> 'Create new App'.
     Note: If you can not click on 'Create new App', you'll need first 
     to 'Register as a Developer'.
@@ -308,14 +323,14 @@ Instead of the password, the Friendfeed API requires the Remote Key to let you p
 
 In addition to your username and password you will need to create your own Diigo App and generate an API Key.
 
-    1. Please browse to this Url: https://www.diigo.com/api_keys/new/
+    1. Please go at this Url: https://www.diigo.com/api_keys/new/
     and generate your Diigo API Key. (You need to be logged in)
 
 
 **linkedin.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/linkedinhelp "Linkedin help with screenshots.")
 
 
-    1. Please browse to this Url https://www.linkedin.com/secure/developer
+    1. Please go at this Url https://www.linkedin.com/secure/developer
     and click on 'Add New Application'.
 
     2. Fill in the required informations.
@@ -351,7 +366,7 @@ Basically first you'll need to request the activation from Google of the Blogger
 Once it's activated you'll need to create your 'Client ID' (aka App) which will auto post on your behalf.
 
 
-    1. Please browse to this url: https://console.developers.google.com/
+    1. Please go at this url: https://console.developers.google.com/
     Select 'API Project', then on left side select 'APIs & auth'. The 'APIs' tab is selected by default.
     
     2. Scroll down and locate 'Blogger API v3'.
@@ -360,7 +375,7 @@ Once it's activated you'll need to create your 'Client ID' (aka App) which will 
     3. After few days you'll receive an email from Google asking to complete the activation.
     Please follow the steps provided.
 
-    4. Please browse to this url again: https://console.developers.google.com/
+    4. Please go at this url again: https://console.developers.google.com/
     Select 'API Project', then on left side select 'APIs & auth' -> 'Credentials'
 
     5. Click on 'Create new Client ID'
@@ -380,7 +395,7 @@ Once it's activated you'll need to create your 'Client ID' (aka App) which will 
 Basically first you'll need to create a VKontakte APP in order to auto publish.
 
 
-    1. Please browse to this url: https://vk.com/dev
+    1. Please go at this url: https://vk.com/dev
     Select 'Standalone Application', then click 'Connect Application'.
     
     2. Get the code by SMS and then confirm it. Click 'Confirm'.
