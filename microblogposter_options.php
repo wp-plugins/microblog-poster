@@ -2046,89 +2046,6 @@ function microblogposter_settings_output()
         
         
         <div class="social-network-accounts-site">
-            <img src="../wp-content/plugins/microblog-poster/images/friendfeed_icon.png" />
-            <h4><?php _e('FriendFeed Accounts', 'microblog-poster');?></h4>
-        </div>    
-        <?php
-        $sql="SELECT * FROM $table_accounts WHERE type='friendfeed'";
-        $rows = $wpdb->get_results($sql);
-        foreach($rows as $row):
-            $update_accounts[] = $row->account_id;
-            $is_raw = MicroblogPoster_SupportEnc::is_enc($row->extra);
-        ?>
-            <div style="display:none">
-                <div id="update_account<?php echo $row->account_id;?>">
-                    <form id="update_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
-                        <h3 class="new-account-header"><?php _e('<span class="microblogposter-name">MicroblogPoster</span> Plugin', 'microblog-poster');?></h3>
-                        <div class="delete-wrapper">
-                            <?php _e('FriendFeed Account:', 'microblog-poster');?> <span class="delete-wrapper-user"><?php echo $row->username;?></span>
-                        </div>
-                        <div id="friendfeed-div" class="one-account">
-                            <div class="help-div"><span class="description">FriendFeed&nbsp;:&nbsp;<a href="http://efficientscripts.com/help/microblogposter/friendfeedhelp" target="_blank"><?php _e('Help with screenshots in english', 'microblog-poster');?></a></span></div>
-                            <div class="input-div">
-                                <?php _e('Username:', 'microblog-poster');?>
-                            </div>
-                            <div class="input-div-large">
-                                <input type="text" id="" name="username" value="<?php echo $row->username;?>" />
-                            </div>
-                            <div class="input-div">
-                                <?php _e('Remote Key:', 'microblog-poster');?>
-                            </div>
-                            <div class="input-div-large">
-                                <input type="text" id="" name="password" value="<?php echo ($is_raw)? $row->password : MicroblogPoster_SupportEnc::dec($row->password);?>" />
-                                <span class="description">(Remote Key)</span>
-                            </div>
-                            <div class="input-div">
-                                <?php _e('Message Format:', 'microblog-poster');?>
-                            </div>
-                            <div class="input-div-large">
-                                <textarea id="message_format" name="message_format" rows="2"><?php echo $row->message_format;?></textarea>
-                                <span class="description"><?php _e('Message that\'s actually posted.', 'microblog-poster');?></span>
-                            </div>
-                            <div class="input-div">
-
-                            </div>
-                            <div class="input-div-large">
-                                <span class="description-small"><?php echo $description_shortcodes_m_ff;?></span>
-                            </div>
-                        </div>
-
-                        <input type="hidden" name="account_id" value="<?php echo $row->account_id;?>" />
-                        <input type="hidden" name="account_type" value="friendfeed" />
-                        <input type="hidden" name="update_account_hidden" value="1" />
-                        <div class="button-holder">
-                            <button type="button" class="button cancel-account" ><?php _e('Cancel', 'microblog-poster');?></button>
-                            <button type="button" class="button-primary save-account<?php echo $row->account_id;?>" ><?php _e('Save', 'microblog-poster');?></button>
-                        </div>
-
-                    </form>
-                </div>
-            </div>
-            <div style="display:none">
-                <div id="delete_account<?php echo $row->account_id;?>">
-                    <form id="delete_account_form<?php echo $row->account_id;?>" method="post" action="" enctype="multipart/form-data" >
-                        <div class="delete-wrapper">
-                        <?php _e('FriendFeed Account:', 'microblog-poster');?> <span class="delete-wrapper-user"><?php echo $row->username;?></span><br />
-                        <span class="delete-wrapper-del"><?php _e('Delete?', 'microblog-poster');?></span>
-                        </div>
-                        <input type="hidden" name="account_id" value="<?php echo $row->account_id;?>" />
-                        <input type="hidden" name="account_type" value="friendfeed" />
-                        <input type="hidden" name="delete_account_hidden" value="1" />
-                        <div class="button-holder-del">
-                            <button type="button" class="button cancel-account" ><?php _e('Cancel', 'microblog-poster');?></button>
-                            <button type="button" class="del-account-fb button-primary del-account<?php echo $row->account_id;?>" ><?php _e('Delete', 'microblog-poster');?></button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="account-wrapper">
-                <span class="account-username"><?php echo $row->username;?></span>
-                <span class="edit-account edit<?php echo $row->account_id;?>"><?php _e('Edit', 'microblog-poster');?></span>
-                <span class="del-account del<?php echo $row->account_id;?>"><?php _e('Del', 'microblog-poster');?></span>
-            </div>
-        <?php endforeach;?>
-        
-        <div class="social-network-accounts-site">
             <img src="../wp-content/plugins/microblog-poster/images/delicious_icon.png" />
             <h4><?php _e('Delicious Accounts', 'microblog-poster');?></h4>
         </div>  
@@ -2530,7 +2447,7 @@ function microblogposter_settings_output()
         foreach($rows as $row):
             $update_accounts[] = $row->account_id;
         
-            $linkedin_scope = urlencode("r_basicprofile rw_nus rw_groups rw_company_admin");
+            $linkedin_scope = urlencode("r_basicprofile w_share rw_company_admin");
             $lkn_acc_extra = null;
             $target_type = "profile";
             $group_id = '';
@@ -2578,7 +2495,6 @@ function microblogposter_settings_output()
                                 <?php _e('Linkedin target type:', 'microblog-poster');?>
                             </div>
                             <div class="input-div-large">
-                                <span class="mbp-linkedin-target-type-span"><?php echo ucfirst($target_type).' timeline';?></span>
                                 <?php if($target_type=='company'):?>
                                     <span class="mbp-linkedin-target-type-span"><?php _e('Company timeline', 'microblog-poster');?></span>
                                 <?php elseif($target_type=='group'):?>
@@ -3270,7 +3186,6 @@ function microblogposter_settings_output()
                     <select id="account_type" name="account_type">
                         <option value="twitter">Twitter</option>
                         <option value="plurk">Plurk</option>
-                        <option value="friendfeed">FriendFeed</option>
                         <option value="delicious">Delicious</option>
                         <option value="facebook">Facebook</option>
                         <option value="diigo">Diigo</option>
@@ -3637,7 +3552,6 @@ function microblogposter_settings_output()
                         <div class="input-div-large">
                             <select name="mbp_linkedin_target_type" id="mbp_linkedin_target_type">
                                 <option value="profile"><?php _e('Profile timeline', 'microblog-poster');?></option>
-                                <option value="group"><?php _e('Group timeline', 'microblog-poster');?></option>
                                 <option value="company"><?php _e('Company timeline', 'microblog-poster');?></option>
                             </select>
                             <span class="description"><?php _e('Where you want to auto post.', 'microblog-poster');?></span>

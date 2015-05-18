@@ -1,9 +1,9 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, blogger, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
+Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, blogger, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
 Requires at least: 3.0
 Tested up to: 4.2
-Stable tag: 1.5.1
+Stable tag: 1.5.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -42,7 +42,6 @@ Please visit **MicroblogPoster**'s [website](http://efficientscripts.com/microbl
 * facebook.com - Auto publish to profile wall.
 * plurk.com - Auto post new plurk.
 * delicious.com - Auto submit bookmark of your blogpost to your account.
-* friendfeed.com - Auto update your status.
 * diigo.com - Auto submit bookmark of your new blogpost.
 * linkedin.com - Auto publish to profile wall
 * tumblr.com - Auto publish to your blog.
@@ -77,6 +76,10 @@ see "posted by MicroblogPoster" in your updates, you'll see "posted by your own 
 3. MicroblogPoster Options page, Logs Section.
 
 == Changelog ==
+
+= 1.5.2 (18-05-2015) =
+- FriendFeed was shut down so we're removing it from our list of supported networks.
+- Urgent Linkedin API changes. Auto posting to groups isn't available anymore.
 
 = 1.5.1 (11-05-2015) =
 - Removed obsolete scope parameter for facebook authorization.
@@ -307,15 +310,6 @@ Business accounts can't manage Facebook Apps.
 
     8. Follow the link provided by MicroblogPoster to authorize your App 
     posting on your behalf.
-
-
-**friendfeed.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/friendfeedhelp "FriendFeed help with screenshots.")
-
-
-Instead of the password, the Friendfeed API requires the Remote Key to let you post with it.
-
-    1. You can find your Remote Key associated with your account at this Url:
-    https://friendfeed.com/account/api (You must be logged in).
 
 
 **diigo.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/diigohelp "Diigo help with screenshots.")
