@@ -4,7 +4,7 @@
  * Plugin Name: Microblog Poster
  * Plugin URI: http://efficientscripts.com/microblogposter
  * Description: Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Linkedin, Plurk, Diigo, Delicious..
- * Version: 1.5.2
+ * Version: 1.6.0
  * Author: Efficient Scripts
  * Author URI: http://efficientscripts.com/
  * Text Domain: microblog-poster
@@ -187,7 +187,7 @@ class MicroblogPoster_Poster
         
         @ini_set('max_execution_time', '0');
         
-        MicroblogPoster_Poster::update_twitter($old, $mp, $dash, $update, $post_content_twitter, $post_ID);
+        MicroblogPoster_Poster::update_twitter($old, $mp, $dash, $update, $post_content_twitter, $post_ID, $featured_image_src_full);
         MicroblogPoster_Poster::update_plurk($old, $mp, $dash, $update, $post_content, $post_ID);
 	MicroblogPoster_Poster::update_delicious($old, $mp, $dash, $post_title, $permalink, $tags, $post_content, $post_ID);
         MicroblogPoster_Poster::update_friendfeed($old, $mp, $dash, $post_title, $permalink, $post_content, $post_ID);
@@ -416,7 +416,7 @@ class MicroblogPoster_Poster
         
         @ini_set('max_execution_time', '0');
         
-        MicroblogPoster_Poster::update_twitter($old, $mp, $dash, $update, $post_content_twitter, $post_ID);
+        MicroblogPoster_Poster::update_twitter($old, $mp, $dash, $update, $post_content_twitter, $post_ID, $featured_image_src_full);
         MicroblogPoster_Poster::update_plurk($old, $mp, $dash, $update, $post_content, $post_ID);
 	MicroblogPoster_Poster::update_delicious($old, $mp, $dash, $post_title, $permalink, $tags, $post_content, $post_ID);
         MicroblogPoster_Poster::update_friendfeed($old, $mp, $dash, $post_title, $permalink, $post_content, $post_ID);
@@ -438,7 +438,7 @@ class MicroblogPoster_Poster
     * @param array $post_content
     * @return void
     */
-    public static function update_twitter($old, $mp, $dash, $update, $post_content, $post_ID)
+    public static function update_twitter($old, $mp, $dash, $update, $post_content, $post_ID, $featured_image_src_full)
     {   
         
         $twitter_accounts = MicroblogPoster_Poster::get_accounts('twitter');
@@ -506,13 +506,62 @@ class MicroblogPoster_Poster
                 {
                     $update = str_ireplace(MicroblogPoster_Poster::get_shortcodes_mp(), $post_content, $twitter_account['message_format']);
                 }
+                
+                $media_id_string = "";
+                $extra = json_decode($twitter_account['extra'], true);
+                if(isset($extra) && is_array($extra) && isset($extra['include_featured_image']) && $extra['include_featured_image'] == 1)
+                {
+                    $include_featured_image = true;
+                }
+                else
+                {
+                    $include_featured_image = false;
+                }
+                if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','send_signed_request_and_upload') && 
+                        $include_featured_image && $featured_image_src_full)
+                {
+                    $curl = new MicroblogPoster_Curl();
+                    $upload_result = MicroblogPoster_Poster_Pro::send_signed_request_and_upload(
+                        $curl,
+                        $twitter_account['consumer_key'],
+                        $twitter_account['consumer_secret'],
+                        $twitter_account['access_token'],
+                        $twitter_account['access_token_secret'],
+                        "https://upload.twitter.com/1.1/media/upload.json",
+                        array("image_url"=>$featured_image_src_full)
+                    );
+                    $upload_result_dec = json_decode($upload_result, true);
+                    if(isset($upload_result_dec['media_id_string']))
+                    {
+                        $media_id_string = $upload_result_dec['media_id_string'];
+                    }
+                    else
+                    {
+                        $log_data = array();
+                        $log_data['account_id'] = $twitter_account['account_id'];
+                        $log_data['account_type'] = "twitter";
+                        $log_data['username'] = $twitter_account['username'] . ' - Upload Image';
+                        $log_data['post_id'] = 0;
+                        $log_data['action_result'] = 2;
+                        $log_data['update_message'] = '';
+                        $log_data['log_message'] = $upload_result;
+                        MicroblogPoster_Poster::insert_log($log_data);
+                    }
+                }
+                
+                $parameters = array("status"=>$update);
+                if(isset($media_id_string) && $media_id_string)
+                {
+                    $parameters["media_ids"] = $media_id_string;
+                }
+                
                 $result = MicroblogPoster_Poster::send_signed_request(
                     $twitter_account['consumer_key'],
                     $twitter_account['consumer_secret'],
                     $twitter_account['access_token'],
                     $twitter_account['access_token_secret'],
                     "https://api.twitter.com/1.1/statuses/update.json",
-                    array("status"=>$update)
+                    $parameters
                 );
                 
                 $action_result = 2;

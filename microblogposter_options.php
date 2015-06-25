@@ -337,7 +337,7 @@ function microblogposter_settings_output()
     
     $http_auth_sites = array('friendfeed','delicious','diigo','instapaper');
     $tags_sites = array('delicious','diigo');
-    $featured_image_sites = array('blogger');
+    $featured_image_sites = array('blogger', 'twitter');
     
     $mbp_accounts_tab_selected = false;
     if(isset($_GET["t"]) && $_GET["t"]==2)
@@ -1767,6 +1767,7 @@ function microblogposter_settings_output()
             $update_accounts[] = $row->account_id;
         
             $authorized = false;
+            $include_featured_image = false;
             if($row->extra)
             {
                 $twt_acc_extra = json_decode($row->extra, true);
@@ -1774,6 +1775,7 @@ function microblogposter_settings_output()
                 {
                     $authorized = true;
                 }
+                $include_featured_image = (isset($twt_acc_extra['include_featured_image']) && $twt_acc_extra['include_featured_image'] == 1)?true:false;
             }
             elseif($row->consumer_key && $row->consumer_secret && $row->access_token && $row->access_token_secret)
             {
@@ -1818,6 +1820,20 @@ function microblogposter_settings_output()
                             <div class="input-div-large">
                                 <span class="description-small"><?php echo $description_shortcodes_m;?></span>
                             </div>
+                            <div class="mbp-separator"></div>
+                            <div class="input-div">
+                                <?php _e('Include featured image:', 'microblog-poster');?>
+                            </div>
+                            <div class="input-div-large">
+                                <input type="checkbox" id="include_featured_image" name="include_featured_image" value="1" <?php if ($include_featured_image) echo "checked";?>/>
+                                <span class="description">
+                                    <?php _e('Do you want to include featured image in your updates?', 'microblog-poster');?>
+                                    <?php if(!MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account')):?>
+                                        <a href="http://efficientscripts.com/microblogposteraddons" target="_blank"><?php _e('Upgrade Now', 'microblog-poster');?></a>
+                                    <?php endif;?>  
+                                </span>
+                            </div>
+                            <div class="mbp-separator"></div>
                             <div class="input-div">
                                 <?php _e('Consumer Key:', 'microblog-poster');?>
                             </div>
@@ -2055,10 +2071,10 @@ function microblogposter_settings_output()
         foreach($rows as $row):
             $update_accounts[] = $row->account_id;
             $is_raw = MicroblogPoster_SupportEnc::is_enc($row->extra);
-            $extra = json_decode($row->extra, true);
-            if(is_array($extra))
+            $dl_acc_extra = json_decode($row->extra, true);
+            if(is_array($dl_acc_extra))
             {
-                $include_tags = (isset($extra['include_tags']) && $extra['include_tags'] == 1)?true:false;
+                $include_tags = (isset($dl_acc_extra['include_tags']) && $dl_acc_extra['include_tags'] == 1)?true:false;
             }
         ?>
             <div style="display:none">
@@ -3219,6 +3235,20 @@ function microblogposter_settings_output()
                         <div class="input-div-large">
                             <span class="description-small"><?php echo $description_shortcodes_m;?></span>
                         </div>
+                        <div class="mbp-separator"></div>
+                        <div class="input-div">
+                            <?php _e('Include featured image:', 'microblog-poster');?>
+                        </div>
+                        <div class="input-div-large">
+                            <input type="checkbox" id="include_featured_image" name="include_featured_image" value="1" />
+                            <span class="description">
+                                <?php _e('Do you want to include featured image in your updates?', 'microblog-poster');?>
+                                <?php if(!MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account')):?>
+                                    <a href="http://efficientscripts.com/microblogposteraddons" target="_blank"><?php _e('Upgrade Now', 'microblog-poster');?></a>
+                                <?php endif;?>  
+                            </span>
+                        </div>
+                        <div class="mbp-separator"></div>
                         <div class="input-div">
                             <?php _e('Consumer Key:', 'microblog-poster');?>
                         </div>
@@ -3386,7 +3416,7 @@ function microblogposter_settings_output()
                             <span class="description"><?php _e('Message that\'s actually posted.', 'microblog-poster');?></span>
                         </div>
                         <div class="input-div">
-
+                            
                         </div>
                         <div class="input-div-large">
                             <span class="description-small"><?php echo $description_shortcodes_bookmark;?></span>
@@ -4270,7 +4300,7 @@ function microblogposter_settings_output()
         #mbp-facebook-upgrade-now, #mbp-linkedin-upgrade-now, #mbp-tumblr-upgrade-now, #mbp-vkontakte-upgrade-now
         {
             margin: 20px auto 20px auto;
-            width: 340px;
+            width: 400px;
         }
         #mbp_facebook_target_type, #mbp_linkedin_target_type, #mbp_vkontakte_target_type
         {
@@ -4389,7 +4419,7 @@ function microblogposter_settings_output()
         #mbp-old-posts-intro-area
         {
             margin-bottom: 40px;
-        }
+        } 
     </style>
 
     <div id="mbp-old-posts-publish-wrapper" class="mbp-single-tab-wrapper">
@@ -4676,7 +4706,7 @@ function microblogposter_settings_output()
                         <?php if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account')):?>
                         
                         <?php else:?>
-                            
+                            $("div#fancybox-content #twitter-div #include_featured_image").attr('disabled','disabled');
                         <?php endif;?>
                     }
                 });
@@ -4740,6 +4770,12 @@ function microblogposter_settings_output()
                     $("div#fancybox-content #mbp-vkontakte-input-div").show().find('input').removeAttr('disabled');
                     $("div#fancybox-content #mbp-vkontakte-upgrade-now").hide();
                     $("div#fancybox-content .mbp_vkontakte_target_type_string").html('<?php _e('Profile ID', 'microblog-poster');?>');
+                }
+                if(type=='twitter')
+                {
+                    <?php if(!MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account')):?>
+                        $("div#fancybox-content #twitter-div #include_featured_image").attr('disabled','disabled');
+                    <?php endif;?>  
                 }
             });
             
@@ -4894,6 +4930,11 @@ function microblogposter_settings_output()
                         'titleShow'	: false,
                         'onComplete'	: function() {
                             
+                            <?php if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account')):?>
+                        
+                            <?php else:?>
+                                $("div#fancybox-content #twitter-div #include_featured_image").attr('disabled','disabled');
+                            <?php endif;?>
                         }
                     });
                 });
@@ -5046,7 +5087,7 @@ function microblogposter_settings_output()
             
             <?php if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account') && $customer_license_key_value['key']):?>
                 $("#license_key_form").hide().find('input').attr('disabled','disabled');
-            <?php endif;?>    
+            <?php endif;?>  
             
             
             <?php if($redirect_after_auth):?>
@@ -5389,7 +5430,7 @@ function microblogposter_show_common_account_dashboard_head($site)
             $site_label = $site;
             if($site == 'vkontakte'){$site_label = 'vKontakte';}
         ?>
-        <?php if(get_locale() == 'fr_FR'):?>
+        <?php if( in_array(get_locale(), array('fr_FR', 'pt_PT', 'pt_BR', 'es_ES', 'es_MX', 'es_PE')) ):?>
             <h4><?php _e('Accounts', 'microblog-poster');?> <?php echo ucfirst($site_label);?></h4>
         <?php else:?>
             <h4><?php echo ucfirst($site_label);?> <?php _e('Accounts', 'microblog-poster');?></h4>
@@ -5634,7 +5675,7 @@ function microblogposter_show_common_account_dashboard_head_old($site)
             $site_label = $site;
             if($site == 'vkontakte'){$site_label = 'vKontakte';}
         ?>
-        <?php if(get_locale() == 'fr_FR'):?>
+        <?php if( in_array(get_locale(), array('fr_FR', 'pt_PT', 'pt_BR', 'es_ES', 'es_MX', 'es_PE')) ):?>
             <h4><?php _e('Accounts', 'microblog-poster');?> <?php echo ucfirst($site_label);?></h4>
         <?php else:?>
             <h4><?php echo ucfirst($site_label);?> <?php _e('Accounts', 'microblog-poster');?></h4>
