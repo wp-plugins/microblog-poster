@@ -538,6 +538,7 @@ function microblogposter_settings_output()
         if(isset($_POST['account_id']))
         {
             $account_id = trim($_POST['account_id']);
+            $wpdb->escape_by_ref($account_id);
         }
         $sql="SELECT * FROM $table_accounts WHERE account_id={$account_id} LIMIT 1";
         $rows = $wpdb->get_results($sql);
