@@ -1,9 +1,9 @@
 === Microblog Poster ===
 Contributors: cybperic
-Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, friendfeed, blogger, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
+Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, blogger, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
 Requires at least: 3.0
-Tested up to: 4.1
-Stable tag: 1.4.9
+Tested up to: 4.2
+Stable tag: 1.6.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -16,9 +16,8 @@ You only have to configure your social network accounts like Facebook, Twitter, 
 **Multiple Accounts per social site supported.**
 Possibility to nicely format the update message per account, **shortcodes supported**.
 
-**New** feature available in **1.4.6** 
-
-**Auto re-publish old blog posts** to all your configured social accounts.
+**Auto re-publish old blog posts** to all your configured social accounts. 
+By auto sharing your old blog posts you keep them alive and increase traffic to your blog!
 
 **Logs are generated** on new blog post for each configured social network account.
 Easily follow the automated sharing process from **MicroblogPoster**'s logs section and debug your configuration if needed.
@@ -26,13 +25,23 @@ Easily follow the automated sharing process from **MicroblogPoster**'s logs sect
 **Custom Post Types** supported, additionally **Filter posts** to be published/cross posted to social networks based on categories. 
 (General section settings)
 
+Please visit **MicroblogPoster**'s [website](http://efficientscripts.com/microblogposter "MicroblogPoster's website") , or
+
+[Contact us](http://efficientscripts.com/contact "Contact us") , we're providing support in the following languages:
+
+* We speak english ; 
+* Причамо српски ; 
+* Nous parlons français ;
+
+**MicroblogPoster**'s Add-ons bring Additional Features: 
+[Compare Versions](http://efficientscripts.com/microblogposteraddons "MicroblogPoster's Add-ons Page")
+
 **Currently supported social media sites**
 
 * twitter.com - Auto tweet backlink of new blogpost.
 * facebook.com - Auto publish to profile wall.
 * plurk.com - Auto post new plurk.
 * delicious.com - Auto submit bookmark of your blogpost to your account.
-* friendfeed.com - Auto update your status.
 * diigo.com - Auto submit bookmark of your new blogpost.
 * linkedin.com - Auto publish to profile wall
 * tumblr.com - Auto publish to your blog.
@@ -40,16 +49,11 @@ Easily follow the automated sharing process from **MicroblogPoster**'s logs sect
 * instapaper.com - Auto submit bookmark of your new blogpost.
 * vk.com (vkontakte.com) - Auto publish to profile wall.
 
-Please visit **MicroblogPoster**'s [website](http://efficientscripts.com/microblogposter "MicroblogPoster's website").
-
 
 The idea behind **MicroblogPoster** is to promote your wordpress blog and reach more people through social networks like Facebook, Twitter, LinkedIn, Tumblr.. 
 There's a general agreement in the SEO community that social signals strengthen your blog's page rank and authority.
 **MicroblogPoster** is simply an intermediary between your blog and your own social network accounts. You'll never
 see "posted by MicroblogPoster" in your updates, you'll see "posted by your own App name" or simply "by API".
-
-**MicroblogPoster**'s Add-ons bring Additional Features: 
-[Compare Versions](http://efficientscripts.com/microblogposteraddons "MicroblogPoster's Add-ons Page")
 
 
 **MicroblogPoster** in few words:
@@ -72,6 +76,32 @@ see "posted by MicroblogPoster" in your updates, you'll see "posted by your own 
 3. MicroblogPoster Options page, Logs Section.
 
 == Changelog ==
+
+= 1.6.2 (24-07-2015) =
+- Urgent, fixing possible SQL injection.
+- Urgent, sanitizing Post data properly. 
+
+= 1.6.1 (23-07-2015) =
+- Urgent, fixing possible SQL injection. 
+
+= 1.6.0 (25-06-2015) =
+- Added possibility to auto publish with image to twitter (only with paid add-on)
+- Added spanish translation.
+- Added portuguese translation.
+
+= 1.5.2 (18-05-2015) =
+- FriendFeed was shut down so we're removing it from our list of supported networks.
+- Urgent Linkedin API changes. Auto posting to groups isn't available anymore.
+
+= 1.5.1 (11-05-2015) =
+- Removed obsolete scope parameter for facebook authorization.
+
+= 1.5.0 (27-04-2015) =
+- Added serbian translation (sr_RS).
+- Added french translation (fr_FR).
+- Fixed bug, if the field 'Message Format' is empty don't post anything instead.
+- Fixed blogger multiple links bug when used on multiple blogs.
+- Sending full image to facebook instead of thumbnail.
 
 = 1.4.9 (01-04-2015) =
 - Facebook API 2.3 fix for auto publish to pages.
@@ -292,15 +322,6 @@ Business accounts can't manage Facebook Apps.
 
     8. Follow the link provided by MicroblogPoster to authorize your App 
     posting on your behalf.
-
-
-**friendfeed.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/friendfeedhelp "FriendFeed help with screenshots.")
-
-
-Instead of the password, the Friendfeed API requires the Remote Key to let you post with it.
-
-    1. You can find your Remote Key associated with your account at this Url:
-    https://friendfeed.com/account/api (You must be logged in).
 
 
 **diigo.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/diigohelp "Diigo help with screenshots.")
