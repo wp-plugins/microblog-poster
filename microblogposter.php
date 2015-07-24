@@ -4,7 +4,7 @@
  * Plugin Name: Microblog Poster
  * Plugin URI: http://efficientscripts.com/microblogposter
  * Description: Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Linkedin, Plurk, Diigo, Delicious..
- * Version: 1.6.1
+ * Version: 1.6.2
  * Author: Efficient Scripts
  * Author URI: http://efficientscripts.com/
  * Text Domain: microblog-poster
@@ -285,14 +285,20 @@ class MicroblogPoster_Poster
             $excluded_categories_string = "";
             foreach($excluded_categories_old as $excluded_category_old)
             {
-                $excluded_categories_string .= $excluded_category_old . ",";
+                if(intval($excluded_category_old))
+                {
+                    $excluded_categories_string .= $excluded_category_old . ",";
+                }
             }
             $excluded_categories_string = rtrim($excluded_categories_string, ",");
             
-            $sql_old .= " AND p.ID NOT IN";
-            $sql_old .= " (SELECT termr.object_id FROM {$table_term_taxonomy} AS termt INNER JOIN {$table_term_relationships} AS termr";
-            $sql_old .= " ON termt.term_taxonomy_id=termr.term_taxonomy_id";
-            $sql_old .= " WHERE termt.term_id IN ({$excluded_categories_string}) AND termt.taxonomy='category')";
+            if($excluded_categories_string)
+            {
+                $sql_old .= " AND p.ID NOT IN";
+                $sql_old .= " (SELECT termr.object_id FROM {$table_term_taxonomy} AS termt INNER JOIN {$table_term_relationships} AS termr";
+                $sql_old .= " ON termt.term_taxonomy_id=termr.term_taxonomy_id";
+                $sql_old .= " WHERE termt.term_id IN ({$excluded_categories_string}) AND termt.taxonomy='category')";
+            }
         }
         
         $sql_old .= " AND p.ID NOT IN (SELECT item_id from {$table_old_items} WHERE item_type='post')";
