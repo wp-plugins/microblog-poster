@@ -2,8 +2,8 @@
 Contributors: cybperic
 Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, blogger, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
 Requires at least: 3.0
-Tested up to: 4.2
-Stable tag: 1.6.2
+Tested up to: 4.3
+Stable tag: 1.6.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -76,6 +76,11 @@ see "posted by MicroblogPoster" in your updates, you'll see "posted by your own 
 3. MicroblogPoster Options page, Logs Section.
 
 == Changelog ==
+
+= 1.6.3 (24-08-2015) =
+- Added italian translation.
+- Removed relative paths for images.
+- Updated code for Facebook API recent changes. 
 
 = 1.6.2 (24-07-2015) =
 - Urgent, fixing possible SQL injection.

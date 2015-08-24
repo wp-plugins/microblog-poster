@@ -1618,7 +1618,7 @@ function microblogposter_settings_output()
                             
                             <h3>
                                 <input type="radio" name="<?php echo $url_shortener_name;?>" value="bitly" <?php if($url_shortener_value == 'bitly') echo 'checked';?> />
-                                <img src="../wp-content/plugins/microblog-poster/images/bitly_icon.png" /> : <span class="description"> <a href="http://efficientscripts.com/help/microblogposter/bitlyhelp" target="_blank"><?php _e('Help with screenshots in english', 'microblog-poster');?></a></span>
+                                <img src="<?php echo plugins_url('/images/bitly_icon.png', __FILE__);?>" /> : <span class="description"> <a href="http://efficientscripts.com/help/microblogposter/bitlyhelp" target="_blank"><?php _e('Help with screenshots in english', 'microblog-poster');?></a></span>
                             </h3>
 
                         </td>
@@ -1659,7 +1659,7 @@ function microblogposter_settings_output()
                             
                             <h3>
                                 <input type="radio" name="<?php echo $url_shortener_name;?>" value="googl" <?php if($url_shortener_value == 'googl') echo 'checked';?> />
-                                <img src="../wp-content/plugins/microblog-poster/images/googl_icon.png" /> : <span class="description"> <a href="http://efficientscripts.com/help/microblogposter/googlhelp" target="_blank"><?php _e('Help with screenshots in english', 'microblog-poster');?></a></span>
+                                <img src="<?php echo plugins_url('/images/googl_icon.png', __FILE__);?>" /> : <span class="description"> <a href="http://efficientscripts.com/help/microblogposter/googlhelp" target="_blank"><?php _e('Help with screenshots in english', 'microblog-poster');?></a></span>
                             </h3>
 
                         </td>
@@ -1725,7 +1725,7 @@ function microblogposter_settings_output()
                         <td colspan="2">
                             <h3>
                                 <input type="radio" name="<?php echo $url_shortener_name;?>" value="adfly" <?php if($url_shortener_value == 'adfly') echo 'checked';?> />
-                                <img src="../wp-content/plugins/microblog-poster/images/adfly_icon.png" /> : <span class="description"> <a href="http://efficientscripts.com/help/microblogposter/adflyhelp" target="_blank"><?php _e('Help with screenshots in english', 'microblog-poster');?></a></span>
+                                <img src="<?php echo plugins_url('/images/adfly_icon.png', __FILE__);?>" /> : <span class="description"> <a href="http://efficientscripts.com/help/microblogposter/adflyhelp" target="_blank"><?php _e('Help with screenshots in english', 'microblog-poster');?></a></span>
                             </h3>
                         </td>
                     </tr>
@@ -1774,7 +1774,7 @@ function microblogposter_settings_output()
                         <td colspan="2">
                             <h3>
                                 <input type="radio" name="<?php echo $url_shortener_name;?>" value="adfocus" <?php if($url_shortener_value == 'adfocus') echo 'checked';?> />
-                                <img src="../wp-content/plugins/microblog-poster/images/adfocus_icon.png" /> : <span class="description"> <a href="http://efficientscripts.com/help/microblogposter/adfocushelp" target="_blank"><?php _e('Help with screenshots in english', 'microblog-poster');?></a></span>
+                                <img src="<?php echo plugins_url('/images/adfocus_icon.png', __FILE__);?>" /> : <span class="description"> <a href="http://efficientscripts.com/help/microblogposter/adfocushelp" target="_blank"><?php _e('Help with screenshots in english', 'microblog-poster');?></a></span>
                             </h3>
                         </td>
                     </tr>
@@ -1795,7 +1795,7 @@ function microblogposter_settings_output()
                         <td colspan="2">
                             <h3>
                                 <input type="radio" name="<?php echo $url_shortener_name;?>" value="ppw" <?php if($url_shortener_value == 'ppw') echo 'checked';?> />
-                                <img src="../wp-content/plugins/microblog-poster/images/ppw_icon.png" /> : <span class="description"> <a href="http://efficientscripts.com/help/microblogposter/ppwhelp" target="_blank"><?php _e('Help with screenshots in english', 'microblog-poster');?></a></span>
+                                <img src="<?php echo plugins_url('/images/ppw_icon.png', __FILE__);?>" /> : <span class="description"> <a href="http://efficientscripts.com/help/microblogposter/ppwhelp" target="_blank"><?php _e('Help with screenshots in english', 'microblog-poster');?></a></span>
                             </h3>
                         </td>
                     </tr>
@@ -1995,7 +1995,7 @@ function microblogposter_settings_output()
         
         <div id="social-network-accounts">
         <div class="social-network-accounts-site">
-            <img src="../wp-content/plugins/microblog-poster/images/twitter_icon.png" />
+            <img src="<?php echo plugins_url('/images/twitter_icon.png', __FILE__);?>" />
             <h4><?php _e('Twitter Accounts', 'microblog-poster');?></h4>
         </div>
         <?php
@@ -2159,7 +2159,7 @@ function microblogposter_settings_output()
         <?php endforeach;?>
         
         <div class="social-network-accounts-site">
-            <img src="../wp-content/plugins/microblog-poster/images/plurk_icon.png" />
+            <img src="<?php echo plugins_url('/images/plurk_icon.png', __FILE__);?>" />
             <h4><?php _e('Plurk Accounts', 'microblog-poster');?></h4>
         </div>
         <?php
@@ -2300,7 +2300,7 @@ function microblogposter_settings_output()
         
         
         <div class="social-network-accounts-site">
-            <img src="../wp-content/plugins/microblog-poster/images/delicious_icon.png" />
+            <img src="<?php echo plugins_url('/images/delicious_icon.png', __FILE__);?>" />
             <h4><?php _e('Delicious Accounts', 'microblog-poster');?></h4>
         </div>  
         <?php
@@ -2393,7 +2393,7 @@ function microblogposter_settings_output()
         <?php endforeach;?>
         
         <div class="social-network-accounts-site">
-            <img src="../wp-content/plugins/microblog-poster/images/facebook_icon.png" />
+            <img src="<?php echo plugins_url('/images/facebook_icon.png', __FILE__);?>" />
             <h4><?php _e('Facebook Accounts', 'microblog-poster');?></h4>
         </div>
         <?php
@@ -2433,7 +2433,7 @@ function microblogposter_settings_output()
             }
             elseif($target_type == "group")
             {
-                $fb_scope = "publish_actions,publish_pages,manage_pages,user_groups";
+                $fb_scope = "publish_actions,publish_pages,manage_pages,user_managed_groups";
             }
             $fb_scope = urlencode($fb_scope);
             
@@ -2590,7 +2590,7 @@ function microblogposter_settings_output()
         <?php endforeach;?>
             
         <div class="social-network-accounts-site">
-            <img src="../wp-content/plugins/microblog-poster/images/diigo_icon.png" />
+            <img src="<?php echo plugins_url('/images/diigo_icon.png', __FILE__);?>" />
             <h4><?php _e('Diigo Accounts', 'microblog-poster');?></h4>
         </div>  
         <?php
@@ -2692,7 +2692,7 @@ function microblogposter_settings_output()
         <?php endforeach;?>
             
         <div class="social-network-accounts-site">
-            <img src="../wp-content/plugins/microblog-poster/images/linkedin_icon.png" />
+            <img src="<?php echo plugins_url('/images/linkedin_icon.png', __FILE__);?>" />
             <h4><?php _e('Linkedin Accounts', 'microblog-poster');?></h4>
         </div>
         <?php
@@ -2873,7 +2873,7 @@ function microblogposter_settings_output()
         <?php endforeach;?>
             
         <div class="social-network-accounts-site">
-            <img src="../wp-content/plugins/microblog-poster/images/tumblr_icon.png" />
+            <img src="<?php echo plugins_url('/images/tumblr_icon.png', __FILE__);?>" />
             <h4><?php _e('Tumblr Accounts', 'microblog-poster');?></h4>
         </div>
         <?php
@@ -3031,7 +3031,7 @@ function microblogposter_settings_output()
             
         <?php endforeach;?>
         <div class="social-network-accounts-site">
-            <img src="../wp-content/plugins/microblog-poster/images/blogger_icon.png" />
+            <img src="<?php echo plugins_url('/images/blogger_icon.png', __FILE__);?>" />
             <h4><?php _e('Blogger Accounts', 'microblog-poster');?></h4>
         </div>
         <?php
@@ -3166,7 +3166,7 @@ function microblogposter_settings_output()
         <?php endforeach;?>
             
         <div class="social-network-accounts-site">
-            <img src="../wp-content/plugins/microblog-poster/images/instapaper_icon.png" />
+            <img src="<?php echo plugins_url('/images/instapaper_icon.png', __FILE__);?>" />
             <h4><?php _e('Instapaper Accounts', 'microblog-poster');?></h4>
         </div>  
         <?php
@@ -3248,7 +3248,7 @@ function microblogposter_settings_output()
         <?php endforeach;?>
             
         <div class="social-network-accounts-site">
-            <img src="../wp-content/plugins/microblog-poster/images/vkontakte_icon.png" />
+            <img src="<?php echo plugins_url('/images/vkontakte_icon.png', __FILE__);?>" />
             <h4><?php _e('VKontakte Accounts', 'microblog-poster');?></h4>
         </div>
         <?php
@@ -5663,12 +5663,12 @@ function microblogposter_show_common_account_dashboard_head($site)
 {
     ?>
     <div class="mbp_social-network-accounts-site">
-        <img src="../wp-content/plugins/microblog-poster/images/<?php echo $site;?>_icon.png" />
+        <img src="<?php echo plugins_url('/images/' . $site . '_icon.png', __FILE__);?>" />
         <?php
             $site_label = $site;
             if($site == 'vkontakte'){$site_label = 'vKontakte';}
         ?>
-        <?php if( in_array(get_locale(), array('fr_FR', 'pt_PT', 'pt_BR', 'es_ES', 'es_MX', 'es_PE')) ):?>
+        <?php if( in_array(get_locale(), array('fr_FR', 'pt_PT', 'pt_BR', 'es_ES', 'es_MX', 'es_PE', 'it_IT')) ):?>
             <h4><?php _e('Accounts', 'microblog-poster');?> <?php echo ucfirst($site_label);?></h4>
         <?php else:?>
             <h4><?php echo ucfirst($site_label);?> <?php _e('Accounts', 'microblog-poster');?></h4>
@@ -5908,12 +5908,12 @@ function microblogposter_show_common_account_dashboard_head_old($site)
 {
     ?>
     <div class="mbp_social-network-accounts-site-old">
-        <img src="../wp-content/plugins/microblog-poster/images/<?php echo $site;?>_icon.png" />
+        <img src="<?php echo plugins_url('/images/' . $site . '_icon.png', __FILE__);?>" />
         <?php
             $site_label = $site;
             if($site == 'vkontakte'){$site_label = 'vKontakte';}
         ?>
-        <?php if( in_array(get_locale(), array('fr_FR', 'pt_PT', 'pt_BR', 'es_ES', 'es_MX', 'es_PE')) ):?>
+        <?php if( in_array(get_locale(), array('fr_FR', 'pt_PT', 'pt_BR', 'es_ES', 'es_MX', 'es_PE', 'it_IT')) ):?>
             <h4><?php _e('Accounts', 'microblog-poster');?> <?php echo ucfirst($site_label);?></h4>
         <?php else:?>
             <h4><?php echo ucfirst($site_label);?> <?php _e('Accounts', 'microblog-poster');?></h4>
