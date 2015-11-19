@@ -1088,6 +1088,26 @@ msgstr "Riautorizza questo profilo VKontakte"
 msgid "Authorize this vkontakte account"
 msgstr "Autorizza questo profilo VKontakte"
 
+#: microblogposter_options.php:3074
+msgid "Xing Accounts"
+msgstr "Profili Xing"
+
+#: microblogposter_options.php:3111 microblogposter_options.php:3219
+msgid "Xing Account:"
+msgstr "Profilo Xing:"
+
+#: microblogposter_options.php:3245
+msgid "Authorize this Xing account"
+msgstr "Autorizza questo profilo Xing"
+
+#: microblogposter_options.php:2777 microblogposter_options.php:3747
+msgid "Xing link box status update."
+msgstr "Status update di tipo link box di Xing."
+
+#: microblogposter_options.php:3170 microblogposter_options.php:3903
+msgid "(Text message + Xing link box.)"
+msgstr "(Messaggio di testo + link box di Xing.)"
+
 #: microblogposter_options.php:3260
 msgid "Account type:"
 msgstr "Tipo di profilo:"

@@ -1111,6 +1111,26 @@ msgstr "Renouveler l'autorisation pour ce compte VKontakte"
 msgid "Authorize this vkontakte account"
 msgstr "Autoriser ce compte vkontakte"
 
+#: microblogposter_options.php:3074
+msgid "Xing Accounts"
+msgstr "Comptes Xing"
+
+#: microblogposter_options.php:3111 microblogposter_options.php:3219
+msgid "Xing Account:"
+msgstr "Compte Xing:"
+
+#: microblogposter_options.php:3245
+msgid "Authorize this Xing account"
+msgstr "Autoriser ce compte Xing"
+
+#: microblogposter_options.php:2777 microblogposter_options.php:3747
+msgid "Xing link box status update."
+msgstr "Mise à jour de statut de type Xing Lien."
+
+#: microblogposter_options.php:3170 microblogposter_options.php:3903
+msgid "(Text message + Xing link box.)"
+msgstr "(Message texte + Partie lien Xing.)"
+
 #: microblogposter_options.php:3269
 msgid "Account type:"
 msgstr "Type de Compte:"

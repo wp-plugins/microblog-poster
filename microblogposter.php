@@ -4,7 +4,7 @@
  * Plugin Name: Microblog Poster
  * Plugin URI: http://efficientscripts.com/microblogposter
  * Description: Automatically publishes your new blog content to Social Networks. Auto-updates Twitter, Facebook, Linkedin, Plurk, Diigo, Delicious..
- * Version: 1.6.3
+ * Version: 1.6.5
  * Author: Efficient Scripts
  * Author URI: http://efficientscripts.com/
  * Text Domain: microblog-poster
@@ -198,6 +198,7 @@ class MicroblogPoster_Poster
         MicroblogPoster_Poster::update_blogger($old, $mp, $dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_tmb, $featured_image_src_full);
         MicroblogPoster_Poster::update_instapaper($old, $mp, $dash, $post_title, $permalink, $post_content, $post_ID);
         MicroblogPoster_Poster::update_vkontakte($old, $mp, $dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_lkn, $featured_image_src_thumbnail, $permalink_actual);
+        MicroblogPoster_Poster::update_xing($old, $mp, $dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_tmb);
         
         MicroblogPoster_Poster::maintain_logs();
     }
@@ -433,6 +434,7 @@ class MicroblogPoster_Poster
         MicroblogPoster_Poster::update_blogger($old, $mp, $dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_tmb, $featured_image_src_full);
         MicroblogPoster_Poster::update_instapaper($old, $mp, $dash, $post_title, $permalink, $post_content, $post_ID);
         MicroblogPoster_Poster::update_vkontakte($old, $mp, $dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_lkn, $featured_image_src_thumbnail, $permalink_actual);
+        MicroblogPoster_Poster::update_xing($old, $mp, $dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual_tmb);
         
         MicroblogPoster_Poster::maintain_logs();
     }
@@ -2155,6 +2157,144 @@ class MicroblogPoster_Poster
                 }
             }
         }
+    }
+    
+    /**
+    * Updates status on tumblr
+    *
+    * @param string  $update Text to be posted on microblogging site
+    * @param array $post_content
+    * @return void
+    */
+    public static function update_xing($old, $mp, $dash, $update, $post_content, $post_ID, $post_title, $permalink, $post_content_actual)
+    {   
+        
+        $xing_accounts = MicroblogPoster_Poster::get_accounts('xing');
+        
+        if(!empty($xing_accounts))
+        {
+            foreach($xing_accounts as $xing_account)
+            {
+                if(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Pro','filter_single_account') && 
+                   $dash == 1 && $mp['val'] == 0 && $old == 0)
+                {
+                    $active = MicroblogPoster_Poster_Pro::filter_single_account($xing_account['account_id']);
+                    if($active === false)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        if(isset($active['message_format']) && $active['message_format'])
+                        {
+                            $xing_account['message_format'] = $active['message_format'];
+                        }
+                    }
+                }
+                elseif(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster_Enterprise','filter_single_account_mp') && 
+                   $dash == 1 && $mp['val'] == 1 && $old == 0)
+                {
+                    $active = MicroblogPoster_Poster_Enterprise::filter_single_account_mp($xing_account['account_id']);
+                    if($active === false)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        if(isset($active['message_format']) && $active['message_format'])
+                        {
+                            $xing_account['message_format'] = $active['message_format'];
+                        }
+                    }
+                }
+                elseif(MicroblogPoster_Poster::is_method_callable('MicroblogPoster_Poster','filter_single_account_old') && 
+                   $dash == 1 && $mp['val'] == 0 && $old == 1)
+                {
+                    $active = MicroblogPoster_Poster::filter_single_account_old($xing_account['account_id']);
+                    if($active === false)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        if(isset($active['message_format']) && $active['message_format'])
+                        {
+                            $xing_account['message_format'] = $active['message_format'];
+                        }
+                    }
+                }
+                
+                if($xing_account['message_format'] && $mp['val'] == 0)
+                {
+                    $update = str_ireplace(MicroblogPoster_Poster::get_shortcodes(), $post_content, $xing_account['message_format']);
+                }
+                elseif($xing_account['message_format'] && $mp['val'] == 1 && $mp['type'] == 'link')
+                {
+                    $update = str_ireplace(MicroblogPoster_Poster::get_shortcodes_mp(), $post_content, $xing_account['message_format']);
+                }
+                
+                $extra = json_decode($xing_account['extra'], true);
+                if(!$extra)
+                {
+                    continue;
+                }
+                if($mp['val'] == 1 && $mp['type'] == 'text')
+                {
+                    $extra['post_type'] = 'text';
+                }
+                
+                if($extra['post_type'] == 'text')
+                {
+                    $result = MicroblogPoster_Poster::send_signed_request(
+                        $xing_account['consumer_key'],
+                        $xing_account['consumer_secret'],
+                        $xing_account['access_token'],
+                        $xing_account['access_token_secret'],
+                        "https://api.xing.com/v1/users/{$extra['user_id']}/status_message",
+                        array("id"=>$extra['user_id'],"message"=>$update)
+                    );
+                }
+                elseif($extra['post_type'] == 'link')
+                {
+                    $result = MicroblogPoster_Poster::send_signed_request(
+                        $xing_account['consumer_key'],
+                        $xing_account['consumer_secret'],
+                        $xing_account['access_token'],
+                        $xing_account['access_token_secret'],
+                        "https://api.xing.com/v1/users/me/share/link",
+                        array("uri"=>$permalink,"text"=>$update)
+                    );
+                }
+                
+                $action_result = 2;
+                $result_dec = json_decode($result, true);
+                if(($result && $result == 'Status update has been posted') ||
+                    ($result_dec && isset($result_dec['ids'])))
+                {
+                    $action_result = 1;
+                    $result = "Success";
+                }
+                
+                $log_data = array();
+                $log_data['account_id'] = $xing_account['account_id'];
+                $log_data['account_type'] = "xing";
+                $log_data['username'] = $xing_account['username'];
+                $log_data['post_id'] = $post_ID;
+                $log_data['action_result'] = $action_result;
+                $log_data['update_message'] = $update;
+                $log_data['log_message'] = $result;
+                if($mp['val'] == 1)
+                {
+                    $log_data['log_type'] = 'manual';
+                }
+                elseif($old == 1)
+                {
+                    $log_data['log_type'] = 'old';
+                }
+                MicroblogPoster_Poster::insert_log($log_data);
+            }
+        }
+        
     }
     
     /**

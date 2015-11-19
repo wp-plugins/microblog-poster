@@ -3,7 +3,7 @@ Contributors: cybperic
 Tags: microblogging, bookmarking, bookmarks, auto posts, auto publish, social signals, cross-post, cross post, auto submit, auto update, social networks, social media, twitter, facebook, linkedin, tumblr, delicious, diigo, plurk, blogger, automatic, automation, links, backlinks, auto updates status, social media auto publish, social network auto publish, publish to twitter, publish to facebook
 Requires at least: 3.0
 Tested up to: 4.3
-Stable tag: 1.6.3
+Stable tag: 1.6.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -69,14 +69,36 @@ see "posted by MicroblogPoster" in your updates, you'll see "posted by your own 
 
 == Screenshots ==
 
-1. MicroblogPoster Options page, General Section.
+1. MicroblogPoster Options page, General Section. (Part 1)
 
-2. MicroblogPoster Options page, Social Network Accounts.
+2. MicroblogPoster Options page, General Section. (Part 2)
 
-3. MicroblogPoster Options page, Logs Section.
+3. MicroblogPoster Options page, General Section. (Part 3)
+
+4. MicroblogPoster Options page, Social Network Accounts. (Part 1)
+
+5. MicroblogPoster Options page, Social Network Accounts. (Part 2)
+
+6. MicroblogPoster Options page, Social Network Accounts. (Part 3)
+
+7. MicroblogPoster Options page, Auto Publish Old Posts. (Part 1)
+
+8. MicroblogPoster Options page, Auto Publish Old Posts. (Part 2)
+
+9. MicroblogPoster Options page, Manual Auto Publishing.
+
+10. MicroblogPoster Options page, Logs Section. (Part 1)
+
+11. MicroblogPoster Options page, Logs Section. (Part 2)
 
 == Changelog ==
 
+= 1.6.5 (19-11-2015) =
+- Added deutsch translation.
+
+= 1.6.4 (13-10-2015) =
+- Added support for Xing auto publish.
+ 
 = 1.6.3 (24-08-2015) =
 - Added italian translation.
 - Removed relative paths for images.
@@ -422,6 +444,18 @@ Basically first you'll need to create a VKontakte APP in order to auto publish.
 
     6. Last step is to save the 'Access Token' that you'll get when authorizing the account.
 
+**xing.com accounts** [Help with screenshots](http://efficientscripts.com/help/microblogposter/xinghelp "Xing help with screenshots.")
+
+Basically first you'll need to create a Xing APP in order to auto publish.
+
+
+    1. Please browse to this url: https://dev.xing.com/applications/dashboard
+    then click 'Create App'.
+    
+    2. Copy the 'Consumer key' and 'Consumer secret'.
+
+    3. Configure your account in MicroblogPoster.
+
 
 == Upgrade Notice ==
 
@@ -439,7 +473,11 @@ In order to avoid it, please limit the number of social accounts based on your e
 
 Yes, otherwise the plugin simply won't function at all.
 
-= More FAQs .. =
+= More General FAQs .. =
 
-[MicroblogPoster's FAQ](http://efficientscripts.com/support/microblogposter/faq "MicroblogPoster's FAQ")
+[MicroblogPoster's FAQ](http://efficientscripts.com/support/microblogposter/faq "MicroblogPoster's General FAQ")
+
+= Auto Publish Old Posts FAQs .. =
+
+[MicroblogPoster's FAQ](http://efficientscripts.com/support/microblogposter/faqoldposts "Auto Publish Old Posts FAQs")
 
